@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { SearchField, Input, Tabs, TabList, Tab } from 'react-aria-components';
+import { SearchField, Input, Tabs, TabList, Tab, TabPanel } from 'react-aria-components';
 import SiteMenu from './SiteMenu';
 import YearMenu from './YearMenu';
 import OverlayDialog from './OverlayDialog';
@@ -297,7 +297,7 @@ export default function ScheduleApp({ initialView }) {
     return (
       <>
         <HeaderRow onSchedule={goToSchedule} onAbout={openAbout} onSponsor={openSponsor} />
-        <main id="main" />
+        <main />
       </>
     );
   }
@@ -358,37 +358,46 @@ export default function ScheduleApp({ initialView }) {
     <>
       <HeaderRow onSchedule={goToSchedule} onAbout={openAbout} onSponsor={openSponsor} />
 
-      <div className="toolbar">
-        <div className="search-row">
-          <YearMenu
-            years={years}
-            year={year}
-            onChange={(y) => { setYear(y); setDay('all'); setQuery(''); }}
-          />
-          <SearchField className="search-field" value={query} onChange={setQuery} aria-label="Search talks, speakers">
-            <Input className="search" placeholder="Search talks, speakers&hellip;" />
-          </SearchField>
-        </div>
-
+      <main>
         <Tabs
           selectedKey={day}
           onSelectionChange={(key) => { setDay(key); setQuery(''); }}
         >
-          <TabList aria-label="Day" className="day-tabs">
-            <Tab id="all" className="day-tab">All Days</Tab>
-            {days.map((date) => {
-              const lbl = dayLabel(date);
-              return (
-                <Tab key={date} id={date} className="day-tab">
-                  <span className="dow">{lbl.dow}</span>{lbl.date}
-                </Tab>
-              );
-            })}
-          </TabList>
-        </Tabs>
-      </div>
+          <div className="toolbar">
+            <div className="search-row">
+              <YearMenu
+                years={years}
+                year={year}
+                onChange={(y) => { setYear(y); setDay('all'); setQuery(''); }}
+              />
+              <SearchField className="search-field" value={query} onChange={setQuery} aria-label="Search talks, speakers">
+                <Input className="search" placeholder="Search talks, speakers&hellip;" />
+              </SearchField>
+            </div>
 
-      <main id="main">{mainContent}</main>
+            <TabList aria-label="Day" className="day-tabs">
+              <Tab id="all" className="day-tab">All Days</Tab>
+              {days.map((date) => {
+                const lbl = dayLabel(date);
+                return (
+                  <Tab key={date} id={date} className="day-tab">
+                    <span className="dow">{lbl.dow}</span>{lbl.date}
+                  </Tab>
+                );
+              })}
+            </TabList>
+          </div>
+
+          {/* One real TabPanel, matching whichever tab is selected -
+              mainContent already accounts for the active day (and for
+              search, which overrides the day view entirely). Rendering it
+              here gives the active tab's aria-controls a real element to
+              point to, instead of a dangling reference. */}
+          <TabPanel id={day} className="main-panel">
+            {mainContent}
+          </TabPanel>
+        </Tabs>
+      </main>
 
       <Drawer
         isOpen={!!drawerItem}
@@ -426,7 +435,7 @@ export default function ScheduleApp({ initialView }) {
 
 function HeaderRow({ onSchedule, onAbout, onSponsor }) {
   return (
-    <div className="header">
+    <header className="header">
       <div className="header-top">
         <div className="header-text">
           <h1>New Orleans Arts &amp; Ideas Festival</h1>
@@ -439,6 +448,6 @@ function HeaderRow({ onSchedule, onAbout, onSponsor }) {
         </div>
         <SiteMenu onSchedule={onSchedule} onAbout={onAbout} onSponsor={onSponsor} />
       </div>
-    </div>
+    </header>
   );
 }

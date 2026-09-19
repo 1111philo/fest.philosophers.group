@@ -5,20 +5,20 @@
   --text: #241d15;
   --text-muted: #6b6053;
   --border: #e0d8c8;
-  --accent: #a8752c;
+  --accent: #8c6125;
   --accent-soft: #f1e4cc;
   --accent-contrast: #ffffff;
   --shadow: 0 1px 2px rgba(40, 30, 10, 0.06), 0 1px 8px rgba(40, 30, 10, 0.04);
 
-  --badge-workshop: #3f7a5c;
+  --badge-workshop: #3c7357;
   --badge-workshop-bg: #e3ece5;
-  --badge-panel: #4a6f95;
+  --badge-panel: #486c92;
   --badge-panel-bg: #e4ebf1;
   --badge-fireside: #9c4f56;
   --badge-fireside-bg: #f1e2e2;
   --badge-party: #8b3a62;
   --badge-party-bg: #f0e0e9;
-  --badge-food: #8a6d2f;
+  --badge-food: #7f642b;
   --badge-food-bg: #efe7d3;
   --badge-info: #5a5346;
   --badge-info-bg: #ece7dc;
@@ -317,7 +317,7 @@ main {
   font-size: 16px;
   margin: 22px 0 10px;
 }
-#main > *:first-child .day-header { margin-top: 0; }
+.main-panel > *:first-child .day-header { margin-top: 0; }
 
 .badge {
   font-size: 10.5px;
@@ -508,6 +508,7 @@ main {
   color: var(--text);
   box-shadow: 0 -4px 24px rgba(0,0,0,0.25);
   transition: transform 0.22s ease;
+  outline: none;
 }
 .drawer.drawer-hidden { transform: translateY(100%); }
 .drawer-handle {

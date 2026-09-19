@@ -13,17 +13,28 @@ export default function Drawer({ isOpen, onClose, ariaLabel, children }) {
   const [entered, setEntered] = useState(false);
   const panelRef = useRef(null);
   const dragRef = useRef(null);
+  const previouslyFocusedRef = useRef(null);
 
   useEffect(() => {
     if (isOpen) {
+      previouslyFocusedRef.current = document.activeElement;
       setRendered(true);
       const raf = requestAnimationFrame(() => setEntered(true));
       return () => cancelAnimationFrame(raf);
     }
     setEntered(false);
+    // React Aria's ModalOverlay (used elsewhere - see OverlayDialog.jsx)
+    // moves focus in and restores it on close for free; this hand-rolled
+    // panel needs the same done by hand.
+    previouslyFocusedRef.current?.focus?.();
+    previouslyFocusedRef.current = null;
     const timeout = setTimeout(() => setRendered(false), 240); // matches the CSS transition duration
     return () => clearTimeout(timeout);
   }, [isOpen]);
+
+  useEffect(() => {
+    if (rendered) panelRef.current?.focus();
+  }, [rendered]);
 
   useEffect(() => {
     if (!rendered) return undefined;
@@ -94,7 +105,7 @@ export default function Drawer({ isOpen, onClose, ariaLabel, children }) {
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div ref={panelRef} className={`drawer${entered ? '' : ' drawer-hidden'}`} role="dialog" aria-label={ariaLabel}>
+      <div ref={panelRef} className={`drawer${entered ? '' : ' drawer-hidden'}`} role="dialog" aria-label={ariaLabel} tabIndex={-1}>
         <div className="drawer-handle" aria-hidden="true" />
         <button className="modal-close" type="button" onClick={onClose} aria-label="Close">&times;</button>
         {children}
