@@ -3,298 +3,298 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>NOAI Content Browser</title>
+<title>New Orleans Arts & Ideas Festival</title>
+<meta name="description" content="Schedule for the New Orleans Arts & Ideas Festival, November 11-13 at the Historic New Orleans Jazz Museum.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #faf9f7;
+    --bg: #f6f3ee;
     --surface: #ffffff;
-    --surface-hover: #f1efec;
-    --border: #e3e0da;
-    --text: #1c1f1e;
-    --text-muted: #6b706c;
-    --accent: #0f6e5c;
-    --accent-soft: #e4f2ee;
+    --surface-2: #efe9df;
+    --text: #241d15;
+    --text-muted: #6b6053;
+    --border: #e0d8c8;
+    --accent: #a8752c;
+    --accent-soft: #f1e4cc;
     --accent-contrast: #ffffff;
-    --chip-bg: #eef0ee;
-    --shadow: 0 1px 2px rgba(20, 24, 22, 0.06);
+    --shadow: 0 1px 2px rgba(40, 30, 10, 0.06), 0 1px 8px rgba(40, 30, 10, 0.04);
+
+    --badge-workshop: #3f7a5c;
+    --badge-workshop-bg: #e3ece5;
+    --badge-panel: #4a6f95;
+    --badge-panel-bg: #e4ebf1;
+    --badge-fireside: #9c4f56;
+    --badge-fireside-bg: #f1e2e2;
+    --badge-party: #8b3a62;
+    --badge-party-bg: #f0e0e9;
+    --badge-food: #8a6d2f;
+    --badge-food-bg: #efe7d3;
+    --badge-info: #5a5346;
+    --badge-info-bg: #ece7dc;
   }
   @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --bg: #12100b;
-      --surface: #1a1712;
-      --surface-hover: #22201a;
-      --border: #322e26;
-      --text: #f1efe9;
-      --text-muted: #a7a297;
-      --accent: #ffb454;
-      --accent-soft: #33291a;
-      --accent-contrast: #1c1408;
-      --chip-bg: #241f16;
-      --shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    :root {
+      --bg: #171009;
+      --surface: #201810;
+      --surface-2: #2a2115;
+      --text: #f2e9da;
+      --text-muted: #b3a48d;
+      --border: #3a2f1f;
+      --accent: #d9a94e;
+      --accent-soft: #3a2c14;
+      --accent-contrast: #211505;
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 2px 12px rgba(0, 0, 0, 0.25);
+
+      --badge-workshop: #7fbf9e;
+      --badge-workshop-bg: #1c2c22;
+      --badge-panel: #8fb3d9;
+      --badge-panel-bg: #1c2632;
+      --badge-fireside: #d99aa0;
+      --badge-fireside-bg: #2e1c1e;
+      --badge-party: #d996b8;
+      --badge-party-bg: #2e1c27;
+      --badge-food: #d9bf6f;
+      --badge-food-bg: #2c2717;
+      --badge-info: #b8ad98;
+      --badge-info-bg: #241f16;
     }
-  }
-  :root[data-theme="dark"] {
-    --bg: #12100b;
-    --surface: #1a1712;
-    --surface-hover: #22201a;
-    --border: #322e26;
-    --text: #f1efe9;
-    --text-muted: #a7a297;
-    --accent: #ffb454;
-    --accent-soft: #33291a;
-    --accent-contrast: #1c1408;
-    --chip-bg: #241f16;
-    --shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
   }
 
   * { box-sizing: border-box; }
-  html, body { margin: 0; padding: 0; height: 100%; }
+  html, body { margin: 0; padding: 0; }
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-    padding-inline: 0;
+    font-family: Archivo, system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
   }
   img { max-width: 100%; }
   [hidden] { display: none !important; }
-  .app {
-    display: grid;
-    grid-template-columns: 220px 1fr;
-    min-height: 100dvh;
-  }
-  .rail {
-    border-right: 1px solid var(--border);
-    padding: 20px 14px;
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-  }
-  .brand {
-    font-size: 15px;
-    font-weight: 700;
-    line-height: 1.3;
-  }
-  .brand small {
-    display: block;
-    font-weight: 400;
-    color: var(--text-muted);
-    font-size: 12px;
-    margin-top: 2px;
-  }
-  .tabs {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-  .tab {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    padding: 8px 10px;
-    border-radius: 8px;
-    border: none;
-    background: transparent;
-    color: var(--text);
-    font-size: 13.5px;
-    font-family: inherit;
-    text-align: left;
-    cursor: pointer;
-  }
-  .tab:hover { background: var(--surface-hover); }
-  .tab.active { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
-  .tab .count {
-    font-variant-numeric: tabular-nums;
-    font-size: 11.5px;
-    color: var(--text-muted);
-    background: var(--chip-bg);
-    border-radius: 999px;
-    padding: 1px 7px;
-  }
-  .tab.active .count { color: var(--accent); }
+  button { font-family: inherit; }
 
-  .main {
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
+  a { color: var(--accent); }
+
+  .header {
+    padding: 34px 20px 18px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
   }
+  .header h1 {
+    font-family: Fraunces, Georgia, serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-size: clamp(28px, 6vw, 44px);
+    line-height: 1.05;
+    margin: 0 0 8px;
+    text-wrap: balance;
+  }
+  .header .subtitle {
+    font-size: clamp(13px, 2.6vw, 16px);
+    color: var(--accent);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
   .toolbar {
     position: sticky;
     top: env(safe-area-inset-top, 0px);
+    z-index: 10;
     background: var(--bg);
     border-bottom: 1px solid var(--border);
-    z-index: 5;
-  }
-  .topbar {
-    padding: 14px 20px;
+    padding: 12px 16px;
     display: flex;
-    align-items: center;
-    gap: 12px;
+    flex-direction: column;
+    gap: 10px;
   }
-  .topbar h1 {
-    font-size: 16px;
-    margin: 0;
-    flex: 1;
-    min-width: 0;
+  .day-tabs {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
   }
+  .day-tab {
+    flex: 1 1 0;
+    min-width: 88px;
+    padding: 9px 10px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    line-height: 1.3;
+  }
+  .day-tab .dow { display: block; font-size: 10.5px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); }
+  .day-tab.active { background: var(--accent); border-color: var(--accent); color: var(--accent-contrast); }
+  .day-tab.active .dow { color: var(--accent-contrast); opacity: 0.85; }
+
+  .search-row { display: flex; gap: 8px; align-items: center; }
   .search {
-    width: 240px;
-    max-width: 44vw;
-    padding: 7px 11px;
-    border-radius: 8px;
+    flex: 1;
+    padding: 9px 13px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    font-size: 14px;
+    font-family: inherit;
+  }
+  .search:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+  .info-link {
+    flex-shrink: 0;
+    padding: 9px 14px;
+    border-radius: 10px;
     border: 1px solid var(--border);
     background: var(--surface);
     color: var(--text);
     font-size: 13px;
-    font-family: inherit;
-  }
-  .search:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
-
-  .year-filter {
-    display: flex;
-    gap: 6px;
-    padding: 0 20px 14px;
-    overflow-x: auto;
-  }
-  .year-pill {
-    padding: 5px 12px;
-    border-radius: 999px;
-    border: 1px solid var(--border);
-    background: var(--surface);
-    color: var(--text-muted);
-    font-size: 12.5px;
-    font-family: inherit;
+    font-weight: 600;
     cursor: pointer;
     white-space: nowrap;
-    font-variant-numeric: tabular-nums;
-    flex-shrink: 0;
   }
-  .year-pill:hover { background: var(--surface-hover); }
-  .year-pill.active {
-    background: var(--accent);
-    color: var(--accent-contrast);
-    border-color: var(--accent);
-    font-weight: 600;
+  .info-link:hover { background: var(--surface-2); }
+
+  main {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 18px 16px 60px;
   }
 
-  .content {
-    flex: 1;
-    min-height: 0;
-    overflow: hidden;
-    display: grid;
-    grid-template-columns: 340px 1fr;
-  }
-  .list {
-    border-right: 1px solid var(--border);
-    overflow-y: auto;
-    padding: 8px;
-  }
-  .list-empty {
-    color: var(--text-muted);
+  .search-results-note {
     font-size: 13px;
-    padding: 20px 12px;
+    color: var(--text-muted);
+    margin: 0 0 12px;
   }
-  .row {
+
+  .tracks {
+    display: grid;
+    gap: 18px;
+  }
+  .tracks.multi { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); align-items: start; }
+  .track-heading {
+    font-family: Fraunces, Georgia, serif;
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin: 0 0 10px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--border);
+  }
+  .track-list { display: flex; flex-direction: column; gap: 8px; }
+
+  .card {
     display: flex;
-    gap: 10px;
-    padding: 10px;
-    border-radius: 10px;
+    gap: 12px;
+    padding: 12px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
     cursor: pointer;
+    box-shadow: var(--shadow);
+    text-align: left;
+    width: 100%;
     align-items: flex-start;
   }
-  .row:hover { background: var(--surface-hover); }
-  .row.selected { background: var(--accent-soft); }
-  .row-thumb {
-    width: 44px;
-    height: 44px;
-    border-radius: 7px;
-    object-fit: cover;
-    background: var(--chip-bg);
+  .card:hover { border-color: var(--accent); }
+  .card-time {
     flex-shrink: 0;
-  }
-  .row-body { min-width: 0; }
-  .row-title {
-    font-size: 13.5px;
-    font-weight: 600;
-    line-height: 1.35;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  .row-sub {
-    font-size: 12px;
-    color: var(--text-muted);
-    margin-top: 3px;
+    width: 64px;
+    font-weight: 700;
+    font-size: 13px;
     font-variant-numeric: tabular-nums;
+    color: var(--accent);
+    padding-top: 1px;
   }
-
-  .media-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(74px, 1fr));
-    gap: 8px;
-    padding: 8px;
+  .card-body { min-width: 0; flex: 1; }
+  .card-title {
+    font-weight: 600;
+    font-size: 14.5px;
+    line-height: 1.35;
+    margin-bottom: 3px;
   }
-  .media-cell {
-    aspect-ratio: 1;
-    border-radius: 8px;
-    overflow: hidden;
-    cursor: pointer;
-    background: var(--chip-bg);
-    border: 1px solid transparent;
-  }
-  .media-cell.selected { border-color: var(--accent); }
-  .media-cell img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .media-cell .filetag {
-    width: 100%; height: 100%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 10px; color: var(--text-muted); text-align: center; padding: 4px;
-  }
-
-  .detail {
-    overflow-y: auto;
-    padding: 24px 28px 60px;
-  }
-  .detail-empty {
+  .card-presenter {
+    font-size: 12.5px;
     color: var(--text-muted);
-    font-size: 13.5px;
-    padding: 40px 20px;
-    text-align: center;
+    margin-bottom: 6px;
   }
-  .detail h2 {
+  .card-meta { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; }
+  .day-header {
+    font-family: Fraunces, Georgia, serif;
+    font-weight: 600;
+    font-size: 16px;
+    margin: 22px 0 10px;
+  }
+  .day-header:first-child { margin-top: 0; }
+
+  .badge {
+    font-size: 10.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 2px 8px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .badge.loc { background: var(--surface-2); color: var(--text-muted); }
+  .badge.type-workshop { background: var(--badge-workshop-bg); color: var(--badge-workshop); }
+  .badge.type-panel { background: var(--badge-panel-bg); color: var(--badge-panel); }
+  .badge.type-fireside-chat { background: var(--badge-fireside-bg); color: var(--badge-fireside); }
+  .badge.type-party { background: var(--badge-party-bg); color: var(--badge-party); }
+  .badge.type-food { background: var(--badge-food-bg); color: var(--badge-food); }
+  .badge.type-informational { background: var(--badge-info-bg); color: var(--badge-info); }
+
+  .empty-state { text-align: center; color: var(--text-muted); padding: 60px 20px; font-size: 14px; }
+
+  /* Modal */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(20, 14, 4, 0.5);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    z-index: 100;
+    padding: 0;
+  }
+  .modal {
+    background: var(--bg);
+    width: 100%;
+    max-width: 640px;
+    max-height: 88vh;
+    overflow-y: auto;
+    border-radius: 18px 18px 0 0;
+    padding: 20px 22px calc(28px + env(safe-area-inset-bottom, 0px));
+    box-shadow: 0 -4px 24px rgba(0,0,0,0.25);
+  }
+  @media (min-width: 640px) {
+    .modal-backdrop { align-items: center; padding: 20px; }
+    .modal { border-radius: 18px; max-height: 84vh; }
+  }
+  .modal-close {
+    float: right;
+    background: var(--surface-2);
+    border: none;
+    color: var(--text);
+    width: 30px;
+    height: 30px;
+    border-radius: 999px;
+    font-size: 16px;
+    cursor: pointer;
+    line-height: 1;
+  }
+  .modal h2 {
+    font-family: Fraunces, Georgia, serif;
     font-size: 21px;
-    margin: 0 0 4px;
+    margin: 6px 0 10px;
     text-wrap: balance;
   }
-  .meta-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px 10px;
-    margin: 10px 0 16px;
-  }
-  .chip {
-    font-size: 11.5px;
-    padding: 3px 9px;
-    border-radius: 999px;
-    background: var(--chip-bg);
-    color: var(--text-muted);
-  }
-  .chip.accent { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
-  .chip.mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; }
-  .chip.draft { background: #5b3a1a; color: #ffd9a8; font-weight: 600; }
-  @media (prefers-color-scheme: light) {
-    :root:not([data-theme="dark"]) .chip.draft { background: #fde3c4; color: #7a4a0e; }
-  }
-  :root[data-theme="light"] .chip.draft { background: #fde3c4; color: #7a4a0e; }
-
-  .detail-hero {
-    width: 100%;
-    max-height: 340px;
-    object-fit: cover;
-    border-radius: 12px;
-    margin-bottom: 16px;
-    background: var(--chip-bg);
-  }
+  .modal-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
   .presenter-card {
     display: flex;
     gap: 14px;
@@ -303,425 +303,355 @@
     border: 1px solid var(--border);
     border-radius: 12px;
     padding: 14px;
-    margin-bottom: 18px;
-    box-shadow: var(--shadow);
+    margin-bottom: 16px;
   }
   .presenter-card img {
-    width: 64px; height: 64px; border-radius: 10px; object-fit: cover; flex-shrink: 0;
-    background: var(--chip-bg);
+    width: 60px; height: 60px; border-radius: 10px; object-fit: cover; flex-shrink: 0;
+    background: var(--surface-2);
   }
-  .presenter-name { font-weight: 700; font-size: 14px; margin-bottom: 2px; }
-  .presenter-bio { font-size: 12.5px; color: var(--text-muted); line-height: 1.5; max-height: 6.5em; overflow-y: auto; }
+  .presenter-name { font-weight: 700; font-size: 14px; margin-bottom: 3px; }
+  .presenter-bio { font-size: 12.5px; color: var(--text-muted); line-height: 1.55; max-height: 7em; overflow-y: auto; }
+  .modal-hero { width: 100%; max-height: 280px; object-fit: cover; border-radius: 12px; margin-bottom: 14px; background: var(--surface-2); }
 
-  .wp-content {
-    font-size: 14.5px;
-    line-height: 1.65;
-    max-width: 68ch;
-  }
-  .wp-content :is(h1,h2,h3,h4) { text-wrap: balance; margin-top: 1.4em; }
-  .wp-content p { margin: 0.9em 0; }
+  .wp-content { font-size: 14.5px; line-height: 1.65; }
+  .wp-content :is(h1,h2,h3,h4) { text-wrap: balance; margin-top: 1.3em; font-family: Fraunces, Georgia, serif; }
+  .wp-content p { margin: 0.85em 0; }
   .wp-content img { max-width: 100%; border-radius: 8px; height: auto; }
-  .wp-content a { color: var(--accent); }
   .wp-content table { overflow-x: auto; display: block; }
 
-  .field-table { border-collapse: collapse; font-size: 13px; margin-top: 10px; }
-  .field-table td { padding: 4px 10px 4px 0; vertical-align: top; }
-  .field-table td:first-child { color: var(--text-muted); white-space: nowrap; }
+  .live-link { display: inline-block; margin-top: 16px; font-size: 12.5px; font-weight: 600; }
 
-  .backbtn { display: none; }
-  .empty-state { padding: 60px 20px; text-align: center; color: var(--text-muted); font-size: 13px; }
-
-  @media (max-width: 860px) {
-    .app { grid-template-columns: 1fr; }
-    .rail {
-      flex-direction: row;
-      align-items: center;
-      border-right: none;
-      border-bottom: 1px solid var(--border);
-      padding: 10px 12px;
-      overflow-x: auto;
-      position: sticky;
-      top: env(safe-area-inset-top, 0px);
-      background: var(--bg);
-      z-index: 6;
-    }
-    .brand { display: none; }
-    .tabs { flex-direction: row; }
-    .tab { white-space: nowrap; }
-    .content { grid-template-columns: 1fr; position: relative; }
-    body.show-detail .list { display: none; }
-    body:not(.show-detail) .detail { display: none; }
-    .backbtn {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      background: none;
-      border: none;
-      color: var(--accent);
-      font-size: 13px;
-      font-family: inherit;
-      cursor: pointer;
-      padding: 4px 0 14px;
-    }
+  /* Info (pages) list */
+  .info-list { display: flex; flex-direction: column; gap: 6px; }
+  .info-list-item {
+    padding: 11px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
   }
+  .info-list-item:hover { border-color: var(--accent); }
 </style>
-
 </head>
 <body>
 
-<div class="app">
-  <nav class="rail">
-    <div class="brand">NOAI Content Browser<small>noai.philosophers.group</small></div>
-    <div class="tabs" id="tabs"></div>
-  </nav>
-  <div class="main">
-    <div class="toolbar">
-      <div class="topbar">
-        <h1 id="topbar-title">Posts</h1>
-        <input class="search" id="search" type="search" placeholder="Search…" />
-      </div>
-      <div class="year-filter" id="year-filter" hidden></div>
-    </div>
-    <div class="content">
-      <div class="list" id="list"></div>
-      <div class="detail" id="detail">
-        <button class="backbtn" id="backbtn">&larr; Back to list</button>
-        <div class="detail-empty">Select an item to view details.</div>
-      </div>
-    </div>
+<div class="header">
+  <h1>New Orleans Arts &amp; Ideas Festival</h1>
+  <div class="subtitle">November 11&ndash;13 &bull; Historic New Orleans Jazz Museum</div>
+</div>
+
+<div class="toolbar">
+  <div class="day-tabs" id="day-tabs"></div>
+  <div class="search-row">
+    <input class="search" id="search" type="search" placeholder="Search talks, speakers&hellip;">
+    <button class="info-link" id="info-btn" type="button">Festival Info</button>
   </div>
 </div>
+
+<main id="main"></main>
+
+<div id="modal-root"></div>
 
 <script>
 (function () {
   "use strict";
 
-  var TABS = [
-    { key: "presentations", label: "Presentations" },
-    { key: "pages", label: "Pages" },
-    { key: "media", label: "Media" },
-    { key: "tags", label: "Tags" }
-  ];
+  var state = { data: null, day: null, query: "", mediaById: {}, pagesById: {} };
 
-  var state = { data: null, tab: "presentations", query: "", selected: null, tagById: {}, mediaById: {}, presBySlug: {}, presYear: null, presYears: [], presYearById: {} };
-
-  // Standalone static hosting (GitHub Pages) has no cross-origin image
-  // restriction, so image URLs from noai.philosophers.group just load as-is.
-  function resolveImg(url) {
-    return url || null;
-  }
-
-  var elTabs = document.getElementById("tabs");
-  var elList = document.getElementById("list");
-  var elDetail = document.getElementById("detail");
+  var elMain = document.getElementById("main");
+  var elDayTabs = document.getElementById("day-tabs");
   var elSearch = document.getElementById("search");
-  var elTopbarTitle = document.getElementById("topbar-title");
-  var elBack = document.getElementById("backbtn");
-  var elYearFilter = document.getElementById("year-filter");
+  var elInfoBtn = document.getElementById("info-btn");
+  var elModalRoot = document.getElementById("modal-root");
 
   function esc(s) {
     return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
     });
   }
-  function stripTags(html) {
-    var d = document.createElement("div");
-    d.innerHTML = html || "";
-    return d.textContent || "";
+
+  function typeSlug(type) {
+    return (type || "").toLowerCase().trim().replace(/\s+/g, "-");
   }
-  function mediaThumb(m, size) {
+
+  function mediaUrl(m, size) {
     if (!m) return null;
     var sizes = (m.media_details && m.media_details.sizes) || {};
-    var url = (sizes[size] && sizes[size].source_url) || m.source_url || null;
-    return resolveImg(url);
+    return (sizes[size] && sizes[size].source_url) || m.source_url || null;
   }
-  function featuredThumb(item, size) {
-    if (!item.featured_media) return null;
+  function featuredUrl(item, size) {
+    if (!item || !item.featured_media) return null;
     var m = state.mediaById[item.featured_media];
-    return m ? mediaThumb(m, size) : null;
-  }
-  // Scheduling/admin terms (event year batches, day-of-week labels) duplicate
-  // the scraped date/time already shown on presentations - filter them out there.
-  var SCHEDULING_TERM_SLUG = /^(noai-\d{4}(-presentation)?(-sunday|-monday|-tuesday|-wednesday|-thursday|-friday|-saturday)?|\d{4}-(sunday|monday|tuesday|wednesday|thursday|friday|saturday)-program)$/;
-  function termNames(ids, map, filterScheduling) {
-    return (ids || [])
-      .map(function (id) { return map[id] || null; })
-      .filter(function (t) { return t && (!filterScheduling || !SCHEDULING_TERM_SLUG.test(t.slug)); })
-      .map(function (t) { return t.name; });
+    return m ? mediaUrl(m, size) : null;
   }
 
-  function renderTabs() {
-    elTabs.innerHTML = "";
-    TABS.forEach(function (t) {
+  function dayLabel(dateStr) {
+    var d = new Date(dateStr + "T12:00:00");
+    return {
+      dow: d.toLocaleDateString(undefined, { weekday: "short" }),
+      date: d.toLocaleDateString(undefined, { month: "short", day: "numeric" })
+    };
+  }
+
+  function renderDayTabs() {
+    var days = Array.from(new Set(state.data.schedule.map(function (s) { return s.date; }))).sort();
+    elDayTabs.innerHTML = "";
+    days.forEach(function (date) {
+      var lbl = dayLabel(date);
       var btn = document.createElement("button");
-      btn.className = "tab" + (state.tab === t.key ? " active" : "");
-      var count = (state.data[t.key] || []).length;
-      btn.innerHTML = '<span>' + t.label + '</span><span class="count">' + count + '</span>';
+      btn.className = "day-tab" + (state.day === date && !state.query ? " active" : "");
+      btn.innerHTML = '<span class="dow">' + esc(lbl.dow) + '</span>' + esc(lbl.date);
       btn.addEventListener("click", function () {
-        state.tab = t.key;
-        state.selected = null;
-        elSearch.value = "";
+        state.day = date;
         state.query = "";
-        document.body.classList.remove("show-detail");
-        renderAll();
+        elSearch.value = "";
+        render();
       });
-      elTabs.appendChild(btn);
+      elDayTabs.appendChild(btn);
     });
+    if (!state.day) state.day = days[0];
   }
 
-  function renderYearFilter() {
-    if (state.tab !== "presentations" || state.presYears.length < 2) {
-      elYearFilter.hidden = true;
-      return;
-    }
-    elYearFilter.hidden = false;
-    elYearFilter.innerHTML = "";
-    var options = ["all"].concat(state.presYears);
-    options.forEach(function (y) {
-      var btn = document.createElement("button");
-      btn.className = "year-pill" + (state.presYear === y ? " active" : "");
-      btn.textContent = y === "all" ? "All years" : "NOAI " + y;
-      btn.addEventListener("click", function () {
-        state.presYear = y;
-        renderYearFilter();
-        renderList();
+  function typeBadge(type) {
+    if (!type) return "";
+    var slug = typeSlug(type);
+    return '<span class="badge type-' + esc(slug) + '">' + esc(type) + '</span>';
+  }
+
+  function scheduleCard(item) {
+    var card = document.createElement("button");
+    card.className = "card";
+    card.type = "button";
+    card.innerHTML =
+      '<div class="card-time">' + esc(item.time) + '</div>' +
+      '<div class="card-body">' +
+        '<div class="card-title">' + esc(item.title) + '</div>' +
+        (item.presenters ? '<div class="card-presenter">' + esc(item.presenters) + '</div>' : '') +
+        '<div class="card-meta">' +
+          '<span class="badge loc">' + esc(item.location) + '</span>' +
+          typeBadge(item.type) +
+        '</div>' +
+      '</div>';
+    card.addEventListener("click", function () { openScheduleItem(item); });
+    return card;
+  }
+
+  function renderSchedule() {
+    elMain.innerHTML = "";
+
+    var items = state.data.schedule.slice();
+    var query = state.query.trim().toLowerCase();
+
+    if (query) {
+      items = items.filter(function (it) {
+        return (it.title + " " + it.presenters + " " + it.location).toLowerCase().indexOf(query) !== -1;
       });
-      elYearFilter.appendChild(btn);
-    });
-  }
+      items.sort(function (a, b) { return (a.date + a.sort_time).localeCompare(b.date + b.sort_time); });
 
-  function matches(item, q) {
-    if (!q) return true;
-    q = q.toLowerCase();
-    var hay = [];
-    if (item.title) hay.push(typeof item.title === "string" ? item.title : item.title.rendered);
-    if (item.name) hay.push(item.name);
-    if (item.slug) hay.push(item.slug);
-    if (item.scraped_fields) {
-      hay.push(item.scraped_fields.presenter_name, item.scraped_fields.location, item.scraped_fields.date);
-    }
-    if (item.alt_text) hay.push(item.alt_text);
-    if (item.filename) hay.push(item.filename);
-    return hay.join(" \n ").toLowerCase().indexOf(q) !== -1;
-  }
+      if (!items.length) {
+        elMain.innerHTML = '<div class="empty-state">No matches for &ldquo;' + esc(state.query) + '&rdquo;.</div>';
+        return;
+      }
+      var note = document.createElement("p");
+      note.className = "search-results-note";
+      note.textContent = items.length + " result" + (items.length === 1 ? "" : "s") + " across the full schedule";
+      elMain.appendChild(note);
 
-  function renderList() {
-    var items = (state.data[state.tab] || []).filter(function (it) { return matches(it, state.query); });
-    if (state.tab === "presentations" && state.presYear && state.presYear !== "all") {
-      items = items.filter(function (it) { return state.presYearById[it.id] === state.presYear; });
-    }
-    elTopbarTitle.textContent = TABS.find(function (t) { return t.key === state.tab; }).label + " (" + items.length + ")";
-
-    if (state.tab === "media") {
-      elList.innerHTML = "";
-      var grid = document.createElement("div");
-      grid.className = "media-grid";
-      if (!items.length) grid.innerHTML = '<div class="list-empty">No matches.</div>';
-      items.forEach(function (m) {
-        var cell = document.createElement("div");
-        cell.className = "media-cell" + (state.selected === m ? " selected" : "");
-        var thumb = mediaThumb(m, "thumbnail") || mediaThumb(m, "medium");
-        if (thumb && m.media_type === "image") {
-          cell.innerHTML = '<img loading="lazy" src="' + esc(thumb) + '" alt="' + esc(m.alt_text || "") + '">';
-        } else {
-          cell.innerHTML = '<div class="filetag">' + esc((m.mime_type || "file").split("/")[1] || "file") + '</div>';
+      var lastDate = null;
+      items.forEach(function (it) {
+        if (it.date !== lastDate) {
+          lastDate = it.date;
+          var lbl = dayLabel(it.date);
+          var h = document.createElement("div");
+          h.className = "day-header";
+          h.textContent = it.day + ", " + lbl.date;
+          elMain.appendChild(h);
         }
-        cell.addEventListener("click", function () { selectItem(m); });
-        grid.appendChild(cell);
+        var wrap = document.createElement("div");
+        wrap.className = "track-list";
+        wrap.appendChild(scheduleCard(it));
+        elMain.appendChild(wrap);
       });
-      elList.appendChild(grid);
       return;
     }
 
-    elList.innerHTML = "";
-    if (!items.length) {
-      elList.innerHTML = '<div class="list-empty">No matches.</div>';
+    var dayItems = items.filter(function (it) { return it.date === state.day; })
+      .sort(function (a, b) { return a.sort_time.localeCompare(b.sort_time); });
+
+    if (!dayItems.length) {
+      elMain.innerHTML = '<div class="empty-state">Nothing scheduled yet for this day.</div>';
       return;
     }
-    items.forEach(function (it) {
-      var row = document.createElement("div");
-      row.className = "row" + (state.selected === it ? " selected" : "");
-      var titleText = it.title ? (typeof it.title === "string" ? it.title : it.title.rendered) : (it.name || "(untitled)");
-      var sub = "";
-      var thumbUrl = null;
 
-      if (state.tab === "presentations") {
-        var sf = it.scraped_fields || {};
-        sub = [sf.date, sf.time, sf.location].filter(Boolean).join(" · ");
-        if (it.status !== "publish") sub = "DRAFT" + (sub ? " · " + sub : "");
-        thumbUrl = featuredThumb(it, "thumbnail") || resolveImg(sf.presenter_photo_url);
-      } else if (state.tab === "pages") {
-        sub = new Date(it.date).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
-        thumbUrl = featuredThumb(it, "thumbnail");
-      } else if (state.tab === "tags") {
-        sub = it.count + " item" + (it.count === 1 ? "" : "s");
-      }
-
-      row.innerHTML =
-        (thumbUrl ? '<img class="row-thumb" loading="lazy" src="' + esc(thumbUrl) + '">' : "") +
-        '<div class="row-body"><div class="row-title">' + esc(titleText) + '</div>' +
-        (sub ? '<div class="row-sub">' + esc(sub) + '</div>' : "") + '</div>';
-      row.addEventListener("click", function () { selectItem(it); });
-      elList.appendChild(row);
+    var byLocation = {};
+    dayItems.forEach(function (it) {
+      (byLocation[it.location] = byLocation[it.location] || []).push(it);
     });
-  }
+    var majorTracks = Object.keys(byLocation).filter(function (loc) { return byLocation[loc].length >= 3; });
 
-  function selectItem(it) {
-    state.selected = it;
-    document.body.classList.add("show-detail");
-    renderList();
-    renderDetail();
-  }
+    var tracksEl = document.createElement("div");
 
-  function renderDetail() {
-    var it = state.selected;
-    if (!it) {
-      elDetail.innerHTML = '<div class="detail-empty">Select an item to view details.</div>';
-      return;
-    }
-
-    var html = '<button class="backbtn" id="backbtn">&larr; Back to list</button>';
-
-    if (state.tab === "media") {
-      var full = mediaThumb(it, "large") || mediaThumb(it, "medium") || mediaThumb(it, "thumbnail");
-      if (it.media_type === "image") {
-        html += '<img class="detail-hero" src="' + esc(full) + '" alt="' + esc(it.alt_text || "") + '">';
+    if (majorTracks.length >= 2) {
+      tracksEl.className = "tracks multi";
+      majorTracks.forEach(function (loc) {
+        var col = document.createElement("div");
+        col.innerHTML = '<div class="track-heading">' + esc(loc) + '</div>';
+        var list = document.createElement("div");
+        list.className = "track-list";
+        byLocation[loc].forEach(function (it) { list.appendChild(scheduleCard(it)); });
+        col.appendChild(list);
+        tracksEl.appendChild(col);
+      });
+      // Anything not in a major track (one-off locations) still needs to show up.
+      var minorItems = dayItems.filter(function (it) { return majorTracks.indexOf(it.location) === -1; });
+      if (minorItems.length) {
+        var col2 = document.createElement("div");
+        col2.innerHTML = '<div class="track-heading">Also Today</div>';
+        var list2 = document.createElement("div");
+        list2.className = "track-list";
+        minorItems.forEach(function (it) { list2.appendChild(scheduleCard(it)); });
+        col2.appendChild(list2);
+        tracksEl.appendChild(col2);
       }
-      html += '<h2>' + esc(it.title.rendered || it.filename) + '</h2>';
-      html += '<div class="meta-row">' +
-        '<span class="chip mono">' + esc(it.mime_type) + '</span>' +
-        '<span class="chip mono">' + Math.round((it.filesize || 0) / 1024) + ' KB</span>' +
-        (it.media_details && it.media_details.width ? '<span class="chip mono">' + it.media_details.width + '&times;' + it.media_details.height + '</span>' : '') +
-        '</div>';
-      if (it.alt_text) html += '<p style="font-size:13px;color:var(--text-muted)">Alt: ' + esc(it.alt_text) + '</p>';
-      if (it.caption && it.caption.rendered) html += '<div class="wp-content">' + it.caption.rendered + '</div>';
-      html += '<p><a href="' + esc(it.source_url) + '" target="_blank" rel="noopener" style="color:var(--accent);font-size:13px;">Open original file &rarr;</a></p>';
-    } else if (state.tab === "tags") {
-      html += '<h2>' + esc(it.name) + '</h2>';
-      html += '<div class="meta-row"><span class="chip accent">' + it.count + ' item' + (it.count === 1 ? "" : "s") + '</span></div>';
-      if (it.description) html += '<p style="font-size:13.5px;color:var(--text-muted)">' + esc(it.description) + '</p>';
     } else {
-      // pages / presentations
-      var thumb = featuredThumb(it, "large");
-      if (thumb) html += '<img class="detail-hero" src="' + esc(thumb) + '">';
-      html += '<h2>' + esc(it.title.rendered) + '</h2>';
-
-      html += '<div class="meta-row">';
-      if (it.status !== "publish") html += '<span class="chip draft">' + esc(it.status.toUpperCase()) + '</span>';
-      if (state.tab !== "presentations") {
-        html += '<span class="chip mono">' + new Date(it.date).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" }) + '</span>';
-      }
-      var filterScheduling = state.tab === "presentations";
-      termNames(it.tags, state.tagById, filterScheduling).forEach(function (n) { html += '<span class="chip">' + esc(n) + '</span>'; });
-      html += '</div>';
-
-      if (state.tab === "presentations") {
-        var sf = it.scraped_fields || {};
-        if (sf.date || sf.time || sf.location) {
-          html += '<div class="meta-row">' +
-            (sf.date ? '<span class="chip accent mono">' + esc(sf.date) + '</span>' : '') +
-            (sf.time ? '<span class="chip accent mono">' + esc(sf.time) + '</span>' : '') +
-            (sf.location ? '<span class="chip accent">' + esc(sf.location) + '</span>' : '') +
-            '</div>';
-        }
-        if (sf.presenter_name || sf.presenter_bio) {
-          var presenterImg = resolveImg(sf.presenter_photo_url);
-          html += '<div class="presenter-card">' +
-            (presenterImg ? '<img src="' + esc(presenterImg) + '">' : '') +
-            '<div><div class="presenter-name">' + esc(sf.presenter_name || "Presenter") + '</div>' +
-            '<div class="presenter-bio">' + esc(sf.presenter_bio || "") + '</div></div></div>';
-        }
-      }
-
-      html += '<div class="wp-content">' + (it.content && it.content.rendered ? it.content.rendered : "<p><em>No content body.</em></p>") + '</div>';
-      html += '<p style="margin-top:22px;"><a href="' + esc(it.link) + '" target="_blank" rel="noopener" style="color:var(--accent);font-size:12.5px;">View on live site &rarr;</a></p>';
+      tracksEl.className = "tracks";
+      var list3 = document.createElement("div");
+      list3.className = "track-list";
+      dayItems.forEach(function (it) { list3.appendChild(scheduleCard(it)); });
+      tracksEl.appendChild(list3);
     }
 
-    elDetail.innerHTML = html;
-    rewriteContentImages(elDetail);
-    var back = document.getElementById("backbtn");
-    if (back) back.addEventListener("click", function () {
-      document.body.classList.remove("show-detail");
+    elMain.appendChild(tracksEl);
+  }
+
+  function openModal(innerHtml) {
+    elModalRoot.innerHTML =
+      '<div class="modal-backdrop" id="modal-backdrop">' +
+        '<div class="modal">' +
+          '<button class="modal-close" id="modal-close" type="button">&times;</button>' +
+          '<div style="clear:both"></div>' +
+          innerHtml +
+        '</div>' +
+      '</div>';
+    var backdrop = document.getElementById("modal-backdrop");
+    backdrop.addEventListener("click", function (e) { if (e.target === backdrop) closeModal(); });
+    document.getElementById("modal-close").addEventListener("click", closeModal);
+    var modalEl = backdrop.querySelector(".modal");
+    rewriteContentImages(modalEl);
+  }
+  function closeModal() { elModalRoot.innerHTML = ""; }
+
+  function openScheduleItem(item) {
+    if (item.presentation_id) {
+      var pres = (state.data.presentations || []).find(function (p) { return p.id === item.presentation_id; });
+      if (pres) { openPresentation(pres); return; }
+    }
+    // Logistics item / no dedicated presentation page - show what the schedule knows.
+    var html = '<h2>' + esc(item.title) + '</h2>' +
+      '<div class="modal-meta">' +
+        '<span class="badge loc">' + esc(item.location) + '</span>' +
+        typeBadge(item.type) +
+      '</div>' +
+      '<p style="font-size:14px;color:var(--text-muted)">' + esc(item.day) + ' &bull; ' + esc(item.raw_time_range || item.time) + '</p>' +
+      (item.presenters ? '<p style="font-size:14px">' + esc(item.presenters) + '</p>' : '');
+    openModal(html);
+  }
+
+  function openPresentation(pres) {
+    var sf = pres.scraped_fields || {};
+    var hero = featuredUrl(pres, "large");
+    var html = "";
+    if (hero) html += '<img class="modal-hero" src="' + esc(hero) + '">';
+    html += '<h2>' + pres.title.rendered + '</h2>';
+    html += '<div class="modal-meta">';
+    if (sf.location) html += '<span class="badge loc">' + esc(sf.location) + '</span>';
+    if (sf.date || sf.time) html += '<span class="badge loc">' + esc([sf.date, sf.time].filter(Boolean).join(" · ")) + '</span>';
+    if (sf.type) html += typeBadge(sf.type);
+    html += '</div>';
+
+    if (sf.presenter_name || sf.presenter_bio) {
+      html += '<div class="presenter-card">' +
+        (sf.presenter_photo_url ? '<img src="' + esc(sf.presenter_photo_url) + '">' : '') +
+        '<div><div class="presenter-name">' + esc(sf.presenter_name || "Presenter") + '</div>' +
+        '<div class="presenter-bio">' + esc(sf.presenter_bio || "") + '</div></div></div>';
+    }
+
+    html += '<div class="wp-content">' + (pres.content && pres.content.rendered ? pres.content.rendered : "") + '</div>';
+    if (pres.link) html += '<a class="live-link" href="' + esc(pres.link) + '" target="_blank" rel="noopener">View on live site &rarr;</a>';
+    openModal(html);
+  }
+
+  function openPage(page) {
+    var hero = featuredUrl(page, "large");
+    var html = "";
+    if (hero) html += '<img class="modal-hero" src="' + esc(hero) + '">';
+    html += '<h2>' + page.title.rendered + '</h2>';
+    html += '<div class="wp-content">' + (page.content && page.content.rendered ? page.content.rendered : "") + '</div>';
+    openModal(html);
+  }
+
+  function openInfoList() {
+    var pages = (state.data.pages || []).filter(function (p) { return p.status === "publish"; })
+      .sort(function (a, b) { return a.title.rendered.localeCompare(b.title.rendered); });
+    var html = '<h2>Festival Info</h2><div class="info-list">' +
+      pages.map(function (p) {
+        return '<button class="info-list-item" type="button" data-page-id="' + p.id + '">' + p.title.rendered + '</button>';
+      }).join("") +
+      '</div>';
+    openModal(html);
+    var modalEl = document.querySelector(".modal");
+    modalEl.querySelectorAll("[data-page-id]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var page = state.data.pages.find(function (p) { return p.id === Number(btn.dataset.pageId); });
+        if (page) openPage(page);
+      });
     });
   }
 
-  // WP page/post body HTML (content.rendered) can embed its own <img> tags
-  // pointing at noai.philosophers.group directly - same CSP block as
-  // everything else. Rewrite them post-insertion using the same imageMap;
-  // remove any image that has no uploaded asset rather than show it broken.
+  // Rewrites "#presentation/<slug>" links baked into page content HTML into
+  // in-app navigation, opening that presentation's modal instead of a dead anchor.
+  function rewriteContentLinksIn(root) {
+    root.querySelectorAll('a[href^="#presentation/"]').forEach(function (a) {
+      a.addEventListener("click", function (e) {
+        e.preventDefault();
+        var slug = a.getAttribute("href").slice("#presentation/".length);
+        var pres = (state.data.presentations || []).find(function (p) { return p.slug === slug; });
+        if (pres) openPresentation(pres);
+      });
+    });
+  }
+
+  // Standalone static hosting has no cross-origin image restriction, so this
+  // is a no-op passthrough kept only so content HTML's <img src> already
+  // works without further rewriting.
   function rewriteContentImages(root) {
-    root.querySelectorAll(".wp-content img").forEach(function (img) {
-      var original = img.getAttribute("src");
-      img.removeAttribute("srcset");
-      img.removeAttribute("sizes");
-      var mapped = resolveImg(original);
-      if (mapped) {
-        img.src = mapped;
-      } else {
-        img.remove();
-      }
-    });
+    rewriteContentLinksIn(root);
   }
 
-  // Page content HTML already encodes presentation links as "#presentation/<slug>"
-  // (baked into content.json at export time - see harvest_noai.py's link
-  // migration). One delegated listener handles clicks on any such link,
-  // present or future, without re-binding on every render.
-  elDetail.addEventListener("click", function (e) {
-    var a = e.target.closest('a[href^="#presentation/"]');
-    if (!a) return;
-    e.preventDefault();
-    var slug = a.getAttribute("href").slice("#presentation/".length);
-    var pres = state.presBySlug[slug];
-    if (!pres) return;
-    if (state.tab !== "presentations") {
-      state.tab = "presentations";
-      state.query = "";
-      elSearch.value = "";
-      renderTabs();
-      renderYearFilter();
-    }
-    selectItem(pres);
-  });
-
-  function renderAll() {
-    renderTabs();
-    renderYearFilter();
-    renderList();
-    renderDetail();
+  function render() {
+    renderDayTabs();
+    renderSchedule();
   }
 
   elSearch.addEventListener("input", function () {
     state.query = elSearch.value;
-    renderList();
+    renderDayTabs();
+    renderSchedule();
   });
+  elInfoBtn.addEventListener("click", openInfoList);
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeModal(); });
 
   fetch("content.json")
     .then(function (r) { return r.json(); })
     .then(function (data) {
       state.data = data;
-      (data.tags || []).forEach(function (t) { state.tagById[t.id] = t; });
       (data.media || []).forEach(function (m) { state.mediaById[m.id] = m; });
-
-      var YEAR_TAG_RE = /^NOAI (\d{4}) Presentation$/;
-      var yearTagId = {};
-      (data.tags || []).forEach(function (t) {
-        var m = YEAR_TAG_RE.exec(t.name);
-        if (m) yearTagId[t.id] = m[1];
-      });
-      (data.presentations || []).forEach(function (p) {
-        state.presBySlug[p.slug] = p;
-        var year = null;
-        (p.tags || []).forEach(function (tid) { if (yearTagId[tid]) year = yearTagId[tid]; });
-        state.presYearById[p.id] = year;
-      });
-      state.presYears = Array.from(new Set(Object.values(state.presYearById).filter(Boolean))).sort().reverse();
-      state.presYear = state.presYears[0] || "all";
-
-      renderAll();
+      render();
     })
     .catch(function (err) {
-      elList.innerHTML = '<div class="empty-state">Failed to load content.json<br>' + esc(err.message) + '</div>';
+      elMain.innerHTML = '<div class="empty-state">Couldn&rsquo;t load the schedule.<br>' + esc(err.message) + '</div>';
     });
 })();
 </script>

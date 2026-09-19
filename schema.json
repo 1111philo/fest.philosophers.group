@@ -9,9 +9,10 @@
     "pages": { "type": "array", "items": { "$ref": "#/$defs/page" } },
     "presentations": { "type": "array", "items": { "$ref": "#/$defs/presentation" } },
     "media": { "type": "array", "items": { "$ref": "#/$defs/media" } },
-    "tags": { "type": "array", "items": { "$ref": "#/$defs/term" } }
+    "tags": { "type": "array", "items": { "$ref": "#/$defs/term" } },
+    "schedule": { "type": "array", "items": { "$ref": "#/$defs/scheduleItem" } }
   },
-  "required": ["site", "pages", "presentations", "media", "tags"],
+  "required": ["site", "pages", "presentations", "media", "tags", "schedule"],
 
   "$defs": {
 
@@ -213,6 +214,26 @@
         "_links": { "$ref": "#/$defs/linksBlock" }
       },
       "required": ["id", "slug", "source_url", "media_type", "mime_type"]
+    },
+
+    "scheduleItem": {
+      "description": "The published festival schedule, sourced from an organizer-provided CSV (not the WP site) - see scripts/build_schedule.py. Every session slot is included, even ones with no dedicated presentation page (meals, receptions, parties, opening/closing remarks) - this is the authoritative full schedule, presentations[] is the subset with a full write-up.",
+      "type": "object",
+      "properties": {
+        "year": { "type": "string" },
+        "day": { "type": "string", "description": "Day of week name, e.g. 'Wednesday'." },
+        "date": { "type": "string", "format": "date", "description": "ISO 8601 date." },
+        "time": { "type": "string", "description": "Display start time, e.g. '2:05 PM'." },
+        "sort_time": { "type": "string", "description": "24h HH:MM start time for chronological sorting." },
+        "raw_time_range": { "type": "string", "description": "Original CSV time range string, e.g. '2:05–2:35'." },
+        "location": { "type": "string", "description": "e.g. 'Main Stage', 'Education Center', 'Streets', 'TBA'." },
+        "title": { "type": "string" },
+        "presenters": { "type": "string", "description": "Free-text presenter name(s) as published in the schedule, may differ slightly from presentation.scraped_fields.presenter_name." },
+        "type": { "type": "string", "description": "e.g. 'Workshop', 'Panel', 'Fireside Chat', 'Party', 'Food', 'Informational'. Often blank for a plain talk slot." },
+        "tag": { "type": "string", "description": "Single topic label as published, e.g. 'AI & Technology'. Not the same as presentation tags[]." },
+        "presentation_id": { "type": ["integer", "null"], "description": "Resolves via presentations[].id for full bio/description/photo. null when this slot has no dedicated presentation page." }
+      },
+      "required": ["year", "day", "date", "time", "sort_time", "location", "title"]
     },
 
     "term": {
