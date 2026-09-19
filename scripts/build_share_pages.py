@@ -1,15 +1,19 @@
 #!/usr/bin/env python3
-"""Generates a real, crawlable URL for every presentation and for the
-About/Sponsor pages: p/<slug>/, about/, sponsor/. GitHub Pages is plain
-static hosting with no server-side logic, so a single index.html can't
-show a different <meta og:image> per shared link - social-media crawlers
-read whatever's baked into the HTML they fetch and never run JavaScript.
-So each of these is its own small static file with real meta tags baked
-in at generation time, that redirects a human visitor into the real
-interactive app (index.html#presentation/<slug> etc) via JS/meta-refresh.
+"""Generates a real, crawlable, directly-loadable URL for every presentation
+and for the About/Sponsor pages: p/<slug>/, about/, sponsor/.
 
-Re-run this whenever content.json changes (new presentations, matched
-featured images, etc) and redeploy.
+Each one is a full copy of index.html - the same app, same content.json,
+same everything - with only the <head> tags (title, description, canonical,
+og:*, twitter:*) swapped for that item's own. That's what makes a shared
+link's preview show the right title/description/image, and why it's real
+for SEO: a fresh load or a crawler hitting /p/some-slug/ gets that content
+immediately, with no client-side redirect. index.html's own <base href="/">
+is what lets the exact same relative content.json/media/* references work
+correctly no matter which of these directories the file's served from, and
+index.html's own JS (openFromLocation) is what notices, from location.
+pathname, which presentation/page to open on load.
+
+Re-run this whenever content.json OR index.html changes, then redeploy.
 """
 import html
 import json
@@ -19,6 +23,7 @@ import sys
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONTENT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(REPO, 'content.json')
+INDEX_HTML = os.path.join(REPO, 'index.html')
 SITE_URL = "https://fest.philosophers.group"
 
 TAG_RE = re.compile(r'<[^>]+>')
@@ -33,52 +38,61 @@ def truncate(s, n=160):
     return s if len(s) <= n else s[:n - 1].rstrip() + "…"
 
 
-PAGE_TEMPLATE = """<!doctype html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{title}</title>
-<meta name="description" content="{description}">
-<link rel="canonical" href="{url}">
-<meta property="og:type" content="{og_type}">
-<meta property="og:site_name" content="New Orleans Arts &amp; Ideas Festival">
-<meta property="og:title" content="{title}">
-<meta property="og:description" content="{description}">
-<meta property="og:url" content="{url}">
-<meta property="og:image" content="{image}">
-<meta property="og:image:width" content="{image_w}">
-<meta property="og:image:height" content="{image_h}">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="{title}">
-<meta name="twitter:description" content="{description}">
-<meta name="twitter:image" content="{image}">
-<meta http-equiv="refresh" content="0; url={redirect}">
-<script>location.replace({redirect_js});</script>
-<style>
-  body {{ font-family: Georgia, serif; background: #f6f3ee; color: #241d15; max-width: 640px; margin: 60px auto; padding: 0 20px; line-height: 1.6; }}
-  a {{ color: #a8752c; }}
-</style>
-</head>
-<body>
-<p>Redirecting to the New Orleans Arts &amp; Ideas Festival schedule&hellip;</p>
-<h1>{heading}</h1>
-<p>{description}</p>
-<p><a href="{redirect}">Continue to the schedule &rarr;</a></p>
-</body>
-</html>
-"""
+def set_meta(doc, attr, name, value):
+    pattern = re.compile(r'(<meta ' + attr + '="' + re.escape(name) + r'" content=")[^"]*(")')
+    new_doc, n = pattern.subn(lambda m: m.group(1) + html.escape(value, quote=True) + m.group(2), doc)
+    if n != 1:
+        raise ValueError(f"expected exactly one <meta {attr}=\"{name}\"> in index.html, found {n}")
+    return new_doc
 
 
-def write_page(path, **kw):
+def set_title(doc, value):
+    new_doc, n = re.subn(r'<title>[^<]*</title>', '<title>' + html.escape(value) + '</title>', doc)
+    if n != 1:
+        raise ValueError(f"expected exactly one <title> in index.html, found {n}")
+    return new_doc
+
+
+def set_canonical(doc, url):
+    new_doc, n = re.subn(
+        r'(<link rel="canonical" href=")[^"]*(")',
+        lambda m: m.group(1) + html.escape(url, quote=True) + m.group(2),
+        doc,
+    )
+    if n != 1:
+        raise ValueError(f"expected exactly one <link rel=\"canonical\"> in index.html, found {n}")
+    return new_doc
+
+
+def build_page(template, *, title, description, url, og_type, image, image_w, image_h):
+    doc = template
+    doc = set_title(doc, title)
+    doc = set_meta(doc, 'name', 'description', description)
+    doc = set_canonical(doc, url)
+    doc = set_meta(doc, 'property', 'og:type', og_type)
+    doc = set_meta(doc, 'property', 'og:title', title)
+    doc = set_meta(doc, 'property', 'og:description', description)
+    doc = set_meta(doc, 'property', 'og:url', url)
+    doc = set_meta(doc, 'property', 'og:image', image)
+    doc = set_meta(doc, 'property', 'og:image:width', str(image_w))
+    doc = set_meta(doc, 'property', 'og:image:height', str(image_h))
+    doc = set_meta(doc, 'name', 'twitter:title', title)
+    doc = set_meta(doc, 'name', 'twitter:description', description)
+    doc = set_meta(doc, 'name', 'twitter:image', image)
+    return doc
+
+
+def write_page(path, content):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, 'w') as f:
-        f.write(PAGE_TEMPLATE.format(redirect_js=json.dumps(kw['redirect']), **kw))
+        f.write(content)
 
 
 def main():
     with open(CONTENT) as f:
         data = json.load(f)
+    with open(INDEX_HTML) as f:
+        template = f.read()
 
     media_by_id = {m['id']: m for m in data['media']}
     ogg_pool = (data.get('site_images') or {}).get('ogg') or []
@@ -106,25 +120,24 @@ def main():
         description = truncate(excerpt or sf.get('presenter_bio') or clean_text(p['content']['rendered']) or title)
         image, iw, ih = image_for(p.get('featured_media'), p['id'])
         url = f"{SITE_URL}/p/{p['slug']}/"
-        write_page(
-            os.path.join(REPO, 'p', p['slug'], 'index.html'),
-            title=html.escape(f"{title} — NOAI"),
-            heading=html.escape(title),
-            description=html.escape(description),
+        page = build_page(
+            template,
+            title=f"{title} — NOAI",
+            description=description,
             url=url,
             og_type="article",
             image=image, image_w=iw, image_h=ih,
-            redirect=f"/#presentation/{p['slug']}",
         )
+        write_page(os.path.join(REPO, 'p', p['slug'], 'index.html'), page)
         count += 1
     print(f"wrote {count} presentation share pages")
 
     page_specs = [
-        (469, 'about', '#about', 'website'),
-        (620, 'sponsor', '#sponsor', 'website'),
+        (469, 'about', 'website'),
+        (620, 'sponsor', 'website'),
     ]
     pages_by_id = {pg['id']: pg for pg in data['pages']}
-    for page_id, slug, hash_target, og_type in page_specs:
+    for page_id, slug, og_type in page_specs:
         pg = pages_by_id.get(page_id)
         if not pg:
             continue
@@ -140,16 +153,15 @@ def main():
                 image = f"{SITE_URL}/{local}"
                 iw, ih = match['media_details']['width'], match['media_details']['height']
         url = f"{SITE_URL}/{slug}/"
-        write_page(
-            os.path.join(REPO, slug, 'index.html'),
-            title=html.escape(f"{title} — NOAI"),
-            heading=html.escape(title),
-            description=html.escape(description),
+        page = build_page(
+            template,
+            title=f"{title} — NOAI",
+            description=description,
             url=url,
             og_type=og_type,
             image=image, image_w=iw, image_h=ih,
-            redirect=f"/{hash_target}",
         )
+        write_page(os.path.join(REPO, slug, 'index.html'), page)
         print(f"wrote {slug}/index.html")
 
 

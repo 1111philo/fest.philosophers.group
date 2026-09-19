@@ -3,8 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<base href="/">
 <title>New Orleans Arts & Ideas Festival</title>
 <meta name="description" content="Schedule for the New Orleans Arts & Ideas Festival, November 11-13 at the Historic New Orleans Jazz Museum.">
+<link rel="canonical" href="https://fest.philosophers.group/">
 <link rel="icon" id="site-favicon" href="media/icon-phil.png">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="New Orleans Arts & Ideas Festival">
@@ -90,25 +92,88 @@
   a { color: var(--accent); }
 
   .header {
-    padding: 34px 20px 18px;
-    text-align: center;
+    position: relative;
+    padding: 20px 20px 16px;
+    text-align: left;
     border-bottom: 1px solid var(--border);
+  }
+  .header-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
   }
   .header h1 {
     font-family: Fraunces, Georgia, serif;
     font-optical-sizing: auto;
     font-weight: 700;
-    font-size: clamp(28px, 6vw, 44px);
-    line-height: 1.05;
-    margin: 0 0 8px;
+    font-size: clamp(24px, 5vw, 38px);
+    line-height: 1.1;
+    margin: 0;
     text-wrap: balance;
   }
   .header .subtitle {
+    margin-top: 8px;
     font-size: clamp(13px, 2.6vw, 16px);
     color: var(--accent);
     font-weight: 600;
     letter-spacing: 0.02em;
   }
+  .hamburger-btn {
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    cursor: pointer;
+  }
+  .hamburger-btn:hover { background: var(--surface-2); }
+  .hamburger-icon, .hamburger-icon::before, .hamburger-icon::after {
+    display: block;
+    width: 16px;
+    height: 2px;
+    border-radius: 1px;
+    background: var(--text);
+  }
+  .hamburger-icon { position: relative; }
+  .hamburger-icon::before, .hamburger-icon::after { content: ""; position: absolute; left: 0; }
+  .hamburger-icon::before { top: -5px; }
+  .hamburger-icon::after { top: 5px; }
+
+  .site-menu {
+    position: absolute;
+    top: 100%;
+    left: 20px;
+    margin-top: 6px;
+    min-width: 180px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+  }
+  .site-menu button, .site-menu a {
+    display: block;
+    padding: 11px 16px;
+    text-align: left;
+    background: none;
+    border: none;
+    border-top: 1px solid var(--border);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .site-menu button:first-child { border-top: none; }
+  .site-menu button:hover, .site-menu a:hover { background: var(--surface-2); }
 
   .toolbar {
     position: sticky;
@@ -121,22 +186,55 @@
     flex-direction: column;
     gap: 10px;
   }
-  .year-tabs {
+  .year-dropdown { position: relative; flex-shrink: 0; }
+  .year-toggle {
     display: flex;
-    gap: 6px;
-  }
-  .year-tab {
-    padding: 4px 11px;
-    border-radius: 999px;
+    align-items: center;
+    gap: 5px;
+    padding: 9px 12px;
+    border-radius: 10px;
     border: 1px solid var(--border);
-    background: transparent;
-    color: var(--text-muted);
+    background: var(--surface);
+    color: var(--text);
     font-family: inherit;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 700;
     cursor: pointer;
+    white-space: nowrap;
   }
-  .year-tab.active { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+  .year-toggle:hover { background: var(--surface-2); }
+  .year-caret { font-size: 10px; color: var(--text-muted); }
+  .year-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 6px;
+    min-width: 110px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    z-index: 20;
+  }
+  .year-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 9px 12px;
+    background: none;
+    border: none;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+  }
+  .year-option:hover { background: var(--surface-2); }
+  .year-option .check { width: 12px; color: var(--accent); }
+  .year-option[aria-selected="true"] { color: var(--accent); }
 
   .day-tabs {
     display: flex;
@@ -174,19 +272,6 @@
     font-family: inherit;
   }
   .search:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
-  .info-link {
-    flex-shrink: 0;
-    padding: 9px 14px;
-    border-radius: 10px;
-    border: 1px solid var(--border);
-    background: var(--surface);
-    color: var(--text);
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    white-space: nowrap;
-  }
-  .info-link:hover { background: var(--surface-2); }
 
   main {
     max-width: 1000px;
@@ -322,7 +407,7 @@
     cursor: pointer;
     line-height: 1;
   }
-  .modal h2 {
+  .modal h2, .drawer h2 {
     font-family: Fraunces, Georgia, serif;
     font-size: 21px;
     margin: 0 0 10px;
@@ -378,6 +463,60 @@
 
   .live-link { display: inline-block; margin-top: 16px; font-size: 12.5px; font-weight: 600; }
 
+  /* Drawer - presentations/schedule items open here instead of a blocking
+     modal, so you can keep browsing the schedule behind it. On desktop it
+     docks to the right without dimming the page (pointer-events pass
+     through everywhere except the panel itself); below that width there's
+     no room to show both, so it becomes the same kind of bottom sheet the
+     modal uses, dimmed backdrop included. */
+  .drawer-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    background: transparent;
+    pointer-events: none;
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-end;
+  }
+  .drawer {
+    pointer-events: auto;
+    position: relative;
+    background: var(--bg);
+    width: 460px;
+    max-width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    border-left: 1px solid var(--border);
+    padding: 20px 22px calc(28px + env(safe-area-inset-bottom, 0px));
+    box-shadow: -4px 0 24px rgba(0,0,0,0.12);
+  }
+  @media (max-width: 767px) {
+    .drawer-backdrop {
+      background: rgba(20, 14, 4, 0.5);
+      pointer-events: auto;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .drawer {
+      width: 100%;
+      max-width: 640px;
+      max-height: 88vh;
+      border-left: none;
+      border-radius: 18px 18px 0 0;
+      box-shadow: 0 -4px 24px rgba(0,0,0,0.25);
+    }
+  }
+  @media (min-width: 768px) {
+    /* Reserve the drawer's width instead of letting it cover the schedule,
+       so cards/tabs on the right aren't hidden behind it while it's open. */
+    body.drawer-open .header,
+    body.drawer-open .toolbar,
+    body.drawer-open main {
+      margin-right: 460px;
+    }
+  }
+
   .photo-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
@@ -392,53 +531,55 @@
     max-width: 1000px;
     margin: 0 auto;
     padding: 26px 16px calc(30px + env(safe-area-inset-bottom, 0px));
-    display: flex;
-    justify-content: center;
-    gap: 22px;
-    flex-wrap: wrap;
+    text-align: center;
+    font-size: 12.5px;
+    color: var(--text-muted);
     border-top: 1px solid var(--border);
   }
-  .site-footer button, .site-footer a {
-    background: none;
-    border: none;
-    color: var(--text-muted);
-    font-family: inherit;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    padding: 4px 0;
-    text-decoration: none;
-  }
-  .site-footer button:hover, .site-footer a:hover { color: var(--accent); }
+  .site-footer a { color: var(--text-muted); text-decoration: underline; }
+  .site-footer a:hover { color: var(--accent); }
 </style>
 </head>
 <body>
 
 <div class="header">
-  <h1>New Orleans Arts &amp; Ideas Festival</h1>
+  <div class="header-top">
+    <button class="hamburger-btn" id="hamburger-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="site-menu" aria-label="Menu">
+      <span class="hamburger-icon"></span>
+    </button>
+    <h1>New Orleans Arts &amp; Ideas Festival</h1>
+  </div>
   <div class="subtitle">November 11&ndash;13 &bull; <a href="https://louisianastatemuseum.org/museum/new-orleans-jazz-museum-old-us-mint" target="_blank" rel="noopener">Historic New Orleans Jazz Museum</a></div>
+  <div class="site-menu" id="site-menu" hidden>
+    <button type="button" data-menu="schedule">Schedule</button>
+    <button type="button" data-menu="about">About</button>
+    <button type="button" data-menu="sponsor">Sponsor</button>
+    <a href="https://buy.stripe.com/9B6cN4dvP13b6d97BQ7Zu06" target="_blank" rel="noopener">Donate</a>
+    <a href="https://newsletter.decubing.com/h/r/BF66EBE957B128A22540EF23F30FEDED" target="_blank" rel="noopener">Newsletter</a>
+  </div>
 </div>
 
 <div class="toolbar">
-  <div class="year-tabs" id="year-tabs"></div>
-  <div class="day-tabs" id="day-tabs"></div>
   <div class="search-row">
+    <div class="year-dropdown">
+      <button class="year-toggle" id="year-toggle" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="year-menu">
+        <span id="year-toggle-label"></span><span class="year-caret">&#9662;</span>
+      </button>
+      <div class="year-menu" id="year-menu" role="listbox" hidden></div>
+    </div>
     <input class="search" id="search" type="search" placeholder="Search talks, speakers&hellip;">
-    <button class="info-link" id="info-btn" type="button">About</button>
   </div>
+  <div class="day-tabs" id="day-tabs"></div>
 </div>
 
 <main id="main"></main>
 
 <footer class="site-footer">
-  <button type="button" data-footer="schedule">Schedule</button>
-  <button type="button" data-footer="about">About</button>
-  <button type="button" data-footer="sponsor">Sponsor</button>
-  <a href="https://buy.stripe.com/9B6cN4dvP13b6d97BQ7Zu06" target="_blank" rel="noopener">Donate</a>
-  <a href="https://newsletter.decubing.com/h/r/BF66EBE957B128A22540EF23F30FEDED" target="_blank" rel="noopener">Newsletter</a>
+  A project of <a href="https://philosophers.group" target="_blank" rel="noopener">11:11 Philosopher&rsquo;s Group</a>
 </footer>
 
 <div id="modal-root"></div>
+<div id="drawer-root"></div>
 
 <script>
 (function () {
@@ -447,12 +588,15 @@
   var state = { data: null, year: "2026", day: "all", query: "", mediaById: {}, scheduleCache: {} };
 
   var elMain = document.getElementById("main");
-  var elYearTabs = document.getElementById("year-tabs");
   var elDayTabs = document.getElementById("day-tabs");
   var elSearch = document.getElementById("search");
-  var elInfoBtn = document.getElementById("info-btn");
   var elModalRoot = document.getElementById("modal-root");
-  var elFooter = document.querySelector(".site-footer");
+  var elDrawerRoot = document.getElementById("drawer-root");
+  var elHamburgerBtn = document.getElementById("hamburger-btn");
+  var elSiteMenu = document.getElementById("site-menu");
+  var elYearToggle = document.getElementById("year-toggle");
+  var elYearToggleLabel = document.getElementById("year-toggle-label");
+  var elYearMenu = document.getElementById("year-menu");
 
   function esc(s) {
     return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
@@ -555,16 +699,41 @@
     };
   }
 
-  function renderYearTabs() {
+  function closeAllMenus() {
+    elSiteMenu.hidden = true;
+    elHamburgerBtn.setAttribute("aria-expanded", "false");
+    elYearMenu.hidden = true;
+    elYearToggle.setAttribute("aria-expanded", "false");
+  }
+
+  function toggleMenu(btn, panel) {
+    var opening = panel.hidden;
+    closeAllMenus();
+    if (opening) {
+      panel.hidden = false;
+      btn.setAttribute("aria-expanded", "true");
+    }
+  }
+
+  // Dropdown, not tabs, so the year picker fits to the left of the search
+  // box instead of its own row; defaults to (and reopens showing a check
+  // next to) the most recent year, same as the old tabs did.
+  function renderYearMenu() {
     var years = getAvailableYears();
-    elYearTabs.innerHTML = "";
-    if (years.length < 2) { elYearTabs.hidden = true; return; }
-    elYearTabs.hidden = false;
+    elYearToggleLabel.textContent = state.year;
+    elYearMenu.innerHTML = "";
+    if (years.length < 2) { elYearToggle.hidden = true; return; }
+    elYearToggle.hidden = false;
     years.forEach(function (year) {
+      var selected = state.year === year;
       var btn = document.createElement("button");
-      btn.className = "year-tab" + (state.year === year ? " active" : "");
-      btn.textContent = year;
+      btn.className = "year-option";
+      btn.type = "button";
+      btn.setAttribute("role", "option");
+      btn.setAttribute("aria-selected", String(selected));
+      btn.innerHTML = '<span class="check">' + (selected ? "&#10003;" : "") + '</span>' + esc(year);
       btn.addEventListener("click", function () {
+        closeAllMenus();
         if (state.year === year) return;
         state.year = year;
         state.day = "all";
@@ -572,7 +741,7 @@
         elSearch.value = "";
         render();
       });
-      elYearTabs.appendChild(btn);
+      elYearMenu.appendChild(btn);
     });
   }
 
@@ -743,7 +912,21 @@
     elMain.appendChild(buildTracksElement(dayItems));
   }
 
+  // Real, bookmarkable/shareable URLs for anything that has one (a
+  // presentation, About, Sponsor) - matches the static pages generated by
+  // scripts/build_share_pages.py, which is what makes them real for SEO
+  // rather than just an in-app hash. pushState never triggers a network
+  // request, so this is free even though the same path also maps to a real
+  // file on the server for a fresh load or a shared link.
+  function navigate(url) {
+    if (location.pathname !== url) history.pushState(null, "", url);
+  }
+  function navigateHome() {
+    if (location.pathname !== "/") history.pushState(null, "", "/");
+  }
+
   function openModal(innerHtml) {
+    closeDrawer();
     elModalRoot.innerHTML =
       '<div class="modal-backdrop" id="modal-backdrop">' +
         '<div class="modal">' +
@@ -752,19 +935,47 @@
         '</div>' +
       '</div>';
     var backdrop = document.getElementById("modal-backdrop");
-    backdrop.addEventListener("click", function (e) { if (e.target === backdrop) closeModal(); });
-    document.getElementById("modal-close").addEventListener("click", closeModal);
+    backdrop.addEventListener("click", function (e) { if (e.target === backdrop) closeModalToHome(); });
+    document.getElementById("modal-close").addEventListener("click", closeModalToHome);
     var modalEl = backdrop.querySelector(".modal");
     rewriteContentImages(modalEl);
   }
   function closeModal() { elModalRoot.innerHTML = ""; }
+  function closeModalToHome() { closeModal(); navigateHome(); }
+
+  // Presentations (and logistics-only schedule items) open in a side drawer
+  // instead of a blocking modal, so the schedule stays interactive behind
+  // it - clicking another card just swaps the drawer's contents in place.
+  function openDrawer(innerHtml) {
+    closeModal();
+    document.body.classList.add("drawer-open");
+    elDrawerRoot.innerHTML =
+      '<div class="drawer-backdrop" id="drawer-backdrop">' +
+        '<div class="drawer">' +
+          '<button class="modal-close" id="drawer-close" type="button">&times;</button>' +
+          innerHtml +
+        '</div>' +
+      '</div>';
+    var backdrop = document.getElementById("drawer-backdrop");
+    backdrop.addEventListener("click", function (e) { if (e.target === backdrop) closeDrawerToHome(); });
+    document.getElementById("drawer-close").addEventListener("click", closeDrawerToHome);
+    var drawerEl = backdrop.querySelector(".drawer");
+    rewriteContentImages(drawerEl);
+  }
+  function closeDrawer() {
+    elDrawerRoot.innerHTML = "";
+    document.body.classList.remove("drawer-open");
+  }
+  function closeDrawerToHome() { closeDrawer(); navigateHome(); }
 
   function openScheduleItem(item) {
     if (item.presentation_id) {
       var pres = (state.data.presentations || []).find(function (p) { return p.id === item.presentation_id; });
       if (pres) { openPresentation(pres); return; }
     }
-    // Logistics item / no dedicated presentation page - show what the schedule knows.
+    // Logistics item / no dedicated presentation page - show what the
+    // schedule knows. No presentation page exists for this, so there's no
+    // real URL to push - it just opens in place.
     var html = '<h2>' + esc(item.title) + '</h2>' +
       '<div class="modal-meta">' +
         '<span class="badge loc">' + esc(item.location) + '</span>' +
@@ -772,7 +983,7 @@
       '</div>' +
       '<p style="font-size:14px;color:var(--text-muted)">' + esc(item.day) + ' &bull; ' + esc(item.raw_time_range || item.time) + '</p>' +
       (item.presenters ? '<p style="font-size:14px">' + esc(item.presenters) + '</p>' : '');
-    openModal(html);
+    openDrawer(html);
   }
 
   function openPresentation(pres) {
@@ -799,8 +1010,9 @@
 
     html += '<div class="wp-content">' + (pres.content && pres.content.rendered ? pres.content.rendered : "") + '</div>';
     if (pres.link) html += '<a class="live-link" href="' + esc(pres.link) + '" target="_blank" rel="noopener">View on live site &rarr;</a>';
-    openModal(html);
+    openDrawer(html);
     wireBioToggle(bioId);
+    navigate("/p/" + pres.slug + "/");
   }
 
   // Only show the toggle (and only clip the bio) when the text actually
@@ -860,11 +1072,13 @@
     }
     html += '<a class="live-link" href="https://web.archive.org/web/20250821094845/https://www.nola.com/news/business/innovation/noai-new-orleans-jazz-museum-1111-philosophers-artificial-intelligence-blake-grace-bertuccelli-booth/article_3eddfcb0-9acd-11ef-97c3-1bbd0c95b721.html" target="_blank" rel="noopener">Read the Times-Picayune feature &rarr;</a>';
     openModal(html);
+    navigate("/about/");
   }
 
   function openSponsorPage() {
     var page = (state.data.pages || []).find(function (p) { return p.id === SPONSOR_PAGE_ID; });
     if (page) openPage(page);
+    navigate("/sponsor/");
   }
 
   // Rewrites "#presentation/<slug>" links baked into page content HTML into
@@ -888,7 +1102,7 @@
   }
 
   function render() {
-    renderYearTabs();
+    renderYearMenu();
     renderDayTabs();
     renderSchedule();
   }
@@ -898,13 +1112,24 @@
     renderDayTabs();
     renderSchedule();
   });
-  elInfoBtn.addEventListener("click", openAboutPage);
-  elFooter.addEventListener("click", function (e) {
-    var btn = e.target.closest("[data-footer]");
+
+  elHamburgerBtn.addEventListener("click", function (e) {
+    e.stopPropagation();
+    toggleMenu(elHamburgerBtn, elSiteMenu);
+  });
+  elYearToggle.addEventListener("click", function (e) {
+    e.stopPropagation();
+    toggleMenu(elYearToggle, elYearMenu);
+  });
+  elSiteMenu.addEventListener("click", function (e) {
+    var btn = e.target.closest("[data-menu]");
     if (!btn) return;
-    var which = btn.dataset.footer;
+    var which = btn.dataset.menu;
+    closeAllMenus();
     if (which === "schedule") {
       closeModal();
+      closeDrawer();
+      navigateHome();
       state.day = "all";
       state.query = "";
       elSearch.value = "";
@@ -916,7 +1141,17 @@
       openSponsorPage();
     }
   });
-  document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeModal(); });
+  document.addEventListener("click", function (e) {
+    if (!elSiteMenu.hidden && !elSiteMenu.contains(e.target)) closeAllMenus();
+    if (!elYearMenu.hidden && !elYearMenu.contains(e.target)) closeAllMenus();
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") {
+      closeModalToHome();
+      closeDrawerToHome();
+      closeAllMenus();
+    }
+  });
 
   // Picks a fresh favicon (and, cosmetically, a fresh og:image tag in this
   // document) on every load, from whatever icon-*/ogg-* files the harvest's
@@ -939,19 +1174,37 @@
     }
   }
 
-  // Deep-links a shared/bookmarked URL straight to the presentation or page
-  // it points at. Generated share pages under p/<slug>/, about/, sponsor/
-  // redirect here with a matching hash.
-  function openFromHash() {
-    var hash = location.hash;
-    var m = /^#presentation\/(.+)$/.exec(hash);
+  // Opens whatever the current URL points at - the presentation/about/
+  // sponsor pages generated by scripts/build_share_pages.py are full
+  // copies of this same app, so landing on /p/<slug>/ (a fresh load, a
+  // shared link, or the back/forward buttons) just needs this app to
+  // notice where it is and open the right thing; it never has to redirect.
+  // The #presentation/<slug> form is only kept as a fallback for links
+  // shared before real per-item URLs existed.
+  function openFromLocation() {
+    var path = location.pathname;
+    var m = /^\/p\/([^/]+)\/?$/.exec(path);
     if (m) {
       var pres = (state.data.presentations || []).find(function (p) { return p.slug === decodeURIComponent(m[1]); });
       if (pres) { openPresentation(pres); return; }
     }
-    if (hash === "#about") { openAboutPage(); return; }
-    if (hash === "#sponsor") { openSponsorPage(); return; }
+    if (/^\/about\/?$/.test(path)) { openAboutPage(); return; }
+    if (/^\/sponsor\/?$/.test(path)) { openSponsorPage(); return; }
+
+    var hm = /^#presentation\/(.+)$/.exec(location.hash);
+    if (hm) {
+      var pres2 = (state.data.presentations || []).find(function (p) { return p.slug === decodeURIComponent(hm[1]); });
+      if (pres2) { openPresentation(pres2); return; }
+    }
+    if (location.hash === "#about") { openAboutPage(); return; }
+    if (location.hash === "#sponsor") { openSponsorPage(); return; }
   }
+
+  window.addEventListener("popstate", function () {
+    closeModal();
+    closeDrawer();
+    openFromLocation();
+  });
 
   fetch("content.json")
     .then(function (r) { return r.json(); })
@@ -960,7 +1213,7 @@
       (data.media || []).forEach(function (m) { state.mediaById[m.id] = m; });
       rotateSiteImages(data.site_images);
       render();
-      openFromHash();
+      openFromLocation();
     })
     .catch(function (err) {
       elMain.innerHTML = '<div class="empty-state">Couldn&rsquo;t load the schedule.<br>' + esc(err.message) + '</div>';
