@@ -1,0 +1,16 @@
+---
+import Base from '../layouts/Base.astro';
+import { loadContent, pageMeta } from '../lib/content.mjs';
+
+const meta = pageMeta(loadContent(), 620, 'sponsor');
+---
+<Base
+  title={meta.title}
+  description={meta.description}
+  canonical={meta.canonical}
+  ogType={meta.ogType}
+  image={meta.image.url}
+  imageWidth={meta.image.width}
+  imageHeight={meta.image.height}
+  initialView={{ type: 'sponsor' }}
+/>

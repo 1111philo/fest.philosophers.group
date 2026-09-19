@@ -1,15 +1,16 @@
 // Reads content.json once at build time and derives the per-page
-// title/description/OG-image data that scripts/build-share-pages.js used to
-// compute by hand for a generated stub file. Astro's own routing now owns
-// generating one real static page per presentation (see
-// src/pages/p/[slug].astro), so this module is just the data side of that.
+// title/description/OG-image data each generated page needs - used by
+// src/pages/p/[slug].astro's getStaticPaths() and by about.astro/
+// sponsor.astro.
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { stripTags, truncate } from './text.mjs';
+import { routeSlug } from './slug.js';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const CONTENT_PATH = path.join(__dirname, '../../public/content.json');
+// process.cwd() rather than a path relative to this file's own location:
+// Vite relocates this module during the build, which would otherwise
+// silently break a __dirname-relative path.
+const CONTENT_PATH = path.join(process.cwd(), 'public/content.json');
 export const SITE_URL = 'https://fest.philosophers.group';
 
 let cached = null;
@@ -46,7 +47,7 @@ export function presentationMeta(content, pres) {
   return {
     title: `${title} — NOAI`,
     description,
-    canonical: `${SITE_URL}/p/${pres.slug}/`,
+    canonical: `${SITE_URL}/p/${routeSlug(pres.slug)}/`,
     ogType: 'article',
     image: imageFor(content, pres.featured_media, pres.id),
   };

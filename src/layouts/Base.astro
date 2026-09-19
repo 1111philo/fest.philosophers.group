@@ -1,0 +1,53 @@
+---
+import ScheduleApp from '../components/ScheduleApp';
+import '../styles/app.css';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  ogType: 'website' | 'article';
+  image: string;
+  imageWidth: number;
+  imageHeight: number;
+  initialView?: { type: string; slug?: string } | null;
+}
+
+const {
+  title, description, canonical, ogType, image, imageWidth, imageHeight,
+  initialView = null,
+} = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<base href="/">
+<title>{title}</title>
+<meta name="description" content={description}>
+<link rel="canonical" href={canonical}>
+<link rel="icon" id="site-favicon" href="/media/icon-phil.png">
+<meta property="og:type" content={ogType}>
+<meta property="og:site_name" content="New Orleans Arts & Ideas Festival">
+<meta property="og:title" content={title}>
+<meta property="og:description" content={description}>
+<meta property="og:url" content={canonical}>
+<meta property="og:image" content={image}>
+<meta property="og:image:width" content={imageWidth}>
+<meta property="og:image:height" content={imageHeight}>
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content={title}>
+<meta name="twitter:description" content={description}>
+<meta name="twitter:image" content={image}>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<ScheduleApp client:load initialView={initialView} />
+<footer class="site-footer">
+  A project of <a href="https://philosophers.group" target="_blank" rel="noopener">11:11 Philosopher&rsquo;s Group</a>
+</footer>
+</body>
+</html>

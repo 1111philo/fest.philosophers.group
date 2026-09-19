@@ -1,0 +1,27 @@
+---
+import Base from '../../layouts/Base.astro';
+import { loadContent, presentationMeta } from '../../lib/content.mjs';
+import { routeSlug } from '../../lib/slug.js';
+
+export function getStaticPaths() {
+  const content = loadContent();
+  return content.presentations
+    .filter((p) => p.slug)
+    .map((p) => ({
+      params: { slug: routeSlug(p.slug) },
+      props: { meta: presentationMeta(content, p), rawSlug: p.slug },
+    }));
+}
+
+const { meta, rawSlug } = Astro.props;
+---
+<Base
+  title={meta.title}
+  description={meta.description}
+  canonical={meta.canonical}
+  ogType={meta.ogType}
+  image={meta.image.url}
+  imageWidth={meta.image.width}
+  imageHeight={meta.image.height}
+  initialView={{ type: 'presentation', slug: rawSlug }}
+/>

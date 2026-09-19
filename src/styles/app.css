@@ -119,55 +119,42 @@ a { color: var(--accent); }
 .hamburger-icon::before { top: -5px; }
 .hamburger-icon::after { top: 5px; }
 
-/* Popover menus (hamburger nav, year picker) - the browser renders these in
-   the top layer, above everything else on the page regardless of z-index,
-   and handles outside-click/Escape dismissal natively. JS only positions
-   them under their button and closes them after an item is picked. */
-[popover] {
-  position: fixed;
-  margin: 0;
-  padding: 0;
+/* Popover menus (hamburger nav, year picker) - React Aria renders these
+   through a portal and positions them under their trigger button itself
+   (collision-aware - it'll flip sides near a viewport edge), and handles
+   outside-click/Escape dismissal. This is just their appearance and the
+   open/close transition (React Aria adds/removes data-entering/
+   data-exiting while a transition is defined, so the exit animation has
+   time to finish before the popover is removed). */
+.menu-popover {
   border: 1px solid var(--border);
   border-radius: 12px;
   background: var(--surface);
   box-shadow: var(--shadow);
   overflow: hidden;
   min-width: 160px;
-  opacity: 0;
-  transform: translateY(-6px) scale(0.98);
-  transition: opacity 0.15s ease, transform 0.15s ease, overlay 0.15s ease allow-discrete, display 0.15s ease allow-discrete;
+  transition: opacity 0.15s ease, transform 0.15s ease;
 }
-[popover]:popover-open {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
-@starting-style {
-  [popover]:popover-open {
-    opacity: 0;
-    transform: translateY(-6px) scale(0.98);
-  }
-}
+.menu-popover[data-entering] { opacity: 0; transform: translateY(-6px) scale(0.98); }
+.menu-popover[data-exiting] { opacity: 0; transform: translateY(-6px) scale(0.98); }
 
 .site-menu {
   display: flex;
   flex-direction: column;
+  outline: none;
 }
-.site-menu button, .site-menu a {
+.site-menu-item {
   display: block;
   padding: 11px 16px;
-  text-align: left;
-  background: none;
-  border: none;
   border-top: 1px solid var(--border);
   color: var(--text);
-  font-family: inherit;
   font-size: 14px;
   font-weight: 600;
   text-decoration: none;
   cursor: pointer;
 }
-.site-menu button:first-child { border-top: none; }
-.site-menu button:hover, .site-menu a:hover { background: var(--surface-2); }
+.site-menu-item:first-child { border-top: none; }
+.site-menu-item[data-hovered], .site-menu-item[data-focused] { background: var(--surface-2); outline: none; }
 
 .toolbar {
   position: sticky;
@@ -204,18 +191,16 @@ a { color: var(--accent); }
   gap: 8px;
   width: 100%;
   padding: 9px 12px;
-  background: none;
-  border: none;
   color: var(--text);
-  font-family: inherit;
   font-size: 13px;
   font-weight: 600;
   text-align: left;
   cursor: pointer;
+  outline: none;
 }
-.year-option:hover { background: var(--surface-2); }
+.year-option[data-hovered], .year-option[data-focused] { background: var(--surface-2); }
 .year-option .check { width: 12px; color: var(--accent); }
-.year-option[aria-selected="true"] { color: var(--accent); }
+.year-option[data-selected] { color: var(--accent); }
 
 .day-tabs {
   display: flex;
@@ -230,18 +215,20 @@ a { color: var(--accent); }
   border: 1px solid var(--border);
   background: var(--surface);
   color: var(--text);
-  font-family: inherit;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   text-align: center;
   line-height: 1.3;
+  outline: none;
 }
 .day-tab .dow { display: block; font-size: 10.5px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); }
-.day-tab.active { background: var(--accent); border-color: var(--accent); color: var(--accent-contrast); }
-.day-tab.active .dow { color: var(--accent-contrast); opacity: 0.85; }
+.day-tab[data-selected] { background: var(--accent); border-color: var(--accent); color: var(--accent-contrast); }
+.day-tab[data-selected] .dow { color: var(--accent-contrast); opacity: 0.85; }
+.day-tab[data-focus-visible] { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 .search-row { display: flex; gap: 8px; align-items: center; }
+.search-field { flex: 1; display: flex; }
 .search {
   flex: 1;
   padding: 9px 13px;
@@ -347,50 +334,40 @@ main {
 
 .empty-state { text-align: center; color: var(--text-muted); padding: 60px 20px; font-size: 14px; }
 
-/* Modal (About/Sponsor) - a real <dialog showModal()>, so focus-trapping,
-   Escape-to-close, and the dimmed backdrop all come from the browser. */
-dialog.modal {
+/* Modal (About/Sponsor) - a controlled React Aria ModalOverlay+Modal, so
+   focus-trapping and Escape/outside-click-to-close come from the library;
+   this is just appearance and the enter/exit transition (React Aria adds
+   data-entering/data-exiting for as long as a transition is defined here,
+   so the exit animation finishes before it unmounts). */
+.page-modal-overlay {
   position: fixed;
-  inset: auto 0 0 0;
-  margin: 0 auto;
+  inset: 0;
+  z-index: 100;
+  background: rgba(20, 14, 4, 0.5);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+@media (min-width: 640px) {
+  .page-modal-overlay { align-items: center; padding: 20px; }
+}
+.modal {
+  position: relative;
   width: 100%;
   max-width: 640px;
   max-height: 88vh;
   overflow-y: auto;
-  border: none;
   border-radius: 18px 18px 0 0;
   padding: 20px 22px calc(28px + env(safe-area-inset-bottom, 0px));
   background: var(--bg);
   color: var(--text);
   box-shadow: 0 -4px 24px rgba(0,0,0,0.25);
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.2s ease, transform 0.2s ease, overlay 0.2s ease allow-discrete, display 0.2s ease allow-discrete;
+  transition: transform 0.2s ease;
 }
-dialog.modal[open] { opacity: 1; transform: translateY(0); }
-@starting-style {
-  dialog.modal[open] { opacity: 0; transform: translateY(24px); }
-}
-dialog.modal::backdrop {
-  background: rgba(20, 14, 4, 0.5);
-  opacity: 1;
-  transition: opacity 0.2s ease, overlay 0.2s ease allow-discrete, display 0.2s ease allow-discrete;
-}
-@starting-style {
-  dialog.modal[open]::backdrop { opacity: 0; }
-}
+.modal[data-entering], .modal[data-exiting] { transform: translateY(24px); }
 @media (min-width: 640px) {
-  dialog.modal {
-    inset: 0;
-    margin: auto;
-    border-radius: 18px;
-    max-height: 84vh;
-    transform: translateY(8px) scale(0.98);
-  }
-  dialog.modal[open] { transform: translateY(0) scale(1); }
-  @starting-style {
-    dialog.modal[open] { transform: translateY(8px) scale(0.98); }
-  }
+  .modal { border-radius: 18px; max-height: 84vh; }
+  .modal[data-entering], .modal[data-exiting] { transform: translateY(8px) scale(0.98); }
 }
 .modal-close {
   position: absolute;
@@ -464,60 +441,64 @@ dialog.modal::backdrop {
 .live-link { display: inline-block; margin-top: 16px; font-size: 12.5px; font-weight: 600; }
 
 /* Drawer - presentations/schedule items open here instead of a blocking
-   modal, so you can keep browsing the schedule behind it. It's a
-   non-modal <dialog> (.show(), not .showModal()): the browser still
-   renders it in the top layer (so it can never end up oddly stacked
-   behind the sticky toolbar), but doesn't dim or block the rest of the
-   page - deliberately, so clicking another card while it's open just
-   swaps its contents in place. Below 768px there's no room to show both,
-   so it becomes the same kind of bottom sheet the modal uses. */
-dialog.drawer {
+   modal, so you can keep browsing the schedule behind it. This is a plain
+   panel (see components/Drawer.jsx), not React Aria's ModalOverlay: that
+   component always hides/inertifies the rest of the page while open,
+   which a non-blocking side panel can't do. On desktop the overlay is
+   click-through (pointer-events: none) so clicking a different card
+   behind it just opens that item in place. Below 768px there's no room
+   to show both, so it becomes the same kind of bottom sheet the modal
+   uses, dimmed background and all. */
+.drawer-overlay {
   position: fixed;
-  inset: 0 0 0 auto;
-  margin: 0;
-  width: 460px;
-  max-width: 100%;
-  height: 100%;
-  border: none;
-  border-left: 1px solid var(--border);
-  background: var(--bg);
-  color: var(--text);
-  overflow-y: auto;
-  padding: 20px 22px calc(28px + env(safe-area-inset-bottom, 0px));
-  box-shadow: -4px 0 24px rgba(0,0,0,0.12);
-  transform: translateX(100%);
-  transition: transform 0.22s ease, overlay 0.22s ease allow-discrete, display 0.22s ease allow-discrete;
-}
-dialog.drawer[open] { transform: translateX(0); }
-@starting-style {
-  dialog.drawer[open] { transform: translateX(100%); }
-}
-@media (max-width: 767px) {
-  dialog.drawer {
-    inset: auto 0 0 0;
-    margin: 0 auto;
-    width: 100%;
-    max-width: 640px;
-    height: auto;
-    max-height: 88vh;
-    border-left: none;
-    border-radius: 18px 18px 0 0;
-    box-shadow: 0 -4px 24px rgba(0,0,0,0.25);
-    transform: translateY(100%);
-  }
-  dialog.drawer[open] { transform: translateY(0); }
-  @starting-style {
-    dialog.drawer[open] { transform: translateY(100%); }
-  }
+  inset: 0;
+  z-index: 90;
+  background: rgba(20, 14, 4, 0.5);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
 }
 @media (min-width: 768px) {
+  .drawer-overlay {
+    background: transparent;
+    pointer-events: none;
+    align-items: stretch;
+    justify-content: flex-end;
+  }
   /* Reserve the drawer's width instead of letting it cover the schedule,
      so cards/tabs on the right aren't hidden behind it while it's open. */
-  body:has(dialog.drawer[open]) .header,
-  body:has(dialog.drawer[open]) .toolbar,
-  body:has(dialog.drawer[open]) main {
+  body:has(.drawer-overlay) .header,
+  body:has(.drawer-overlay) .toolbar,
+  body:has(.drawer-overlay) main {
     margin-right: 460px;
   }
+}
+.drawer {
+  pointer-events: auto;
+  position: relative;
+  width: 100%;
+  max-width: 640px;
+  max-height: 88vh;
+  overflow-y: auto;
+  border-radius: 18px 18px 0 0;
+  padding: 20px 22px calc(28px + env(safe-area-inset-bottom, 0px));
+  background: var(--bg);
+  color: var(--text);
+  box-shadow: 0 -4px 24px rgba(0,0,0,0.25);
+  transition: transform 0.22s ease;
+}
+.drawer.drawer-hidden { transform: translateY(100%); }
+@media (min-width: 768px) {
+  .drawer {
+    width: 460px;
+    max-width: 100%;
+    height: 100%;
+    max-height: none;
+    border-left: 1px solid var(--border);
+    border-radius: 0;
+    box-shadow: -4px 0 24px rgba(0,0,0,0.12);
+  }
+  .drawer.drawer-hidden { transform: translateX(100%); }
 }
 
 .photo-grid {
@@ -543,7 +524,7 @@ dialog.drawer[open] { transform: translateX(0); }
 .site-footer a:hover { color: var(--accent); }
 
 @media (prefers-reduced-motion: reduce) {
-  [popover], dialog.modal, dialog.modal::backdrop, dialog.drawer {
+  .menu-popover, .modal, .drawer {
     transition-duration: 0.001ms !important;
   }
 }

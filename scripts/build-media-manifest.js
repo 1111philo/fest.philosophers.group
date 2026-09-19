@@ -1,15 +1,16 @@
 #!/usr/bin/env node
-// Scans media/ for the favicon/social-share image pools and records them in
-// content.json's `site_images` key. Re-run after adding new files named
-// `icon-*` (favicon candidates, ideally square) or `ogg-*` (social share
-// image candidates, ideally ~1200x630+) to media/, then redeploy.
-'use strict';
-const fs = require('fs');
-const path = require('path');
+// Scans public/media/ for the favicon/social-share image pools and records
+// them in content.json's `site_images` key. Re-run after adding new files
+// named `icon-*` (favicon candidates, ideally square) or `ogg-*` (social
+// share image candidates, ideally ~1200x630+) to public/media/, then
+// redeploy. Runs automatically as part of the GitHub Actions build too.
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const REPO = path.dirname(__dirname);
-const MEDIA_DIR = path.join(REPO, 'media');
-const CONTENT = process.argv[2] || path.join(REPO, 'content.json');
+const REPO = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
+const MEDIA_DIR = path.join(REPO, 'public/media');
+const CONTENT = process.argv[2] || path.join(REPO, 'public/content.json');
 
 const EXT_RE = /\.(png|jpe?g|webp)$/i;
 
