@@ -86,6 +86,25 @@ export function scheduleItemKey(it) {
   return `${it.date}|${it.sort_time}|${it.location}|${it.title}`;
 }
 
+// Finds (or, for years before the CSV schedule existed, synthesizes) the
+// date/time/location a given presentation happened at, in the same shape
+// AddToCalendarMenu expects - shared with getScheduleForYear's synthesis
+// logic above, since it's the same data either way.
+export function eventInfoForPresentation(data, pres) {
+  const row = (data.schedule || []).find((s) => s.presentation_id === pres.id);
+  if (row) return row;
+
+  const sf = pres.scraped_fields || {};
+  const d = parseUsDate(sf.date);
+  const t = parseDisplayTime(sf.time);
+  if (!d || !t) return null;
+  return {
+    day: d.dow, date: d.iso, time: sf.time, sort_time: t, raw_time_range: sf.time,
+    location: sf.location || 'TBA', title: stripTags(pres.title.rendered),
+    presenters: sf.presenter_name || '', type: sf.type || '',
+  };
+}
+
 export function mediaUrl(m, size) {
   if (!m) return null;
   const sizes = (m.media_details && m.media_details.sizes) || {};

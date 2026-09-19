@@ -6,9 +6,10 @@ import OverlayDialog from './OverlayDialog';
 import Drawer from './Drawer';
 import PresenterBio from './PresenterBio';
 import WpContent from './WpContent';
+import AddToCalendarMenu from './AddToCalendarMenu';
 import {
   getAvailableYears, getScheduleForYear, featuredUrl, dayLabel, typeSlug, stripTags,
-  rotateSiteImages, scheduleItemKey,
+  rotateSiteImages, scheduleItemKey, eventInfoForPresentation,
 } from '../lib/scheduleUtils';
 import { routeSlug } from '../lib/slug';
 
@@ -124,7 +125,7 @@ function GenericPageBody({ page, mediaById, onOpenPresentationSlug }) {
   );
 }
 
-function PresentationBody({ pres, mediaById, onOpenPresentationSlug }) {
+function PresentationBody({ pres, mediaById, onOpenPresentationSlug, eventInfo }) {
   const sf = pres.scraped_fields || {};
   const hero = featuredUrl(mediaById, pres, 'large');
   return (
@@ -136,6 +137,9 @@ function PresentationBody({ pres, mediaById, onOpenPresentationSlug }) {
         {(sf.date || sf.time) && <span className="badge loc">{[sf.date, sf.time].filter(Boolean).join(' · ')}</span>}
         <TypeBadge type={sf.type} />
       </div>
+      {eventInfo && (
+        <AddToCalendarMenu item={eventInfo} description={sf.presenter_name || ''} />
+      )}
       {(sf.presenter_name || sf.presenter_bio) && (
         <div className="presenter-card">
           {sf.presenter_photo_url && <img src={sf.presenter_photo_url} alt="" />}
@@ -146,9 +150,6 @@ function PresentationBody({ pres, mediaById, onOpenPresentationSlug }) {
         </div>
       )}
       <WpContent html={pres.content && pres.content.rendered} onOpenPresentationSlug={onOpenPresentationSlug} />
-      {pres.link && (
-        <a className="live-link" href={pres.link} target="_blank" rel="noopener">View on live site &rarr;</a>
-      )}
     </>
   );
 }
@@ -165,6 +166,7 @@ function LogisticsBody({ item }) {
         {item.day} &bull; {item.raw_time_range || item.time}
       </p>
       {item.presenters && <p style={{ fontSize: '14px' }}>{item.presenters}</p>}
+      <AddToCalendarMenu item={item} description={item.presenters || ''} />
     </>
   );
 }
@@ -394,7 +396,12 @@ export default function ScheduleApp({ initialView }) {
         ariaLabel={drawerItem && drawerItem.kind === 'presentation' ? stripTags(drawerItem.pres.title.rendered) : (drawerItem ? drawerItem.item.title : 'Details')}
       >
         {drawerItem && drawerItem.kind === 'presentation' && (
-          <PresentationBody pres={drawerItem.pres} mediaById={mediaById} onOpenPresentationSlug={openPresentationSlug} />
+          <PresentationBody
+            pres={drawerItem.pres}
+            mediaById={mediaById}
+            onOpenPresentationSlug={openPresentationSlug}
+            eventInfo={eventInfoForPresentation(data, drawerItem.pres)}
+          />
         )}
         {drawerItem && drawerItem.kind === 'logistics' && <LogisticsBody item={drawerItem.item} />}
       </Drawer>
