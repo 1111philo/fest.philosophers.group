@@ -108,6 +108,23 @@
     flex-direction: column;
     gap: 10px;
   }
+  .year-tabs {
+    display: flex;
+    gap: 6px;
+  }
+  .year-tab {
+    padding: 4px 11px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-muted);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .year-tab.active { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+
   .day-tabs {
     display: flex;
     gap: 6px;
@@ -321,18 +338,38 @@
 
   .live-link { display: inline-block; margin-top: 16px; font-size: 12.5px; font-weight: 600; }
 
-  /* Info (pages) list */
-  .info-list { display: flex; flex-direction: column; gap: 6px; }
-  .info-list-item {
-    padding: 11px 14px;
-    border-radius: 10px;
-    border: 1px solid var(--border);
-    background: var(--surface);
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 600;
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 8px;
+    margin: 16px 0;
   }
-  .info-list-item:hover { border-color: var(--accent); }
+  .photo-grid img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; }
+  .about-p { font-size: 14.5px; line-height: 1.65; }
+  .about-p:first-of-type { font-size: 16px; font-weight: 600; }
+
+  .site-footer {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 26px 16px calc(30px + env(safe-area-inset-bottom, 0px));
+    display: flex;
+    justify-content: center;
+    gap: 22px;
+    flex-wrap: wrap;
+    border-top: 1px solid var(--border);
+  }
+  .site-footer button, .site-footer a {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 4px 0;
+    text-decoration: none;
+  }
+  .site-footer button:hover, .site-footer a:hover { color: var(--accent); }
 </style>
 </head>
 <body>
@@ -343,6 +380,7 @@
 </div>
 
 <div class="toolbar">
+  <div class="year-tabs" id="year-tabs"></div>
   <div class="day-tabs" id="day-tabs"></div>
   <div class="search-row">
     <input class="search" id="search" type="search" placeholder="Search talks, speakers&hellip;">
@@ -352,19 +390,28 @@
 
 <main id="main"></main>
 
+<footer class="site-footer">
+  <button type="button" data-footer="schedule">Schedule</button>
+  <button type="button" data-footer="about">About</button>
+  <button type="button" data-footer="sponsor">Sponsor</button>
+  <a href="https://noai.philosophers.group/donate/" target="_blank" rel="noopener">Donate</a>
+</footer>
+
 <div id="modal-root"></div>
 
 <script>
 (function () {
   "use strict";
 
-  var state = { data: null, day: null, query: "", mediaById: {}, pagesById: {} };
+  var state = { data: null, year: "2026", day: "all", query: "", mediaById: {}, scheduleCache: {} };
 
   var elMain = document.getElementById("main");
+  var elYearTabs = document.getElementById("year-tabs");
   var elDayTabs = document.getElementById("day-tabs");
   var elSearch = document.getElementById("search");
   var elInfoBtn = document.getElementById("info-btn");
   var elModalRoot = document.getElementById("modal-root");
+  var elFooter = document.querySelector(".site-footer");
 
   function esc(s) {
     return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
@@ -374,6 +421,78 @@
 
   function typeSlug(type) {
     return (type || "").toLowerCase().trim().replace(/\s+/g, "-");
+  }
+
+  function stripTags(html) {
+    var d = document.createElement("div");
+    d.innerHTML = html || "";
+    return (d.textContent || "").trim();
+  }
+
+  var WEEKDAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+  // Presentations from years before the CSV-based schedule (2024/2025) only
+  // have their own scraped "M/D/YYYY" or "M/D/YY" date + "H:MM AM/PM" time -
+  // parse those into the same {date, sort_time, day} shape the 2026 schedule
+  // rows already have, so both render through the same code.
+  function parseUsDate(s) {
+    var m = /^(\d{1,2})\/(\d{1,2})\/(\d{2,4})$/.exec((s || "").trim());
+    if (!m) return null;
+    var month = Number(m[1]), day = Number(m[2]), year = Number(m[3]);
+    if (year < 100) year += 2000;
+    var d = new Date(year, month - 1, day);
+    if (isNaN(d.getTime())) return null;
+    return {
+      iso: year + "-" + String(month).padStart(2, "0") + "-" + String(day).padStart(2, "0"),
+      dow: WEEKDAYS[d.getDay()]
+    };
+  }
+  function parseDisplayTime(s) {
+    var m = /^(\d{1,2}):(\d{2})\s*(AM|PM)$/i.exec((s || "").trim());
+    if (!m) return null;
+    var hour = Number(m[1]) % 12;
+    if (m[3].toUpperCase() === "PM") hour += 12;
+    return String(hour).padStart(2, "0") + ":" + m[2];
+  }
+
+  function getAvailableYears() {
+    var years = {};
+    (state.data.schedule || []).forEach(function (s) { years[s.year] = true; });
+    var yearTagRe = /^NOAI (\d{4}) Presentation$/;
+    (state.data.tags || []).forEach(function (t) {
+      var m = yearTagRe.exec(t.name);
+      if (m) years[m[1]] = true;
+    });
+    return Object.keys(years).sort().reverse();
+  }
+
+  // Unifies the rich, CSV-sourced 2026 schedule with a schedule synthesized
+  // from presentations[] for other years (which only have their own
+  // scraped date/time/location - no logistics-only slots, no type/tag).
+  function getScheduleForYear(year) {
+    if (state.scheduleCache[year]) return state.scheduleCache[year];
+
+    var rows = (state.data.schedule || []).filter(function (s) { return s.year === year; });
+    if (!rows.length) {
+      var yearTag = (state.data.tags || []).find(function (t) { return t.name === "NOAI " + year + " Presentation"; });
+      if (yearTag) {
+        (state.data.presentations || []).forEach(function (p) {
+          if ((p.tags || []).indexOf(yearTag.id) === -1) return;
+          var sf = p.scraped_fields || {};
+          var d = parseUsDate(sf.date);
+          var t = parseDisplayTime(sf.time);
+          if (!d || !t) return;
+          rows.push({
+            year: year, day: d.dow, date: d.iso, time: sf.time, sort_time: t,
+            raw_time_range: sf.time, location: sf.location || "TBA",
+            title: stripTags(p.title.rendered), presenters: sf.presenter_name || "",
+            type: "", tag: "", presentation_id: p.id
+          });
+        });
+      }
+    }
+    state.scheduleCache[year] = rows;
+    return rows;
   }
 
   function mediaUrl(m, size) {
@@ -395,9 +514,42 @@
     };
   }
 
+  function renderYearTabs() {
+    var years = getAvailableYears();
+    elYearTabs.innerHTML = "";
+    if (years.length < 2) { elYearTabs.hidden = true; return; }
+    elYearTabs.hidden = false;
+    years.forEach(function (year) {
+      var btn = document.createElement("button");
+      btn.className = "year-tab" + (state.year === year ? " active" : "");
+      btn.textContent = year;
+      btn.addEventListener("click", function () {
+        if (state.year === year) return;
+        state.year = year;
+        state.day = "all";
+        state.query = "";
+        elSearch.value = "";
+        render();
+      });
+      elYearTabs.appendChild(btn);
+    });
+  }
+
   function renderDayTabs() {
-    var days = Array.from(new Set(state.data.schedule.map(function (s) { return s.date; }))).sort();
+    var days = Array.from(new Set(getScheduleForYear(state.year).map(function (s) { return s.date; }))).sort();
     elDayTabs.innerHTML = "";
+
+    var allBtn = document.createElement("button");
+    allBtn.className = "day-tab" + (state.day === "all" && !state.query ? " active" : "");
+    allBtn.textContent = "All Days";
+    allBtn.addEventListener("click", function () {
+      state.day = "all";
+      state.query = "";
+      elSearch.value = "";
+      render();
+    });
+    elDayTabs.appendChild(allBtn);
+
     days.forEach(function (date) {
       var lbl = dayLabel(date);
       var btn = document.createElement("button");
@@ -411,7 +563,6 @@
       });
       elDayTabs.appendChild(btn);
     });
-    if (!state.day) state.day = days[0];
   }
 
   function typeBadge(type) {
@@ -438,10 +589,53 @@
     return card;
   }
 
+  // Builds the (possibly multi-column, by-venue) tracks element for one
+  // day's worth of already-sorted items. Shared by the single-day view and
+  // by each section of the all-days view.
+  function buildTracksElement(dayItems) {
+    var byLocation = {};
+    dayItems.forEach(function (it) {
+      (byLocation[it.location] = byLocation[it.location] || []).push(it);
+    });
+    var majorTracks = Object.keys(byLocation).filter(function (loc) { return byLocation[loc].length >= 3; });
+
+    var tracksEl = document.createElement("div");
+
+    if (majorTracks.length >= 2) {
+      tracksEl.className = "tracks multi";
+      majorTracks.forEach(function (loc) {
+        var col = document.createElement("div");
+        col.innerHTML = '<div class="track-heading">' + esc(loc) + '</div>';
+        var list = document.createElement("div");
+        list.className = "track-list";
+        byLocation[loc].forEach(function (it) { list.appendChild(scheduleCard(it)); });
+        col.appendChild(list);
+        tracksEl.appendChild(col);
+      });
+      var minorItems = dayItems.filter(function (it) { return majorTracks.indexOf(it.location) === -1; });
+      if (minorItems.length) {
+        var col2 = document.createElement("div");
+        col2.innerHTML = '<div class="track-heading">Also Today</div>';
+        var list2 = document.createElement("div");
+        list2.className = "track-list";
+        minorItems.forEach(function (it) { list2.appendChild(scheduleCard(it)); });
+        col2.appendChild(list2);
+        tracksEl.appendChild(col2);
+      }
+    } else {
+      tracksEl.className = "tracks";
+      var list3 = document.createElement("div");
+      list3.className = "track-list";
+      dayItems.forEach(function (it) { list3.appendChild(scheduleCard(it)); });
+      tracksEl.appendChild(list3);
+    }
+    return tracksEl;
+  }
+
   function renderSchedule() {
     elMain.innerHTML = "";
 
-    var items = state.data.schedule.slice();
+    var items = getScheduleForYear(state.year).slice();
     var query = state.query.trim().toLowerCase();
 
     if (query) {
@@ -477,6 +671,26 @@
       return;
     }
 
+    if (!items.length) {
+      elMain.innerHTML = '<div class="empty-state">No schedule published for ' + esc(state.year) + ' yet.</div>';
+      return;
+    }
+
+    if (state.day === "all") {
+      var allDays = Array.from(new Set(items.map(function (it) { return it.date; }))).sort();
+      allDays.forEach(function (date) {
+        var lbl = dayLabel(date);
+        var dayItems = items.filter(function (it) { return it.date === date; })
+          .sort(function (a, b) { return a.sort_time.localeCompare(b.sort_time); });
+        var h = document.createElement("div");
+        h.className = "day-header";
+        h.textContent = dayItems[0].day + ", " + lbl.date;
+        elMain.appendChild(h);
+        elMain.appendChild(buildTracksElement(dayItems));
+      });
+      return;
+    }
+
     var dayItems = items.filter(function (it) { return it.date === state.day; })
       .sort(function (a, b) { return a.sort_time.localeCompare(b.sort_time); });
 
@@ -485,45 +699,7 @@
       return;
     }
 
-    var byLocation = {};
-    dayItems.forEach(function (it) {
-      (byLocation[it.location] = byLocation[it.location] || []).push(it);
-    });
-    var majorTracks = Object.keys(byLocation).filter(function (loc) { return byLocation[loc].length >= 3; });
-
-    var tracksEl = document.createElement("div");
-
-    if (majorTracks.length >= 2) {
-      tracksEl.className = "tracks multi";
-      majorTracks.forEach(function (loc) {
-        var col = document.createElement("div");
-        col.innerHTML = '<div class="track-heading">' + esc(loc) + '</div>';
-        var list = document.createElement("div");
-        list.className = "track-list";
-        byLocation[loc].forEach(function (it) { list.appendChild(scheduleCard(it)); });
-        col.appendChild(list);
-        tracksEl.appendChild(col);
-      });
-      // Anything not in a major track (one-off locations) still needs to show up.
-      var minorItems = dayItems.filter(function (it) { return majorTracks.indexOf(it.location) === -1; });
-      if (minorItems.length) {
-        var col2 = document.createElement("div");
-        col2.innerHTML = '<div class="track-heading">Also Today</div>';
-        var list2 = document.createElement("div");
-        list2.className = "track-list";
-        minorItems.forEach(function (it) { list2.appendChild(scheduleCard(it)); });
-        col2.appendChild(list2);
-        tracksEl.appendChild(col2);
-      }
-    } else {
-      tracksEl.className = "tracks";
-      var list3 = document.createElement("div");
-      list3.className = "track-list";
-      dayItems.forEach(function (it) { list3.appendChild(scheduleCard(it)); });
-      tracksEl.appendChild(list3);
-    }
-
-    elMain.appendChild(tracksEl);
+    elMain.appendChild(buildTracksElement(dayItems));
   }
 
   function openModal(innerHtml) {
@@ -592,22 +768,38 @@
     openModal(html);
   }
 
-  function openInfoList() {
-    var pages = (state.data.pages || []).filter(function (p) { return p.status === "publish"; })
-      .sort(function (a, b) { return a.title.rendered.localeCompare(b.title.rendered); });
-    var html = '<h2>Festival Info</h2><div class="info-list">' +
-      pages.map(function (p) {
-        return '<button class="info-list-item" type="button" data-page-id="' + p.id + '">' + p.title.rendered + '</button>';
-      }).join("") +
-      '</div>';
+  var ABOUT_PAGE_ID = 469;
+  var SPONSOR_PAGE_ID = 620;
+
+  // Custom layout for the About page: pulls out just the intro copy and the
+  // event photo gallery from the WordPress content, dropping the old
+  // outbound buttons (donate/submit/past-years links) that don't apply here.
+  function openAboutPage() {
+    var page = (state.data.pages || []).find(function (p) { return p.id === ABOUT_PAGE_ID; });
+    if (!page) return;
+    var parsed = document.createElement("div");
+    parsed.innerHTML = (page.content && page.content.rendered) || "";
+
+    var paras = Array.from(parsed.querySelectorAll("p"))
+      .map(function (p) { return p.innerHTML.trim(); })
+      .filter(Boolean);
+    var imgSrcs = Array.from(parsed.querySelectorAll("img"))
+      .map(function (img) { return img.getAttribute("src"); })
+      .filter(Boolean);
+
+    var html = '<h2>' + page.title.rendered + '</h2>';
+    paras.forEach(function (p) { html += '<p class="about-p">' + p + '</p>'; });
+    if (imgSrcs.length) {
+      html += '<div class="photo-grid">' +
+        imgSrcs.map(function (src) { return '<img src="' + esc(src) + '" loading="lazy">'; }).join("") +
+        '</div>';
+    }
     openModal(html);
-    var modalEl = document.querySelector(".modal");
-    modalEl.querySelectorAll("[data-page-id]").forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        var page = state.data.pages.find(function (p) { return p.id === Number(btn.dataset.pageId); });
-        if (page) openPage(page);
-      });
-    });
+  }
+
+  function openSponsorPage() {
+    var page = (state.data.pages || []).find(function (p) { return p.id === SPONSOR_PAGE_ID; });
+    if (page) openPage(page);
   }
 
   // Rewrites "#presentation/<slug>" links baked into page content HTML into
@@ -631,6 +823,7 @@
   }
 
   function render() {
+    renderYearTabs();
     renderDayTabs();
     renderSchedule();
   }
@@ -640,7 +833,24 @@
     renderDayTabs();
     renderSchedule();
   });
-  elInfoBtn.addEventListener("click", openInfoList);
+  elInfoBtn.addEventListener("click", openAboutPage);
+  elFooter.addEventListener("click", function (e) {
+    var btn = e.target.closest("[data-footer]");
+    if (!btn) return;
+    var which = btn.dataset.footer;
+    if (which === "schedule") {
+      closeModal();
+      state.day = "all";
+      state.query = "";
+      elSearch.value = "";
+      render();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else if (which === "about") {
+      openAboutPage();
+    } else if (which === "sponsor") {
+      openSponsorPage();
+    }
+  });
   document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeModal(); });
 
   fetch("content.json")
