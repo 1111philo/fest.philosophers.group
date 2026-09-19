@@ -384,7 +384,7 @@
   <div class="day-tabs" id="day-tabs"></div>
   <div class="search-row">
     <input class="search" id="search" type="search" placeholder="Search talks, speakers&hellip;">
-    <button class="info-link" id="info-btn" type="button">Festival Info</button>
+    <button class="info-link" id="info-btn" type="button">About</button>
   </div>
 </div>
 
@@ -794,6 +794,7 @@
         imgSrcs.map(function (src) { return '<img src="' + esc(src) + '" loading="lazy">'; }).join("") +
         '</div>';
     }
+    html += '<a class="live-link" href="https://web.archive.org/web/20250821094845/https://www.nola.com/news/business/innovation/noai-new-orleans-jazz-museum-1111-philosophers-artificial-intelligence-blake-grace-bertuccelli-booth/article_3eddfcb0-9acd-11ef-97c3-1bbd0c95b721.html" target="_blank" rel="noopener">Read the Times-Picayune feature &rarr;</a>';
     openModal(html);
   }
 

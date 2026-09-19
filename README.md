@@ -6,6 +6,7 @@ The live schedule site for the festival (Nov 11–13, Historic New Orleans Jazz 
 
 - `index.html` — the schedule site (single static page, no build step, no dependencies)
 - `content.json` — full content export (pages, presentations, media, tags, schedule)
+- `media/` — every image actually referenced by a page or presentation, downloaded so the site doesn't hotlink `noai.philosophers.group`; unused media are dropped rather than carried along
 - `schema.json` — JSON Schema describing `content.json`'s shape and the quirks found while scraping the source site
 - `scripts/harvest_noai.py` — re-runs the full harvest against the live WordPress site to regenerate `content.json`
 - `scripts/scrape_presentation.py` — standalone version of the presentation custom-field scraper used by the harvester
@@ -32,4 +33,4 @@ python3 scripts/build_schedule.py content.json
 
 ## Hosting
 
-Served as-is via GitHub Pages from the repo root at `fest.philosophers.group` — `index.html` fetches `content.json` with a relative path, so no server-side logic is needed. Images load directly from `noai.philosophers.group` (fine for a normal static site, unlike inside a sandboxed viewer).
+Served as-is via GitHub Pages from the repo root at `fest.philosophers.group` — `index.html` fetches `content.json` with a relative path, so no server-side logic is needed. Images are served from `media/` in this repo rather than hotlinked from `noai.philosophers.group`, so the site keeps working even if that source site changes or goes away.
