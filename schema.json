@@ -225,7 +225,7 @@
     },
 
     "scheduleItem": {
-      "description": "The published festival schedule, sourced from an organizer-provided CSV (not the WP site) - see scripts/build_schedule.py. Every session slot is included, even ones with no dedicated presentation page (meals, receptions, parties, opening/closing remarks) - this is the authoritative full schedule, presentations[] is the subset with a full write-up.",
+      "description": "The published festival schedule, edited directly in content.json. Every session slot is included, even ones with no dedicated presentation page (meals, receptions, parties, opening/closing remarks) - this is the authoritative full schedule, presentations[] is the subset with a full write-up.",
       "type": "object",
       "properties": {
         "year": { "type": "string" },

@@ -8,25 +8,13 @@ The live schedule site for the festival (Nov 11–13, 2026, Historic New Orleans
 - `content.json` — full content export (pages, presentations, media, tags, schedule, site_images)
 - `media/` — every image actually referenced by a page or presentation, plus the `icon-*`/`ogg-*` favicon and social-share pools; nothing here is hotlinked from elsewhere
 - `schema.json` — JSON Schema describing `content.json`'s shape
-- `noai_2026_schedule.csv` — the organizer-provided 2026 schedule, merged into `content.json`'s `schedule` array by `scripts/build-schedule.js`
-- `scripts/build-schedule.js` — merges a schedule CSV into `content.json`'s `schedule` array (see below)
 - `scripts/build-media-manifest.js` — records the current `media/icon-*`/`media/ogg-*` files into `content.json`'s `site_images` (see below)
 - `scripts/build-share-pages.js` — generates `p/<slug>/`, `about/`, `sponsor/` (see below)
-- `scripts/lib/text.js` — shared HTML-entity/escaping helpers used by the two generators above
+- `scripts/lib/text.js` — shared HTML-entity/escaping helpers used by the generator above
 
 The build scripts are plain Node.js (no `npm install` needed — only built-in `fs`/`path`) and only ever run locally to regenerate files that get committed; nothing about them runs on the live site, which stays pure static HTML/CSS/JS for GitHub Pages.
 
-There's no ongoing sync from the original WordPress site anymore — `content.json` is edited directly going forward.
-
-### The published schedule (`content.json`'s `schedule` array)
-
-The site's home view is the festival schedule, not the raw presentations list — it includes every session slot (meals, receptions, parties, opening/closing remarks) even when there's no dedicated presentation page, because that's what someone browsing the schedule actually needs to see. Regenerate after editing the CSV:
-
-```
-node scripts/build-schedule.js
-```
-
-`build-schedule.js` currently hard-codes the row→presentation-id matches for the 2026 schedule (vetted by hand: title text alone isn't reliable for recurring names like "Opening Remarks," which show up every year — matches were cross-checked against presenter names too). For a future year, add the new CSV, pass its path as the first argument, and re-derive the matches.
+There's no ongoing sync from the original WordPress site, or from an organizer-provided CSV, anymore — `content.json` (including its `schedule` array) is edited directly going forward.
 
 ### Favicon / social-share image rotation
 
