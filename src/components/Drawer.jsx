@@ -33,7 +33,12 @@ export default function Drawer({ isOpen, onClose, ariaLabel, children }) {
 
   if (!rendered) return null;
   return (
-    <div className="drawer-overlay">
+    <div
+      className="drawer-overlay"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
       <div className={`drawer${entered ? '' : ' drawer-hidden'}`} role="dialog" aria-label={ariaLabel}>
         <button className="modal-close" type="button" onClick={onClose} aria-label="Close">&times;</button>
         {children}
