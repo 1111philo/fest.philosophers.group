@@ -327,7 +327,29 @@
     background: var(--surface-2);
   }
   .presenter-name { font-weight: 700; font-size: 14px; margin-bottom: 3px; }
-  .presenter-bio { font-size: 12.5px; color: var(--text-muted); line-height: 1.55; max-height: 7em; overflow-y: auto; }
+  .presenter-bio { font-size: 12.5px; color: var(--text-muted); line-height: 1.55; position: relative; }
+  .presenter-bio.collapsed { max-height: 4.65em; overflow: hidden; }
+  .presenter-bio.collapsed::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 1.5em;
+    background: linear-gradient(to bottom, transparent, var(--surface));
+  }
+  .bio-toggle {
+    display: inline-block;
+    margin-top: 7px;
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: inherit;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--accent);
+    cursor: pointer;
+  }
+  .bio-toggle:hover, .bio-toggle:focus-visible { text-decoration: underline; }
+  .bio-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .modal-hero { width: 100%; max-height: 280px; object-fit: cover; border-radius: 12px; margin-bottom: 14px; background: var(--surface-2); }
 
   .wp-content { font-size: 14.5px; line-height: 1.65; }
@@ -747,16 +769,40 @@
     if (sf.type) html += typeBadge(sf.type);
     html += '</div>';
 
+    var bioId = "bio-" + pres.id;
     if (sf.presenter_name || sf.presenter_bio) {
       html += '<div class="presenter-card">' +
         (sf.presenter_photo_url ? '<img src="' + esc(sf.presenter_photo_url) + '">' : '') +
         '<div><div class="presenter-name">' + esc(sf.presenter_name || "Presenter") + '</div>' +
-        '<div class="presenter-bio">' + esc(sf.presenter_bio || "") + '</div></div></div>';
+        '<div class="presenter-bio collapsed" id="' + bioId + '">' + esc(sf.presenter_bio || "") + '</div>' +
+        (sf.presenter_bio ? '<button class="bio-toggle" type="button" aria-expanded="false" aria-controls="' + bioId + '" hidden>Read more</button>' : '') +
+        '</div></div>';
     }
 
     html += '<div class="wp-content">' + (pres.content && pres.content.rendered ? pres.content.rendered : "") + '</div>';
     if (pres.link) html += '<a class="live-link" href="' + esc(pres.link) + '" target="_blank" rel="noopener">View on live site &rarr;</a>';
     openModal(html);
+    wireBioToggle(bioId);
+  }
+
+  // Only show the toggle (and only clip the bio) when the text actually
+  // overflows the collapsed height - a short bio should just render plainly.
+  function wireBioToggle(bioId) {
+    var bio = document.getElementById(bioId);
+    if (!bio) return;
+    var toggle = bio.nextElementSibling;
+    if (!toggle || !toggle.classList.contains("bio-toggle")) return;
+    if (bio.scrollHeight - bio.clientHeight < 4) {
+      bio.classList.remove("collapsed");
+      return;
+    }
+    toggle.hidden = false;
+    toggle.addEventListener("click", function () {
+      var expanded = toggle.getAttribute("aria-expanded") === "true";
+      bio.classList.toggle("collapsed", expanded);
+      toggle.setAttribute("aria-expanded", String(!expanded));
+      toggle.textContent = expanded ? "Read more" : "Show less";
+    });
   }
 
   function openPage(page) {
