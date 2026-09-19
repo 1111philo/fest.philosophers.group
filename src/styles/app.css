@@ -245,7 +245,8 @@ a { color: var(--accent); }
 }
 .search:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
 
-main {
+.main-panel {
+  display: block;
   max-width: 1000px;
   margin: 0 auto;
   padding: 18px 16px 60px;
@@ -488,9 +489,10 @@ main {
     justify-content: flex-end;
   }
   /* Reserve the drawer's width instead of letting it cover the schedule,
-     so cards/tabs on the right aren't hidden behind it while it's open. */
+     so cards/tabs on the right aren't hidden behind it while it's open.
+     (.toolbar lives inside <main> now, so shrinking main alone is enough -
+     it used to be a sibling and needed its own rule here.) */
   body:has(.drawer-overlay) .header,
-  body:has(.drawer-overlay) .toolbar,
   body:has(.drawer-overlay) main {
     margin-right: 460px;
   }
