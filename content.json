@@ -58666,5 +58666,26 @@
       "tag": "Wellness",
       "presentation_id": 2754
     }
-  ]
+  ],
+  "site_images": {
+    "icons": [
+      "media/icon-baylee.png",
+      "media/icon-grace.png",
+      "media/icon-joseph.png",
+      "media/icon-jude.png",
+      "media/icon-phil.png",
+      "media/icon-sly.png",
+      "media/icon-sly2.png"
+    ],
+    "ogg": [
+      "media/ogg-alex.png",
+      "media/ogg-arts.png",
+      "media/ogg-baylee.png",
+      "media/ogg-grace.png",
+      "media/ogg-joseph.png",
+      "media/ogg-jude.png",
+      "media/ogg-phil.png",
+      "media/ogg-sly.png"
+    ]
+  }
 }

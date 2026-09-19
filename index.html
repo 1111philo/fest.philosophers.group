@@ -5,6 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>New Orleans Arts & Ideas Festival</title>
 <meta name="description" content="Schedule for the New Orleans Arts & Ideas Festival, November 11-13 at the Historic New Orleans Jazz Museum.">
+<link rel="icon" id="site-favicon" href="media/icon-phil.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="New Orleans Arts & Ideas Festival">
+<meta property="og:title" content="New Orleans Arts & Ideas Festival">
+<meta property="og:description" content="Schedule for the New Orleans Arts & Ideas Festival, November 11-13 at the Historic New Orleans Jazz Museum.">
+<meta property="og:url" content="https://fest.philosophers.group/">
+<meta property="og:image" content="https://fest.philosophers.group/media/ogg-arts.png">
+<meta property="og:image:width" content="1424">
+<meta property="og:image:height" content="752">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="New Orleans Arts & Ideas Festival">
+<meta name="twitter:description" content="Schedule for the New Orleans Arts & Ideas Festival, November 11-13 at the Historic New Orleans Jazz Museum.">
+<meta name="twitter:image" content="https://fest.philosophers.group/media/ogg-arts.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -904,12 +917,49 @@
   });
   document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeModal(); });
 
+  // Picks a fresh favicon (and, cosmetically, a fresh og:image tag in this
+  // document) on every load, from whatever icon-*/ogg-* files the harvest's
+  // media manifest currently lists - so it keeps rotating as more get added,
+  // no code change needed. Note this can't make *shared-link* previews
+  // change per click: social crawlers read the static og:image already
+  // baked into the HTML they fetch and never run this script.
+  function rotateSiteImages(images) {
+    var icons = (images && images.icons) || [];
+    var ogg = (images && images.ogg) || [];
+    if (icons.length) {
+      document.getElementById("site-favicon").href = icons[Math.floor(Math.random() * icons.length)];
+    }
+    if (ogg.length) {
+      var pick = location.origin + "/" + ogg[Math.floor(Math.random() * ogg.length)];
+      ["meta[property='og:image']", "meta[name='twitter:image']"].forEach(function (sel) {
+        var el = document.querySelector(sel);
+        if (el) el.setAttribute("content", pick);
+      });
+    }
+  }
+
+  // Deep-links a shared/bookmarked URL straight to the presentation or page
+  // it points at. Generated share pages under p/<slug>/, about/, sponsor/
+  // redirect here with a matching hash.
+  function openFromHash() {
+    var hash = location.hash;
+    var m = /^#presentation\/(.+)$/.exec(hash);
+    if (m) {
+      var pres = (state.data.presentations || []).find(function (p) { return p.slug === decodeURIComponent(m[1]); });
+      if (pres) { openPresentation(pres); return; }
+    }
+    if (hash === "#about") { openAboutPage(); return; }
+    if (hash === "#sponsor") { openSponsorPage(); return; }
+  }
+
   fetch("content.json")
     .then(function (r) { return r.json(); })
     .then(function (data) {
       state.data = data;
       (data.media || []).forEach(function (m) { state.mediaById[m.id] = m; });
+      rotateSiteImages(data.site_images);
       render();
+      openFromHash();
     })
     .catch(function (err) {
       elMain.innerHTML = '<div class="empty-state">Couldn&rsquo;t load the schedule.<br>' + esc(err.message) + '</div>';
