@@ -1,0 +1,236 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://noai.philosophers.group/schemas/wp-content-export.json",
+  "title": "NOAI WordPress Content & Media Export",
+  "description": "Schema for a full export of noai.philosophers.group content, derived from live inspection of its WP REST API (wp-json/wp/v2) on 2026-09-18. All endpoints below were reachable unauthenticated (public read access); no login/application password required for GET. WP Posts and the category taxonomy are intentionally excluded from this export/schema - posts were deleted from the working dataset, and every category was migrated to an equivalent tag and dropped in favor of tags-only classification.",
+  "type": "object",
+  "properties": {
+    "site": { "$ref": "#/$defs/siteMeta" },
+    "pages": { "type": "array", "items": { "$ref": "#/$defs/page" } },
+    "presentations": { "type": "array", "items": { "$ref": "#/$defs/presentation" } },
+    "media": { "type": "array", "items": { "$ref": "#/$defs/media" } },
+    "tags": { "type": "array", "items": { "$ref": "#/$defs/term" } }
+  },
+  "required": ["site", "pages", "presentations", "media", "tags"],
+
+  "$defs": {
+
+    "siteMeta": {
+      "type": "object",
+      "description": "GET /wp-json/",
+      "properties": {
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "url": { "type": "string", "format": "uri" },
+        "home": { "type": "string", "format": "uri" },
+        "gmt_offset": { "type": "string" },
+        "timezone_string": { "type": "string" },
+        "page_for_posts": { "type": "integer" },
+        "page_on_front": { "type": "integer" },
+        "show_on_front": { "type": "string" },
+        "namespaces": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+
+    "renderedString": {
+      "type": "object",
+      "description": "Standard WP 'rendered HTML + raw source (edit context only)' wrapper used for title/content/excerpt/guid.",
+      "properties": {
+        "rendered": { "type": "string" },
+        "raw": { "type": "string", "description": "Only present with ?context=edit and authentication." },
+        "protected": { "type": "boolean" }
+      },
+      "required": ["rendered"]
+    },
+
+    "pluginFields": {
+      "type": "object",
+      "description": "Fields injected by installed plugins. Shape is plugin/post-defined and NOT fixed - treat as opaque/passthrough. Observed empty ([] or {}) on sampled items but may be populated on others (e.g. presentations with speaker/session details).",
+      "properties": {
+        "acf": { "description": "Advanced Custom Fields data. Empty array when no fields configured for this post/type, otherwise an object of field_name -> value.", "type": ["object", "array"] },
+        "mb": { "description": "Meta Box plugin fields. Same empty-array-vs-object behavior as acf.", "type": ["object", "array"] },
+        "mfb_acf": { "type": ["object", "array"] },
+        "mfb_rest_fields": { "type": "array", "items": { "type": "string" }, "description": "List of field names the mfb plugin exposes for this item, e.g. ['title','yoast_head','yoast_head_json']." },
+        "meta": { "type": "object", "description": "Registered post meta, e.g. {_acf_changed, inline_featured_image, ...}. Keys vary by post type/plugin config." },
+        "yoast_head": { "type": "string", "description": "Pre-rendered <head> HTML block from Yoast SEO (title/meta/OG tags)." },
+        "yoast_head_json": { "type": "object", "description": "Structured equivalent of yoast_head - title, description, OG/Twitter card data, schema.org graph, etc." }
+      }
+    },
+
+    "linksBlock": {
+      "type": "object",
+      "description": "HAL-style _links block; useful for discovering related resources (author, featured media, terms, revisions) without guessing IDs.",
+      "properties": {
+        "self": { "type": "array" },
+        "collection": { "type": "array" },
+        "about": { "type": "array" },
+        "author": { "type": "array" },
+        "replies": { "type": "array" },
+        "version-history": { "type": "array" },
+        "wp:featuredmedia": { "type": "array" },
+        "wp:attachment": { "type": "array" },
+        "wp:term": { "type": "array" },
+        "curies": { "type": "array" }
+      }
+    },
+
+    "postCommon": {
+      "type": "object",
+      "description": "Fields shared by page and presentations (all built on WP_Post).",
+      "properties": {
+        "id": { "type": "integer" },
+        "date": { "type": "string", "format": "date-time" },
+        "date_gmt": { "type": "string", "format": "date-time" },
+        "modified": { "type": "string", "format": "date-time" },
+        "modified_gmt": { "type": "string", "format": "date-time" },
+        "guid": { "$ref": "#/$defs/renderedString" },
+        "link": { "type": "string", "format": "uri" },
+        "slug": { "type": "string" },
+        "status": { "type": "string", "enum": ["publish", "future", "draft", "pending", "private"] },
+        "type": { "type": "string" },
+        "template": { "type": "string" },
+        "title": { "$ref": "#/$defs/renderedString" },
+        "content": { "$ref": "#/$defs/renderedString" },
+        "excerpt": { "$ref": "#/$defs/renderedString" },
+        "featured_media": { "type": "integer", "description": "0 = none. Non-zero = id resolvable via GET /wp/v2/media/{id}." },
+        "comment_status": { "type": "string", "enum": ["open", "closed"] },
+        "ping_status": { "type": "string", "enum": ["open", "closed"] },
+        "class_list": { "type": "array", "items": { "type": "string" } },
+        "acf": { "$ref": "#/$defs/pluginFields/properties/acf" },
+        "mb": { "$ref": "#/$defs/pluginFields/properties/mb" },
+        "mfb_acf": { "$ref": "#/$defs/pluginFields/properties/mfb_acf" },
+        "mfb_rest_fields": { "$ref": "#/$defs/pluginFields/properties/mfb_rest_fields" },
+        "meta": { "$ref": "#/$defs/pluginFields/properties/meta" },
+        "yoast_head": { "$ref": "#/$defs/pluginFields/properties/yoast_head" },
+        "yoast_head_json": { "$ref": "#/$defs/pluginFields/properties/yoast_head_json" },
+        "_links": { "$ref": "#/$defs/linksBlock" }
+      },
+      "required": ["id", "slug", "status", "type", "title", "content", "link"]
+    },
+
+    "page": {
+      "description": "GET /wp-json/wp/v2/pages (38 items). Static pages; hierarchical via 'parent'.",
+      "allOf": [
+        { "$ref": "#/$defs/postCommon" },
+        {
+          "type": "object",
+          "properties": {
+            "author": { "type": "integer" },
+            "parent": { "type": "integer", "description": "0 = top-level page." },
+            "menu_order": { "type": "integer" }
+          }
+        }
+      ]
+    },
+
+    "presentation": {
+      "description": "GET /wp-json/wp/v2/presentations (101 items). Custom post type - festival sessions/talks. IMPORTANT: session/speaker details (date, time, location, presenter name/bio/photo) are stored as Meta Field Block (mfb) custom fields that are NOT exposed via the REST API (acf/mb/meta come back empty for every item checked - 10/10 samples). These fields ARE rendered on the live page and must be scraped from the rendered HTML at `link` instead - see scraped_fields below.",
+      "allOf": [
+        { "$ref": "#/$defs/postCommon" },
+        {
+          "type": "object",
+          "properties": {
+            "tags": { "type": "array", "items": { "type": "integer" }, "description": "Term IDs, resolve via tags[]. Includes migrated former-category tags, e.g. 'NOAI 2025 Presentation'." },
+            "scraped_fields": {
+              "type": "object",
+              "description": "NOT part of the REST API response. Must be obtained by fetching the rendered page at `link` and parsing '.wp-block-mfb-meta-field-block' elements under the 'Presentation Details' (h3) and 'Presenter Biography' (h2) sections. See scrape_presentation.py.",
+              "properties": {
+                "date": { "type": ["string", "null"], "description": "e.g. '11/11/2025', as displayed - not ISO 8601." },
+                "time": { "type": ["string", "null"], "description": "e.g. '2:30 PM', as displayed." },
+                "location": { "type": ["string", "null"], "description": "e.g. 'Upstairs Theater', 'Downstairs Classroom'." },
+                "presenter_name": { "type": ["string", "null"], "description": "Can be blank/missing on some items (observed on 1/10 samples) - layout may vary for panels vs. single speakers." },
+                "presenter_bio": { "type": ["string", "null"] },
+                "presenter_photo_url": { "type": ["string", "null"], "format": "uri", "description": "Usually matches the post's featured_media image, but scraped directly as a fallback." },
+                "type": { "type": "string", "description": "Session type (e.g. 'Workshop', 'Panel', 'Fireside Chat'), sourced from an external CSV schedule import, not the live site - may be an empty string for a plain talk slot where the schedule left this column blank." }
+              }
+            }
+          }
+        }
+      ]
+    },
+
+    "mediaSize": {
+      "type": "object",
+      "properties": {
+        "file": { "type": "string" },
+        "width": { "type": "integer" },
+        "height": { "type": "integer" },
+        "mime_type": { "type": "string" },
+        "source_url": { "type": "string", "format": "uri", "description": "Direct, downloadable file URL for this size variant." }
+      }
+    },
+
+    "media": {
+      "description": "GET /wp-json/wp/v2/media/{id} (296 items total). NOTE: the list endpoint (?per_page=N&page=M) was observed returning an empty [] for some pages despite correct x-wp-total/x-wp-totalpages headers, while single-item GETs by id worked reliably. A robust harvester should sweep ids 1..N (skipping 404s) and/or retry empty list pages, rather than trusting paginated listing alone.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "integer" },
+        "date": { "type": "string", "format": "date-time" },
+        "date_gmt": { "type": "string", "format": "date-time" },
+        "modified": { "type": "string", "format": "date-time" },
+        "modified_gmt": { "type": "string", "format": "date-time" },
+        "guid": { "$ref": "#/$defs/renderedString" },
+        "link": { "type": "string", "format": "uri" },
+        "slug": { "type": "string" },
+        "status": { "type": "string" },
+        "type": { "const": "attachment" },
+        "template": { "type": "string" },
+        "title": { "$ref": "#/$defs/renderedString" },
+        "author": { "type": "integer" },
+        "comment_status": { "type": "string" },
+        "ping_status": { "type": "string" },
+        "class_list": { "type": "array", "items": { "type": "string" } },
+        "description": { "$ref": "#/$defs/renderedString" },
+        "caption": { "$ref": "#/$defs/renderedString" },
+        "alt_text": { "type": "string" },
+        "media_type": { "type": "string", "enum": ["image", "file", "video", "audio"] },
+        "mime_type": { "type": "string" },
+        "filename": { "type": "string" },
+        "filesize": { "type": "integer", "description": "Bytes." },
+        "source_url": { "type": "string", "format": "uri", "description": "Direct, downloadable URL for the full/original file - the main field needed to actually pull the asset." },
+        "post": { "type": ["integer", "null"], "description": "ID of the post this attachment belongs to, or null if unattached." },
+        "featured_media": { "type": "integer" },
+        "media_details": {
+          "type": "object",
+          "properties": {
+            "width": { "type": "integer" },
+            "height": { "type": "integer" },
+            "file": { "type": "string" },
+            "filesize": { "type": "integer" },
+            "image_meta": { "type": "object" },
+            "sizes": {
+              "type": "object",
+              "description": "Keyed by size name (thumbnail/medium/full/etc, theme-dependent).",
+              "additionalProperties": { "$ref": "#/$defs/mediaSize" }
+            }
+          }
+        },
+        "acf": { "$ref": "#/$defs/pluginFields/properties/acf" },
+        "mb": { "$ref": "#/$defs/pluginFields/properties/mb" },
+        "mfb_acf": { "$ref": "#/$defs/pluginFields/properties/mfb_acf" },
+        "mfb_rest_fields": { "$ref": "#/$defs/pluginFields/properties/mfb_rest_fields" },
+        "meta": { "$ref": "#/$defs/pluginFields/properties/meta" },
+        "_links": { "$ref": "#/$defs/linksBlock" }
+      },
+      "required": ["id", "slug", "source_url", "media_type", "mime_type"]
+    },
+
+    "term": {
+      "description": "GET /wp-json/wp/v2/tags. The category taxonomy was retired - every former category was migrated to an equivalent tag (matched by name, created if missing) and the category itself deleted, so tags is now the only classification collection. NOTE: 'count' as returned by the public REST API undercounts real usage since it excludes draft content - recompute actual usage from tags[] on pages/presentations rather than trusting this field at face value.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "integer" },
+        "count": { "type": "integer", "description": "Number of items using this term - corrected here to reflect real usage (including drafts), not the raw REST API value." },
+        "description": { "type": "string" },
+        "link": { "type": "string", "format": "uri" },
+        "name": { "type": "string" },
+        "slug": { "type": "string" },
+        "taxonomy": { "const": "post_tag" },
+        "meta": { "type": "object" },
+        "yoast_head_json": { "type": "object" },
+        "_links": { "$ref": "#/$defs/linksBlock" }
+      },
+      "required": ["id", "name", "slug", "taxonomy"]
+    }
+  }
+}

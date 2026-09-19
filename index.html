@@ -1,0 +1,729 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NOAI Content Browser</title>
+<style>
+  :root {
+    --bg: #faf9f7;
+    --surface: #ffffff;
+    --surface-hover: #f1efec;
+    --border: #e3e0da;
+    --text: #1c1f1e;
+    --text-muted: #6b706c;
+    --accent: #0f6e5c;
+    --accent-soft: #e4f2ee;
+    --accent-contrast: #ffffff;
+    --chip-bg: #eef0ee;
+    --shadow: 0 1px 2px rgba(20, 24, 22, 0.06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #12100b;
+      --surface: #1a1712;
+      --surface-hover: #22201a;
+      --border: #322e26;
+      --text: #f1efe9;
+      --text-muted: #a7a297;
+      --accent: #ffb454;
+      --accent-soft: #33291a;
+      --accent-contrast: #1c1408;
+      --chip-bg: #241f16;
+      --shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #12100b;
+    --surface: #1a1712;
+    --surface-hover: #22201a;
+    --border: #322e26;
+    --text: #f1efe9;
+    --text-muted: #a7a297;
+    --accent: #ffb454;
+    --accent-soft: #33291a;
+    --accent-contrast: #1c1408;
+    --chip-bg: #241f16;
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    padding-inline: 0;
+  }
+  img { max-width: 100%; }
+  [hidden] { display: none !important; }
+  .app {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    min-height: 100dvh;
+  }
+  .rail {
+    border-right: 1px solid var(--border);
+    padding: 20px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .brand {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+  .brand small {
+    display: block;
+    font-weight: 400;
+    color: var(--text-muted);
+    font-size: 12px;
+    margin-top: 2px;
+  }
+  .tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .tab {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: none;
+    background: transparent;
+    color: var(--text);
+    font-size: 13.5px;
+    font-family: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+  .tab:hover { background: var(--surface-hover); }
+  .tab.active { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+  .tab .count {
+    font-variant-numeric: tabular-nums;
+    font-size: 11.5px;
+    color: var(--text-muted);
+    background: var(--chip-bg);
+    border-radius: 999px;
+    padding: 1px 7px;
+  }
+  .tab.active .count { color: var(--accent); }
+
+  .main {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+  .toolbar {
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    z-index: 5;
+  }
+  .topbar {
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .topbar h1 {
+    font-size: 16px;
+    margin: 0;
+    flex: 1;
+    min-width: 0;
+  }
+  .search {
+    width: 240px;
+    max-width: 44vw;
+    padding: 7px 11px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    font-size: 13px;
+    font-family: inherit;
+  }
+  .search:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+
+  .year-filter {
+    display: flex;
+    gap: 6px;
+    padding: 0 20px 14px;
+    overflow-x: auto;
+  }
+  .year-pill {
+    padding: 5px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-muted);
+    font-size: 12.5px;
+    font-family: inherit;
+    cursor: pointer;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+    flex-shrink: 0;
+  }
+  .year-pill:hover { background: var(--surface-hover); }
+  .year-pill.active {
+    background: var(--accent);
+    color: var(--accent-contrast);
+    border-color: var(--accent);
+    font-weight: 600;
+  }
+
+  .content {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 340px 1fr;
+  }
+  .list {
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    padding: 8px;
+  }
+  .list-empty {
+    color: var(--text-muted);
+    font-size: 13px;
+    padding: 20px 12px;
+  }
+  .row {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    align-items: flex-start;
+  }
+  .row:hover { background: var(--surface-hover); }
+  .row.selected { background: var(--accent-soft); }
+  .row-thumb {
+    width: 44px;
+    height: 44px;
+    border-radius: 7px;
+    object-fit: cover;
+    background: var(--chip-bg);
+    flex-shrink: 0;
+  }
+  .row-body { min-width: 0; }
+  .row-title {
+    font-size: 13.5px;
+    font-weight: 600;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .row-sub {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 3px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .media-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(74px, 1fr));
+    gap: 8px;
+    padding: 8px;
+  }
+  .media-cell {
+    aspect-ratio: 1;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    background: var(--chip-bg);
+    border: 1px solid transparent;
+  }
+  .media-cell.selected { border-color: var(--accent); }
+  .media-cell img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .media-cell .filetag {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; color: var(--text-muted); text-align: center; padding: 4px;
+  }
+
+  .detail {
+    overflow-y: auto;
+    padding: 24px 28px 60px;
+  }
+  .detail-empty {
+    color: var(--text-muted);
+    font-size: 13.5px;
+    padding: 40px 20px;
+    text-align: center;
+  }
+  .detail h2 {
+    font-size: 21px;
+    margin: 0 0 4px;
+    text-wrap: balance;
+  }
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 10px;
+    margin: 10px 0 16px;
+  }
+  .chip {
+    font-size: 11.5px;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: var(--chip-bg);
+    color: var(--text-muted);
+  }
+  .chip.accent { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+  .chip.mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+  .chip.draft { background: #5b3a1a; color: #ffd9a8; font-weight: 600; }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) .chip.draft { background: #fde3c4; color: #7a4a0e; }
+  }
+  :root[data-theme="light"] .chip.draft { background: #fde3c4; color: #7a4a0e; }
+
+  .detail-hero {
+    width: 100%;
+    max-height: 340px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    background: var(--chip-bg);
+  }
+  .presenter-card {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: 18px;
+    box-shadow: var(--shadow);
+  }
+  .presenter-card img {
+    width: 64px; height: 64px; border-radius: 10px; object-fit: cover; flex-shrink: 0;
+    background: var(--chip-bg);
+  }
+  .presenter-name { font-weight: 700; font-size: 14px; margin-bottom: 2px; }
+  .presenter-bio { font-size: 12.5px; color: var(--text-muted); line-height: 1.5; max-height: 6.5em; overflow-y: auto; }
+
+  .wp-content {
+    font-size: 14.5px;
+    line-height: 1.65;
+    max-width: 68ch;
+  }
+  .wp-content :is(h1,h2,h3,h4) { text-wrap: balance; margin-top: 1.4em; }
+  .wp-content p { margin: 0.9em 0; }
+  .wp-content img { max-width: 100%; border-radius: 8px; height: auto; }
+  .wp-content a { color: var(--accent); }
+  .wp-content table { overflow-x: auto; display: block; }
+
+  .field-table { border-collapse: collapse; font-size: 13px; margin-top: 10px; }
+  .field-table td { padding: 4px 10px 4px 0; vertical-align: top; }
+  .field-table td:first-child { color: var(--text-muted); white-space: nowrap; }
+
+  .backbtn { display: none; }
+  .empty-state { padding: 60px 20px; text-align: center; color: var(--text-muted); font-size: 13px; }
+
+  @media (max-width: 860px) {
+    .app { grid-template-columns: 1fr; }
+    .rail {
+      flex-direction: row;
+      align-items: center;
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+      padding: 10px 12px;
+      overflow-x: auto;
+      position: sticky;
+      top: env(safe-area-inset-top, 0px);
+      background: var(--bg);
+      z-index: 6;
+    }
+    .brand { display: none; }
+    .tabs { flex-direction: row; }
+    .tab { white-space: nowrap; }
+    .content { grid-template-columns: 1fr; position: relative; }
+    body.show-detail .list { display: none; }
+    body:not(.show-detail) .detail { display: none; }
+    .backbtn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: none;
+      border: none;
+      color: var(--accent);
+      font-size: 13px;
+      font-family: inherit;
+      cursor: pointer;
+      padding: 4px 0 14px;
+    }
+  }
+</style>
+
+</head>
+<body>
+
+<div class="app">
+  <nav class="rail">
+    <div class="brand">NOAI Content Browser<small>noai.philosophers.group</small></div>
+    <div class="tabs" id="tabs"></div>
+  </nav>
+  <div class="main">
+    <div class="toolbar">
+      <div class="topbar">
+        <h1 id="topbar-title">Posts</h1>
+        <input class="search" id="search" type="search" placeholder="Search…" />
+      </div>
+      <div class="year-filter" id="year-filter" hidden></div>
+    </div>
+    <div class="content">
+      <div class="list" id="list"></div>
+      <div class="detail" id="detail">
+        <button class="backbtn" id="backbtn">&larr; Back to list</button>
+        <div class="detail-empty">Select an item to view details.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var TABS = [
+    { key: "presentations", label: "Presentations" },
+    { key: "pages", label: "Pages" },
+    { key: "media", label: "Media" },
+    { key: "tags", label: "Tags" }
+  ];
+
+  var state = { data: null, tab: "presentations", query: "", selected: null, tagById: {}, mediaById: {}, presBySlug: {}, presYear: null, presYears: [], presYearById: {} };
+
+  // Standalone static hosting (GitHub Pages) has no cross-origin image
+  // restriction, so image URLs from noai.philosophers.group just load as-is.
+  function resolveImg(url) {
+    return url || null;
+  }
+
+  var elTabs = document.getElementById("tabs");
+  var elList = document.getElementById("list");
+  var elDetail = document.getElementById("detail");
+  var elSearch = document.getElementById("search");
+  var elTopbarTitle = document.getElementById("topbar-title");
+  var elBack = document.getElementById("backbtn");
+  var elYearFilter = document.getElementById("year-filter");
+
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function stripTags(html) {
+    var d = document.createElement("div");
+    d.innerHTML = html || "";
+    return d.textContent || "";
+  }
+  function mediaThumb(m, size) {
+    if (!m) return null;
+    var sizes = (m.media_details && m.media_details.sizes) || {};
+    var url = (sizes[size] && sizes[size].source_url) || m.source_url || null;
+    return resolveImg(url);
+  }
+  function featuredThumb(item, size) {
+    if (!item.featured_media) return null;
+    var m = state.mediaById[item.featured_media];
+    return m ? mediaThumb(m, size) : null;
+  }
+  // Scheduling/admin terms (event year batches, day-of-week labels) duplicate
+  // the scraped date/time already shown on presentations - filter them out there.
+  var SCHEDULING_TERM_SLUG = /^(noai-\d{4}(-presentation)?(-sunday|-monday|-tuesday|-wednesday|-thursday|-friday|-saturday)?|\d{4}-(sunday|monday|tuesday|wednesday|thursday|friday|saturday)-program)$/;
+  function termNames(ids, map, filterScheduling) {
+    return (ids || [])
+      .map(function (id) { return map[id] || null; })
+      .filter(function (t) { return t && (!filterScheduling || !SCHEDULING_TERM_SLUG.test(t.slug)); })
+      .map(function (t) { return t.name; });
+  }
+
+  function renderTabs() {
+    elTabs.innerHTML = "";
+    TABS.forEach(function (t) {
+      var btn = document.createElement("button");
+      btn.className = "tab" + (state.tab === t.key ? " active" : "");
+      var count = (state.data[t.key] || []).length;
+      btn.innerHTML = '<span>' + t.label + '</span><span class="count">' + count + '</span>';
+      btn.addEventListener("click", function () {
+        state.tab = t.key;
+        state.selected = null;
+        elSearch.value = "";
+        state.query = "";
+        document.body.classList.remove("show-detail");
+        renderAll();
+      });
+      elTabs.appendChild(btn);
+    });
+  }
+
+  function renderYearFilter() {
+    if (state.tab !== "presentations" || state.presYears.length < 2) {
+      elYearFilter.hidden = true;
+      return;
+    }
+    elYearFilter.hidden = false;
+    elYearFilter.innerHTML = "";
+    var options = ["all"].concat(state.presYears);
+    options.forEach(function (y) {
+      var btn = document.createElement("button");
+      btn.className = "year-pill" + (state.presYear === y ? " active" : "");
+      btn.textContent = y === "all" ? "All years" : "NOAI " + y;
+      btn.addEventListener("click", function () {
+        state.presYear = y;
+        renderYearFilter();
+        renderList();
+      });
+      elYearFilter.appendChild(btn);
+    });
+  }
+
+  function matches(item, q) {
+    if (!q) return true;
+    q = q.toLowerCase();
+    var hay = [];
+    if (item.title) hay.push(typeof item.title === "string" ? item.title : item.title.rendered);
+    if (item.name) hay.push(item.name);
+    if (item.slug) hay.push(item.slug);
+    if (item.scraped_fields) {
+      hay.push(item.scraped_fields.presenter_name, item.scraped_fields.location, item.scraped_fields.date);
+    }
+    if (item.alt_text) hay.push(item.alt_text);
+    if (item.filename) hay.push(item.filename);
+    return hay.join(" \n ").toLowerCase().indexOf(q) !== -1;
+  }
+
+  function renderList() {
+    var items = (state.data[state.tab] || []).filter(function (it) { return matches(it, state.query); });
+    if (state.tab === "presentations" && state.presYear && state.presYear !== "all") {
+      items = items.filter(function (it) { return state.presYearById[it.id] === state.presYear; });
+    }
+    elTopbarTitle.textContent = TABS.find(function (t) { return t.key === state.tab; }).label + " (" + items.length + ")";
+
+    if (state.tab === "media") {
+      elList.innerHTML = "";
+      var grid = document.createElement("div");
+      grid.className = "media-grid";
+      if (!items.length) grid.innerHTML = '<div class="list-empty">No matches.</div>';
+      items.forEach(function (m) {
+        var cell = document.createElement("div");
+        cell.className = "media-cell" + (state.selected === m ? " selected" : "");
+        var thumb = mediaThumb(m, "thumbnail") || mediaThumb(m, "medium");
+        if (thumb && m.media_type === "image") {
+          cell.innerHTML = '<img loading="lazy" src="' + esc(thumb) + '" alt="' + esc(m.alt_text || "") + '">';
+        } else {
+          cell.innerHTML = '<div class="filetag">' + esc((m.mime_type || "file").split("/")[1] || "file") + '</div>';
+        }
+        cell.addEventListener("click", function () { selectItem(m); });
+        grid.appendChild(cell);
+      });
+      elList.appendChild(grid);
+      return;
+    }
+
+    elList.innerHTML = "";
+    if (!items.length) {
+      elList.innerHTML = '<div class="list-empty">No matches.</div>';
+      return;
+    }
+    items.forEach(function (it) {
+      var row = document.createElement("div");
+      row.className = "row" + (state.selected === it ? " selected" : "");
+      var titleText = it.title ? (typeof it.title === "string" ? it.title : it.title.rendered) : (it.name || "(untitled)");
+      var sub = "";
+      var thumbUrl = null;
+
+      if (state.tab === "presentations") {
+        var sf = it.scraped_fields || {};
+        sub = [sf.date, sf.time, sf.location].filter(Boolean).join(" · ");
+        if (it.status !== "publish") sub = "DRAFT" + (sub ? " · " + sub : "");
+        thumbUrl = featuredThumb(it, "thumbnail") || resolveImg(sf.presenter_photo_url);
+      } else if (state.tab === "pages") {
+        sub = new Date(it.date).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+        thumbUrl = featuredThumb(it, "thumbnail");
+      } else if (state.tab === "tags") {
+        sub = it.count + " item" + (it.count === 1 ? "" : "s");
+      }
+
+      row.innerHTML =
+        (thumbUrl ? '<img class="row-thumb" loading="lazy" src="' + esc(thumbUrl) + '">' : "") +
+        '<div class="row-body"><div class="row-title">' + esc(titleText) + '</div>' +
+        (sub ? '<div class="row-sub">' + esc(sub) + '</div>' : "") + '</div>';
+      row.addEventListener("click", function () { selectItem(it); });
+      elList.appendChild(row);
+    });
+  }
+
+  function selectItem(it) {
+    state.selected = it;
+    document.body.classList.add("show-detail");
+    renderList();
+    renderDetail();
+  }
+
+  function renderDetail() {
+    var it = state.selected;
+    if (!it) {
+      elDetail.innerHTML = '<div class="detail-empty">Select an item to view details.</div>';
+      return;
+    }
+
+    var html = '<button class="backbtn" id="backbtn">&larr; Back to list</button>';
+
+    if (state.tab === "media") {
+      var full = mediaThumb(it, "large") || mediaThumb(it, "medium") || mediaThumb(it, "thumbnail");
+      if (it.media_type === "image") {
+        html += '<img class="detail-hero" src="' + esc(full) + '" alt="' + esc(it.alt_text || "") + '">';
+      }
+      html += '<h2>' + esc(it.title.rendered || it.filename) + '</h2>';
+      html += '<div class="meta-row">' +
+        '<span class="chip mono">' + esc(it.mime_type) + '</span>' +
+        '<span class="chip mono">' + Math.round((it.filesize || 0) / 1024) + ' KB</span>' +
+        (it.media_details && it.media_details.width ? '<span class="chip mono">' + it.media_details.width + '&times;' + it.media_details.height + '</span>' : '') +
+        '</div>';
+      if (it.alt_text) html += '<p style="font-size:13px;color:var(--text-muted)">Alt: ' + esc(it.alt_text) + '</p>';
+      if (it.caption && it.caption.rendered) html += '<div class="wp-content">' + it.caption.rendered + '</div>';
+      html += '<p><a href="' + esc(it.source_url) + '" target="_blank" rel="noopener" style="color:var(--accent);font-size:13px;">Open original file &rarr;</a></p>';
+    } else if (state.tab === "tags") {
+      html += '<h2>' + esc(it.name) + '</h2>';
+      html += '<div class="meta-row"><span class="chip accent">' + it.count + ' item' + (it.count === 1 ? "" : "s") + '</span></div>';
+      if (it.description) html += '<p style="font-size:13.5px;color:var(--text-muted)">' + esc(it.description) + '</p>';
+    } else {
+      // pages / presentations
+      var thumb = featuredThumb(it, "large");
+      if (thumb) html += '<img class="detail-hero" src="' + esc(thumb) + '">';
+      html += '<h2>' + esc(it.title.rendered) + '</h2>';
+
+      html += '<div class="meta-row">';
+      if (it.status !== "publish") html += '<span class="chip draft">' + esc(it.status.toUpperCase()) + '</span>';
+      if (state.tab !== "presentations") {
+        html += '<span class="chip mono">' + new Date(it.date).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" }) + '</span>';
+      }
+      var filterScheduling = state.tab === "presentations";
+      termNames(it.tags, state.tagById, filterScheduling).forEach(function (n) { html += '<span class="chip">' + esc(n) + '</span>'; });
+      html += '</div>';
+
+      if (state.tab === "presentations") {
+        var sf = it.scraped_fields || {};
+        if (sf.date || sf.time || sf.location) {
+          html += '<div class="meta-row">' +
+            (sf.date ? '<span class="chip accent mono">' + esc(sf.date) + '</span>' : '') +
+            (sf.time ? '<span class="chip accent mono">' + esc(sf.time) + '</span>' : '') +
+            (sf.location ? '<span class="chip accent">' + esc(sf.location) + '</span>' : '') +
+            '</div>';
+        }
+        if (sf.presenter_name || sf.presenter_bio) {
+          var presenterImg = resolveImg(sf.presenter_photo_url);
+          html += '<div class="presenter-card">' +
+            (presenterImg ? '<img src="' + esc(presenterImg) + '">' : '') +
+            '<div><div class="presenter-name">' + esc(sf.presenter_name || "Presenter") + '</div>' +
+            '<div class="presenter-bio">' + esc(sf.presenter_bio || "") + '</div></div></div>';
+        }
+      }
+
+      html += '<div class="wp-content">' + (it.content && it.content.rendered ? it.content.rendered : "<p><em>No content body.</em></p>") + '</div>';
+      html += '<p style="margin-top:22px;"><a href="' + esc(it.link) + '" target="_blank" rel="noopener" style="color:var(--accent);font-size:12.5px;">View on live site &rarr;</a></p>';
+    }
+
+    elDetail.innerHTML = html;
+    rewriteContentImages(elDetail);
+    var back = document.getElementById("backbtn");
+    if (back) back.addEventListener("click", function () {
+      document.body.classList.remove("show-detail");
+    });
+  }
+
+  // WP page/post body HTML (content.rendered) can embed its own <img> tags
+  // pointing at noai.philosophers.group directly - same CSP block as
+  // everything else. Rewrite them post-insertion using the same imageMap;
+  // remove any image that has no uploaded asset rather than show it broken.
+  function rewriteContentImages(root) {
+    root.querySelectorAll(".wp-content img").forEach(function (img) {
+      var original = img.getAttribute("src");
+      img.removeAttribute("srcset");
+      img.removeAttribute("sizes");
+      var mapped = resolveImg(original);
+      if (mapped) {
+        img.src = mapped;
+      } else {
+        img.remove();
+      }
+    });
+  }
+
+  // Page content HTML already encodes presentation links as "#presentation/<slug>"
+  // (baked into content.json at export time - see harvest_noai.py's link
+  // migration). One delegated listener handles clicks on any such link,
+  // present or future, without re-binding on every render.
+  elDetail.addEventListener("click", function (e) {
+    var a = e.target.closest('a[href^="#presentation/"]');
+    if (!a) return;
+    e.preventDefault();
+    var slug = a.getAttribute("href").slice("#presentation/".length);
+    var pres = state.presBySlug[slug];
+    if (!pres) return;
+    if (state.tab !== "presentations") {
+      state.tab = "presentations";
+      state.query = "";
+      elSearch.value = "";
+      renderTabs();
+      renderYearFilter();
+    }
+    selectItem(pres);
+  });
+
+  function renderAll() {
+    renderTabs();
+    renderYearFilter();
+    renderList();
+    renderDetail();
+  }
+
+  elSearch.addEventListener("input", function () {
+    state.query = elSearch.value;
+    renderList();
+  });
+
+  fetch("content.json")
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
+      state.data = data;
+      (data.tags || []).forEach(function (t) { state.tagById[t.id] = t; });
+      (data.media || []).forEach(function (m) { state.mediaById[m.id] = m; });
+
+      var YEAR_TAG_RE = /^NOAI (\d{4}) Presentation$/;
+      var yearTagId = {};
+      (data.tags || []).forEach(function (t) {
+        var m = YEAR_TAG_RE.exec(t.name);
+        if (m) yearTagId[t.id] = m[1];
+      });
+      (data.presentations || []).forEach(function (p) {
+        state.presBySlug[p.slug] = p;
+        var year = null;
+        (p.tags || []).forEach(function (tid) { if (yearTagId[tid]) year = yearTagId[tid]; });
+        state.presYearById[p.id] = year;
+      });
+      state.presYears = Array.from(new Set(Object.values(state.presYearById).filter(Boolean))).sort().reverse();
+      state.presYear = state.presYears[0] || "all";
+
+      renderAll();
+    })
+    .catch(function (err) {
+      elList.innerHTML = '<div class="empty-state">Failed to load content.json<br>' + esc(err.message) + '</div>';
+    });
+})();
+</script>
+</body>
+</html>
