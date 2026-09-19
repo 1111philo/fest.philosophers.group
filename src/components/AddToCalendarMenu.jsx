@@ -28,14 +28,11 @@ export default function AddToCalendarMenu({ item, description }) {
           <MenuItem id="google" className="site-menu-item" href={links.google} target="_blank" rel="noopener">
             Google Calendar
           </MenuItem>
-          <MenuItem id="outlook" className="site-menu-item" href={links.outlook} target="_blank" rel="noopener">
-            Outlook.com
-          </MenuItem>
           <MenuItem id="yahoo" className="site-menu-item" href={links.yahoo} target="_blank" rel="noopener">
             Yahoo Calendar
           </MenuItem>
           <MenuItem id="ics" className="site-menu-item">
-            Apple Calendar / Outlook (.ics)
+            Apple/Outlook Calendar (.ics)
           </MenuItem>
         </Menu>
       </Popover>

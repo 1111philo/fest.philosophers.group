@@ -53,21 +53,21 @@ function icsEscape(s) {
   return String(s || '').replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\n/g, '\\n');
 }
 
-// Google/Outlook.com/Yahoo cover the major *web* calendars via a plain URL;
-// the .ics file covers everything else (Apple Calendar, desktop Outlook,
-// and any other app that can import one) - between the two, every major
-// calendar is supported without needing a server or an OAuth integration.
+// Google and Yahoo cover the major *web* calendars via a plain URL that
+// works without already being signed in; Outlook.com's equivalent deep
+// link only works for visitors already signed into outlook.live.com and
+// otherwise strands them on a Microsoft marketing page, so it's skipped
+// here. The .ics file covers Outlook instead (desktop natively, the web
+// app via its own file-import), along with Apple Calendar and anything
+// else that can import one - between the two, every major calendar is
+// supported without needing a server or an OAuth integration.
 export function buildCalendarLinks({ title, description, location, start, end }) {
   const startCompact = formatUtcCompact(start);
   const endCompact = formatUtcCompact(end);
-  const startIso = start.toISOString().replace(/\.\d{3}Z$/, 'Z');
-  const endIso = end.toISOString().replace(/\.\d{3}Z$/, 'Z');
   const durationMinutes = Math.round((end - start) / 60000);
   const dur = `${pad(Math.floor(durationMinutes / 60))}${pad(durationMinutes % 60)}`;
 
   const google = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startCompact}/${endCompact}&details=${encodeURIComponent(description || '')}&location=${encodeURIComponent(location)}`;
-
-  const outlook = `https://outlook.live.com/calendar/0/deeplink/compose?path=/calendar/action/compose&rru=addevent&subject=${encodeURIComponent(title)}&startdt=${encodeURIComponent(startIso)}&enddt=${encodeURIComponent(endIso)}&location=${encodeURIComponent(location)}&body=${encodeURIComponent(description || '')}`;
 
   const yahoo = `https://calendar.yahoo.com/?v=60&view=d&type=20&title=${encodeURIComponent(title)}&st=${startCompact}&dur=${dur}&desc=${encodeURIComponent(description || '')}&in_loc=${encodeURIComponent(location)}`;
 
@@ -88,7 +88,7 @@ export function buildCalendarLinks({ title, description, location, start, end })
     'END:VCALENDAR',
   ].filter(Boolean).join('\r\n');
 
-  return { google, outlook, yahoo, ics };
+  return { google, yahoo, ics };
 }
 
 export function downloadIcs(filename, icsContent) {
