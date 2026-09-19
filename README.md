@@ -1,44 +1,39 @@
 # New Orleans Arts & Ideas Festival — Schedule
 
-The live schedule site for the festival (Nov 11–13, Historic New Orleans Jazz Museum), pulling content from [noai.philosophers.group](https://noai.philosophers.group)'s WordPress site.
+The live schedule site for the festival (Nov 11–13, 2026, Historic New Orleans Jazz Museum).
 
 ## Structure
 
-- `index.html` — the schedule site (single static page, no build step, no dependencies)
-- `content.json` — full content export (pages, presentations, media, tags, schedule)
-- `media/` — every image actually referenced by a page or presentation, downloaded so the site doesn't hotlink `noai.philosophers.group`; unused media are dropped rather than carried along
-- `schema.json` — JSON Schema describing `content.json`'s shape and the quirks found while scraping the source site
-- `scripts/harvest_noai.py` — re-runs the full harvest against the live WordPress site to regenerate `content.json`
-- `scripts/scrape_presentation.py` — standalone version of the presentation custom-field scraper used by the harvester
-- `scripts/build_schedule.py` — merges an organizer-provided schedule CSV into `content.json`'s `schedule` array (see below)
-- `scripts/build_media_manifest.py` — records the current `media/icon-*`/`media/ogg-*` files into `content.json`'s `site_images` (see below)
-- `scripts/build_share_pages.py` — generates `p/<slug>/`, `about/`, `sponsor/` (see below)
+- `index.html` — the schedule site (single static page, no build step, no dependencies to run it)
+- `content.json` — full content export (pages, presentations, media, tags, schedule, site_images)
+- `media/` — every image actually referenced by a page or presentation, plus the `icon-*`/`ogg-*` favicon and social-share pools; nothing here is hotlinked from elsewhere
+- `schema.json` — JSON Schema describing `content.json`'s shape
+- `noai_2026_schedule.csv` — the organizer-provided 2026 schedule, merged into `content.json`'s `schedule` array by `scripts/build-schedule.js`
+- `scripts/build-schedule.js` — merges a schedule CSV into `content.json`'s `schedule` array (see below)
+- `scripts/build-media-manifest.js` — records the current `media/icon-*`/`media/ogg-*` files into `content.json`'s `site_images` (see below)
+- `scripts/build-share-pages.js` — generates `p/<slug>/`, `about/`, `sponsor/` (see below)
+- `scripts/lib/text.js` — shared HTML-entity/escaping helpers used by the two generators above
 
-## Regenerating the data
+The build scripts are plain Node.js (no `npm install` needed — only built-in `fs`/`path`) and only ever run locally to regenerate files that get committed; nothing about them runs on the live site, which stays pure static HTML/CSS/JS for GitHub Pages.
 
-```
-pip install beautifulsoup4
-python3 scripts/harvest_noai.py content.json
-```
-
-Requires network access to `noai.philosophers.group`. See comments in `harvest_noai.py` for details on what it does and why (custom fields aren't exposed via the REST API, categories get folded into tags, etc).
+There's no ongoing sync from the original WordPress site anymore — `content.json` is edited directly going forward.
 
 ### The published schedule (`content.json`'s `schedule` array)
 
-The site's home view is the festival schedule, not the raw presentations list — it includes every session slot (meals, receptions, parties, opening/closing remarks) even when there's no dedicated presentation page, because that's what someone browsing the schedule actually needs to see. This comes from an organizer-provided CSV, not the WordPress site, merged in via:
+The site's home view is the festival schedule, not the raw presentations list — it includes every session slot (meals, receptions, parties, opening/closing remarks) even when there's no dedicated presentation page, because that's what someone browsing the schedule actually needs to see. Regenerate after editing the CSV:
 
 ```
-python3 scripts/build_schedule.py content.json
+node scripts/build-schedule.js
 ```
 
-`build_schedule.py` currently hard-codes the CSV path and the row→presentation-id matches for the 2026 schedule (vetted by hand: title text alone isn't reliable for recurring names like "Opening Remarks," which show up every year — matches were cross-checked against presenter names too). For a future year, update the CSV path and re-derive the matches.
+`build-schedule.js` currently hard-codes the row→presentation-id matches for the 2026 schedule (vetted by hand: title text alone isn't reliable for recurring names like "Opening Remarks," which show up every year — matches were cross-checked against presenter names too). For a future year, add the new CSV, pass its path as the first argument, and re-derive the matches.
 
 ### Favicon / social-share image rotation
 
 `index.html` picks a random favicon and a random `og:image`/`twitter:image` on every load, from `content.json`'s `site_images.icons`/`site_images.ogg` lists. To add more: drop a new image into `media/` named `icon-whatever.png` (ideally square, for the favicon) or `ogg-whatever.png` (ideally ~1200×630+, for social-share previews), then run:
 
 ```
-python3 scripts/build_media_manifest.py content.json
+node scripts/build-media-manifest.js
 ```
 
 and redeploy. No other code changes needed — the pools are read from `content.json` at load time.
@@ -47,12 +42,12 @@ Note the favicon rotation is real (a visitor's browser re-picks one every page l
 
 ### Per-presentation share URLs (`p/<slug>/`, `about/`, `sponsor/`)
 
-Every presentation, plus the About and Sponsor pages, gets its own real, crawlable URL (e.g. `fest.philosophers.group/p/some-talk/`) with its own `<title>`/description/OG tags — using the presentation's own featured image when it has one, otherwise a deterministic pick from the `ogg-*` pool (stable per item, so repeated builds don't churn). Each of these is a full copy of `index.html` — same app, same `content.json` — with only its `<head>` tags swapped, so loading one directly shows that item's content immediately (no client-side redirect) and it opens in its drawer/modal on load. `index.html`'s `<base href="/">` is what keeps its relative `content.json`/`media/*` references working correctly regardless of which directory actually served the file, and its own JS (`openFromLocation`) is what notices, from `location.pathname`, which item to open. In-app navigation (clicking a card, the hamburger menu) updates the address bar the same way via `history.pushState`, so whatever's open always has its real URL, and back/forward work normally. Regenerate after any change to `content.json` *or* `index.html`:
+Every presentation, plus the About and Sponsor pages, gets its own real, crawlable URL (e.g. `fest.philosophers.group/p/some-talk/`) with its own `<title>`/description/OG tags — using the presentation's own featured image when it has one, otherwise a deterministic pick from the `ogg-*` pool (stable per item, so repeated builds don't churn). Each is a small standalone page (not a copy of the whole app) that sends a real visitor into the interactive schedule at `index.html`, which opens that item's drawer/modal on load from the `#presentation/<slug>`, `#about`, or `#sponsor` hash it's redirected with; in-app navigation (clicking a card, the hamburger menu) then replaces that with the item's real path via `history.pushState`, so whatever's open always has its own clean address-bar URL, and back/forward work normally. Regenerate after any change to `content.json`:
 
 ```
-python3 scripts/build_share_pages.py content.json
+node scripts/build-share-pages.js
 ```
 
 ## Hosting
 
-Served as-is via GitHub Pages from the repo root at `fest.philosophers.group` — `index.html` fetches `content.json` with a relative path, so no server-side logic is needed. Images are served from `media/` in this repo rather than hotlinked from `noai.philosophers.group`, so the site keeps working even if that source site changes or goes away.
+Served as-is via GitHub Pages from the repo root at `fest.philosophers.group` — `index.html` fetches `content.json` with a relative path, so no server-side logic is needed. Images are served from `media/` in this repo rather than hotlinked from elsewhere, so the site keeps working independent of any other source.

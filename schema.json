@@ -10,7 +10,15 @@
     "presentations": { "type": "array", "items": { "$ref": "#/$defs/presentation" } },
     "media": { "type": "array", "items": { "$ref": "#/$defs/media" } },
     "tags": { "type": "array", "items": { "$ref": "#/$defs/term" } },
-    "schedule": { "type": "array", "items": { "$ref": "#/$defs/scheduleItem" } }
+    "schedule": { "type": "array", "items": { "$ref": "#/$defs/scheduleItem" } },
+    "site_images": {
+      "type": "object",
+      "description": "Favicon/social-share image pools, built by scripts/build-media-manifest.js from media/icon-*/media/ogg-* files. index.html picks one of each at random on every load.",
+      "properties": {
+        "icons": { "type": "array", "items": { "type": "string" }, "description": "Relative media/ paths, favicon candidates (ideally square)." },
+        "ogg": { "type": "array", "items": { "type": "string" }, "description": "Relative media/ paths, social-share image candidates (ideally ~1200x630+)." }
+      }
+    }
   },
   "required": ["site", "pages", "presentations", "media", "tags", "schedule"],
 
