@@ -280,6 +280,7 @@
     padding: 0;
   }
   .modal {
+    position: relative;
     background: var(--bg);
     width: 100%;
     max-width: 640px;
@@ -294,7 +295,10 @@
     .modal { border-radius: 18px; max-height: 84vh; }
   }
   .modal-close {
-    float: right;
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 1;
     background: var(--surface-2);
     border: none;
     color: var(--text);
@@ -308,7 +312,8 @@
   .modal h2 {
     font-family: Fraunces, Georgia, serif;
     font-size: 21px;
-    margin: 6px 0 10px;
+    margin: 0 0 10px;
+    padding-right: 42px;
     text-wrap: balance;
   }
   .modal-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
@@ -729,7 +734,6 @@
       '<div class="modal-backdrop" id="modal-backdrop">' +
         '<div class="modal">' +
           '<button class="modal-close" id="modal-close" type="button">&times;</button>' +
-          '<div style="clear:both"></div>' +
           innerHtml +
         '</div>' +
       '</div>';
