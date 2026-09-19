@@ -372,6 +372,7 @@ main {
 @media (min-width: 640px) {
   .modal { border-radius: 18px; max-height: 84vh; }
   .modal[data-entering], .modal[data-exiting] { transform: translateY(8px) scale(0.98); }
+  .modal .drawer-handle { display: none; }
 }
 .modal-close {
   position: absolute;
