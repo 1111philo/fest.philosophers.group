@@ -145,6 +145,16 @@
   .hamburger-icon::before { top: -5px; }
   .hamburger-icon::after { top: 5px; }
 
+  /* Dims the rest of the page behind an open hamburger/year menu, so the
+     dropdown reads as a floating panel above the page instead of an odd
+     box overlapping the sticky toolbar and cards directly beneath it. */
+  .dropdown-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 15;
+    background: rgba(20, 14, 4, 0.25);
+  }
+
   .site-menu {
     position: absolute;
     top: 100%;
@@ -582,6 +592,7 @@
   A project of <a href="https://philosophers.group" target="_blank" rel="noopener">11:11 Philosopher&rsquo;s Group</a>
 </footer>
 
+<div class="dropdown-backdrop" id="dropdown-backdrop" hidden></div>
 <div id="modal-root"></div>
 <div id="drawer-root"></div>
 
@@ -601,6 +612,7 @@
   var elYearToggle = document.getElementById("year-toggle");
   var elYearToggleLabel = document.getElementById("year-toggle-label");
   var elYearMenu = document.getElementById("year-menu");
+  var elDropdownBackdrop = document.getElementById("dropdown-backdrop");
 
   function esc(s) {
     return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
@@ -708,6 +720,7 @@
     elHamburgerBtn.setAttribute("aria-expanded", "false");
     elYearMenu.hidden = true;
     elYearToggle.setAttribute("aria-expanded", "false");
+    elDropdownBackdrop.hidden = true;
   }
 
   function toggleMenu(btn, panel) {
@@ -716,6 +729,7 @@
     if (opening) {
       panel.hidden = false;
       btn.setAttribute("aria-expanded", "true");
+      elDropdownBackdrop.hidden = false;
     }
   }
 
