@@ -1,10 +1,15 @@
-// One-off (and re-runnable) pass to shrink public/media/*.{jpg,jpeg,png} in
-// place - same filename, same extension, so nothing in content.json needs
-// to change. Run with: node scripts/optimize-images.mjs
+// Runs automatically on every deploy (.github/workflows/deploy.yml, before
+// `astro build`), so any new full-size image dropped into public/media/ -
+// e.g. from a future WP scrape/CSV update - gets shrunk before it ships,
+// with no one needing to remember to run this by hand. Already-optimized
+// files are cheap no-ops (skipped if re-encoding wouldn't shrink them
+// further), so re-running this on every build is fine. Can also be run
+// manually: node scripts/optimize-images.mjs
 //
-// Skips public/media/sponsors/* (already sized/compressed when those logos
-// were added) and any non-image files (e.g. the couple of .webp assets,
-// already an efficient format).
+// Rewrites in place - same filename, same extension - so nothing in
+// content.json needs to change. Skips public/media/sponsors/* (already
+// sized/compressed when those logos were added) and any non-image files
+// (e.g. the couple of .webp assets, already an efficient format).
 import fs from 'node:fs';
 import path from 'node:path';
 import sharp from 'sharp';
