@@ -8,7 +8,7 @@ import WpContent from './WpContent';
 import AddToCalendarMenu from './AddToCalendarMenu';
 import {
   getAvailableYears, getScheduleForYear, featuredUrl, dayLabel, typeSlug, stripTags,
-  rotateSiteImages, scheduleItemKey, eventInfoForPresentation, groupConsecutiveByType,
+  rotateSiteImages, scheduleItemKey, eventInfoForPresentation, groupConsecutiveByType, groupsForYear, groupSlug,
 } from '../lib/scheduleUtils';
 import { routeSlug } from '../lib/slug';
 
@@ -247,14 +247,22 @@ export default function ScheduleApp({ initialView }) {
     setDrawerItem({ kind: 'logistics', item });
   }, []);
 
+  // Pushes its own history entry (like openPresentation) so that going back
+  // from a talk opened from inside the group's drawer returns to the group
+  // list, instead of closing straight through to the full schedule.
+  const openGroup = useCallback((group, { push = true } = {}) => {
+    setDrawerItem({ kind: 'group', item: group });
+    if (push) navigate(`/group/${groupSlug(group)}/`);
+  }, []);
+
   const openScheduleItem = useCallback((item) => {
-    if (item.kind === 'group') { setDrawerItem({ kind: 'group', item }); return; }
+    if (item.kind === 'group') { openGroup(item); return; }
     if (item.presentation_id) {
       const pres = (dataRef.current.presentations || []).find((p) => p.id === item.presentation_id);
       if (pres) { openPresentation(pres); return; }
     }
     openLogisticsItem(item);
-  }, [openPresentation, openLogisticsItem]);
+  }, [openPresentation, openLogisticsItem, openGroup]);
 
   const closeDrawer = useCallback((open) => {
     if (!open) { setDrawerItem(null); navigateHome(); }
@@ -275,8 +283,13 @@ export default function ScheduleApp({ initialView }) {
       const pres = findPresentationBySlug(decodeURIComponent(m[1]));
       if (pres) { openPresentation(pres, { push: false }); return; }
     }
+    const g = /^\/group\/([^/]+)\/?$/.exec(path);
+    if (g && dataRef.current) {
+      const group = groupsForYear(dataRef.current, year).find((it) => groupSlug(it) === decodeURIComponent(g[1]));
+      if (group) { openGroup(group, { push: false }); return; }
+    }
     setDrawerItem(null);
-  }, [findPresentationBySlug, openPresentation]);
+  }, [findPresentationBySlug, openPresentation, openGroup, year]);
 
   useEffect(() => {
     fetch('/content.json')

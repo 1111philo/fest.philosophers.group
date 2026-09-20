@@ -121,6 +121,24 @@ export function groupConsecutiveByType(items, type) {
   return result;
 }
 
+// A short, readable URL segment for a group - unique enough in practice
+// (one group of a given type per day) without the noise of encoding its
+// full scheduleItemKey.
+export function groupSlug(group) {
+  return `${typeSlug(group.type)}-${group.date}`;
+}
+
+// Every Lightning-Talk-style group for a year, across all days - lets a
+// /group/<key>/ URL (pushed when a group card is opened, so the browser's
+// back button can return to it from a talk opened inside) be resolved back
+// to the right group, the same way findPresentationBySlug resolves /p/.
+export function groupsForYear(data, year) {
+  const rows = getScheduleForYear(data, year)
+    .slice()
+    .sort((a, b) => (a.date + a.sort_time).localeCompare(b.date + b.sort_time));
+  return groupConsecutiveByType(rows, 'Lightning Talk').filter((it) => it.kind === 'group');
+}
+
 // A schedule row has no id of its own (it's a CSV row, not a database
 // record) - title+time alone collides for recurring slots like "Lunch"
 // that appear on multiple days at the same time, so React needs the full
