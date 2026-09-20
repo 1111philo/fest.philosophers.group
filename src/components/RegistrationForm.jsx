@@ -129,7 +129,7 @@ export default function RegistrationForm() {
         {showShifts && (
           <>
             <p className="reg-callout">
-              Add code <strong>volunteer</strong> at checkout for a free ticket.
+              Add code <code>volunteer</code> at checkout for a free ticket.
             </p>
             <CheckboxGroup
               className="checkbox-group"
