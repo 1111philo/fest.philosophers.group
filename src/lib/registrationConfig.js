@@ -18,7 +18,7 @@ export const CM_FIELDS = {
 
 // Created by `node scripts/setup-stripe.mjs` (run once, locally, with a
 // secret key that's never committed) - see that script for what it made.
-export const STRIPE_PAYMENT_LINK_URL = 'https://buy.stripe.com/14A9ASbnH9zHbxtf4i7Zu07';
+export const STRIPE_PAYMENT_LINK_URL = 'https://buy.stripe.com/7sYcN41N73bj0SP7BQ7Zu0a';
 
 // Prefilled via the Payment Link's `prefilled_promo_code` URL parameter
 // when someone picks "volunteer and receive a discount" - see

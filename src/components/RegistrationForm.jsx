@@ -199,7 +199,8 @@ export default function RegistrationForm() {
         Ticket ($55, includes all days and one workshop), extra workshops ($25 each), and your donation
         (in $1 increments, if you&rsquo;d like to add one) are finalized on the next page with Stripe, where
         you can also enter a discount code (speakers, staff, and students - ask the organizers if you&rsquo;re
-        not sure which applies to you).
+        not sure which applies to you). If you want to add both a workshop and a donation, use the
+        &ldquo;View all&rdquo; link there rather than the small preview card - it only lets you add one at a time.
       </p>
 
       <Button type="submit" className="btn-primary reg-submit" isDisabled={submitting}>

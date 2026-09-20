@@ -68,14 +68,19 @@ async function main() {
     const p = await stripe('POST', 'promotion_codes', flatten({ coupon: c.id, code }));
     return p;
   }
-  await makePromo('speaker', { percent_off: 100, duration: 'once', name: 'Speaker' });
-  await makePromo('staff', { percent_off: 100, duration: 'once', name: 'Staff' });
+  // amount_off (a flat $55, one ticket's price), not percent_off: 100 - a
+  // percentage discount scales with the ticket line item's *quantity*, so
+  // a 100%-off code would comp every ticket in the order if someone bumps
+  // the adjustable quantity above 1. A flat amount stays capped at one
+  // ticket's worth no matter how many are bought.
+  await makePromo('speaker', { amount_off: 5500, currency: 'usd', duration: 'once', name: 'Speaker' });
+  await makePromo('staff', { amount_off: 5500, currency: 'usd', duration: 'once', name: 'Staff' });
   await makePromo('student', { amount_off: 2200, currency: 'usd', duration: 'once', name: 'Student' });
   // Not explicitly requested, but the volunteer-with-discount path on the
   // original form needs *some* 100%-off mechanism - flagging this default
   // in the summary so it can be renamed/removed if a different flow (e.g.
   // manual approval) is wanted instead.
-  await makePromo('volunteer', { percent_off: 100, duration: 'once', name: 'Volunteer' });
+  await makePromo('volunteer', { amount_off: 5500, currency: 'usd', duration: 'once', name: 'Volunteer' });
 
   console.log('Creating payment link...');
   const paymentLink = await stripe('POST', 'payment_links', flatten({
@@ -84,7 +89,11 @@ async function main() {
     ],
     optional_items: [
       { price: workshopPrice.id, quantity: 1, adjustable_quantity: { enabled: true, minimum: 1, maximum: 10 } },
-      { price: donationPrice.id, quantity: 25, adjustable_quantity: { enabled: true, minimum: 1, maximum: 500 } },
+      // maximum: 100 (not higher) - empirically, Stripe's checkout page
+      // leaves the "Add" button permanently disabled for an optional
+      // item whose adjustable_quantity range is too wide (500 broke it;
+      // 100 doesn't), even though the API accepts the wider range fine.
+      { price: donationPrice.id, quantity: 25, adjustable_quantity: { enabled: true, minimum: 1, maximum: 100 } },
     ],
     allow_promotion_codes: true,
     billing_address_collection: 'auto',
