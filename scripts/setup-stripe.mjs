@@ -53,12 +53,14 @@ async function main() {
   const workshopProduct = await stripe('POST', 'products', flatten({ name: 'NOAI 2026 Extra Workshop', description: 'Ticket for an additional workshop.' }));
   const workshopPrice = await stripe('POST', 'prices', flatten({ product: workshopProduct.id, currency: 'usd', unit_amount: 2500 }));
 
+  // Not a "customer chooses price" (pay-what-you-want) price: Stripe only
+  // allows one of those as the *sole* line item on a Payment Link, which
+  // would rule out selling it alongside the ticket/workshop in the same
+  // checkout. A plain $1-per-unit price with adjustable quantity gets the
+  // same "give whatever you want" effect while staying a normal optional
+  // item.
   const donationProduct = await stripe('POST', 'products', flatten({ name: 'Donation', description: "Help sustain NOAI's programming." }));
-  const donationPrice = await stripe('POST', 'prices', flatten({
-    product: donationProduct.id,
-    currency: 'usd',
-    custom_unit_amount: { enabled: true, minimum: 100 },
-  }));
+  const donationPrice = await stripe('POST', 'prices', flatten({ product: donationProduct.id, currency: 'usd', unit_amount: 100 }));
 
   console.log('Creating coupons + promotion codes...');
   async function makePromo(code, coupon) {
@@ -82,7 +84,7 @@ async function main() {
     ],
     optional_items: [
       { price: workshopPrice.id, quantity: 1, adjustable_quantity: { enabled: true, minimum: 1, maximum: 10 } },
-      { price: donationPrice.id, quantity: 1 },
+      { price: donationPrice.id, quantity: 25, adjustable_quantity: { enabled: true, minimum: 1, maximum: 500 } },
     ],
     allow_promotion_codes: true,
     billing_address_collection: 'auto',

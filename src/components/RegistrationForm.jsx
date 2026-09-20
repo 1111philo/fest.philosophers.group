@@ -12,14 +12,13 @@ const VOLUNTEER_LABELS = {
   yes_discount: 'Yes! I will volunteer and receive a discount.',
 };
 
-function buildStripeUrl({ email, wantsVolunteerDiscount, donationAmount }) {
+function buildStripeUrl({ email, wantsVolunteerDiscount }) {
   const url = new URL(STRIPE_PAYMENT_LINK_URL);
   if (email) {
     url.searchParams.set('prefilled_email', email);
     url.searchParams.set('client_reference_id', email.slice(0, 200));
   }
   if (wantsVolunteerDiscount) url.searchParams.set('prefilled_promo_code', VOLUNTEER_PROMO_CODE);
-  if (donationAmount > 0) url.searchParams.set('prefilled_amount', String(Math.round(donationAmount * 100)));
   return url.toString();
 }
 
@@ -46,7 +45,6 @@ export default function RegistrationForm() {
   const [daysAttending, setDaysAttending] = useState([]);
   const [accessibilityNotes, setAccessibilityNotes] = useState('');
   const [wantsDonation, setWantsDonation] = useState(null);
-  const [donationAmount, setDonationAmount] = useState('');
   const [submitError, setSubmitError] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
@@ -80,11 +78,6 @@ export default function RegistrationForm() {
       setSubmitError('Please answer the donation question.');
       return;
     }
-    const donation = wantsDonation === 'yes' ? Number(donationAmount) : 0;
-    if (wantsDonation === 'yes' && !(donation > 0)) {
-      setSubmitError('Please enter a donation amount, or choose "No thanks" above.');
-      return;
-    }
 
     setSubmitting(true);
     submitToCampaignMonitor({
@@ -101,7 +94,6 @@ export default function RegistrationForm() {
     window.location.href = buildStripeUrl({
       email,
       wantsVolunteerDiscount: volunteer === 'yes_discount',
-      donationAmount: donation,
     });
   }
 
@@ -199,25 +191,15 @@ export default function RegistrationForm() {
           <Radio className="radio-option" value="no">No thanks.</Radio>
           <FieldError className="field-error" />
         </RadioGroup>
-
-        {wantsDonation === 'yes' && (
-          <Field
-            label="Donation amount (USD)"
-            type="number"
-            inputMode="decimal"
-            minValue={1}
-            value={donationAmount}
-            onChange={setDonationAmount}
-          />
-        )}
       </section>
 
       {submitError && <p className="reg-error" role="alert">{submitError}</p>}
 
       <p className="reg-note">
         Ticket ($55, includes all days and one workshop), extra workshops ($25 each), and your donation
-        amount are finalized on the next page with Stripe, where you can also enter a discount code
-        (speakers, staff, and students - ask the organizers if you&rsquo;re not sure which applies to you).
+        (in $1 increments, if you&rsquo;d like to add one) are finalized on the next page with Stripe, where
+        you can also enter a discount code (speakers, staff, and students - ask the organizers if you&rsquo;re
+        not sure which applies to you).
       </p>
 
       <Button type="submit" className="btn-primary reg-submit" isDisabled={submitting}>

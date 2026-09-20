@@ -16,10 +16,9 @@ export const CM_FIELDS = {
   accessibilityNotes: 'cm-f-dkiuyduj',
 };
 
-// Filled in by `node scripts/setup-stripe.mjs` (run once, locally, with a
-// secret key that's never committed) - see that script for what it
-// creates. Until then this points nowhere real.
-export const STRIPE_PAYMENT_LINK_URL = 'https://buy.stripe.com/PLACEHOLDER';
+// Created by `node scripts/setup-stripe.mjs` (run once, locally, with a
+// secret key that's never committed) - see that script for what it made.
+export const STRIPE_PAYMENT_LINK_URL = 'https://buy.stripe.com/14A9ASbnH9zHbxtf4i7Zu07';
 
 // Prefilled via the Payment Link's `prefilled_promo_code` URL parameter
 // when someone picks "volunteer and receive a discount" - see
