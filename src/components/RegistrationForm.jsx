@@ -8,17 +8,16 @@ import { loadCampaignMonitorScript, submitToCampaignMonitor } from '../lib/campa
 
 const VOLUNTEER_LABELS = {
   no: 'No thanks.',
-  yes_no_discount: "Yes! I will volunteer and don't need a discount.",
-  yes_discount: 'Yes! I will volunteer and receive a discount.',
+  yes: 'Yes, I will volunteer.',
 };
 
-function buildStripeUrl({ email, wantsVolunteerDiscount }) {
+function buildStripeUrl({ email, isVolunteer }) {
   const url = new URL(STRIPE_PAYMENT_LINK_URL);
   if (email) {
     url.searchParams.set('prefilled_email', email);
     url.searchParams.set('client_reference_id', email.slice(0, 200));
   }
-  if (wantsVolunteerDiscount) url.searchParams.set('prefilled_promo_code', VOLUNTEER_PROMO_CODE);
+  if (isVolunteer) url.searchParams.set('prefilled_promo_code', VOLUNTEER_PROMO_CODE);
   return url.toString();
 }
 
@@ -51,7 +50,7 @@ export default function RegistrationForm() {
     loadCampaignMonitorScript();
   }, []);
 
-  const showShifts = volunteer === 'yes_no_discount' || volunteer === 'yes_discount';
+  const showShifts = volunteer === 'yes';
 
   function onSubmit(e) {
     e.preventDefault();
@@ -88,7 +87,7 @@ export default function RegistrationForm() {
 
     window.location.href = buildStripeUrl({
       email,
-      wantsVolunteerDiscount: volunteer === 'yes_discount',
+      isVolunteer: volunteer === 'yes',
     });
   }
 
@@ -120,29 +119,33 @@ export default function RegistrationForm() {
         >
           <Label>Would you like to volunteer?</Label>
           <Text slot="description" className="field-hint">
-            Volunteers receive 100% discount for helping during a 4-hour shift. Organizers contact volunteers about two weeks before the festival.
+            Volunteering is a 4-hour shift. Organizers contact volunteers about two weeks before the festival.
           </Text>
           <Radio className="radio-option" value="no">{VOLUNTEER_LABELS.no}</Radio>
-          <Radio className="radio-option" value="yes_no_discount">{VOLUNTEER_LABELS.yes_no_discount}</Radio>
-          <Radio className="radio-option" value="yes_discount">{VOLUNTEER_LABELS.yes_discount}</Radio>
+          <Radio className="radio-option" value="yes">{VOLUNTEER_LABELS.yes}</Radio>
           <FieldError className="field-error" />
         </RadioGroup>
 
         {showShifts && (
-          <CheckboxGroup
-            className="checkbox-group"
-            value={volunteerShifts}
-            onChange={setVolunteerShifts}
-            isRequired
-          >
-            <Label>What shifts can you volunteer?</Label>
-            {VOLUNTEER_SHIFTS.map((shift) => (
-              <Checkbox key={shift.value} className="checkbox-option" value={shift.value}>
-                {shift.label}
-              </Checkbox>
-            ))}
-            <FieldError className="field-error" />
-          </CheckboxGroup>
+          <>
+            <p className="reg-callout">
+              Add code <strong>volunteer</strong> at checkout for a free ticket.
+            </p>
+            <CheckboxGroup
+              className="checkbox-group"
+              value={volunteerShifts}
+              onChange={setVolunteerShifts}
+              isRequired
+            >
+              <Label>What shifts can you volunteer?</Label>
+              {VOLUNTEER_SHIFTS.map((shift) => (
+                <Checkbox key={shift.value} className="checkbox-option" value={shift.value}>
+                  {shift.label}
+                </Checkbox>
+              ))}
+              <FieldError className="field-error" />
+            </CheckboxGroup>
+          </>
         )}
       </section>
 

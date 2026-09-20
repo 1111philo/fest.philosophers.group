@@ -53,14 +53,18 @@ async function main() {
   const workshopProduct = await stripe('POST', 'products', flatten({ name: 'New Orleans Arts & Ideas Festival 2026 Extra Workshop', description: 'Ticket for an additional workshop.' }));
   const workshopPrice = await stripe('POST', 'prices', flatten({ product: workshopProduct.id, currency: 'usd', unit_amount: 2500 }));
 
-  // Not a "customer chooses price" (pay-what-you-want) price: Stripe only
-  // allows one of those as the *sole* line item on a Payment Link, which
-  // would rule out selling it alongside the ticket/workshop in the same
-  // checkout. A plain $1-per-unit price with adjustable quantity gets the
-  // same "give whatever you want" effect while staying a normal optional
-  // item.
+  // Fixed preset tiers, not a "customer chooses price" (pay-what-you-want)
+  // price: Stripe only allows one of those as the *sole* line item on a
+  // Payment Link, which would rule out selling it alongside the
+  // ticket/workshop in the same checkout. Each tier is its own optional
+  // item instead, so a donor picks one (via "View all" - see below).
+  // 11/33/111/1111/11000, matching 11:11 Philosopher's Group.
   const donationProduct = await stripe('POST', 'products', flatten({ name: 'Donation', description: "Help sustain the festival's programming." }));
-  const donationPrice = await stripe('POST', 'prices', flatten({ product: donationProduct.id, currency: 'usd', unit_amount: 100 }));
+  const donationTiers = [1100, 3300, 11100, 111100, 1100000];
+  const donationPrices = [];
+  for (const amount of donationTiers) {
+    donationPrices.push(await stripe('POST', 'prices', flatten({ product: donationProduct.id, currency: 'usd', unit_amount: amount, nickname: `Donation $${amount / 100}` })));
+  }
 
   console.log('Creating coupons + promotion codes...');
   async function makePromo(code, coupon) {
@@ -89,11 +93,7 @@ async function main() {
     ],
     optional_items: [
       { price: workshopPrice.id, quantity: 1, adjustable_quantity: { enabled: true, minimum: 1, maximum: 10 } },
-      // maximum: 100 (not higher) - empirically, Stripe's checkout page
-      // leaves the "Add" button permanently disabled for an optional
-      // item whose adjustable_quantity range is too wide (500 broke it;
-      // 100 doesn't), even though the API accepts the wider range fine.
-      { price: donationPrice.id, quantity: 25, adjustable_quantity: { enabled: true, minimum: 1, maximum: 100 } },
+      ...donationPrices.map((price) => ({ price: price.id, quantity: 1 })),
     ],
     allow_promotion_codes: true,
     billing_address_collection: 'auto',
@@ -107,7 +107,7 @@ async function main() {
   console.log('PAYMENT_LINK_URL =', paymentLink.url);
   console.log('TICKET_PRICE_ID =', ticketPrice.id);
   console.log('WORKSHOP_PRICE_ID =', workshopPrice.id);
-  console.log('DONATION_PRICE_ID =', donationPrice.id);
+  console.log('DONATION_PRICE_IDS =', donationPrices.map((p) => p.id));
 }
 
 main().catch((err) => {

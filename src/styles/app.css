@@ -8,6 +8,9 @@
   --accent: #8c6125;
   --accent-soft: #f1e4cc;
   --accent-contrast: #ffffff;
+  /* var(--accent) itself falls just short of AA contrast against
+     --accent-soft specifically (4.33:1) - a touch darker clears it. */
+  --callout-text: #885e24;
   --shadow: 0 1px 2px rgba(40, 30, 10, 0.06), 0 1px 8px rgba(40, 30, 10, 0.04);
 
   --badge-workshop: #3c7357;
@@ -34,6 +37,7 @@
     --accent: #d9a94e;
     --accent-soft: #3a2c14;
     --accent-contrast: #211505;
+    --callout-text: #d9a94e;
     --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 2px 12px rgba(0, 0, 0, 0.25);
 
     --badge-workshop: #7fbf9e;
@@ -661,6 +665,16 @@ a { color: var(--accent); }
   font-weight: 600;
   color: var(--badge-fireside);
   background: var(--badge-fireside-bg);
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin: 0;
+}
+.reg-callout {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--callout-text);
+  background: var(--accent-soft);
+  border: 1px solid var(--accent);
   border-radius: 10px;
   padding: 10px 14px;
   margin: 0;
