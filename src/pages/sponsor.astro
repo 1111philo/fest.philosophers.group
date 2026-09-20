@@ -11,6 +11,7 @@ const PAST_SPEAKERS = ['Google DeepMind', 'IBM', 'Adobe', 'Tulane University', '
 const TIERS = [
   {
     name: 'Community Sponsor',
+    short: 'Community',
     price: '$500',
     stripeUrl: 'https://buy.stripe.com/6oU6oG9fz7rzdFB2hw7Zu0h',
     benefits: [
@@ -22,6 +23,7 @@ const TIERS = [
   },
   {
     name: 'Exhibiting Sponsor',
+    short: 'Exhibiting',
     price: '$1,500',
     stripeUrl: 'https://buy.stripe.com/4gM14m1N74fngRNg8m7Zu0i',
     benefits: [
@@ -34,6 +36,7 @@ const TIERS = [
   },
   {
     name: 'Premier Sponsor',
+    short: 'Premier',
     price: '$2,500',
     stripeUrl: 'https://buy.stripe.com/eVqeVc4Zj6nvcBxbS67Zu0j',
     featured: true,
@@ -71,19 +74,14 @@ const TIERS = [
   <div class="tier-grid">
     {TIERS.map((tier) => (
       <div class:list={['tier-card', { featured: tier.featured }]}>
+        {tier.featured && <span class="tier-star" aria-hidden="true">&#9733;</span>}
         <p class="tier-name">{tier.name}</p>
         <p class="tier-price">{tier.price}</p>
         <ul class="tier-list">
           {tier.benefits.map((b) => <li>{b}</li>)}
         </ul>
-        <a
-          class="btn-primary tier-buy"
-          href={tier.stripeUrl}
-          target="_blank"
-          rel="noopener"
-          aria-label={`Purchase: ${tier.name}, ${tier.price} (opens in a new window)`}
-        >
-          Purchase
+        <a class="btn-primary tier-buy" href={tier.stripeUrl} target="_blank" rel="noopener">
+          Purchase {tier.short}<span class="sr-only"> (opens in a new window)</span>
         </a>
       </div>
     ))}

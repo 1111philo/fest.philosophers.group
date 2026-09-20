@@ -787,6 +787,7 @@ a { color: var(--accent); }
   .tier-grid { grid-template-columns: repeat(3, 1fr); align-items: start; }
 }
 .tier-card {
+  position: relative;
   border: 1px solid var(--border);
   background: var(--surface);
   border-radius: 14px;
@@ -795,10 +796,22 @@ a { color: var(--accent); }
   flex-direction: column;
   gap: 10px;
 }
-.tier-card.featured {
-  border-color: var(--accent);
-  background: var(--accent-soft);
-  box-shadow: 0 0 0 1px var(--accent);
+.tier-star {
+  position: absolute;
+  top: -14px;
+  right: 18px;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent);
+  color: var(--accent-contrast);
+  border-radius: 50%;
+  font-size: 17px;
+  line-height: 1;
+  transform: rotate(12deg);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 .tier-name {
   font-size: 12.5px;
@@ -808,7 +821,6 @@ a { color: var(--accent); }
   color: var(--text-muted);
   margin: 0;
 }
-.tier-card.featured .tier-name { color: var(--callout-text); }
 .tier-price { font-family: Fraunces, Georgia, serif; font-size: 26px; margin: 0; }
 .tier-list {
   list-style: none;
