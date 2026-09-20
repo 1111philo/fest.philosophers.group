@@ -17,7 +17,15 @@ export default function SiteHeader({
     <header className="header">
       <div className="header-top">
         <div className="header-text">
-          <h1>New Orleans Arts &amp; Ideas Festival</h1>
+          <h1>
+            <a
+              className="header-title-link"
+              href="/"
+              onClick={(e) => { e.preventDefault(); onSchedule(); }}
+            >
+              New Orleans Arts &amp; Ideas Festival
+            </a>
+          </h1>
           <div className="subtitle">
             November 11&ndash;13, 2026 &bull;{' '}
             <a href="https://louisianastatemuseum.org/museum/new-orleans-jazz-museum-old-us-mint" target="_blank" rel="noopener">
@@ -26,13 +34,11 @@ export default function SiteHeader({
           </div>
         </div>
         <div className="header-actions">
-          <a
-            className="btn-primary"
-            href="/register/"
-            aria-current={current === 'register' ? 'page' : undefined}
-          >
-            Register
-          </a>
+          {current !== 'register' && (
+            <a className="btn-primary" href="/register/">
+              Register
+            </a>
+          )}
           <SiteMenu onSchedule={onSchedule} onAbout={onAbout} onSponsor={onSponsor} current={current} />
         </div>
       </div>

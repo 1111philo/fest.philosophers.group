@@ -1,16 +1,87 @@
 ---
-import Base from '../layouts/Base.astro';
+import PageLayout from '../layouts/PageLayout.astro';
 import { loadContent, pageMeta } from '../lib/content.mjs';
 
 const meta = pageMeta(loadContent(), 620, 'sponsor');
+
+const PAST_SPEAKERS = ['Google DeepMind', 'IBM', 'Adobe', 'Tulane University', 'LSU'];
+
+const TIERS = [
+  {
+    name: 'Community Sponsor',
+    price: '$500',
+    benefits: [
+      'Logo on the event website and thank-you slides',
+      'Recognition in the event program',
+      'Two complimentary registrations',
+      'Two invites to the sponsor event',
+    ],
+  },
+  {
+    name: 'Exhibiting Sponsor',
+    price: '$1,500',
+    benefits: [
+      '30-minute presentation slot',
+      'Logo on the event program, website, emails, and thank-you slides',
+      'Contact information from attendees who opt in',
+      'Three complimentary registrations',
+      'Five invites to the sponsor event',
+    ],
+  },
+  {
+    name: 'Premier Sponsor',
+    price: '$2,500',
+    featured: true,
+    benefits: [
+      '60-minute presentation slot',
+      'Premier logo placement on the event program, website, emails, and thank-you slides',
+      'Contact information from attendees who opt in',
+      'Dedicated sponsor thank-you email',
+      'Ten complimentary registrations',
+      'Ten invites to the sponsor event',
+    ],
+  },
+];
 ---
-<Base
-  title={meta.title}
-  description={meta.description}
-  canonical={meta.canonical}
-  ogType={meta.ogType}
-  image={meta.image.url}
-  imageWidth={meta.image.width}
-  imageHeight={meta.image.height}
-  initialView={{ type: 'sponsor' }}
-/>
+<PageLayout title={meta.title} description={meta.description} canonical={meta.canonical} image={meta.image.url} current="sponsor">
+  <section slot="hero" class="page-hero page-hero-plain" aria-label="Sponsorship">
+    <div class="page-hero-inner">
+      <p class="page-eyebrow">Sponsorship</p>
+      <h1 class="page-hero-title">Sponsor the Festival</h1>
+      <p class="page-hero-sub">
+        Past speakers have come from <strong>Google DeepMind</strong>, <strong>IBM</strong>, <strong>Adobe</strong>, <strong>Tulane University</strong>, and <strong>LSU</strong>.
+      </p>
+      <ul class="speaker-pills">
+        {PAST_SPEAKERS.map((name) => <li class="speaker-pill">{name}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <p class="page-lede">
+    Sponsors get a presentation slot, logo placement, and complimentary registrations and event invites.
+    Higher tiers also get attendee contact information for opted-in attendees. Details for each tier are below.
+  </p>
+
+  <h2 class="page-section-heading">Sponsorship Levels</h2>
+  <div class="tier-grid">
+    {TIERS.map((tier) => (
+      <div class:list={['tier-card', { featured: tier.featured }]}>
+        <p class="tier-name">{tier.name}</p>
+        <p class="tier-price">{tier.price}</p>
+        <ul class="tier-list">
+          {tier.benefits.map((b) => <li>{b}</li>)}
+        </ul>
+      </div>
+    ))}
+  </div>
+
+  <div class="page-cta-row">
+    <a class="btn-primary" href="mailto:info@noai.fyi?subject=Sponsorship%20Inquiry">
+      Become a Sponsor
+    </a>
+  </div>
+
+  <div class="contact-card">
+    Questions? Contact <a href="mailto:info@noai.fyi">info@noai.fyi</a>.
+  </div>
+</PageLayout>

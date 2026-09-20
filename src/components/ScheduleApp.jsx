@@ -154,6 +154,43 @@ function PresentationBody({ pres, mediaById, onOpenPresentationSlug, eventInfo }
   );
 }
 
+const SPONSORS = [
+  { name: 'New Orleans Jazz Museum', logo: '/media/sponsors/jazz-museum.jpg', url: 'https://nolajazzmuseum.org' },
+  { name: 'Louisiana Economic Development', logo: '/media/sponsors/led.jpg', url: 'https://www.opportunitylouisiana.gov' },
+  { name: 'Excella', logo: '/media/sponsors/excella.png', url: 'https://www.excella.com' },
+  { name: 'Intelligent Archives', logo: '/media/sponsors/intelligent-archives.png', url: null },
+  { name: 'Starbucks', logo: '/media/sponsors/starbucks.png', url: null },
+  { name: 'Astral Codex Ten', logo: '/media/sponsors/astral-codex-ten.jpeg', url: null },
+  { name: 'Equalify', logo: '/media/sponsors/equalify.png', url: 'https://equalify.app/' },
+];
+
+function SponsorLogo({ sponsor }) {
+  const img = <img src={sponsor.logo} alt={sponsor.name} loading="lazy" />;
+  if (!sponsor.url) return <span className="sponsor-logo">{img}</span>;
+  return (
+    <a className="sponsor-logo" href={sponsor.url} target="_blank" rel="noopener">
+      {img}
+      <span className="sr-only"> (opens in a new window)</span>
+    </a>
+  );
+}
+
+function SponsorStrip() {
+  return (
+    <section className="sponsor-strip" aria-label="Sponsors">
+      <h2 className="sponsor-strip-heading">Sponsors</h2>
+      <div className="sponsor-logos">
+        {SPONSORS.map((sponsor) => <SponsorLogo key={sponsor.name} sponsor={sponsor} />)}
+      </div>
+      <p className="sponsor-thanks">
+        <strong>Special thanks</strong> to Jesse Hoppes, Dustin Gaspard, Latoya Taylor, Phillip Brimer,
+        Sam Birdsong, Blake Bertuccelli-Booth, Joseph Makkos, Ray Fontaine, George Mauer, Chuck Taylor,
+        Baylee Badawy, Sabelo Jupiter, and Luke Hawley.
+      </p>
+    </section>
+  );
+}
+
 function LogisticsBody({ item }) {
   return (
     <>
@@ -398,6 +435,8 @@ export default function ScheduleApp({ initialView }) {
             {mainContent}
           </TabPanel>
         </Tabs>
+
+        <SponsorStrip />
       </main>
 
       <Drawer

@@ -1,14 +1,17 @@
 import { MenuTrigger, Button, Popover, Menu, MenuItem } from 'react-aria-components';
 
-// `current` (the page this menu is being rendered on - 'schedule' | 'about'
-// | 'sponsor' | 'register' | null) marks the matching item with
-// aria-current="page" plus a visual highlight, so it's clear you're already
-// there instead of the item just silently doing nothing when clicked again.
-function PageLabel({ id, current, children }) {
+// Small external-link glyph plus screen-reader-only text, for menu items
+// that leave the site in a new tab (Donate, Newsletter) - so it's
+// announced instead of silently opening a second tab.
+function ExternalLinkHint() {
   return (
     <>
-      <span className="check" aria-hidden="true">{current === id ? '✓' : ''}</span>
-      {children}
+      <svg className="external-icon" aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+        <polyline points="15 3 21 3 21 9" />
+        <line x1="10" y1="14" x2="21" y2="3" />
+      </svg>
+      <span className="sr-only"> (opens in a new window)</span>
     </>
   );
 }
@@ -41,13 +44,13 @@ export default function SiteMenu({ onSchedule, onAbout, onSponsor, current }) {
           }}
         >
           <MenuItem id="schedule" className="site-menu-item" ref={currentRef('schedule')}>
-            <PageLabel id="schedule" current={current}>Schedule</PageLabel>
+            Schedule
           </MenuItem>
           <MenuItem id="about" className="site-menu-item" ref={currentRef('about')}>
-            <PageLabel id="about" current={current}>About</PageLabel>
+            About
           </MenuItem>
           <MenuItem id="sponsor" className="site-menu-item" ref={currentRef('sponsor')}>
-            <PageLabel id="sponsor" current={current}>Sponsor</PageLabel>
+            Sponsor
           </MenuItem>
           <MenuItem
             className="site-menu-item"
@@ -56,6 +59,7 @@ export default function SiteMenu({ onSchedule, onAbout, onSponsor, current }) {
             rel="noopener"
           >
             Donate
+            <ExternalLinkHint />
           </MenuItem>
           <MenuItem
             className="site-menu-item"
@@ -64,6 +68,7 @@ export default function SiteMenu({ onSchedule, onAbout, onSponsor, current }) {
             rel="noopener"
           >
             Newsletter
+            <ExternalLinkHint />
           </MenuItem>
         </Menu>
       </Popover>

@@ -1,16 +1,61 @@
 ---
-import Base from '../layouts/Base.astro';
+import PageLayout from '../layouts/PageLayout.astro';
 import { loadContent, pageMeta } from '../lib/content.mjs';
 
 const meta = pageMeta(loadContent(), 469, 'about');
+
+const TIMES_PICAYUNE_URL = 'https://web.archive.org/web/20250821094845/https://www.nola.com/news/business/innovation/noai-new-orleans-jazz-museum-1111-philosophers-artificial-intelligence-blake-grace-bertuccelli-booth/article_3eddfcb0-9acd-11ef-97c3-1bbd0c95b721.html';
+const HERO_IMAGE = '/media/560-DSC2694.jpg';
+
+const GALLERY = [
+  { src: '/media/560-DSC2694.jpg', alt: 'A singer, sweat falling on his face, sings into a mic.' },
+  { src: '/media/557-DSC0995.jpg', alt: 'A woman speaks into a microphone. She appears to be on a panel, sitting next to another woman.' },
+  { src: '/media/558-DSC1406.jpg', alt: 'A male panelist in the center of the frame speaks to a man on his left, while another man listens on his right.' },
+  { src: '/media/559-DSC1915.jpg', alt: 'A female speaker is speaking into a microphone. She appears to be mid-sentence.' },
+  { src: '/media/562-DSC1744.jpg', alt: 'A man speaks into a microphone. On his head is a brain-scan looking device.' },
+  { src: '/media/563-IMG_0771-scaled.jpeg', alt: 'A speaker stands with her hand to a laptop. Behind her is a screen with a slide showing two photographs, slightly out of focus.' },
+  { src: '/media/566-DSC2323-2.jpg', alt: 'A panelist is mid-sentence, seeming to explain something.' },
+  { src: '/media/565-DSC3121.jpg', alt: 'An electronic musician, painted in neon ink, turns knobs on his instrument.' },
+];
 ---
-<Base
-  title={meta.title}
-  description={meta.description}
-  canonical={meta.canonical}
-  ogType={meta.ogType}
-  image={meta.image.url}
-  imageWidth={meta.image.width}
-  imageHeight={meta.image.height}
-  initialView={{ type: 'about' }}
-/>
+<PageLayout title={meta.title} description={meta.description} canonical={meta.canonical} image={meta.image.url} current="about">
+  <section
+    slot="hero"
+    class="page-hero page-hero-photo"
+    aria-label="About the festival"
+    style={`background-image: linear-gradient(to top, rgba(20,14,6,0.85), rgba(20,14,6,0.25) 60%), url(${HERO_IMAGE});`}
+  >
+    <div class="page-hero-inner">
+      <p class="page-eyebrow">About the Festival</p>
+      <h1 class="page-hero-title">Philosophy, Philanthropy, Tech, Biz, Education &amp; Improvisation</h1>
+    </div>
+  </section>
+
+  <p class="page-lede">
+    New Orleans Arts &amp; Ideas (NOAI) Festival is a global stage for creative and driven professionals
+    who want to change the world. Organized by the 11:11 Philosophers Group, NOAI includes conversations,
+    presentations, and performances that bring New Orleans into conversation with cutting-edge,
+    impact-driven work.
+  </p>
+
+  <div class="page-cta-row">
+    <a class="btn-primary" href="https://buy.stripe.com/9B6cN4dvP13b6d97BQ7Zu06" target="_blank" rel="noopener">
+      Donate<span class="sr-only"> (opens in a new window)</span>
+    </a>
+    <a class="btn-outline" href="mailto:info@noai.fyi?subject=Presentation%20Submission">
+      Propose a Presentation
+    </a>
+    <a class="btn-outline" href="/">View the Schedule</a>
+  </div>
+
+  <h2 class="page-section-heading">Two Years in New Orleans</h2>
+  <div class="page-gallery">
+    {GALLERY.map((img) => (
+      <img src={img.src} alt={img.alt} loading="lazy" />
+    ))}
+  </div>
+
+  <a class="live-link" href={TIMES_PICAYUNE_URL} target="_blank" rel="noopener">
+    Read the Times-Picayune feature &rarr;<span class="sr-only"> (opens in a new window)</span>
+  </a>
+</PageLayout>
