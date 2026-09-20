@@ -78,6 +78,49 @@ export function getScheduleForYear(data, year) {
   return synthesized;
 }
 
+// Collapses a run of consecutive, same-location schedule rows of the given
+// type (e.g. seven straight Lightning Talks) into one synthetic "program"
+// card, so a slot like that reads as a single block on the schedule
+// instead of crowding the track with a card per speaker. `items` is
+// already time-sorted; a run only continues while both the type and the
+// location keep matching, so it's safe to call on a full day's rows (mixed
+// locations) as well as a single location's own list.
+export function groupConsecutiveByType(items, type) {
+  const result = [];
+  let run = [];
+  const flushRun = () => {
+    if (run.length === 1) {
+      result.push(run[0]);
+    } else if (run.length > 1) {
+      const first = run[0];
+      const last = run[run.length - 1];
+      const startTime = (first.raw_time_range || first.time || '').split(/[–-]/)[0].trim();
+      const endTime = (last.raw_time_range || last.time || '').split(/[–-]/).pop().trim();
+      const timeRange = `${startTime}–${endTime}`;
+      result.push({
+        kind: 'group',
+        year: first.year, day: first.day, date: first.date, sort_time: first.sort_time,
+        time: timeRange, raw_time_range: timeRange,
+        location: first.location, title: `${type}s`,
+        presenters: `${run.length} speakers`, type, tag: first.tag,
+        items: run,
+      });
+    }
+    run = [];
+  };
+  items.forEach((it) => {
+    if (it.type === type && (!run.length || run[0].location === it.location)) {
+      run.push(it);
+    } else {
+      flushRun();
+      if (it.type === type) run.push(it);
+      else result.push(it);
+    }
+  });
+  flushRun();
+  return result;
+}
+
 // A schedule row has no id of its own (it's a CSV row, not a database
 // record) - title+time alone collides for recurring slots like "Lunch"
 // that appear on multiple days at the same time, so React needs the full

@@ -8,7 +8,7 @@ import WpContent from './WpContent';
 import AddToCalendarMenu from './AddToCalendarMenu';
 import {
   getAvailableYears, getScheduleForYear, featuredUrl, dayLabel, typeSlug, stripTags,
-  rotateSiteImages, scheduleItemKey, eventInfoForPresentation,
+  rotateSiteImages, scheduleItemKey, eventInfoForPresentation, groupConsecutiveByType,
 } from '../lib/scheduleUtils';
 import { routeSlug } from '../lib/slug';
 
@@ -163,6 +163,41 @@ function LogisticsBody({ item }) {
   );
 }
 
+// A run of same-location, same-type talks collapsed into one card (see
+// groupConsecutiveByType) - lists each nested talk, opening its own
+// presentation drawer on click if it has one.
+function GroupBody({ group, onOpenPresentationId }) {
+  return (
+    <>
+      <h2>{group.title}</h2>
+      <div className="modal-meta">
+        <span className="badge loc">{group.location}</span>
+        <span className="badge loc">{group.raw_time_range}</span>
+      </div>
+      <AddToCalendarMenu item={group} description={group.presenters} />
+      <ul className="group-talk-list">
+        {group.items.map((it) => (
+          <li key={scheduleItemKey(it)}>
+            {it.presentation_id ? (
+              <button type="button" className="group-talk group-talk-link" onClick={() => onOpenPresentationId(it.presentation_id)}>
+                <span className="group-talk-time">{it.time}</span>
+                <span className="group-talk-title">{it.title}</span>
+                {it.presenters && <span className="group-talk-presenter">{it.presenters}</span>}
+              </button>
+            ) : (
+              <div className="group-talk">
+                <span className="group-talk-time">{it.time}</span>
+                <span className="group-talk-title">{it.title}</span>
+                {it.presenters && <span className="group-talk-presenter">{it.presenters}</span>}
+              </div>
+            )}
+          </li>
+        ))}
+      </ul>
+    </>
+  );
+}
+
 export default function ScheduleApp({ initialView }) {
   const [data, setData] = useState(null);
   const [year, setYear] = useState('2026');
@@ -197,11 +232,17 @@ export default function ScheduleApp({ initialView }) {
     if (pres) openPresentation(pres);
   }, [findPresentationBySlug, openPresentation]);
 
+  const openPresentationId = useCallback((id) => {
+    const pres = (dataRef.current.presentations || []).find((p) => p.id === id);
+    if (pres) openPresentation(pres);
+  }, [openPresentation]);
+
   const openLogisticsItem = useCallback((item) => {
     setDrawerItem({ kind: 'logistics', item });
   }, []);
 
   const openScheduleItem = useCallback((item) => {
+    if (item.kind === 'group') { setDrawerItem({ kind: 'group', item }); return; }
     if (item.presentation_id) {
       const pres = (dataRef.current.presentations || []).find((p) => p.id === item.presentation_id);
       if (pres) { openPresentation(pres); return; }
@@ -301,7 +342,10 @@ export default function ScheduleApp({ initialView }) {
   } else if (day === 'all') {
     mainContent = days.map((date) => {
       const lbl = dayLabel(date);
-      const dayItems = scheduleForYear.filter((it) => it.date === date).sort((a, b) => a.sort_time.localeCompare(b.sort_time));
+      const dayItems = groupConsecutiveByType(
+        scheduleForYear.filter((it) => it.date === date).sort((a, b) => a.sort_time.localeCompare(b.sort_time)),
+        'Lightning Talk',
+      );
       return (
         <div key={date}>
           <div className="day-header">{dayItems[0].day}, {lbl.date}</div>
@@ -310,7 +354,10 @@ export default function ScheduleApp({ initialView }) {
       );
     });
   } else {
-    const dayItems = scheduleForYear.filter((it) => it.date === day).sort((a, b) => a.sort_time.localeCompare(b.sort_time));
+    const dayItems = groupConsecutiveByType(
+      scheduleForYear.filter((it) => it.date === day).sort((a, b) => a.sort_time.localeCompare(b.sort_time)),
+      'Lightning Talk',
+    );
     mainContent = dayItems.length
       ? <Tracks dayItems={dayItems} onOpen={openScheduleItem} />
       : <div className="empty-state">Nothing scheduled yet for this day.</div>;
@@ -377,6 +424,9 @@ export default function ScheduleApp({ initialView }) {
           />
         )}
         {drawerItem && drawerItem.kind === 'logistics' && <LogisticsBody item={drawerItem.item} />}
+        {drawerItem && drawerItem.kind === 'group' && (
+          <GroupBody group={drawerItem.item} onOpenPresentationId={openPresentationId} />
+        )}
       </Drawer>
     </>
   );

@@ -427,6 +427,33 @@ a { color: var(--accent); }
 }
 .add-to-calendar-btn:hover { background: var(--surface-2); }
 .add-to-calendar-btn[data-focus-visible] { outline: 2px solid var(--accent); outline-offset: 2px; }
+.group-talk-list {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.group-talk {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  font-family: inherit;
+  text-align: left;
+}
+.group-talk-link { cursor: pointer; color: inherit; }
+.group-talk-link:hover { border-color: var(--accent); }
+.group-talk-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.group-talk-time { font-size: 12px; font-weight: 700; color: var(--accent); flex-shrink: 0; }
+.group-talk-title { font-size: 14px; font-weight: 600; }
+.group-talk-presenter { font-size: 12.5px; color: var(--text-muted); width: 100%; }
 .presenter-card {
   display: flex;
   gap: 14px;
