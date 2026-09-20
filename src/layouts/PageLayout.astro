@@ -1,5 +1,6 @@
 ---
 import SiteHeader from '../components/SiteHeader';
+import SiteFooter from '../components/SiteFooter.astro';
 import '../styles/app.css';
 
 interface Props {
@@ -42,8 +43,6 @@ const { title, description, canonical, image, current } = Astro.props;
 <main class="page-main">
   <slot />
 </main>
-<footer class="site-footer">
-  A project of <a href="https://philosophers.group" target="_blank" rel="noopener">11:11 Philosopher&rsquo;s Group</a>
-</footer>
+<SiteFooter />
 </body>
 </html>

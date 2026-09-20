@@ -68,6 +68,15 @@ export default function SiteMenu({ onSchedule, current }) {
             Newsletter
             <ExternalLinkHint />
           </MenuItem>
+          <MenuItem
+            className="site-menu-item"
+            href="https://join.slack.com/t/1111philo/shared_invite/zt-2gmnevnx3-qR6119iBjUFxS4BgP8wXzA"
+            target="_blank"
+            rel="noopener"
+          >
+            Join our Slack
+            <ExternalLinkHint />
+          </MenuItem>
         </Menu>
       </Popover>
     </MenuTrigger>

@@ -1,6 +1,7 @@
 ---
 import SiteHeader from '../components/SiteHeader';
 import RegistrationForm from '../components/RegistrationForm';
+import SiteFooter from '../components/SiteFooter.astro';
 import '../styles/app.css';
 
 interface Props {
@@ -42,8 +43,6 @@ const { title, description, canonical, image } = Astro.props;
   <h2 class="reg-title">Register</h2>
   <RegistrationForm client:load />
 </main>
-<footer class="site-footer">
-  A project of <a href="https://philosophers.group" target="_blank" rel="noopener">11:11 Philosopher&rsquo;s Group</a>
-</footer>
+<SiteFooter />
 </body>
 </html>

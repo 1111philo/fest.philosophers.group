@@ -1,5 +1,6 @@
 ---
 import ScheduleApp from '../components/ScheduleApp';
+import SiteFooter from '../components/SiteFooter.astro';
 import '../styles/app.css';
 
 interface Props {
@@ -46,8 +47,6 @@ const {
 </head>
 <body>
 <ScheduleApp client:load initialView={initialView} />
-<footer class="site-footer">
-  A project of <a href="https://philosophers.group" target="_blank" rel="noopener">11:11 Philosopher&rsquo;s Group</a>
-</footer>
+<SiteFooter />
 </body>
 </html>
