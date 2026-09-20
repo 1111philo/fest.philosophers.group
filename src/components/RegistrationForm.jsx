@@ -197,7 +197,8 @@ export default function RegistrationForm() {
       {submitError && <p className="reg-error" role="alert">{submitError}</p>}
 
       <p className="reg-note">
-        Tickets, workshops, donations, and discount codes are all set on the next page with Stripe.
+        Your ticket includes one workshop. Additional workshops, donations, and discount codes are all
+        set on the next page with Stripe.
       </p>
 
       <Button type="submit" className="btn-primary reg-submit" isDisabled={submitting}>

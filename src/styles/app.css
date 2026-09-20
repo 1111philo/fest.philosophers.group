@@ -707,6 +707,7 @@ a { color: var(--accent); }
   font-size: 0.95em;
 }
 .reg-note { font-size: 12.5px; color: var(--text-muted); line-height: 1.5; margin: 0; }
+.workshop-ticket-note { margin-bottom: 14px; }
 .reg-submit {
   align-self: flex-start;
   padding: 12px 24px;

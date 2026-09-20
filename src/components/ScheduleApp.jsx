@@ -92,6 +92,12 @@ function PresentationBody({ pres, mediaById, onOpenPresentationSlug, eventInfo }
         {(sf.date || sf.time) && <span className="badge loc">{[sf.date, sf.time].filter(Boolean).join(' · ')}</span>}
         <TypeBadge type={sf.type} />
       </div>
+      {sf.type === 'Workshop' && (
+        <p className="reg-note workshop-ticket-note">
+          A ticket is required to join this workshop. All registrations include one workshop ticket -
+          additional tickets may be available on the <a href="/register/">registration form</a>.
+        </p>
+      )}
       {eventInfo && (
         <AddToCalendarMenu item={eventInfo} description={sf.presenter_name || ''} />
       )}
