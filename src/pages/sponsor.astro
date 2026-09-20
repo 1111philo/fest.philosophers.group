@@ -1,9 +1,9 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
-import { loadContent, pageMeta } from '../lib/content.mjs';
+import { loadContent, pageMeta, SITE_TITLE } from '../lib/content.mjs';
 
 const meta = pageMeta(loadContent(), 620, 'sponsor');
-meta.title = 'Sponsor — New Orleans Arts & Ideas Festival';
+meta.title = `Sponsor — ${SITE_TITLE}`;
 meta.description = 'Sponsor the New Orleans Arts & Ideas Festival. Past speakers have come from Google DeepMind, IBM, Adobe, Tulane University, and LSU.';
 
 const PAST_SPEAKERS = ['Google DeepMind', 'IBM', 'Adobe', 'Tulane University', 'LSU'];

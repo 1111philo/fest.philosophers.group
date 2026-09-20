@@ -12,6 +12,10 @@ import { routeSlug } from './slug.js';
 // silently break a __dirname-relative path.
 const CONTENT_PATH = path.join(process.cwd(), 'public/content.json');
 export const SITE_URL = 'https://fest.philosophers.group';
+// The "(formerly NOAI)" suffix is only for <title>/og:title/twitter:title -
+// it's SEO breadcrumb for people still searching the old festival name,
+// not something that belongs in on-page copy (which no longer says NOAI).
+export const SITE_TITLE = 'New Orleans Arts & Ideas Festival (formerly NOAI)';
 
 let cached = null;
 export function loadContent() {
@@ -86,7 +90,7 @@ export function presentationMeta(content, pres) {
   const image = (!hasFeaturedMedia && sf.presenter_photo_url && presenterPhotoImage(sf.presenter_photo_url))
     || imageFor(content, pres.featured_media, pres.id);
   return {
-    title: `${title} — New Orleans Arts & Ideas Festival`,
+    title: `${title} — ${SITE_TITLE}`,
     description,
     canonical: `${SITE_URL}/p/${routeSlug(pres.slug)}/`,
     ogType: 'article',
@@ -108,7 +112,7 @@ export function pageMeta(content, pageId, slug) {
     }
   }
   return {
-    title: `${title} — New Orleans Arts & Ideas Festival`,
+    title: `${title} — ${SITE_TITLE}`,
     description,
     canonical: `${SITE_URL}/${slug}/`,
     ogType: 'website',

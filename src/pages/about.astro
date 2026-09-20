@@ -1,9 +1,9 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
-import { loadContent, pageMeta } from '../lib/content.mjs';
+import { loadContent, pageMeta, SITE_TITLE } from '../lib/content.mjs';
 
 const meta = pageMeta(loadContent(), 469, 'about');
-meta.title = 'About — New Orleans Arts & Ideas Festival';
+meta.title = `About — ${SITE_TITLE}`;
 meta.description = 'Philosophy, Philanthropy, Tech, Biz, Education, and Improvisation. Learn about the New Orleans Arts & Ideas Festival and the 11:11 Philosophers Group.';
 
 const TIMES_PICAYUNE_URL = 'https://web.archive.org/web/20250821094845/https://www.nola.com/news/business/innovation/noai-new-orleans-jazz-museum-1111-philosophers-artificial-intelligence-blake-grace-bertuccelli-booth/article_3eddfcb0-9acd-11ef-97c3-1bbd0c95b721.html';
