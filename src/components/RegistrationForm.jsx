@@ -150,8 +150,7 @@ export default function RegistrationForm() {
         {showShifts && (
           <>
             <p className="reg-callout">
-              <span>Add code <code>volunteer</code> at checkout for a free ticket.</span>
-              <CopyCodeButton code={VOLUNTEER_PROMO_CODE} />
+              Add code <code>volunteer</code> at checkout for a free ticket. <CopyCodeButton code={VOLUNTEER_PROMO_CODE} />
             </p>
             <CheckboxGroup
               className="checkbox-group"

@@ -642,10 +642,6 @@ a { color: var(--accent); }
   margin: 0;
 }
 .reg-callout {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 10px 14px;
   font-size: 15px;
   font-weight: 700;
   color: var(--callout-text);
@@ -657,8 +653,6 @@ a { color: var(--accent); }
   margin: 0;
 }
 .copy-code-btn {
-  flex-shrink: 0;
-  margin-left: auto;
   font: inherit;
   font-size: 13px;
   font-weight: 700;
@@ -866,6 +860,9 @@ a { color: var(--accent); }
   justify-content: center;
   gap: 28px;
   margin-bottom: 20px;
+  padding: 24px;
+  background: #ffffff;
+  border-radius: 12px;
 }
 .sponsor-logo { display: inline-flex; }
 .sponsor-logo img {

@@ -3,6 +3,8 @@ import PageLayout from '../layouts/PageLayout.astro';
 import { loadContent, pageMeta } from '../lib/content.mjs';
 
 const meta = pageMeta(loadContent(), 469, 'about');
+meta.title = 'About — New Orleans Arts & Ideas Festival';
+meta.description = 'Philosophy, Philanthropy, Tech, Biz, Education, and Improvisation. Learn about the New Orleans Arts & Ideas Festival and the 11:11 Philosophers Group.';
 
 const TIMES_PICAYUNE_URL = 'https://web.archive.org/web/20250821094845/https://www.nola.com/news/business/innovation/noai-new-orleans-jazz-museum-1111-philosophers-artificial-intelligence-blake-grace-bertuccelli-booth/article_3eddfcb0-9acd-11ef-97c3-1bbd0c95b721.html';
 const HERO_IMAGE = '/media/560-DSC2694.jpg';
@@ -31,10 +33,10 @@ const GALLERY = [
   </section>
 
   <p class="page-lede">
-    New Orleans Arts &amp; Ideas (NOAI) Festival is a global stage for creative and driven professionals
-    who want to change the world. Organized by the 11:11 Philosophers Group, NOAI includes conversations,
-    presentations, and performances that bring New Orleans into conversation with cutting-edge,
-    impact-driven work.
+    New Orleans Arts &amp; Ideas Festival is a global stage for creative and driven professionals
+    who want to change the world. Organized by the <a href="https://philosophers.group" target="_blank" rel="noopener">11:11 Philosophers Group<span class="sr-only"> (opens in a new window)</span></a>,
+    the festival includes conversations, presentations, and performances that bring New Orleans into
+    conversation with cutting-edge, impact-driven work.
   </p>
 
   <div class="page-cta-row">
@@ -47,7 +49,7 @@ const GALLERY = [
     <a class="btn-outline" href="/">View the Schedule</a>
   </div>
 
-  <h2 class="page-section-heading">Two Years in New Orleans</h2>
+  <h2 class="page-section-heading">Celebrating Arts &amp; Ideas Since 2023</h2>
   <div class="page-gallery">
     {GALLERY.map((img) => (
       <img src={img.src} alt={img.alt} loading="lazy" />
