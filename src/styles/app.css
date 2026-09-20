@@ -659,19 +659,19 @@ a { color: var(--accent); }
 .copy-code-btn {
   flex-shrink: 0;
   margin-left: auto;
-  font-size: 12.5px;
+  font: inherit;
+  font-size: 13px;
   font-weight: 700;
-  padding: 6px 12px;
-  border-radius: 999px;
-  border: 1px solid var(--accent);
-  background: var(--surface);
+  padding: 0;
+  border: none;
+  background: none;
   color: var(--callout-text);
+  text-decoration: underline;
   cursor: pointer;
   white-space: nowrap;
 }
-.copy-code-btn:hover { background: var(--accent-soft); }
+.copy-code-btn:hover { color: var(--accent); }
 .copy-code-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.copy-code-btn[data-pressed] { background: var(--accent); color: var(--accent-contrast); }
 .reg-callout code {
   background: var(--surface);
   border: 1px solid var(--accent);
