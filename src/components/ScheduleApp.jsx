@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { SearchField, Input, Tabs, TabList, Tab, TabPanel } from 'react-aria-components';
-import SiteMenu from './SiteMenu';
+import SiteHeader from './SiteHeader';
 import YearMenu from './YearMenu';
 import OverlayDialog from './OverlayDialog';
 import Drawer from './Drawer';
@@ -296,7 +296,7 @@ export default function ScheduleApp({ initialView }) {
   if (!data) {
     return (
       <>
-        <HeaderRow onSchedule={goToSchedule} onAbout={openAbout} onSponsor={openSponsor} />
+        <SiteHeader onSchedule={goToSchedule} onAbout={openAbout} onSponsor={openSponsor} current="schedule" />
         <main />
       </>
     );
@@ -353,10 +353,11 @@ export default function ScheduleApp({ initialView }) {
 
   const aboutPage = (data.pages || []).find((p) => p.id === ABOUT_PAGE_ID);
   const sponsorPage = (data.pages || []).find((p) => p.id === SPONSOR_PAGE_ID);
+  const currentPage = modalPage === 'about' ? 'about' : modalPage === 'sponsor' ? 'sponsor' : 'schedule';
 
   return (
     <>
-      <HeaderRow onSchedule={goToSchedule} onAbout={openAbout} onSponsor={openSponsor} />
+      <SiteHeader onSchedule={goToSchedule} onAbout={openAbout} onSponsor={openSponsor} current={currentPage} />
 
       <main>
         <Tabs
@@ -430,27 +431,5 @@ export default function ScheduleApp({ initialView }) {
         )}
       </OverlayDialog>
     </>
-  );
-}
-
-function HeaderRow({ onSchedule, onAbout, onSponsor }) {
-  return (
-    <header className="header">
-      <div className="header-top">
-        <div className="header-text">
-          <h1>New Orleans Arts &amp; Ideas Festival</h1>
-          <div className="subtitle">
-            November 11&ndash;13, 2026 &bull;{' '}
-            <a href="https://louisianastatemuseum.org/museum/new-orleans-jazz-museum-old-us-mint" target="_blank" rel="noopener">
-              Historic New Orleans Jazz Museum
-            </a>
-          </div>
-        </div>
-        <div className="header-actions">
-          <a className="btn-primary" href="/register/">Register</a>
-          <SiteMenu onSchedule={onSchedule} onAbout={onAbout} onSponsor={onSponsor} />
-        </div>
-      </div>
-    </header>
   );
 }
