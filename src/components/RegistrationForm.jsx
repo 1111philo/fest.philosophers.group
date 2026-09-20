@@ -21,6 +21,27 @@ function buildStripeUrl({ email, isVolunteer }) {
   return url.toString();
 }
 
+function CopyCodeButton({ code }) {
+  const [copied, setCopied] = useState(false);
+
+  async function handleCopy() {
+    try {
+      await navigator.clipboard.writeText(code);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Clipboard access can be denied/unavailable - the code is still
+      // right there in the text for anyone to select and copy by hand.
+    }
+  }
+
+  return (
+    <Button type="button" className="copy-code-btn" onPress={handleCopy} aria-live="polite">
+      {copied ? 'Copied!' : 'Copy code'}
+    </Button>
+  );
+}
+
 function Field({ label, description, children, ...props }) {
   return (
     <TextField className="field" {...props}>
@@ -129,7 +150,8 @@ export default function RegistrationForm() {
         {showShifts && (
           <>
             <p className="reg-callout">
-              Add code <code>volunteer</code> at checkout for a free ticket.
+              <span>Add code <code>volunteer</code> at checkout for a free ticket.</span>
+              <CopyCodeButton code={VOLUNTEER_PROMO_CODE} />
             </p>
             <CheckboxGroup
               className="checkbox-group"
