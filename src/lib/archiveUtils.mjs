@@ -11,8 +11,14 @@ import { routeSlug } from './slug.js';
 
 const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
+// 2024's scraped date strings wrap the M/D/YY(YY) in a weekday label and
+// parentheses (e.g. "Sunday (11/10/24)"), while 2025's are the bare date -
+// search for the date anywhere in the string rather than anchoring to it,
+// so both formats parse. The weekday is recomputed from the parsed date
+// below rather than trusted from the string, since a few 2024 entries
+// have a weekday label that doesn't actually match their own date.
 export function parseUsDate(s) {
-  const m = /^(\d{1,2})\/(\d{1,2})\/(\d{2,4})$/.exec((s || '').trim());
+  const m = /(\d{1,2})\/(\d{1,2})\/(\d{2,4})/.exec((s || '').trim());
   if (!m) return null;
   const month = Number(m[1]);
   const day = Number(m[2]);
