@@ -1,0 +1,97 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import { SITE_URL } from '../../lib/content.mjs';
+
+const title = 'AI for Every Student — New Orleans Arts & Ideas Festival';
+const description = "Graduate Louisiana's 650,000+ digital citizens ready to win the $4.4 Trillion AI Tech future. AI for Every Student brings AI literacy, coaching, and tools into K-12 classrooms.";
+const canonical = `${SITE_URL}/ai-for-every-student/`;
+const image = `${SITE_URL}/media/ogg-arts.png`;
+
+const FUNDERS = [
+  'Walter Isaacson', 'Matt Mullenweg', 'the Kirin Family', 'Renée & Stewart Peck',
+  'Louisiana Economic Development (LED)', '11:11 Philosophers Group',
+];
+
+const INITIATIVES = [
+  {
+    name: 'AI Literacy Education',
+    body: 'NOAI and STEM NOLA developed the AI Futures workshop, increasing AI literacy for monthly high school student cohorts throughout Louisiana.',
+  },
+  {
+    name: 'AI Playbook and Professional Development at Ben Franklin',
+    body: '$13,000 funded a year-long AI initiative at Benjamin Franklin High School, led by teacher Rebecca Gaillot, resulting in school-wide professional development and an AI playbook for students.',
+  },
+  {
+    name: 'AI Energy + Ethics Lab at New Harmony',
+    body: 'A grant to New Harmony High School is purchasing computers for an AI lab. Teacher Sean Muggivan will use it for curriculum focused on AI energy and ethics.',
+  },
+  {
+    name: 'Khan Academy Subscriptions',
+    body: '2,000+ Khanmigo subscriptions were purchased for students at Bethune Elementary, Warren Easton High School, and Benjamin Franklin High School.',
+  },
+];
+
+const SCHOOLS = [
+  'Benjamin Franklin High School', 'New Harmony High School', 'ReNEW Schools', 'KIPP High Schools',
+  'Audubon Schools', 'Isidore Newman', 'Bethune Elementary', 'Warren Easton High School',
+];
+---
+<PageLayout title={title} description={description} canonical={canonical} image={image} current="ai-for-every-student">
+  <section slot="hero" class="page-hero page-hero-plain" aria-label="AI for Every Student">
+    <div class="page-hero-inner">
+      <p class="page-eyebrow">AI Literacy Initiative</p>
+      <h1 class="page-hero-title">AI for Every Student</h1>
+      <p class="page-hero-sub">
+        Graduate Louisiana's <strong>650,000+</strong> digital citizens ready to win the <strong>$4.4 Trillion</strong> AI tech future.
+      </p>
+    </div>
+  </section>
+
+  <p class="page-lede">
+    Classrooms fall behind innovation cycles, leaving students unprepared for the modern workforce.
+    AI for Every Student brings AI literacy to K-12 students, starting with Louisiana's 650,000+ students &mdash;
+    providing coaching, professional development, and AI tools directly in classrooms. Each November at NOAI,
+    participants share their work and experiences, with the ultimate goal of safe and effective AI implementation
+    in schools everywhere.
+  </p>
+
+  <div class="page-cta-row">
+    <a class="btn-primary" href="/ai-for-every-student/ai-futures/">Explore AI Futures Workshops</a>
+    <a class="btn-outline" href="mailto:ai@philosophers.group">Bring This to Your School</a>
+  </div>
+
+  <h2 class="page-section-heading">Impact Initiatives</h2>
+  <ul class="tier-list" style="margin: 12px 0 0;">
+    {INITIATIVES.map((item) => (
+      <li style="margin-bottom: 10px;"><strong>{item.name}.</strong> {item.body}</li>
+    ))}
+  </ul>
+
+  <h2 class="page-section-heading">Schools Supported</h2>
+  <ul class="speaker-pills" style="margin-top: 0;">
+    {SCHOOLS.map((name) => <li class="speaker-pill">{name}</li>)}
+  </ul>
+  <p style="font-size: 14px; color: var(--text-muted);">
+    $13,000 is the average cost for a school to kickstart AI literacy. Interested schools should email
+    <a href="mailto:ai@philosophers.group">ai@philosophers.group</a>.
+  </p>
+
+  <h2 class="page-section-heading">Current Funders</h2>
+  <ul class="speaker-pills" style="margin-top: 0;">
+    {FUNDERS.map((name) => <li class="speaker-pill">{name}</li>)}
+  </ul>
+
+  <h2 class="page-section-heading">Leadership</h2>
+  <p>
+    <strong>Blake Bertuccelli-Booth</strong> leads AI for Every Student, with over a decade of experience in
+    technology companies and nonprofits expanding access to information. He serves on the LASTEM advisory council
+    and the BESE AI Work Group. Contact <a href="mailto:blake@philosophers.group">blake@philosophers.group</a>.
+  </p>
+  <p>
+    A campaign supports Louisiana's Board of Education in promoting AI literacy at <a href="https://laleadsai.org/" target="_blank" rel="noopener">LAleadsAI.org<span class="sr-only"> (opens in a new window)</span></a>.
+  </p>
+
+  <div class="contact-card">
+    Want to get involved? Contact <a href="mailto:ai@philosophers.group">ai@philosophers.group</a>.
+  </div>
+</PageLayout>

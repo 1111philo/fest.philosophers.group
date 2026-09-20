@@ -1,0 +1,49 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import { loadContent, SITE_URL } from '../../lib/content.mjs';
+import { getPastYearDays, formatDayHeading } from '../../lib/archiveUtils.mjs';
+
+const content = loadContent();
+const days = getPastYearDays(content, '2025');
+
+const title = 'NOAI 2025 Archive — New Orleans Arts & Ideas Festival';
+const description = 'The full schedule of talks, panels, and workshops from the 2025 New Orleans Arts & Ideas Festival.';
+const canonical = `${SITE_URL}/archive/2025/`;
+const image = `${SITE_URL}/media/ogg-arts.png`;
+---
+<PageLayout title={title} description={description} canonical={canonical} image={image} current="archive">
+  <section slot="hero" class="page-hero page-hero-plain" aria-label="2025 Archive">
+    <div class="page-hero-inner">
+      <p class="page-eyebrow">Archive</p>
+      <h1 class="page-hero-title">NOAI 2025 Schedule</h1>
+    </div>
+  </section>
+
+  <p class="page-lede">
+    Talks, panels, and workshops from the 2025 New Orleans Arts &amp; Ideas Festival. Select a talk below to read more about it.
+  </p>
+
+  {days.map((day) => (
+    <div id={day.dow.toLowerCase()}>
+      <div class="day-header">{formatDayHeading(day.iso)}</div>
+      <div class="track-list">
+        {day.items.map((item) => (
+          <a class="card" href={`/p/${item.slug}/`}>
+            <div class="card-time">{item.time}</div>
+            <div class="card-body">
+              <div class="card-title">{item.title}</div>
+              {item.presenters && <div class="card-presenter">{item.presenters}</div>}
+              {item.location && <div class="card-meta"><span class="badge loc">{item.location}</span></div>}
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  ))}
+
+  <div class="page-cta-row">
+    <a class="btn-outline" href="/archive/2023/">2023 Archive</a>
+    <a class="btn-outline" href="/archive/2024/">2024 Archive</a>
+    <a class="btn-primary" href="/">View the 2026 Schedule</a>
+  </div>
+</PageLayout>

@@ -1,0 +1,122 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import { SITE_URL } from '../../lib/content.mjs';
+
+const title = 'NOAI 2023 Archive — New Orleans Arts & Ideas Festival';
+const description = 'The program from the first New Orleans Arts & Ideas Festival in 2023: a day of talks and panels on AI in education, creativity, and accessibility, followed by an evening of live performance.';
+const canonical = `${SITE_URL}/archive/2023/`;
+const image = `${SITE_URL}/media/ogg-arts.png`;
+
+const SYMPOSIUM = [
+  { time: '9:00 AM', title: 'Check-in Opens', body: 'Coffee and pastries provided.' },
+  { time: '10:00 AM', title: 'Opening Remarks' },
+  {
+    time: '10:10 AM',
+    title: 'AI in the Classroom',
+    body: 'Panel with Dr. Vicki Mayer (Tulane), Julia Lang (Tulane), and Dr. Supratik Mukhopadhyay (LSU) discussing ethical and practical considerations around using AI with students.',
+  },
+  {
+    time: '11:11 AM',
+    title: 'New Orleans 2033: How NOLA Becomes Culture-Bearer of the AI Generation',
+    body: 'Discussion with State Representative Aimee Adatto Freeman, Ramgopal Mettu (Tulane), and Gerard Ramos (Revelry). Moderated by Blake Bertuccelli-Booth (Equalify).',
+  },
+  {
+    time: '12:00 PM',
+    title: 'Using LLMs for Early Childhood Learning',
+    body: 'Lightning talk by Justin Obney (PayStar) on large language models and AI tools for early childhood education.',
+  },
+  {
+    time: '12:15 PM',
+    title: 'ACX Lunch and Learn',
+    body: 'Food from Sweet Soulfood, plus a discussion of "Pause For Thought: The AI Pause Debate" from Astral Codex Ten.',
+  },
+  { time: '1:00 PM', title: 'Drum Interlude', body: 'An eleven-minute performance by Simon Lott.' },
+  { time: '1:11 PM', title: "Alex Ebert's EEG Machine", body: 'Presentation by Alex Ebert (Edward Sharpe) on his latest musical creation.' },
+  {
+    time: '1:40 PM',
+    title: 'AI x-Risk: An Introduction to AI Existential Risk',
+    body: 'Discussion with Noah Siegel (Google DeepMind) about AI existential risk.',
+  },
+  {
+    time: '2:10 PM',
+    title: 'Helping Students Read with AI',
+    body: 'Lightning talk by Shauntel Cooley on lessons from her work with the AI reading assistant Amira.',
+  },
+  {
+    time: '2:25 PM',
+    title: 'AI From LLMs to Agents: A Journey Through the LangChain Ecosystem',
+    body: 'Presentation by Dustin Hughes exploring the LangChain ecosystem and building complex language models.',
+  },
+  {
+    time: '2:55 PM',
+    title: 'AI + Chess in New Orleans',
+    body: 'Lightning talk by Baylee Badawy (Chess Cave) on chess history and the intersection of chess and AI.',
+  },
+  {
+    time: '3:10 PM',
+    title: 'AI for the Visual Creator',
+    body: 'Panel with Beau Ross (New Orleans Cinematic Universe), Luke Hawley (IBM), H. Cole Wiley (Tulane), and Zachary Pine (Tulane). Moderated by Joseph Makkos (Intelligent Archives).',
+  },
+  {
+    time: '3:50 PM',
+    title: 'AI + Accessibility',
+    body: 'Panel with Adam Wood (Adobe), Kevin Andrews (Georgetown), and Dr. Saad Hassan (Tulane) on how AI is being used to help people with disabilities. Moderated by Blake Bertuccelli-Booth (Equalify).',
+  },
+  { time: '4:20 PM', title: 'Closing Remarks & Performance', body: 'Music by Sly Watts.' },
+];
+
+const SPONSORS_2023 = [
+  'Living School', 'New Orleans Jazz Museum', 'Operation Spark', 'Equalify', 'Decubing', 'Prodops.ai',
+  'Intelligent Archives', 'Petite Clouet', 'Astral Codex', 'Gallatin Street Records', 'Chess Cave',
+  'Drumsville', 'Bywater Branding Services',
+];
+---
+<PageLayout title={title} description={description} canonical={canonical} image={image} current="archive">
+  <section slot="hero" class="page-hero page-hero-plain" aria-label="2023 Archive">
+    <div class="page-hero-inner">
+      <p class="page-eyebrow">Archive</p>
+      <h1 class="page-hero-title">NOAI 2023 Program</h1>
+    </div>
+  </section>
+
+  <p class="page-lede">
+    The first New Orleans Arts &amp; Ideas Festival expanded conversations around AI education, creativity, and
+    establishing AI culture-bearers in New Orleans.
+  </p>
+
+  <h2 class="page-section-heading">Symposium &bull; 10 AM&ndash;4:30 PM</h2>
+  <p class="page-hero-sub" style="opacity: 1; color: var(--text-muted);">New Orleans Jazz Museum, 400 Esplanade Ave.</p>
+  <div class="track-list">
+    {SYMPOSIUM.map((item) => (
+      <div class="card" style="cursor: default;">
+        <div class="card-time">{item.time}</div>
+        <div class="card-body">
+          <div class="card-title">{item.title}</div>
+          {item.body && <div class="card-presenter">{item.body}</div>}
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <h2 class="page-section-heading">Live Performances &bull; 5&ndash;9 PM</h2>
+  <p>
+    Operation Spark, 514 Franklin Ave. Food trucks, chess games with Chess Cave, AI creations from The Electric
+    Monks, a performance by Very Cherry, and more.
+  </p>
+
+  <h2 class="page-section-heading">Afterparty &bull; 10:22 PM&ndash;till</h2>
+  <p>
+    Vaughan's Lounge, 800 Lesseps St. DJ sets from C'est Funk &amp; The Archivist &mdash; dancing and food for purchase.
+  </p>
+
+  <h2 class="page-section-heading">Sponsors &amp; Partners</h2>
+  <ul class="speaker-pills" style="margin-top: 0;">
+    {SPONSORS_2023.map((name) => <li class="speaker-pill">{name}</li>)}
+  </ul>
+
+  <div class="page-cta-row">
+    <a class="btn-outline" href="/archive/2024/">2024 Archive</a>
+    <a class="btn-outline" href="/archive/2025/">2025 Archive</a>
+    <a class="btn-primary" href="/">View the 2026 Schedule</a>
+  </div>
+</PageLayout>
