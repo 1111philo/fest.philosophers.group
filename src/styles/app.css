@@ -820,6 +820,11 @@ a { color: var(--accent); }
   font-size: 13.5px;
   line-height: 1.5;
   color: var(--text);
+  flex: 1;
+}
+.tier-buy {
+  justify-content: center;
+  margin-top: 6px;
 }
 .tier-list li { padding-left: 20px; position: relative; }
 .tier-list li::before {

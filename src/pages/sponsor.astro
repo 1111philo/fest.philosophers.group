@@ -12,6 +12,7 @@ const TIERS = [
   {
     name: 'Community Sponsor',
     price: '$500',
+    stripeUrl: 'https://buy.stripe.com/6oU6oG9fz7rzdFB2hw7Zu0h',
     benefits: [
       'Logo on the event website and thank-you slides',
       'Recognition in the event program',
@@ -22,6 +23,7 @@ const TIERS = [
   {
     name: 'Exhibiting Sponsor',
     price: '$1,500',
+    stripeUrl: 'https://buy.stripe.com/4gM14m1N74fngRNg8m7Zu0i',
     benefits: [
       '30-minute presentation slot',
       'Logo on the event program, website, emails, and thank-you slides',
@@ -33,6 +35,7 @@ const TIERS = [
   {
     name: 'Premier Sponsor',
     price: '$2,500',
+    stripeUrl: 'https://buy.stripe.com/eVqeVc4Zj6nvcBxbS67Zu0j',
     featured: true,
     benefits: [
       '60-minute presentation slot',
@@ -73,14 +76,17 @@ const TIERS = [
         <ul class="tier-list">
           {tier.benefits.map((b) => <li>{b}</li>)}
         </ul>
+        <a
+          class="btn-primary tier-buy"
+          href={tier.stripeUrl}
+          target="_blank"
+          rel="noopener"
+          aria-label={`Purchase: ${tier.name}, ${tier.price} (opens in a new window)`}
+        >
+          Purchase
+        </a>
       </div>
     ))}
-  </div>
-
-  <div class="page-cta-row">
-    <a class="btn-primary" href="https://buy.stripe.com/cNi6oGcrL9zH451f4i7Zu0g" target="_blank" rel="noopener">
-      Purchase Sponsorship<span class="sr-only"> (opens in a new window)</span>
-    </a>
   </div>
 
   <div class="contact-card">
