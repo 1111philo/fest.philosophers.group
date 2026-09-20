@@ -25,6 +25,8 @@
   --badge-food-bg: #efe7d3;
   --badge-info: #5a5346;
   --badge-info-bg: #ece7dc;
+  --badge-lightning: #a1531a;
+  --badge-lightning-bg: #f5e6d6;
 }
 @media (prefers-color-scheme: dark) {
   :root {
@@ -52,6 +54,8 @@
     --badge-food-bg: #2c2717;
     --badge-info: #b8ad98;
     --badge-info-bg: #241f16;
+    --badge-lightning: #e0a26b;
+    --badge-lightning-bg: #2e2013;
   }
 }
 
@@ -379,6 +383,7 @@ a { color: var(--accent); }
 .badge.type-party { background: var(--badge-party-bg); color: var(--badge-party); }
 .badge.type-food { background: var(--badge-food-bg); color: var(--badge-food); }
 .badge.type-informational { background: var(--badge-info-bg); color: var(--badge-info); }
+.badge.type-lightning-talk { background: var(--badge-lightning-bg); color: var(--badge-lightning); }
 
 .empty-state { text-align: center; color: var(--text-muted); padding: 60px 20px; font-size: 14px; }
 
