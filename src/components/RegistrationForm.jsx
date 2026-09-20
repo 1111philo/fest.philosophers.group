@@ -44,7 +44,6 @@ export default function RegistrationForm() {
   const [volunteerShifts, setVolunteerShifts] = useState([]);
   const [daysAttending, setDaysAttending] = useState([]);
   const [accessibilityNotes, setAccessibilityNotes] = useState('');
-  const [wantsDonation, setWantsDonation] = useState(null);
   const [submitError, setSubmitError] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
@@ -72,10 +71,6 @@ export default function RegistrationForm() {
     }
     if (daysAttending.length === 0) {
       setSubmitError('Please select at least one day you plan on attending.');
-      return;
-    }
-    if (!wantsDonation) {
-      setSubmitError('Please answer the donation question.');
       return;
     }
 
@@ -125,7 +120,7 @@ export default function RegistrationForm() {
         >
           <Label>Would you like to volunteer?</Label>
           <Text slot="description" className="field-hint">
-            Volunteers receive 100% discount for helping during a 4-hour shift. Organizers contact volunteers about two weeks before NOAI.
+            Volunteers receive 100% discount for helping during a 4-hour shift. Organizers contact volunteers about two weeks before the festival.
           </Text>
           <Radio className="radio-option" value="no">{VOLUNTEER_LABELS.no}</Radio>
           <Radio className="radio-option" value="yes_no_discount">{VOLUNTEER_LABELS.yes_no_discount}</Radio>
@@ -175,32 +170,10 @@ export default function RegistrationForm() {
         />
       </section>
 
-      <section className="reg-section">
-        <h2>Support NOAI</h2>
-        <RadioGroup
-          className="radio-group"
-          value={wantsDonation}
-          onChange={setWantsDonation}
-          isRequired
-        >
-          <Label>Would you like to add a donation?</Label>
-          <Text slot="description" className="field-hint">
-            We&rsquo;re a volunteer run organization. Help us sustain our programming!
-          </Text>
-          <Radio className="radio-option" value="yes">Yes!</Radio>
-          <Radio className="radio-option" value="no">No thanks.</Radio>
-          <FieldError className="field-error" />
-        </RadioGroup>
-      </section>
-
       {submitError && <p className="reg-error" role="alert">{submitError}</p>}
 
       <p className="reg-note">
-        Ticket ($55, includes all days and one workshop), extra workshops ($25 each), and your donation
-        (in $1 increments, if you&rsquo;d like to add one) are finalized on the next page with Stripe, where
-        you can also enter a discount code (speakers, staff, and students - ask the organizers if you&rsquo;re
-        not sure which applies to you). If you want to add both a workshop and a donation, use the
-        &ldquo;View all&rdquo; link there rather than the small preview card - it only lets you add one at a time.
+        Tickets, workshops, donations, and discount codes are all set on the next page with Stripe.
       </p>
 
       <Button type="submit" className="btn-primary reg-submit" isDisabled={submitting}>

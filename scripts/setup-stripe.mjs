@@ -47,10 +47,10 @@ function flatten(obj, prefix = '') {
 
 async function main() {
   console.log('Creating products/prices...');
-  const ticketProduct = await stripe('POST', 'products', flatten({ name: 'NOAI 2026 Ticket', description: 'Access to all event days and one workshop.' }));
+  const ticketProduct = await stripe('POST', 'products', flatten({ name: 'New Orleans Arts & Ideas Festival 2026 Ticket', description: 'Access to all event days and one workshop.' }));
   const ticketPrice = await stripe('POST', 'prices', flatten({ product: ticketProduct.id, currency: 'usd', unit_amount: 5500 }));
 
-  const workshopProduct = await stripe('POST', 'products', flatten({ name: 'NOAI 2026 Extra Workshop', description: 'Ticket for an additional workshop.' }));
+  const workshopProduct = await stripe('POST', 'products', flatten({ name: 'New Orleans Arts & Ideas Festival 2026 Extra Workshop', description: 'Ticket for an additional workshop.' }));
   const workshopPrice = await stripe('POST', 'prices', flatten({ product: workshopProduct.id, currency: 'usd', unit_amount: 2500 }));
 
   // Not a "customer chooses price" (pay-what-you-want) price: Stripe only
@@ -59,7 +59,7 @@ async function main() {
   // checkout. A plain $1-per-unit price with adjustable quantity gets the
   // same "give whatever you want" effect while staying a normal optional
   // item.
-  const donationProduct = await stripe('POST', 'products', flatten({ name: 'Donation', description: "Help sustain NOAI's programming." }));
+  const donationProduct = await stripe('POST', 'products', flatten({ name: 'Donation', description: "Help sustain the festival's programming." }));
   const donationPrice = await stripe('POST', 'prices', flatten({ product: donationProduct.id, currency: 'usd', unit_amount: 100 }));
 
   console.log('Creating coupons + promotion codes...');
@@ -99,7 +99,7 @@ async function main() {
     billing_address_collection: 'auto',
     after_completion: {
       type: 'hosted_confirmation',
-      hosted_confirmation: { custom_message: "You're registered for NOAI 2026 - see you November 11-13! A receipt is on its way to your email." },
+      hosted_confirmation: { custom_message: "You're registered for the New Orleans Arts & Ideas Festival - see you November 11-13! A receipt is on its way to your email." },
     },
   }));
 

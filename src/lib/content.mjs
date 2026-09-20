@@ -45,7 +45,7 @@ export function presentationMeta(content, pres) {
   const sf = pres.scraped_fields || {};
   const description = truncate(excerpt || sf.presenter_bio || stripTags(pres.content.rendered) || title);
   return {
-    title: `${title} — NOAI`,
+    title: `${title} — New Orleans Arts & Ideas Festival`,
     description,
     canonical: `${SITE_URL}/p/${routeSlug(pres.slug)}/`,
     ogType: 'article',
@@ -67,7 +67,7 @@ export function pageMeta(content, pageId, slug) {
     }
   }
   return {
-    title: `${title} — NOAI`,
+    title: `${title} — New Orleans Arts & Ideas Festival`,
     description,
     canonical: `${SITE_URL}/${slug}/`,
     ogType: 'website',
