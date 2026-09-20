@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { SearchField, Input, Tabs, TabList, Tab, TabPanel } from 'react-aria-components';
 import SiteHeader from './SiteHeader';
 import YearMenu from './YearMenu';
-import OverlayDialog from './OverlayDialog';
 import Drawer from './Drawer';
 import PresenterBio from './PresenterBio';
 import WpContent from './WpContent';
@@ -12,10 +11,6 @@ import {
   rotateSiteImages, scheduleItemKey, eventInfoForPresentation,
 } from '../lib/scheduleUtils';
 import { routeSlug } from '../lib/slug';
-
-const ABOUT_PAGE_ID = 469;
-const SPONSOR_PAGE_ID = 620;
-const TIMES_PICAYUNE_URL = 'https://web.archive.org/web/20250821094845/https://www.nola.com/news/business/innovation/noai-new-orleans-jazz-museum-1111-philosophers-artificial-intelligence-blake-grace-bertuccelli-booth/article_3eddfcb0-9acd-11ef-97c3-1bbd0c95b721.html';
 
 function navigate(url) {
   if (location.pathname !== url) history.pushState(null, '', url);
@@ -82,46 +77,6 @@ function Tracks({ dayItems, onOpen }) {
         {dayItems.map((it) => <ScheduleCard key={scheduleItemKey(it)} item={it} onOpen={onOpen} />)}
       </div>
     </div>
-  );
-}
-
-function AboutBody({ page }) {
-  const { paras, imgSrcs } = useMemo(() => {
-    const parsed = document.createElement('div');
-    parsed.innerHTML = (page.content && page.content.rendered) || '';
-    return {
-      paras: Array.from(parsed.querySelectorAll('p')).map((p) => p.innerHTML.trim()).filter(Boolean),
-      imgSrcs: Array.from(parsed.querySelectorAll('img')).map((img) => img.getAttribute('src')).filter(Boolean),
-    };
-  }, [page]);
-
-  return (
-    <>
-      <h2 dangerouslySetInnerHTML={{ __html: page.title.rendered }} />
-      {paras.map((p, i) => (
-        // eslint-disable-next-line react/no-array-index-key
-        <p key={i} className="about-p" dangerouslySetInnerHTML={{ __html: p }} />
-      ))}
-      {imgSrcs.length > 0 && (
-        <div className="photo-grid">
-          {imgSrcs.map((src) => <img key={src} src={src} loading="lazy" alt="" />)}
-        </div>
-      )}
-      <a className="live-link" href={TIMES_PICAYUNE_URL} target="_blank" rel="noopener">
-        Read the Times-Picayune feature &rarr;
-      </a>
-    </>
-  );
-}
-
-function GenericPageBody({ page, mediaById, onOpenPresentationSlug }) {
-  const hero = featuredUrl(mediaById, page, 'large');
-  return (
-    <>
-      {hero && <img className="modal-hero" src={hero} alt="" />}
-      <h2 dangerouslySetInnerHTML={{ __html: page.title.rendered }} />
-      <WpContent html={page.content && page.content.rendered} onOpenPresentationSlug={onOpenPresentationSlug} />
-    </>
   );
 }
 
@@ -214,7 +169,6 @@ export default function ScheduleApp({ initialView }) {
   const [day, setDay] = useState('all');
   const [query, setQuery] = useState('');
   const [drawerItem, setDrawerItem] = useState(null); // { kind: 'presentation'|'logistics', pres?, item? }
-  const [modalPage, setModalPage] = useState(null); // 'about' | 'sponsor' | null
   const dataRef = useRef(null);
 
   const mediaById = useMemo(() => {
@@ -234,7 +188,6 @@ export default function ScheduleApp({ initialView }) {
   ), []);
 
   const openPresentation = useCallback((pres, { push = true } = {}) => {
-    setModalPage(null);
     setDrawerItem({ kind: 'presentation', pres });
     if (push) navigate(`/p/${routeSlug(pres.slug)}/`);
   }, []);
@@ -245,7 +198,6 @@ export default function ScheduleApp({ initialView }) {
   }, [findPresentationBySlug, openPresentation]);
 
   const openLogisticsItem = useCallback((item) => {
-    setModalPage(null);
     setDrawerItem({ kind: 'logistics', item });
   }, []);
 
@@ -257,29 +209,12 @@ export default function ScheduleApp({ initialView }) {
     openLogisticsItem(item);
   }, [openPresentation, openLogisticsItem]);
 
-  const openAbout = useCallback(({ push = true } = {}) => {
-    setDrawerItem(null);
-    setModalPage('about');
-    if (push) navigate('/about/');
-  }, []);
-
-  const openSponsor = useCallback(({ push = true } = {}) => {
-    setDrawerItem(null);
-    setModalPage('sponsor');
-    if (push) navigate('/sponsor/');
-  }, []);
-
   const closeDrawer = useCallback((open) => {
     if (!open) { setDrawerItem(null); navigateHome(); }
   }, []);
 
-  const closeModal = useCallback((open) => {
-    if (!open) { setModalPage(null); navigateHome(); }
-  }, []);
-
   const goToSchedule = useCallback(() => {
     setDrawerItem(null);
-    setModalPage(null);
     navigateHome();
     setDay('all');
     setQuery('');
@@ -293,11 +228,8 @@ export default function ScheduleApp({ initialView }) {
       const pres = findPresentationBySlug(decodeURIComponent(m[1]));
       if (pres) { openPresentation(pres, { push: false }); return; }
     }
-    if (/^\/about\/?$/.test(path)) { openAbout({ push: false }); return; }
-    if (/^\/sponsor\/?$/.test(path)) { openSponsor({ push: false }); return; }
     setDrawerItem(null);
-    setModalPage(null);
-  }, [findPresentationBySlug, openPresentation, openAbout, openSponsor]);
+  }, [findPresentationBySlug, openPresentation]);
 
   useEffect(() => {
     fetch('/content.json')
@@ -309,10 +241,6 @@ export default function ScheduleApp({ initialView }) {
         if (initialView && initialView.type === 'presentation') {
           const pres = (json.presentations || []).find((p) => p.slug === initialView.slug);
           if (pres) setDrawerItem({ kind: 'presentation', pres });
-        } else if (initialView && initialView.type === 'about') {
-          setModalPage('about');
-        } else if (initialView && initialView.type === 'sponsor') {
-          setModalPage('sponsor');
         }
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -333,7 +261,7 @@ export default function ScheduleApp({ initialView }) {
   if (!data) {
     return (
       <>
-        <SiteHeader onSchedule={goToSchedule} onAbout={openAbout} onSponsor={openSponsor} current="schedule" />
+        <SiteHeader onSchedule={goToSchedule} current="schedule" />
         <main />
       </>
     );
@@ -388,13 +316,9 @@ export default function ScheduleApp({ initialView }) {
       : <div className="empty-state">Nothing scheduled yet for this day.</div>;
   }
 
-  const aboutPage = (data.pages || []).find((p) => p.id === ABOUT_PAGE_ID);
-  const sponsorPage = (data.pages || []).find((p) => p.id === SPONSOR_PAGE_ID);
-  const currentPage = modalPage === 'about' ? 'about' : modalPage === 'sponsor' ? 'sponsor' : 'schedule';
-
   return (
     <>
-      <SiteHeader onSchedule={goToSchedule} onAbout={openAbout} onSponsor={openSponsor} current={currentPage} />
+      <SiteHeader onSchedule={goToSchedule} current="schedule" />
 
       <main>
         <Tabs
@@ -454,21 +378,6 @@ export default function ScheduleApp({ initialView }) {
         )}
         {drawerItem && drawerItem.kind === 'logistics' && <LogisticsBody item={drawerItem.item} />}
       </Drawer>
-
-      <OverlayDialog
-        isOpen={!!modalPage}
-        onOpenChange={closeModal}
-        overlayClassName="page-modal-overlay"
-        modalClassName="modal"
-        ariaLabel={modalPage === 'about' ? 'About' : 'Sponsor'}
-      >
-        {modalPage === 'about' && aboutPage && (
-          <AboutBody page={aboutPage} />
-        )}
-        {modalPage === 'sponsor' && sponsorPage && (
-          <GenericPageBody page={sponsorPage} mediaById={mediaById} onOpenPresentationSlug={openPresentationSlug} />
-        )}
-      </OverlayDialog>
     </>
   );
 }

@@ -23,9 +23,8 @@ export default function Drawer({ isOpen, onClose, ariaLabel, children }) {
       return () => cancelAnimationFrame(raf);
     }
     setEntered(false);
-    // React Aria's ModalOverlay (used elsewhere - see OverlayDialog.jsx)
-    // moves focus in and restores it on close for free; this hand-rolled
-    // panel needs the same done by hand.
+    // React Aria's ModalOverlay moves focus in and restores it on close
+    // for free; this hand-rolled panel needs the same done by hand.
     previouslyFocusedRef.current?.focus?.();
     previouslyFocusedRef.current = null;
     const timeout = setTimeout(() => setRendered(false), 240); // matches the CSS transition duration

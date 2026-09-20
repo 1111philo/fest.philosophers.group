@@ -382,42 +382,6 @@ a { color: var(--accent); }
 
 .empty-state { text-align: center; color: var(--text-muted); padding: 60px 20px; font-size: 14px; }
 
-/* Modal (About/Sponsor) - a controlled React Aria ModalOverlay+Modal, so
-   focus-trapping and Escape/outside-click-to-close come from the library;
-   this is just appearance and the enter/exit transition (React Aria adds
-   data-entering/data-exiting for as long as a transition is defined here,
-   so the exit animation finishes before it unmounts). */
-.page-modal-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  background: rgba(20, 14, 4, 0.5);
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-}
-@media (min-width: 640px) {
-  .page-modal-overlay { align-items: center; padding: 20px; }
-}
-.modal {
-  position: relative;
-  width: 100%;
-  max-width: 640px;
-  max-height: 88vh;
-  overflow-y: auto;
-  border-radius: 18px 18px 0 0;
-  padding: 20px 22px calc(28px + env(safe-area-inset-bottom, 0px));
-  background: var(--bg);
-  color: var(--text);
-  box-shadow: 0 -4px 24px rgba(0,0,0,0.25);
-  transition: transform 0.2s ease;
-}
-.modal[data-entering], .modal[data-exiting] { transform: translateY(24px); }
-@media (min-width: 640px) {
-  .modal { border-radius: 18px; max-height: 84vh; }
-  .modal[data-entering], .modal[data-exiting] { transform: translateY(8px) scale(0.98); }
-  .modal .drawer-handle { display: none; }
-}
 .modal-close {
   position: absolute;
   top: 14px;
@@ -433,7 +397,7 @@ a { color: var(--accent); }
   cursor: pointer;
   line-height: 1;
 }
-.modal h2, .drawer h2 {
+.drawer h2 {
   font-family: Fraunces, Georgia, serif;
   font-size: 21px;
   margin: 0 0 10px;
@@ -576,16 +540,6 @@ a { color: var(--accent); }
   .drawer.drawer-hidden { transform: translateX(100%); }
   .drawer-handle { display: none; }
 }
-
-.photo-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-  gap: 8px;
-  margin: 16px 0;
-}
-.photo-grid img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; }
-.about-p { font-size: 14.5px; line-height: 1.65; }
-.about-p:first-of-type { font-size: 16px; font-weight: 600; }
 
 .site-footer {
   max-width: 1000px;
@@ -902,7 +856,7 @@ a.sponsor-logo:hover img { filter: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .menu-popover, .modal, .drawer {
+  .menu-popover, .drawer {
     transition-duration: 0.001ms !important;
   }
 }

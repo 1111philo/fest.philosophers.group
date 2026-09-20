@@ -16,7 +16,7 @@ function ExternalLinkHint() {
   );
 }
 
-export default function SiteMenu({ onSchedule, onAbout, onSponsor, current }) {
+export default function SiteMenu({ onSchedule, current }) {
   // MenuItem strips aria-current from props before it reaches the DOM -
   // react-aria's filterDOMProps only lets a fixed allowlist of aria-*
   // attributes through (label/labelledby/describedby/details), regardless
@@ -39,17 +39,15 @@ export default function SiteMenu({ onSchedule, onAbout, onSponsor, current }) {
           className="site-menu"
           onAction={(key) => {
             if (key === 'schedule') onSchedule();
-            else if (key === 'about') onAbout();
-            else if (key === 'sponsor') onSponsor();
           }}
         >
           <MenuItem id="schedule" className="site-menu-item" ref={currentRef('schedule')}>
             Schedule
           </MenuItem>
-          <MenuItem id="about" className="site-menu-item" ref={currentRef('about')}>
+          <MenuItem id="about" className="site-menu-item" href="/about/" ref={currentRef('about')}>
             About
           </MenuItem>
-          <MenuItem id="sponsor" className="site-menu-item" ref={currentRef('sponsor')}>
+          <MenuItem id="sponsor" className="site-menu-item" href="/sponsor/" ref={currentRef('sponsor')}>
             Sponsor
           </MenuItem>
           <MenuItem

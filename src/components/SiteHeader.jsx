@@ -1,16 +1,14 @@
 import SiteMenu from './SiteMenu';
 
-// Shared across every page - the schedule SPA passes its own onSchedule/
-// onAbout/onSponsor for in-app state changes; the standalone registration
-// page (an Astro island, which can't receive function props) mounts this
-// with no props at all, so the defaults below do a real navigation
+// Shared across every page - the schedule SPA passes its own onSchedule
+// to reset in-app state instead of reloading; every other page (including
+// standalone Astro islands, which can't receive function props at all)
+// mounts this with no props, so the default below does a real navigation
 // instead. `current` marks whichever page is already showing, in both the
 // Register button and the hamburger menu, so it's clear you're already
 // there.
 export default function SiteHeader({
   onSchedule = () => { window.location.href = '/'; },
-  onAbout = () => { window.location.href = '/about/'; },
-  onSponsor = () => { window.location.href = '/sponsor/'; },
   current,
 }) {
   return (
@@ -39,7 +37,7 @@ export default function SiteHeader({
               Register
             </a>
           )}
-          <SiteMenu onSchedule={onSchedule} onAbout={onAbout} onSponsor={onSponsor} current={current} />
+          <SiteMenu onSchedule={onSchedule} current={current} />
         </div>
       </div>
     </header>
