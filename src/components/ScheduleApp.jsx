@@ -446,7 +446,10 @@ function HeaderRow({ onSchedule, onAbout, onSponsor }) {
             </a>
           </div>
         </div>
-        <SiteMenu onSchedule={onSchedule} onAbout={onAbout} onSponsor={onSponsor} />
+        <div className="header-actions">
+          <a className="btn-primary" href="/register/">Register</a>
+          <SiteMenu onSchedule={onSchedule} onAbout={onAbout} onSponsor={onSponsor} />
+        </div>
       </div>
     </header>
   );
