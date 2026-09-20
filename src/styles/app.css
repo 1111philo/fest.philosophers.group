@@ -61,7 +61,7 @@ body {
 }
 img { max-width: 100%; }
 [hidden] { display: none !important; }
-button { font-family: inherit; }
+button { font-family: inherit; color: inherit; }
 
 a { color: var(--accent); }
 
