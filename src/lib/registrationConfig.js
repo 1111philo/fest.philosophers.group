@@ -14,11 +14,8 @@ export const CM_FIELDS = {
   volunteerShifts: 'cm-f-dkiuydur',
   daysAttending: 'cm-f-dkiuyduy',
   accessibilityNotes: 'cm-f-dkiuyduj',
-  // TODO: fill in once provided - the "Workshops" field added to the CM
-  // list (comma-separated chosen workshop titles). addField() in
-  // campaignMonitor.js silently skips any field whose name is falsy, so
-  // this is safe to ship unset in the meantime.
-  workshops: undefined,
+  // Comma-separated chosen workshop titles.
+  workshops: 'cm-f-dkiujllj',
 };
 
 // Cloudflare Worker that creates a Stripe Checkout Session server-side -
