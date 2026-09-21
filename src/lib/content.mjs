@@ -23,10 +23,11 @@ export function loadContent() {
   return cached;
 }
 
-// The presentation/page's own featured image if it has one, otherwise a
-// pick from the ogg-* pool that's stable per item (so repeated builds don't
-// churn which fallback image an item gets).
-export function imageFor(content, featuredMediaId, fallbackKey) {
+// The presentation/page's own featured image if it has one, otherwise the
+// site's one fixed fallback share image (ogg-arts.png) - consistent across
+// every page/presentation that lacks its own image, rather than a
+// per-item pick from the ogg-* pool.
+export function imageFor(content, featuredMediaId) {
   const media = content.media.find((m) => m.id === featuredMediaId);
   if (media) {
     return {
@@ -34,11 +35,6 @@ export function imageFor(content, featuredMediaId, fallbackKey) {
       width: media.media_details.width,
       height: media.media_details.height,
     };
-  }
-  const oggPool = (content.site_images && content.site_images.ogg) || [];
-  if (oggPool.length) {
-    const pick = oggPool[fallbackKey % oggPool.length];
-    return { url: `${SITE_URL}/${pick}`, width: 1424, height: 752 };
   }
   return { url: `${SITE_URL}/media/ogg-arts.png`, width: 1424, height: 752 };
 }
@@ -88,7 +84,7 @@ export function presentationMeta(content, pres) {
   const description = truncate(excerpt || sf.presenter_bio || stripTags(pres.content.rendered) || title);
   const hasFeaturedMedia = content.media.some((m) => m.id === pres.featured_media);
   const image = (!hasFeaturedMedia && sf.presenter_photo_url && presenterPhotoImage(sf.presenter_photo_url))
-    || imageFor(content, pres.featured_media, pres.id);
+    || imageFor(content, pres.featured_media);
   return {
     title: `${title} — ${SITE_TITLE}`,
     description,
@@ -102,7 +98,7 @@ export function pageMeta(content, pageId, slug) {
   const pg = content.pages.find((p) => p.id === pageId);
   const title = stripTags(pg.title.rendered);
   const description = truncate(stripTags(pg.content.rendered) || title);
-  let image = imageFor(content, pg.featured_media, pageId);
+  let image = imageFor(content, pg.featured_media);
   // Prefer the page's own first inline image (e.g. About's gallery) over the random pool.
   const firstImgMatch = /src="(media\/[^"]+)"/.exec(pg.content.rendered || '');
   if (firstImgMatch) {
