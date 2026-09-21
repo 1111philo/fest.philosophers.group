@@ -27,6 +27,10 @@
   --badge-info-bg: #ece7dc;
   --badge-lightning: #a1531a;
   --badge-lightning-bg: #f5e6d6;
+  --badge-performance: #4a5a82;
+  --badge-performance-bg: #e3e6ef;
+  --badge-announcement: #6b4a82;
+  --badge-announcement-bg: #ece3ef;
 }
 @media (prefers-color-scheme: dark) {
   :root {
@@ -56,6 +60,10 @@
     --badge-info-bg: #241f16;
     --badge-lightning: #e0a26b;
     --badge-lightning-bg: #2e2013;
+    --badge-performance: #a9bbe6;
+    --badge-performance-bg: #1e2436;
+    --badge-announcement: #cba9de;
+    --badge-announcement-bg: #271e2f;
   }
 }
 
@@ -209,7 +217,12 @@ a { color: var(--accent); }
   z-index: 10;
   background: var(--bg);
   border-bottom: 1px solid var(--border);
-  padding: 12px 16px;
+  padding: 12px 0;
+}
+.toolbar-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 16px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -298,6 +311,9 @@ a { color: var(--accent); }
   margin: 0 auto;
   padding: 18px 16px 60px;
 }
+@media (min-width: 1100px) {
+  .toolbar-inner, .main-panel { max-width: 1240px; }
+}
 
 .search-results-note {
   font-size: 13px;
@@ -322,6 +338,19 @@ a { color: var(--accent); }
   border-bottom: 2px solid var(--border);
 }
 .track-list { display: flex; flex-direction: column; gap: 8px; }
+/* On wide screens a single chronological list of cards (a day with only
+   one real venue) reads as a narrow column with acres of empty space on
+   either side - let it flow into two columns instead, like the .multi
+   per-venue tracks already do. Scoped to a direct child so it doesn't
+   also apply to the per-venue lists nested inside .tracks.multi. */
+@media (min-width: 1100px) {
+  .tracks:not(.multi) > .track-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px 16px;
+    align-items: start;
+  }
+}
 
 .card {
   display: flex;
@@ -337,6 +366,30 @@ a { color: var(--accent); }
   align-items: flex-start;
 }
 .card:hover { border-color: var(--accent); }
+@media (min-width: 1100px) {
+  .card { padding: 14px 16px; gap: 14px; }
+}
+.card-thumb {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  object-fit: cover;
+  background: var(--surface-2);
+}
+.card-thumb.placeholder { opacity: 0.55; }
+.card-thumb.type-workshop { background: var(--badge-workshop); }
+.card-thumb.type-panel { background: var(--badge-panel); }
+.card-thumb.type-fireside-chat { background: var(--badge-fireside); }
+.card-thumb.type-party { background: var(--badge-party); }
+.card-thumb.type-food { background: var(--badge-food); }
+.card-thumb.type-informational { background: var(--badge-info); }
+.card-thumb.type-lightning-talk { background: var(--badge-lightning); }
+.card-thumb.type-performance { background: var(--badge-performance); }
+.card-thumb.type-announcement { background: var(--badge-announcement); }
+@media (min-width: 1100px) {
+  .card-thumb { width: 56px; height: 56px; border-radius: 12px; }
+}
 .card-time {
   flex-shrink: 0;
   width: 64px;
@@ -376,7 +429,16 @@ a { color: var(--accent); }
   border-radius: 999px;
   white-space: nowrap;
 }
-.badge.loc { background: var(--surface-2); color: var(--text-muted); }
+.badge.loc {
+  background: var(--surface-2);
+  color: var(--text-muted);
+  /* Location strings ("Education Center • 400 Esplanade Ave") are long
+     enough, at card widths this narrow, to force the card wider than its
+     container if kept on one line - let this one badge wrap instead of
+     causing page-wide horizontal scroll. */
+  white-space: normal;
+  overflow-wrap: break-word;
+}
 .badge.type-workshop { background: var(--badge-workshop-bg); color: var(--badge-workshop); }
 .badge.type-panel { background: var(--badge-panel-bg); color: var(--badge-panel); }
 .badge.type-fireside-chat { background: var(--badge-fireside-bg); color: var(--badge-fireside); }
@@ -384,6 +446,8 @@ a { color: var(--accent); }
 .badge.type-food { background: var(--badge-food-bg); color: var(--badge-food); }
 .badge.type-informational { background: var(--badge-info-bg); color: var(--badge-info); }
 .badge.type-lightning-talk { background: var(--badge-lightning-bg); color: var(--badge-lightning); }
+.badge.type-performance { background: var(--badge-performance-bg); color: var(--badge-performance); }
+.badge.type-announcement { background: var(--badge-announcement-bg); color: var(--badge-announcement); }
 
 .empty-state { text-align: center; color: var(--text-muted); padding: 60px 20px; font-size: 14px; }
 

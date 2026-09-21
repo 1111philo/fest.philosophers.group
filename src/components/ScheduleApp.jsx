@@ -24,10 +24,26 @@ function TypeBadge({ type }) {
   return <span className={`badge type-${typeSlug(type)}`}>{type}</span>;
 }
 
-function ScheduleCard({ item, onOpen }) {
+// A presentation's own thumbnail if it has one (checked in the same
+// preference order as the build-time og:image fallback: featured media,
+// then the scraped presenter photo), otherwise null - logistics rows
+// (breaks, parties, etc.) never have one, and get a plain type-colored
+// swatch instead so every row still lines up the same way.
+function scheduleThumb(item, presentationsById, mediaById) {
+  if (!item.presentation_id) return null;
+  const pres = presentationsById[item.presentation_id];
+  if (!pres) return null;
+  return featuredUrl(mediaById, pres, 'thumbnail') || (pres.scraped_fields || {}).presenter_photo_url || null;
+}
+
+function ScheduleCard({ item, onOpen, mediaById, presentationsById }) {
+  const thumb = scheduleThumb(item, presentationsById, mediaById);
   return (
     <button type="button" className="card" onClick={() => onOpen(item)}>
       <div className="card-time">{item.time}</div>
+      {thumb
+        ? <img className="card-thumb" src={thumb} alt="" loading="lazy" />
+        : <div className={`card-thumb placeholder type-${typeSlug(item.type)}`} aria-hidden="true" />}
       <div className="card-body">
         <div className="card-title">{item.title}</div>
         {item.presenters && <div className="card-presenter">{item.presenters}</div>}
@@ -43,7 +59,7 @@ function ScheduleCard({ item, onOpen }) {
 // Builds the (possibly multi-column, by-venue) tracks for one day's worth
 // of already-sorted items. Shared by the single-day view and each section
 // of the all-days view.
-function Tracks({ dayItems, onOpen }) {
+function Tracks({ dayItems, onOpen, mediaById, presentationsById }) {
   const byLocation = {};
   dayItems.forEach((it) => { (byLocation[it.location] = byLocation[it.location] || []).push(it); });
   const majorTracks = Object.keys(byLocation).filter((loc) => byLocation[loc].length >= 3);
@@ -56,7 +72,9 @@ function Tracks({ dayItems, onOpen }) {
           <div key={loc}>
             <div className="track-heading">{loc}</div>
             <div className="track-list">
-              {byLocation[loc].map((it) => <ScheduleCard key={scheduleItemKey(it)} item={it} onOpen={onOpen} />)}
+              {byLocation[loc].map((it) => (
+                <ScheduleCard key={scheduleItemKey(it)} item={it} onOpen={onOpen} mediaById={mediaById} presentationsById={presentationsById} />
+              ))}
             </div>
           </div>
         ))}
@@ -64,7 +82,9 @@ function Tracks({ dayItems, onOpen }) {
           <div>
             <div className="track-heading">Also Today</div>
             <div className="track-list">
-              {minorItems.map((it) => <ScheduleCard key={scheduleItemKey(it)} item={it} onOpen={onOpen} />)}
+              {minorItems.map((it) => (
+                <ScheduleCard key={scheduleItemKey(it)} item={it} onOpen={onOpen} mediaById={mediaById} presentationsById={presentationsById} />
+              ))}
             </div>
           </div>
         )}
@@ -74,7 +94,9 @@ function Tracks({ dayItems, onOpen }) {
   return (
     <div className="tracks">
       <div className="track-list">
-        {dayItems.map((it) => <ScheduleCard key={scheduleItemKey(it)} item={it} onOpen={onOpen} />)}
+        {dayItems.map((it) => (
+          <ScheduleCard key={scheduleItemKey(it)} item={it} onOpen={onOpen} mediaById={mediaById} presentationsById={presentationsById} />
+        ))}
       </div>
     </div>
   );
@@ -230,6 +252,12 @@ export default function ScheduleApp({ initialView }) {
     return map;
   }, [data]);
 
+  const presentationsById = useMemo(() => {
+    const map = {};
+    (data && data.presentations || []).forEach((p) => { map[p.id] = p; });
+    return map;
+  }, [data]);
+
   // Matches on routeSlug() both sides so this works whether `slug` is a raw
   // WP slug (internal cross-links baked into old content HTML) or a URL
   // path segment (from location.pathname) - the one WP slug with literal
@@ -360,7 +388,7 @@ export default function ScheduleApp({ initialView }) {
               <div key={scheduleItemKey(it)}>
                 {showHeader && <div className="day-header">{it.day}, {lbl.date}</div>}
                 <div className="track-list">
-                  <ScheduleCard item={it} onOpen={openScheduleItem} />
+                  <ScheduleCard item={it} onOpen={openScheduleItem} mediaById={mediaById} presentationsById={presentationsById} />
                 </div>
               </div>
             );
@@ -380,7 +408,7 @@ export default function ScheduleApp({ initialView }) {
       return (
         <div key={date}>
           <div className="day-header">{dayItems[0].day}, {lbl.date}</div>
-          <Tracks dayItems={dayItems} onOpen={openScheduleItem} />
+          <Tracks dayItems={dayItems} onOpen={openScheduleItem} mediaById={mediaById} presentationsById={presentationsById} />
         </div>
       );
     });
@@ -390,7 +418,7 @@ export default function ScheduleApp({ initialView }) {
       'Lightning Talk',
     );
     mainContent = dayItems.length
-      ? <Tracks dayItems={dayItems} onOpen={openScheduleItem} />
+      ? <Tracks dayItems={dayItems} onOpen={openScheduleItem} mediaById={mediaById} presentationsById={presentationsById} />
       : <div className="empty-state">Nothing scheduled yet for this day.</div>;
   }
 
@@ -404,28 +432,30 @@ export default function ScheduleApp({ initialView }) {
           onSelectionChange={(key) => { setDay(key); setQuery(''); }}
         >
           <div className="toolbar">
-            <div className="search-row">
-              <YearMenu
-                years={years}
-                year={year}
-                onChange={(y) => { setYear(y); setDay('all'); setQuery(''); }}
-              />
-              <SearchField className="search-field" value={query} onChange={setQuery} aria-label="Search talks, speakers">
-                <Input className="search" placeholder="Search talks, speakers&hellip;" />
-              </SearchField>
-            </div>
+            <div className="toolbar-inner">
+              <div className="search-row">
+                <YearMenu
+                  years={years}
+                  year={year}
+                  onChange={(y) => { setYear(y); setDay('all'); setQuery(''); }}
+                />
+                <SearchField className="search-field" value={query} onChange={setQuery} aria-label="Search talks, speakers">
+                  <Input className="search" placeholder="Search talks, speakers&hellip;" />
+                </SearchField>
+              </div>
 
-            <TabList aria-label="Day" className="day-tabs">
-              <Tab id="all" className="day-tab">All Days</Tab>
-              {days.map((date) => {
-                const lbl = dayLabel(date);
-                return (
-                  <Tab key={date} id={date} className="day-tab">
-                    <span className="dow">{lbl.dow}</span>{lbl.date}
-                  </Tab>
-                );
-              })}
-            </TabList>
+              <TabList aria-label="Day" className="day-tabs">
+                <Tab id="all" className="day-tab">All Days</Tab>
+                {days.map((date) => {
+                  const lbl = dayLabel(date);
+                  return (
+                    <Tab key={date} id={date} className="day-tab">
+                      <span className="dow">{lbl.dow}</span>{lbl.date}
+                    </Tab>
+                  );
+                })}
+              </TabList>
+            </div>
           </div>
 
           {/* One real TabPanel, matching whichever tab is selected -
