@@ -12,6 +12,7 @@
      --accent-soft specifically (4.33:1) - a touch darker clears it. */
   --callout-text: #885e24;
   --shadow: 0 1px 2px rgba(40, 30, 10, 0.06), 0 1px 8px rgba(40, 30, 10, 0.04);
+  --shadow-lift: 0 10px 24px rgba(40, 30, 10, 0.14);
 
   --badge-workshop: #3c7357;
   --badge-workshop-bg: #e3ece5;
@@ -55,6 +56,7 @@
     --accent-contrast: #211505;
     --callout-text: #d9a94e;
     --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 2px 12px rgba(0, 0, 0, 0.25);
+    --shadow-lift: 0 12px 28px rgba(0, 0, 0, 0.4);
 
     --badge-workshop: #7fbf9e;
     --badge-workshop-bg: #1c2c22;
@@ -935,23 +937,25 @@ a { color: var(--accent); }
   .page-hero-inner { max-width: 1100px; }
 }
 .page-eyebrow {
-  font-size: 12.5px;
+  font-size: 13px;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   opacity: 0.9;
-  margin: 0 0 8px;
+  margin: 0 0 10px;
 }
 .page-hero-title {
   font-family: Fraunces, Georgia, serif;
-  font-size: 28px;
-  line-height: 1.15;
+  font-weight: 900;
+  font-size: 38px;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
   margin: 0;
   text-wrap: balance;
 }
 .page-hero-sub {
-  margin: 14px 0 0;
-  font-size: 14.5px;
+  margin: 16px 0 0;
+  font-size: 16.5px;
   line-height: 1.6;
   max-width: 62ch;
   opacity: 0.95;
@@ -965,9 +969,27 @@ a { color: var(--accent); }
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.16);
 }
+/* .speaker-pill's translucent-white fill only works over the hero's dark
+   photo/gradient - reused verbatim on the plain page background (Schools
+   Supported, Current Funders) it read as a near-invisible pale chip with
+   almost no contrast against the cream page. This is the equivalent for
+   a light background: a solid tinted fill instead of translucency. */
+.tag-pills { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 0; padding: 0; list-style: none; }
+.tag-pill {
+  font-size: 13px;
+  font-weight: 700;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--callout-text);
+  border: 1px solid transparent;
+}
 @media (min-width: 768px) {
-  .page-hero { min-height: 320px; padding: 76px 32px 52px; }
-  .page-hero-title { font-size: 42px; }
+  .page-hero { min-height: 340px; padding: 76px 40px 56px; }
+  .page-hero-title { font-size: 56px; }
+}
+@media (min-width: 1100px) {
+  .page-hero-title { font-size: 68px; }
 }
 
 .page-main {
@@ -1002,29 +1024,60 @@ a { color: var(--accent); }
   .page-block-center .page-lede { margin-left: auto; margin-right: auto; }
   .page-block-center .page-cta-row { justify-content: center; }
   .page-block-center .about-stats { justify-content: center; }
+  .page-block-center .about-stat { flex: 0 1 160px; }
 }
 .page-section-heading {
   font-family: Fraunces, Georgia, serif;
-  font-size: 22px;
+  font-weight: 700;
+  font-size: 26px;
+  letter-spacing: -0.01em;
   margin: 0;
 }
-.page-cta-row { display: flex; flex-wrap: wrap; gap: 10px; }
+@media (min-width: 900px) {
+  .page-section-heading { font-size: 30px; }
+}
+.page-cta-row { display: flex; flex-wrap: wrap; gap: 12px; }
+.page-cta-row .btn-primary, .page-cta-row .btn-outline { padding: 13px 26px; font-size: 15px; }
 
-.about-stats { display: flex; flex-wrap: wrap; gap: 28px; }
+/* Real callout cards, not just numbers sitting in a row - each gets its
+   own tinted background so a short stat row still reads as a deliberate,
+   colorful moment on the page rather than three lines of quiet text. The
+   three accent colors cycle through the same badge palette already used
+   for schedule/type tags elsewhere, so it stays inside the site's
+   existing (dark-mode-checked) color system instead of inventing new
+   ones. */
+.about-stats { display: flex; flex-wrap: wrap; gap: 14px; }
+.about-stat {
+  flex: 1 1 140px;
+  min-width: 130px;
+  border-radius: 16px;
+  padding: 18px 20px;
+  background: var(--accent-soft);
+  border: 1px solid var(--border);
+}
+.about-stat:nth-child(3n+2) { background: var(--badge-panel-bg); }
+.about-stat:nth-child(3n+3) { background: var(--badge-workshop-bg); }
 .about-stat-num {
   font-family: Fraunces, Georgia, serif;
-  font-size: 28px;
-  color: var(--accent);
+  font-weight: 800;
+  font-size: 34px;
+  letter-spacing: -0.01em;
+  color: var(--callout-text);
   margin: 0;
-  line-height: 1.1;
+  line-height: 1.05;
 }
+.about-stat:nth-child(3n+2) .about-stat-num { color: var(--badge-panel); }
+.about-stat:nth-child(3n+3) .about-stat-num { color: var(--badge-workshop); }
 .about-stat-label {
   font-size: 11.5px;
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--text-muted);
-  margin: 3px 0 0;
+  margin: 4px 0 0;
+}
+@media (min-width: 900px) {
+  .about-stat-num { font-size: 42px; }
 }
 
 .about-quote {
@@ -1123,20 +1176,26 @@ a { color: var(--accent); }
   display: block;
   border: 1px solid var(--border);
   background: var(--surface);
-  border-radius: 14px;
-  padding: 18px;
+  border-radius: 18px;
+  padding: 20px;
   text-decoration: none;
   color: inherit;
   box-shadow: var(--shadow);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
 }
-.org-project-card:hover { border-color: var(--accent); }
+.org-project-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lift);
+}
 .org-project-name {
   font-family: Fraunces, Georgia, serif;
-  font-size: 17px;
+  font-weight: 700;
+  font-size: 18px;
   margin: 0 0 6px;
   color: var(--text);
 }
-.org-project-body { font-size: 13px; color: var(--text-muted); line-height: 1.5; margin: 0; }
+.org-project-body { font-size: 13.5px; color: var(--text-muted); line-height: 1.5; margin: 0; }
 
 /* Impact initiative / mentor cards - a small logo or headshot beside the
    text, used on the AI for Every Student pages. */
@@ -1155,8 +1214,8 @@ a { color: var(--accent); }
   gap: 14px;
   align-items: flex-start;
   border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 16px;
+  border-radius: 16px;
+  padding: 18px;
   background: var(--surface);
   box-shadow: var(--shadow);
 }
@@ -1180,11 +1239,12 @@ a { color: var(--accent); }
 .initiative-body, .mentor-body { min-width: 0; }
 .initiative-name, .mentor-name {
   font-family: Fraunces, Georgia, serif;
-  font-size: 15px;
+  font-weight: 700;
+  font-size: 16px;
   margin: 0 0 4px;
 }
 .mentor-name a { color: inherit; }
-.initiative-text, .mentor-text { font-size: 13px; color: var(--text-muted); line-height: 1.5; margin: 0; }
+.initiative-text, .mentor-text { font-size: 13.5px; color: var(--text-muted); line-height: 1.5; margin: 0; }
 
 .press-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
 @media (min-width: 640px) {
@@ -1193,18 +1253,26 @@ a { color: var(--accent); }
 .press-card {
   display: block;
   border: 1px solid var(--border);
-  border-radius: 14px;
+  border-radius: 18px;
   overflow: hidden;
   background: var(--surface);
   box-shadow: var(--shadow);
   text-decoration: none;
   color: inherit;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
 }
-.press-card:hover { border-color: var(--accent); }
-.press-card img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; display: block; }
-.press-card-body { padding: 12px 14px; }
-.press-card-title { font-size: 13.5px; font-weight: 700; line-height: 1.4; margin: 0 0 4px; color: var(--text); }
-.press-card-source { font-size: 12px; color: var(--text-muted); margin: 0; }
+.press-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lift);
+}
+/* Matches the source crop (750x300, already trimmed to just the clean
+   photo - no baked-in headline text or logo watermark) instead of an
+   arbitrary 16:10 that forced a second, worse crop on top of it. */
+.press-card img { width: 100%; aspect-ratio: 2.5 / 1; object-fit: cover; display: block; }
+.press-card-body { padding: 14px 16px; }
+.press-card-title { font-size: 15px; font-weight: 700; line-height: 1.4; margin: 0 0 4px; color: var(--text); }
+.press-card-source { font-size: 12.5px; color: var(--text-muted); margin: 0; }
 
 .page-banner-photo {
   width: 100%;
@@ -1225,12 +1293,14 @@ a { color: var(--accent); }
   position: relative;
   border: 1px solid var(--border);
   background: var(--surface);
-  border-radius: 14px;
-  padding: 22px 20px;
+  border-radius: 18px;
+  padding: 24px 22px;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
 }
+.tier-card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: var(--shadow-lift); }
 .tier-name {
   font-size: 12.5px;
   font-weight: 700;
@@ -1239,7 +1309,7 @@ a { color: var(--accent); }
   color: var(--text-muted);
   margin: 0;
 }
-.tier-price { font-family: Fraunces, Georgia, serif; font-size: 26px; margin: 0; }
+.tier-price { font-family: Fraunces, Georgia, serif; font-weight: 800; font-size: 30px; margin: 0; }
 .tier-limited {
   font-size: 12px;
   font-weight: 700;
