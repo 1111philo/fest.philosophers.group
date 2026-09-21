@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   Form, TextField, Label, Input, Text, FieldError,
-  RadioGroup, Radio, CheckboxGroup, Checkbox, Button,
+  RadioGroup, Radio, CheckboxGroup, Checkbox, Button, NumberField, Group,
 } from 'react-aria-components';
-import { DAYS, VOLUNTEER_SHIFTS, STRIPE_PAYMENT_LINK_URL, VOLUNTEER_PROMO_CODE } from '../lib/registrationConfig';
+import {
+  DAYS, VOLUNTEER_SHIFTS, WORKSHOPS, TICKET_PRICE, WORKSHOP_PRICE, CHECKOUT_ENDPOINT,
+} from '../lib/registrationConfig';
 import { loadCampaignMonitorScript, submitToCampaignMonitor } from '../lib/campaignMonitor';
 
 const VOLUNTEER_LABELS = {
@@ -11,35 +13,8 @@ const VOLUNTEER_LABELS = {
   yes: 'Yes, I will volunteer.',
 };
 
-function buildStripeUrl({ email, isVolunteer }) {
-  const url = new URL(STRIPE_PAYMENT_LINK_URL);
-  if (email) {
-    url.searchParams.set('prefilled_email', email);
-    url.searchParams.set('client_reference_id', email.slice(0, 200));
-  }
-  if (isVolunteer) url.searchParams.set('prefilled_promo_code', VOLUNTEER_PROMO_CODE);
-  return url.toString();
-}
-
-function CopyCodeButton({ code }) {
-  const [copied, setCopied] = useState(false);
-
-  async function handleCopy() {
-    try {
-      await navigator.clipboard.writeText(code);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch {
-      // Clipboard access can be denied/unavailable - the code is still
-      // right there in the text for anyone to select and copy by hand.
-    }
-  }
-
-  return (
-    <Button type="button" className="copy-code-btn" onPress={handleCopy} aria-live="polite">
-      {copied ? 'Copied!' : 'Copy code'}
-    </Button>
-  );
+function plural(n, word) {
+  return `${n} ${word}${n === 1 ? '' : 's'}`;
 }
 
 function Field({ label, description, children, ...props }) {
@@ -64,6 +39,8 @@ export default function RegistrationForm() {
   const [volunteerShifts, setVolunteerShifts] = useState([]);
   const [daysAttending, setDaysAttending] = useState([]);
   const [accessibilityNotes, setAccessibilityNotes] = useState('');
+  const [registrationQty, setRegistrationQty] = useState(1);
+  const [selectedWorkshops, setSelectedWorkshops] = useState([]);
   const [submitError, setSubmitError] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
@@ -73,7 +50,14 @@ export default function RegistrationForm() {
 
   const showShifts = volunteer === 'yes';
 
-  function onSubmit(e) {
+  const workshopTitles = useMemo(
+    () => selectedWorkshops.map((id) => WORKSHOPS.find((w) => w.id === id)?.title).filter(Boolean),
+    [selectedWorkshops],
+  );
+  const extraWorkshopQty = Math.max(workshopTitles.length - registrationQty, 0);
+  const total = registrationQty * TICKET_PRICE + extraWorkshopQty * WORKSHOP_PRICE;
+
+  async function onSubmit(e) {
     e.preventDefault();
     setSubmitError('');
 
@@ -104,12 +88,27 @@ export default function RegistrationForm() {
       volunteerShifts: volunteerShifts.join(', '),
       daysAttending: daysAttending.join(', '),
       accessibilityNotes,
+      workshops: workshopTitles.join(', '),
     });
 
-    window.location.href = buildStripeUrl({
-      email,
-      isVolunteer: volunteer === 'yes',
-    });
+    try {
+      const res = await fetch(CHECKOUT_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          registrationQty,
+          workshopTitles,
+          isVolunteer: volunteer === 'yes',
+        }),
+      });
+      const data = await res.json().catch(() => null);
+      if (!res.ok || !data?.url) throw new Error('checkout-failed');
+      window.location.href = data.url;
+    } catch {
+      setSubmitError('Something went wrong starting your payment. Please try again in a moment.');
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -150,7 +149,7 @@ export default function RegistrationForm() {
         {showShifts && (
           <>
             <p className="reg-callout">
-              Add code <code>volunteer</code> at checkout for a free ticket. <CopyCodeButton code={VOLUNTEER_PROMO_CODE} />
+              Your ticket discount is applied automatically at checkout - no code needed.
             </p>
             <CheckboxGroup
               className="checkbox-group"
@@ -194,11 +193,67 @@ export default function RegistrationForm() {
         />
       </section>
 
+      <section className="reg-section">
+        <h2>Registrations &amp; workshops</h2>
+        <NumberField
+          className="field"
+          value={registrationQty}
+          onChange={setRegistrationQty}
+          minValue={1}
+          maxValue={20}
+        >
+          <Label>Number of registrations</Label>
+          <Group className="number-stepper">
+            <Button slot="decrement" aria-label="Decrease">&minus;</Button>
+            <Input />
+            <Button slot="increment" aria-label="Increase">+</Button>
+          </Group>
+          <Text slot="description" className="field-hint">
+            Buying for a group? Each registration includes one workshop.
+          </Text>
+        </NumberField>
+
+        <CheckboxGroup
+          className="checkbox-group"
+          value={selectedWorkshops}
+          onChange={setSelectedWorkshops}
+        >
+          <Label>Which workshops are you interested in?</Label>
+          <Text slot="description" className="field-hint">
+            Select as many as you like. The first {plural(registrationQty, 'registration')} include{registrationQty === 1 ? 's' : ''} a
+            workshop each at no extra cost &mdash; anything past that is ${WORKSHOP_PRICE} per workshop.
+          </Text>
+          {WORKSHOPS.map((w) => (
+            <Checkbox key={w.id} className="checkbox-option workshop-option" value={w.id}>
+              <span className="workshop-option-title">{w.title}</span>
+              <span className="workshop-option-meta">{w.day} &middot; {w.time}</span>
+            </Checkbox>
+          ))}
+        </CheckboxGroup>
+
+        <div className="reg-total">
+          <div className="reg-total-line">
+            <span>{plural(registrationQty, 'registration')}</span>
+            <span>${registrationQty * TICKET_PRICE}</span>
+          </div>
+          {extraWorkshopQty > 0 && (
+            <div className="reg-total-line">
+              <span>{plural(extraWorkshopQty, 'extra workshop')}</span>
+              <span>${extraWorkshopQty * WORKSHOP_PRICE}</span>
+            </div>
+          )}
+          <div className="reg-total-line reg-total-sum">
+            <span>Total</span>
+            <span>${total}</span>
+          </div>
+        </div>
+      </section>
+
       {submitError && <p className="reg-error" role="alert">{submitError}</p>}
 
       <p className="reg-note">
-        Your ticket includes one workshop. Additional workshops, donations, and discount codes are all
-        set on the next page with Stripe.
+        Total shown is before any donation or discount code, which you can add on the next page with
+        Stripe.
       </p>
 
       <Button type="submit" className="btn-primary reg-submit" isDisabled={submitting}>
