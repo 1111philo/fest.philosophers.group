@@ -39,9 +39,29 @@ const { title, description, canonical, image } = Astro.props;
 </head>
 <body>
 <SiteHeader client:load current="register" />
-<main class="reg-main">
-  <h2 class="reg-title">Register</h2>
-  <RegistrationForm client:load />
+<main class="reg-shell">
+  <div class="reg-col-main">
+    <h2 class="reg-title">Register</h2>
+    <RegistrationForm client:load />
+  </div>
+  <aside class="reg-col-side">
+    <div class="reg-info-card">
+      <p class="reg-info-eyebrow">New Orleans Arts &amp; Ideas Festival</p>
+      <p class="reg-info-dates">November 11&ndash;13, 2026</p>
+      <p class="reg-info-venue">
+        <a href="https://nolajazzmuseum.org/" target="_blank" rel="noopener">Jazz Museum<span class="sr-only"> (opens in a new window)</span></a>
+      </p>
+      <ul class="reg-info-list">
+        <li>Full access to all three festival days</li>
+        <li>One workshop ticket included per registration</li>
+        <li>Additional workshop tickets available for $25 each</li>
+        <li>Speaker/staff/student discount codes available at checkout</li>
+      </ul>
+      <p class="reg-info-note">
+        Questions? Contact <a href="mailto:fest@philosophers.group">fest@philosophers.group</a>.
+      </p>
+    </div>
+  </aside>
 </main>
 <SiteFooter />
 </body>
