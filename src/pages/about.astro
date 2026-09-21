@@ -8,6 +8,37 @@ meta.description = 'Philosophy, Philanthropy, Tech, Biz, Education, and Improvis
 
 const TIMES_PICAYUNE_URL = 'https://web.archive.org/web/20250821094845/https://www.nola.com/news/business/innovation/noai-new-orleans-jazz-museum-1111-philosophers-artificial-intelligence-blake-grace-bertuccelli-booth/article_3eddfcb0-9acd-11ef-97c3-1bbd0c95b721.html';
 const HERO_IMAGE = '/media/560-DSC2694.jpg';
+const SLACK_INVITE_URL = 'https://join.slack.com/t/1111philo/shared_invite/zt-2gmnevnx3-qR6119iBjUFxS4BgP8wXzA';
+
+// Every project's own real, currently-live URL (verified against
+// philosophers.group directly, not guessed) - AI for Every Student links
+// internally since this same site already hosts that page.
+const PROJECTS = [
+  {
+    name: 'AI for Every Student',
+    url: '/ai-for-every-student/',
+    external: false,
+    body: 'Bringing AI literacy, coaching, and tools into Louisiana K-12 classrooms.',
+  },
+  {
+    name: 'AI Leaders',
+    url: 'https://ai-leaders.org/',
+    external: true,
+    body: "A fully agentic course on AI literacy and enablement. Its first cohort graduated 36 finalists from over 500 applicants, with partners including Automattic and the University of Illinois Chicago.",
+  },
+  {
+    name: 'Equalify Iris',
+    url: 'https://github.com/equalifyEverything/equalify-iris',
+    external: true,
+    body: 'An open-source tool that converts PDFs into accessible HTML for blind and low-vision readers.',
+  },
+  {
+    name: 'plato',
+    url: 'https://philosophers.group/plato-agentic-classroom/',
+    external: true,
+    body: 'An open-source, AI-powered agentic classroom platform.',
+  },
+];
 
 const GALLERY = [
   { src: '/media/557-DSC0995.jpg', alt: 'A woman speaks into a microphone. She appears to be on a panel, sitting next to another woman.' },
@@ -59,4 +90,52 @@ const GALLERY = [
   <a class="live-link" href={TIMES_PICAYUNE_URL} target="_blank" rel="noopener">
     Read the Times-Picayune feature &rarr;<span class="sr-only"> (opens in a new window)</span>
   </a>
+
+  <h2 class="page-section-heading">The Group Behind It</h2>
+  <div class="about-org">
+    <div class="about-org-text">
+      <p>
+        New Orleans Arts &amp; Ideas Festival is organized by the <a href="https://philosophers.group" target="_blank" rel="noopener">11:11 Philosophers Group<span class="sr-only"> (opens in a new window)</span></a>,
+        a community whose guiding question is simple: how do we do good better?
+      </p>
+      <p>
+        11:11 started as a Sunday habit. In October 2021, Blake and Grace Bertuccelli-Booth decided New
+        Orleans needed a place to talk about ideas, so they picked a time &mdash; 11:11, right after Mass,
+        with enough daylight left for a cappuccino &mdash; and emailed some friends. The first meeting, at
+        Petite Clouet caf&eacute; on October 21, 2021, drew an artist, an AI developer, and a few curious
+        neighbors. Weekly meetings ran for years afterward, and the community has since directed over
+        $333,000 to causes it believes in.
+      </p>
+      <p>Anyone can join &mdash; 1111&rsquo;s meetings and Slack are open to whoever wants in.</p>
+      <div class="page-cta-row">
+        <a class="btn-outline" href="https://philosophers.group" target="_blank" rel="noopener">
+          Visit philosophers.group<span class="sr-only"> (opens in a new window)</span>
+        </a>
+        <a class="btn-outline" href={SLACK_INVITE_URL} target="_blank" rel="noopener">
+          Join the 11:11 Slack<span class="sr-only"> (opens in a new window)</span>
+        </a>
+      </div>
+    </div>
+    <figure class="about-org-photo">
+      <img
+        src="/media/1111-origin-story.jpg"
+        alt="Artist Robert Tannen, wearing a yellow beanie, holds up a hand-lettered sign at 11:11's first meeting outside a New Orleans shotgun house."
+        loading="lazy"
+      />
+      <figcaption>11:11&rsquo;s first meeting, October 21, 2021.</figcaption>
+    </figure>
+  </div>
+
+  <h2 class="page-section-heading">More From 11:11</h2>
+  <p class="page-lede">
+    The festival is one of several 11:11 projects working on accessible, evidence-based ways to do good better:
+  </p>
+  <div class="org-project-grid">
+    {PROJECTS.map((p) => (
+      <a class="org-project-card" href={p.url} target={p.external ? '_blank' : undefined} rel={p.external ? 'noopener' : undefined}>
+        <p class="org-project-name">{p.name}{p.external && <span class="sr-only"> (opens in a new window)</span>}</p>
+        <p class="org-project-body">{p.body}</p>
+      </a>
+    ))}
+  </div>
 </PageLayout>
