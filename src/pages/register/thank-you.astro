@@ -1,0 +1,22 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import { SITE_URL, SITE_TITLE } from '../../lib/content.mjs';
+
+const meta = {
+  title: `You're Registered — ${SITE_TITLE}`,
+  description: 'Thank you for registering for the New Orleans Arts & Ideas Festival.',
+  canonical: `${SITE_URL}/register/thank-you/`,
+  image: `${SITE_URL}/media/ogg-arts.png`,
+};
+---
+<PageLayout title={meta.title} description={meta.description} canonical={meta.canonical} image={meta.image} current="register">
+  <h1 class="page-section-heading">You&rsquo;re registered!</h1>
+  <p class="page-lede">
+    Thanks for signing up for the New Orleans Arts &amp; Ideas Festival. A receipt is on its way to your
+    inbox from Stripe. We&rsquo;ll follow up by email with more details as the festival gets closer.
+  </p>
+  <div class="page-cta-row">
+    <a class="btn-primary" href="/">View the Schedule</a>
+    <a class="btn-outline" href="/about/">Learn More</a>
+  </div>
+</PageLayout>
