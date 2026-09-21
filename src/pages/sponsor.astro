@@ -39,7 +39,6 @@ const TIERS = [
     short: 'Premier',
     price: '$2,500',
     stripeUrl: 'https://buy.stripe.com/eVqeVc4Zj6nvcBxbS67Zu0j',
-    featured: true,
     benefits: [
       '60-minute presentation slot',
       'Premier logo placement on the event program, website, emails, and thank-you slides',
@@ -47,6 +46,20 @@ const TIERS = [
       'Dedicated sponsor thank-you email',
       'Ten complimentary registrations',
       'Ten invites to the sponsor event',
+    ],
+  },
+  {
+    name: 'Title Sponsor',
+    short: 'Title',
+    price: '$11,000',
+    stripeUrl: 'https://buy.stripe.com/eVq14mbnH8vDeJF1ds7Zu0k',
+    featured: true,
+    limited: 'Only 1 available',
+    benefits: [
+      'Everything in Premier Sponsor',
+      'A curated presentation slot on opening day',
+      'Top logo placement on the event program, website, emails, and thank-you slides',
+      'Named as Title Sponsor in all festival announcements and press',
     ],
   },
 ];
@@ -77,6 +90,7 @@ const TIERS = [
         {tier.featured && <span class="tier-star" aria-hidden="true">&#9733;</span>}
         <p class="tier-name">{tier.name}</p>
         <p class="tier-price">{tier.price}</p>
+        {tier.limited && <p class="tier-limited">{tier.limited}</p>}
         <ul class="tier-list">
           {tier.benefits.map((b) => <li>{b}</li>)}
         </ul>
