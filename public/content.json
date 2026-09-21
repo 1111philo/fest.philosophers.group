@@ -38787,6 +38787,43 @@
         "presenter_bio": "Hi! My name is Rob Gaudet. I architect agentic AI systems and ship them solo. Then I build the audience that finds them.\r\n\r\nVictora.ai is the flagship. Multi-tenant SaaS running autonomous Claude workflows on Cloudflare Workers and Supabase Postgres, with a database-driven task engine, multi-model routing between Sonnet and Haiku, and structured context that persists across every run. No team. Just me, Claude Code, and a locked shipping sequence.\r\n\r\nThe same stack drives everything else I run. AuntMabel.app puts an AI voice agent on the phone with seniors living alone every morning. InkThorn.ai and TrustLight.com take the same agent architecture into publishing and into South Louisiana trades. Gaudet Systems is where I do the architecture work for everyone else.\r\n\r\nDistribution is the other half of the job. I’ve built a 220,000-follower community that reaches 60 million people a year and funds $1M annually in disaster relief. I’ve spent $250K on Facebook ads and returned over $6 million. In 2012, before Facebook Marketplace existed, I built 130 city-level buy-sell-trade groups by reverse-engineering what people actually type into search. They now hold 3 million members and I never ran an ad. In 2009 I built my first 500,000-person following from zero.\r\n\r\nI’ve been early before. In 2006 Microsoft brought me to Redmond to co-write the .NET Architecture certification exams. In 2012 I built LILAH, an FDA-cleared remote patient monitoring platform, before telehealth was a word. That architecture is standard across the industry now. It sold for $300 million.\r\n\r\n30 years of production software. The last three have been the most interesting ones.",
         "presenter_photo_url": "media/presenter-131-photo_2026-09-15_15-00-44.jpg"
       }
+    },
+    {
+      "id": 2900,
+      "date": "2026-09-21T22:00:00",
+      "date_gmt": "2026-09-21T22:00:00",
+      "guid": {
+        "rendered": "https://noai.philosophers.group/?p=2900"
+      },
+      "modified": "2026-09-21T22:00:00",
+      "modified_gmt": "2026-09-21T22:00:00",
+      "slug": "age-of-ai-meets-pre-internet-times-how-to-build-an-offline-voice-ai-chat-bot-by-vanessa-pyne",
+      "status": "draft",
+      "type": "presentations",
+      "link": "https://noai.philosophers.group/?post_type=presentations&p=2900",
+      "title": {
+        "rendered": "Age of AI Meets Pre-Internet Times: How to Build an Offline Voice AI Chat Bot by Vanessa Pyne"
+      },
+      "content": {
+        "rendered": "<p>In this workshop we'll create a 100% local bot I like to call LOCAT: a LOcal, pipeCAT voice AI bot.</p>\n<p>LOCAT uses all the acronyms, LLM, RAG, STT, TTS, and some awesome open-source frameworks like Pipecat and Ollama. The one thing it doesn't use? API keys. This is pure open-sourcery here.</p>\n<p>All models and all the code runs on your machine and your data doesn't leave your machine. Who needs a cloud? Not you, because you'll understand what local models your computer can handle and why sometimes you need to use headphones when talking to your voice AI bot.</p>\n<p>Impress your friends by turning off wi-fi and watch jaws drop as you eloquently converse with your bot sans http requests.</p>\n<p>But wait there's more &mdash; with just a few lines of code changed, your local bot <em>can</em> use any hosted LLM service. You control when it has access to local, potentially sensitive documents, and when it can reach out to SOTA models on the web.</p>\n<p>Sound too good to be true? You can find all the open-source code at <a href=\"https://github.com/vipyne/locat\">github.com/vipyne/locat</a>.</p>\n<p><strong>Learning objectives:</strong></p>\n<p>Learn the cascade design pattern (STT &rarr; LLM &rarr; TTS), how to evaluate what local models your machine can handle, why local audio is difficult, how to build a basic offline voice AI chatbot, how to add RAG for custom data, and how to extend the bot to reach hosted models when you want to.</p>\n",
+        "protected": false
+      },
+      "excerpt": {
+        "rendered": "<p>In this workshop we'll create a 100% local bot I like to call LOCAT: a LOcal, pipeCAT voice AI bot. LOCAT uses all the acronyms, LLM, RAG, STT, TTS, and some awesome open-source frameworks like Pipecat and Ollama. The one thing it doesn't use? API keys. [&hellip;]</p>\n",
+        "protected": false
+      },
+      "featured_media": 0,
+      "template": "",
+      "tags": [],
+      "scraped_fields": {
+        "date": "11/12/2026",
+        "time": "2:15 PM",
+        "location": "Education Center • 400 Esplanade Ave",
+        "presenter_name": "Vanessa Pyne",
+        "presenter_bio": "Vanessa Pyne is an engineer at Daily where she works on Pipecat, an open-source Python framework for building real-time voice and multimodal conversational agents. She believes open-source AI tooling gives individuals immense power to impact the future and sees it as a personal responsibility to wield said power to make the future productive, ethical, and fun. But mostly fun.",
+        "presenter_photo_url": "media/presenter-132-vanessa-pyne.jpg",
+        "type": "Workshop"
+      }
     }
   ],
   "media": [
@@ -58342,7 +58379,7 @@
       "presenters": "Vanessa Pyne",
       "type": "Workshop",
       "tag": "AI & Technology",
-      "presentation_id": null
+      "presentation_id": 2900
     },
     {
       "year": "2026",
