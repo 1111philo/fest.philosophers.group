@@ -77,26 +77,44 @@ const TIERS = [
     </div>
   </section>
 
-  <p class="page-lede">
-    Sponsors get a presentation slot, logo placement, and complimentary registrations and event invites.
-    Higher tiers also get attendee contact information for opted-in attendees. Details for each tier are below.
-  </p>
-
-  <h2 class="page-section-heading">Sponsorship Levels</h2>
-  <div class="tier-grid">
-    {TIERS.map((tier) => (
-      <div class="tier-card">
-        <p class="tier-name">{tier.name}</p>
-        <p class="tier-price">{tier.price}</p>
-        {tier.limited && <p class="tier-limited">{tier.limited}</p>}
-        <ul class="tier-list">
-          {tier.benefits.map((b) => <li>{b}</li>)}
-        </ul>
-        <a class="btn-primary tier-buy" href={tier.stripeUrl} target="_blank" rel="noopener">
-          Purchase {tier.short}<span class="sr-only"> (opens in a new window)</span>
-        </a>
+  <div class="page-block page-block-center">
+    <p class="page-lede">
+      Sponsors get a presentation slot, logo placement, and complimentary registrations and event invites.
+      Higher tiers also get attendee contact information for opted-in attendees. Details for each tier are below.
+    </p>
+    <div class="about-stats">
+      <div class="about-stat">
+        <p class="about-stat-num">{TIERS.length}</p>
+        <p class="about-stat-label">Sponsorship Tiers</p>
       </div>
-    ))}
+      <div class="about-stat">
+        <p class="about-stat-num">$500+</p>
+        <p class="about-stat-label">Starting Price</p>
+      </div>
+      <div class="about-stat">
+        <p class="about-stat-num">60 min</p>
+        <p class="about-stat-label">Stage Time Included</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-block">
+    <h2 class="page-section-heading">Sponsorship Levels</h2>
+    <div class="tier-grid">
+      {TIERS.map((tier) => (
+        <div class="tier-card">
+          <p class="tier-name">{tier.name}</p>
+          <p class="tier-price">{tier.price}</p>
+          {tier.limited && <p class="tier-limited">{tier.limited}</p>}
+          <ul class="tier-list">
+            {tier.benefits.map((b) => <li>{b}</li>)}
+          </ul>
+          <a class="btn-primary tier-buy" href={tier.stripeUrl} target="_blank" rel="noopener">
+            Purchase {tier.short}<span class="sr-only"> (opens in a new window)</span>
+          </a>
+        </div>
+      ))}
+    </div>
   </div>
 
   <div class="contact-card">
