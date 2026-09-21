@@ -187,14 +187,26 @@ function GroupBody({ group, onOpenPresentationId }) {
             {it.presentation_id ? (
               <button type="button" className="group-talk group-talk-link" onClick={() => onOpenPresentationId(it.presentation_id)}>
                 <span className="group-talk-time">{it.time}</span>
+                <span className="sr-only">, </span>
                 <span className="group-talk-title">{it.title}</span>
-                {it.presenters && <span className="group-talk-presenter">{it.presenters}</span>}
+                {it.presenters && (
+                  <>
+                    <span className="sr-only">, </span>
+                    <span className="group-talk-presenter">{it.presenters}</span>
+                  </>
+                )}
               </button>
             ) : (
               <div className="group-talk">
                 <span className="group-talk-time">{it.time}</span>
+                <span className="sr-only">, </span>
                 <span className="group-talk-title">{it.title}</span>
-                {it.presenters && <span className="group-talk-presenter">{it.presenters}</span>}
+                {it.presenters && (
+                  <>
+                    <span className="sr-only">, </span>
+                    <span className="group-talk-presenter">{it.presenters}</span>
+                  </>
+                )}
               </div>
             )}
           </li>

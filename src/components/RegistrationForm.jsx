@@ -4,7 +4,8 @@ import {
   RadioGroup, Radio, CheckboxGroup, Checkbox, Button, NumberField, Group,
 } from 'react-aria-components';
 import {
-  DAYS, VOLUNTEER_SHIFTS, WORKSHOPS, TICKET_PRICE, WORKSHOP_PRICE, CHECKOUT_ENDPOINT,
+  DAYS, VOLUNTEER_SHIFTS, WORKSHOPS, TICKET_PRICE, WORKSHOP_PRICE, VOLUNTEER_DISCOUNT,
+  DONATION_SUGGESTIONS, CHECKOUT_ENDPOINT,
 } from '../lib/registrationConfig';
 import { loadCampaignMonitorScript, submitToCampaignMonitor } from '../lib/campaignMonitor';
 
@@ -41,6 +42,7 @@ export default function RegistrationForm() {
   const [accessibilityNotes, setAccessibilityNotes] = useState('');
   const [registrationQty, setRegistrationQty] = useState(1);
   const [selectedWorkshops, setSelectedWorkshops] = useState([]);
+  const [donationAmount, setDonationAmount] = useState('');
   const [submitError, setSubmitError] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
@@ -48,14 +50,18 @@ export default function RegistrationForm() {
     loadCampaignMonitorScript();
   }, []);
 
-  const showShifts = volunteer === 'yes';
+  const isVolunteer = volunteer === 'yes';
+  const showShifts = isVolunteer;
 
   const workshopTitles = useMemo(
     () => selectedWorkshops.map((id) => WORKSHOPS.find((w) => w.id === id)?.title).filter(Boolean),
     [selectedWorkshops],
   );
   const extraWorkshopQty = Math.max(workshopTitles.length - registrationQty, 0);
-  const total = registrationQty * TICKET_PRICE + extraWorkshopQty * WORKSHOP_PRICE;
+  const donationCents = Math.max(Math.round((Number(donationAmount) || 0) * 100), 0);
+  const donation = donationCents / 100;
+  const volunteerDiscount = isVolunteer ? VOLUNTEER_DISCOUNT : 0;
+  const total = registrationQty * TICKET_PRICE + extraWorkshopQty * WORKSHOP_PRICE + donation - volunteerDiscount;
 
   async function onSubmit(e) {
     e.preventDefault();
@@ -99,7 +105,8 @@ export default function RegistrationForm() {
           email,
           registrationQty,
           workshopTitles,
-          isVolunteer: volunteer === 'yes',
+          isVolunteer,
+          donationAmount: donation,
         }),
       });
       const data = await res.json().catch(() => null);
@@ -226,12 +233,41 @@ export default function RegistrationForm() {
           {WORKSHOPS.map((w) => (
             <Checkbox key={w.id} className="checkbox-option workshop-option" value={w.id}>
               <span className="workshop-option-title">{w.title}</span>
-              <span className="workshop-option-meta">{w.day} &middot; {w.time}</span>
+              {/* Visually the line break (flex-direction: column) already
+                  separates these - without a real text separator, though,
+                  a screen reader's computed name runs the two spans
+                  together with no space ("Tai Chi BasicsBlake..."). */}
+              <span className="sr-only">, </span>
+              <span className="workshop-option-meta">{w.leader} &middot; {w.day} &middot; {w.time}</span>
             </Checkbox>
           ))}
         </CheckboxGroup>
 
-        <div className="reg-total">
+        <Field
+          label="Add a donation (optional)"
+          type="number"
+          min="0"
+          step="1"
+          inputMode="decimal"
+          value={donationAmount}
+          onChange={setDonationAmount}
+          description="Every dollar helps keep the festival running."
+        />
+        <div className="donation-chips" role="group" aria-label="Suggested donation amounts">
+          {DONATION_SUGGESTIONS.map((amount) => (
+            <button
+              key={amount}
+              type="button"
+              className="donation-chip"
+              aria-pressed={donationCents === amount * 100}
+              onClick={() => setDonationAmount(String(amount))}
+            >
+              ${amount.toLocaleString()}
+            </button>
+          ))}
+        </div>
+
+        <div className="reg-total" aria-live="polite" aria-atomic="true">
           <div className="reg-total-line">
             <span>{plural(registrationQty, 'registration')}</span>
             <span>${registrationQty * TICKET_PRICE}</span>
@@ -242,9 +278,21 @@ export default function RegistrationForm() {
               <span>${extraWorkshopQty * WORKSHOP_PRICE}</span>
             </div>
           )}
+          {donation > 0 && (
+            <div className="reg-total-line">
+              <span>Donation</span>
+              <span>${donation.toLocaleString()}</span>
+            </div>
+          )}
+          {volunteerDiscount > 0 && (
+            <div className="reg-total-line">
+              <span>Volunteer discount</span>
+              <span>&minus;${volunteerDiscount}</span>
+            </div>
+          )}
           <div className="reg-total-line reg-total-sum">
             <span>Total</span>
-            <span>${total}</span>
+            <span>${total.toLocaleString()}</span>
           </div>
         </div>
       </section>
@@ -252,8 +300,8 @@ export default function RegistrationForm() {
       {submitError && <p className="reg-error" role="alert">{submitError}</p>}
 
       <p className="reg-note">
-        Total shown is before any donation or discount code, which you can add on the next page with
-        Stripe.
+        The total above includes your donation and volunteer discount. Speaker/staff/student discount
+        codes can still be entered on the next page with Stripe.
       </p>
 
       <Button type="submit" className="btn-primary reg-submit" isDisabled={submitting}>
