@@ -26,8 +26,8 @@ export default function SiteHeader({
           </h1>
           <div className="subtitle">
             November 11&ndash;13, 2026 &bull;{' '}
-            <a href="https://louisianastatemuseum.org/museum/new-orleans-jazz-museum-old-us-mint" target="_blank" rel="noopener">
-              Historic New Orleans Jazz Museum
+            <a href="https://nolajazzmuseum.org/" target="_blank" rel="noopener">
+              Jazz Museum<span className="sr-only"> (opens in a new window)</span>
             </a>
           </div>
         </div>

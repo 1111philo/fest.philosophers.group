@@ -26,6 +26,8 @@ jobs:
       - run: npm ci
       - name: Refresh favicon/social-share image pools from media/
         run: node scripts/build-media-manifest.js
+      - name: Compress any oversized media images
+        run: node scripts/optimize-images.mjs
       - run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:

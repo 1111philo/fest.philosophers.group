@@ -57,6 +57,7 @@ export function submitToCampaignMonitor(values) {
   addField(CM_FIELDS.volunteerShifts, values.volunteerShifts);
   addField(CM_FIELDS.daysAttending, values.daysAttending);
   addField(CM_FIELDS.accessibilityNotes, values.accessibilityNotes);
+  addField(CM_FIELDS.workshops, values.workshops);
 
   document.body.appendChild(form);
   form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));

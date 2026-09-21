@@ -1,10 +1,10 @@
 ---
 import RegisterLayout from '../../layouts/RegisterLayout.astro';
-import { SITE_URL } from '../../lib/content.mjs';
+import { SITE_URL, SITE_TITLE } from '../../lib/content.mjs';
 ---
 <RegisterLayout
-  title="Register — New Orleans Arts & Ideas Festival"
-  description="Register for the New Orleans Arts & Ideas Festival, November 11–13, 2026 at the Historic New Orleans Jazz Museum."
+  title={`Register — ${SITE_TITLE}`}
+  description="Register for the New Orleans Arts & Ideas Festival, November 11–13, 2026 at the Jazz Museum."
   canonical={`${SITE_URL}/register/`}
   image={`${SITE_URL}/media/ogg-arts.png`}
 />

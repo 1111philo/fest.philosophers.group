@@ -12,6 +12,7 @@
      --accent-soft specifically (4.33:1) - a touch darker clears it. */
   --callout-text: #885e24;
   --shadow: 0 1px 2px rgba(40, 30, 10, 0.06), 0 1px 8px rgba(40, 30, 10, 0.04);
+  --shadow-lift: 0 10px 24px rgba(40, 30, 10, 0.14);
 
   --badge-workshop: #3c7357;
   --badge-workshop-bg: #e3ece5;
@@ -25,7 +26,23 @@
   --badge-food-bg: #efe7d3;
   --badge-info: #5a5346;
   --badge-info-bg: #ece7dc;
+  --badge-lightning: #a1531a;
+  --badge-lightning-bg: #f5e6d6;
+  --badge-performance: #4a5a82;
+  --badge-performance-bg: #e3e6ef;
+  --badge-announcement: #6b4a82;
+  --badge-announcement-bg: #ece3ef;
+
+  /* Shared content width for every top-level page container (header,
+     schedule toolbar/list, About/Sponsor/AFES page-main, sponsor strip) -
+     one scale instead of each repeating its own breakpoints, so they stay
+     in lockstep and a very wide monitor doesn't just get huge flanking
+     margins around a fixed-width island of content. */
+  --content-w: 1000px;
 }
+@media (min-width: 1100px) { :root { --content-w: 1240px; } }
+@media (min-width: 1600px) { :root { --content-w: 1440px; } }
+@media (min-width: 2000px) { :root { --content-w: 1600px; } }
 @media (prefers-color-scheme: dark) {
   :root {
     --bg: #171009;
@@ -39,6 +56,7 @@
     --accent-contrast: #211505;
     --callout-text: #d9a94e;
     --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 2px 12px rgba(0, 0, 0, 0.25);
+    --shadow-lift: 0 12px 28px rgba(0, 0, 0, 0.4);
 
     --badge-workshop: #7fbf9e;
     --badge-workshop-bg: #1c2c22;
@@ -52,6 +70,12 @@
     --badge-food-bg: #2c2717;
     --badge-info: #b8ad98;
     --badge-info-bg: #241f16;
+    --badge-lightning: #e0a26b;
+    --badge-lightning-bg: #2e2013;
+    --badge-performance: #a9bbe6;
+    --badge-performance-bg: #1e2436;
+    --badge-announcement: #cba9de;
+    --badge-announcement-bg: #271e2f;
   }
 }
 
@@ -71,11 +95,14 @@ a { color: var(--accent); }
 
 .header {
   position: relative;
-  padding: 20px 20px 16px;
+  padding: 20px 0 16px;
   text-align: left;
   border-bottom: 1px solid var(--border);
 }
 .header-top {
+  max-width: var(--content-w);
+  margin: 0 auto;
+  padding: 0 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -205,7 +232,12 @@ a { color: var(--accent); }
   z-index: 10;
   background: var(--bg);
   border-bottom: 1px solid var(--border);
-  padding: 12px 16px;
+  padding: 12px 0;
+}
+.toolbar-inner {
+  max-width: var(--content-w);
+  margin: 0 auto;
+  padding: 0 16px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -290,7 +322,7 @@ a { color: var(--accent); }
 
 .main-panel {
   display: block;
-  max-width: 1000px;
+  max-width: var(--content-w);
   margin: 0 auto;
   padding: 18px 16px 60px;
 }
@@ -318,6 +350,22 @@ a { color: var(--accent); }
   border-bottom: 2px solid var(--border);
 }
 .track-list { display: flex; flex-direction: column; gap: 8px; }
+/* On wide screens a single chronological list of cards (a day with only
+   one real venue) reads as a narrow column with acres of empty space on
+   either side - let it flow into two columns instead, like the .multi
+   per-venue tracks already do. Scoped to a direct child so it doesn't
+   also apply to the per-venue lists nested inside .tracks.multi. */
+@media (min-width: 1100px) {
+  .tracks:not(.multi) > .track-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px 16px;
+    align-items: start;
+  }
+}
+@media (min-width: 1600px) {
+  .tracks:not(.multi) > .track-list { grid-template-columns: repeat(3, 1fr); }
+}
 
 .card {
   display: flex;
@@ -333,6 +381,20 @@ a { color: var(--accent); }
   align-items: flex-start;
 }
 .card:hover { border-color: var(--accent); }
+@media (min-width: 1100px) {
+  .card { padding: 14px 16px; gap: 14px; }
+}
+.card-thumb {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  object-fit: cover;
+  background: var(--surface-2);
+}
+@media (min-width: 1100px) {
+  .card-thumb { width: 56px; height: 56px; border-radius: 12px; }
+}
 .card-time {
   flex-shrink: 0;
   width: 64px;
@@ -372,13 +434,25 @@ a { color: var(--accent); }
   border-radius: 999px;
   white-space: nowrap;
 }
-.badge.loc { background: var(--surface-2); color: var(--text-muted); }
+.badge.loc {
+  background: var(--surface-2);
+  color: var(--text-muted);
+  /* Location strings ("Education Center • 400 Esplanade Ave") are long
+     enough, at card widths this narrow, to force the card wider than its
+     container if kept on one line - let this one badge wrap instead of
+     causing page-wide horizontal scroll. */
+  white-space: normal;
+  overflow-wrap: break-word;
+}
 .badge.type-workshop { background: var(--badge-workshop-bg); color: var(--badge-workshop); }
 .badge.type-panel { background: var(--badge-panel-bg); color: var(--badge-panel); }
 .badge.type-fireside-chat { background: var(--badge-fireside-bg); color: var(--badge-fireside); }
 .badge.type-party { background: var(--badge-party-bg); color: var(--badge-party); }
 .badge.type-food { background: var(--badge-food-bg); color: var(--badge-food); }
 .badge.type-informational { background: var(--badge-info-bg); color: var(--badge-info); }
+.badge.type-lightning-talk { background: var(--badge-lightning-bg); color: var(--badge-lightning); }
+.badge.type-performance { background: var(--badge-performance-bg); color: var(--badge-performance); }
+.badge.type-announcement { background: var(--badge-announcement-bg); color: var(--badge-announcement); }
 
 .empty-state { text-align: center; color: var(--text-muted); padding: 60px 20px; font-size: 14px; }
 
@@ -422,6 +496,33 @@ a { color: var(--accent); }
 }
 .add-to-calendar-btn:hover { background: var(--surface-2); }
 .add-to-calendar-btn[data-focus-visible] { outline: 2px solid var(--accent); outline-offset: 2px; }
+.group-talk-list {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.group-talk {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  font-family: inherit;
+  text-align: left;
+}
+.group-talk-link { cursor: pointer; color: inherit; }
+.group-talk-link:hover { border-color: var(--accent); }
+.group-talk-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.group-talk-time { font-size: 12px; font-weight: 700; color: var(--accent); flex-shrink: 0; }
+.group-talk-title { font-size: 14px; font-weight: 600; }
+.group-talk-presenter { font-size: 12.5px; color: var(--text-muted); width: 100%; }
 .presenter-card {
   display: flex;
   gap: 14px;
@@ -554,11 +655,71 @@ a { color: var(--accent); }
 .site-footer a:hover { color: var(--accent); }
 
 /* Registration page */
-.reg-main {
+.reg-shell {
   max-width: 640px;
   margin: 0 auto;
   padding: 24px 16px 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
 }
+@media (min-width: 980px) {
+  .reg-shell {
+    max-width: 1000px;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 40px;
+  }
+  .reg-col-main { flex: 1; min-width: 0; }
+  .reg-col-side { flex: 0 0 300px; position: sticky; top: 24px; }
+}
+.reg-info-card {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  padding: 22px 20px;
+}
+.reg-info-eyebrow {
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0 0 6px;
+}
+.reg-info-dates {
+  font-family: Fraunces, Georgia, serif;
+  font-size: 20px;
+  margin: 0;
+}
+.reg-info-venue { font-size: 14px; margin: 4px 0 18px; }
+.reg-info-list {
+  list-style: none;
+  margin: 0 0 18px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 13.5px;
+  line-height: 1.45;
+}
+.reg-info-list li { padding-left: 20px; position: relative; }
+.reg-info-list li::before {
+  content: '\2713';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 700;
+}
+.reg-info-note {
+  margin: 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+.reg-info-note a { color: var(--accent); font-weight: 600; }
 .reg-title {
   font-family: Fraunces, Georgia, serif;
   font-size: 26px;
@@ -652,29 +813,89 @@ a { color: var(--accent); }
   padding: 12px 16px;
   margin: 0;
 }
-.copy-code-btn {
-  font: inherit;
-  font-size: 13px;
-  font-weight: 700;
-  padding: 0;
+.reg-note { font-size: 12.5px; color: var(--text-muted); line-height: 1.5; margin: 0; }
+
+.number-stepper {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  overflow: hidden;
+  width: fit-content;
+}
+.number-stepper button {
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: var(--surface-2);
+  color: var(--text);
+  font-size: 16px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.number-stepper button:hover { background: var(--accent-soft); }
+.number-stepper button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.number-stepper button:disabled { opacity: 0.4; cursor: not-allowed; }
+.number-stepper input {
+  width: 48px;
+  height: 36px;
   border: none;
   background: none;
-  color: var(--callout-text);
-  text-decoration: underline;
-  cursor: pointer;
-  white-space: nowrap;
+  text-align: center;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--text);
 }
-.copy-code-btn:hover { color: var(--accent); }
-.copy-code-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.reg-callout code {
+.number-stepper input:focus { outline: none; }
+
+.workshop-option { flex-direction: column; align-items: stretch; gap: 2px; }
+.workshop-option-title { font-weight: 600; }
+.workshop-option-meta { font-size: 12px; color: var(--text-muted); }
+
+.donation-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: -4px;
+}
+.donation-chip {
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
   background: var(--surface);
-  border: 1px solid var(--accent);
-  border-radius: 4px;
-  padding: 1px 7px;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 0.95em;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
 }
-.reg-note { font-size: 12.5px; color: var(--text-muted); line-height: 1.5; margin: 0; }
+.donation-chip:hover { background: var(--surface-2); }
+.donation-chip[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--callout-text);
+}
+.donation-chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.reg-total {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface-2);
+}
+.reg-total-line { display: flex; justify-content: space-between; font-size: 13.5px; color: var(--text-muted); }
+.reg-total-sum {
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+}
+.workshop-ticket-note { margin-bottom: 14px; }
 .reg-submit {
   align-self: flex-start;
   padding: 12px 24px;
@@ -695,24 +916,46 @@ a { color: var(--accent); }
 .page-hero-photo { background-color: var(--surface-2); }
 .page-hero-plain { background: linear-gradient(to bottom, #7a5322 0%, #241708 100%); }
 .page-hero-inner { max-width: 720px; margin: 0 auto; width: 100%; }
+/* Full-bleed works fine at phone/tablet widths, but past that the hero's
+   fixed min-height plus left-aligned text left a wide stretch of empty
+   background (especially the plain gradient variant, with no photo to
+   fill it) - contain the whole hero to the same width as the rest of the
+   page instead, as a rounded card, so it doesn't read as empty space. */
+@media (min-width: 768px) {
+  .page-hero {
+    width: calc(100% - 32px);
+    max-width: var(--content-w);
+    margin: 24px auto 0;
+    border-radius: 18px;
+    overflow: hidden;
+  }
+}
+@media (min-width: 1100px) {
+  .page-hero-inner { max-width: 960px; }
+}
+@media (min-width: 1600px) {
+  .page-hero-inner { max-width: 1100px; }
+}
 .page-eyebrow {
-  font-size: 12.5px;
+  font-size: 13px;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   opacity: 0.9;
-  margin: 0 0 8px;
+  margin: 0 0 10px;
 }
 .page-hero-title {
   font-family: Fraunces, Georgia, serif;
-  font-size: 28px;
-  line-height: 1.15;
+  font-weight: 900;
+  font-size: 38px;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
   margin: 0;
   text-wrap: balance;
 }
 .page-hero-sub {
-  margin: 14px 0 0;
-  font-size: 14.5px;
+  margin: 16px 0 0;
+  font-size: 16.5px;
   line-height: 1.6;
   max-width: 62ch;
   opacity: 0.95;
@@ -726,9 +969,27 @@ a { color: var(--accent); }
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.16);
 }
+/* .speaker-pill's translucent-white fill only works over the hero's dark
+   photo/gradient - reused verbatim on the plain page background (Schools
+   Supported, Current Funders) it read as a near-invisible pale chip with
+   almost no contrast against the cream page. This is the equivalent for
+   a light background: a solid tinted fill instead of translucency. */
+.tag-pills { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 0; padding: 0; list-style: none; }
+.tag-pill {
+  font-size: 13px;
+  font-weight: 700;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--callout-text);
+  border: 1px solid transparent;
+}
 @media (min-width: 768px) {
-  .page-hero { min-height: 320px; padding: 76px 32px 52px; }
-  .page-hero-title { font-size: 42px; }
+  .page-hero { min-height: 340px; padding: 76px 40px 56px; }
+  .page-hero-title { font-size: 56px; }
+}
+@media (min-width: 1100px) {
+  .page-hero-title { font-size: 68px; }
 }
 
 .page-main {
@@ -737,15 +998,100 @@ a { color: var(--accent); }
   padding: 32px 16px 60px;
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: 20px;
 }
-.page-lede { font-size: 17px; line-height: 1.65; margin: 0; }
+@media (min-width: 900px) {
+  .page-main { max-width: var(--content-w); }
+}
+/* Groups a section's own heading/content tighter than the gap between
+   distinct sections, so the page reads as connected chapters instead of a
+   flat stack of evenly-spaced, disconnected pieces. */
+.page-block { display: flex; flex-direction: column; gap: 14px; }
+/* A readable measure (not a fixed pixel width) for prose specifically -
+   scales with font size instead of leaving a growing dead zone next to a
+   fixed-width paragraph as the page itself gets wider. Buttons don't need
+   this (they wrap via flex-wrap regardless of width), so .page-cta-row
+   isn't capped - full-width is fine for a row of pills. */
+.page-lede { font-size: 17px; line-height: 1.65; margin: 0; max-width: 62ch; }
+/* A short intro block (just a lede + buttons, maybe a stat row) has
+   nothing to fill the rest of a wide container, and left-aligning it
+   there just piles all the empty space onto the right side - center it
+   as a group instead, so the leftover space reads as intentional margin
+   on both sides rather than a lopsided void. Mobile is unaffected (its
+   container is already close to the content's own width). */
+@media (min-width: 900px) {
+  .page-block-center { text-align: center; }
+  .page-block-center .page-lede { margin-left: auto; margin-right: auto; }
+  .page-block-center .page-cta-row { justify-content: center; }
+  .page-block-center .about-stats { justify-content: center; }
+  .page-block-center .about-stat { flex: 0 1 160px; }
+}
 .page-section-heading {
   font-family: Fraunces, Georgia, serif;
-  font-size: 22px;
-  margin: 10px 0 0;
+  font-weight: 700;
+  font-size: 26px;
+  letter-spacing: -0.01em;
+  margin: 0;
 }
-.page-cta-row { display: flex; flex-wrap: wrap; gap: 10px; }
+@media (min-width: 900px) {
+  .page-section-heading { font-size: 30px; }
+}
+.page-cta-row { display: flex; flex-wrap: wrap; gap: 12px; }
+.page-cta-row .btn-primary, .page-cta-row .btn-outline { padding: 13px 26px; font-size: 15px; }
+
+/* Real callout cards, not just numbers sitting in a row - each gets its
+   own tinted background so a short stat row still reads as a deliberate,
+   colorful moment on the page rather than three lines of quiet text. The
+   three accent colors cycle through the same badge palette already used
+   for schedule/type tags elsewhere, so it stays inside the site's
+   existing (dark-mode-checked) color system instead of inventing new
+   ones. */
+.about-stats { display: flex; flex-wrap: wrap; gap: 14px; }
+.about-stat {
+  flex: 1 1 140px;
+  min-width: 130px;
+  border-radius: 16px;
+  padding: 18px 20px;
+  background: var(--accent-soft);
+  border: 1px solid var(--border);
+}
+.about-stat:nth-child(3n+2) { background: var(--badge-panel-bg); }
+.about-stat:nth-child(3n+3) { background: var(--badge-workshop-bg); }
+.about-stat-num {
+  font-family: Fraunces, Georgia, serif;
+  font-weight: 800;
+  font-size: 34px;
+  letter-spacing: -0.01em;
+  color: var(--callout-text);
+  margin: 0;
+  line-height: 1.05;
+}
+.about-stat:nth-child(3n+2) .about-stat-num { color: var(--badge-panel); }
+.about-stat:nth-child(3n+3) .about-stat-num { color: var(--badge-workshop); }
+.about-stat-label {
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 4px 0 0;
+}
+@media (min-width: 900px) {
+  .about-stat-num { font-size: 42px; }
+}
+
+.about-quote {
+  margin: 0;
+  padding: 14px 18px;
+  border-left: 3px solid var(--accent);
+  background: var(--surface);
+  border-radius: 0 12px 12px 0;
+  font-size: 13.5px;
+}
+.about-quote p { margin: 0 0 6px; }
+.about-quote p:last-child { margin-bottom: 0; }
+.about-quote strong { color: var(--accent); }
+.about-quote-cap { font-style: italic; color: var(--text-muted); margin-top: 10px !important; }
 .btn-outline {
   display: inline-flex;
   align-items: center;
@@ -781,37 +1127,180 @@ a { color: var(--accent); }
   }
   .page-gallery img:first-child { grid-column: span 3; }
 }
+@media (min-width: 1100px) {
+  /* Stays 3 columns (not 4) so the 6 non-hero photos still divide evenly
+     into full rows - just bigger, to fill the wider .page-main. */
+  .page-gallery {
+    grid-template-rows: 360px;
+    grid-auto-rows: 220px;
+    gap: 10px;
+  }
+}
+
+.about-org {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+@media (min-width: 768px) {
+  .about-org { grid-template-columns: 3fr 2fr; gap: 32px; align-items: stretch; }
+}
+.about-org-text p { margin: 0 0 14px; line-height: 1.65; }
+.about-org-text > p:last-of-type { margin-bottom: 0; }
+.about-org-text .page-cta-row { margin-top: 14px; }
+.about-org-photo { margin: 0; }
+.about-org-photo img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+}
+.about-org-photo figcaption { margin-top: 8px; font-size: 12px; color: var(--text-muted); }
+@media (min-width: 768px) {
+  /* Matches the photo's height to however tall the text column ends up,
+     rather than a fixed aspect ratio that could leave (or overflow) dead
+     space next to it. */
+  .about-org-photo { display: flex; flex-direction: column; height: 100%; }
+  .about-org-photo img { flex: 1 1 auto; height: auto; min-height: 0; }
+}
+
+.org-project-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+@media (min-width: 640px) {
+  .org-project-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1100px) {
+  .org-project-grid { grid-template-columns: repeat(4, 1fr); }
+}
+.org-project-card {
+  display: block;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 18px;
+  padding: 20px;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: var(--shadow);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+.org-project-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lift);
+}
+.org-project-name {
+  font-family: Fraunces, Georgia, serif;
+  font-weight: 700;
+  font-size: 18px;
+  margin: 0 0 6px;
+  color: var(--text);
+}
+.org-project-body { font-size: 13.5px; color: var(--text-muted); line-height: 1.5; margin: 0; }
+
+/* Impact initiative / mentor cards - a small logo or headshot beside the
+   text, used on the AI for Every Student pages. */
+.initiative-grid, .mentor-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+@media (min-width: 640px) {
+  .initiative-grid, .mentor-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1100px) {
+  .mentor-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (min-width: 1600px) {
+  .mentor-grid { grid-template-columns: repeat(4, 1fr); }
+}
+.initiative-card, .mentor-card {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 18px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+.initiative-logo {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background: #fff;
+  padding: 4px;
+  border: 1px solid var(--border);
+}
+.mentor-photo {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.initiative-body, .mentor-body { min-width: 0; }
+.initiative-name, .mentor-name {
+  font-family: Fraunces, Georgia, serif;
+  font-weight: 700;
+  font-size: 16px;
+  margin: 0 0 4px;
+}
+.mentor-name a { color: inherit; }
+.initiative-text, .mentor-text { font-size: 13.5px; color: var(--text-muted); line-height: 1.5; margin: 0; }
+
+.press-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+@media (min-width: 640px) {
+  .press-grid { grid-template-columns: repeat(3, 1fr); }
+}
+.press-card {
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+.press-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lift);
+}
+/* Matches the source crop (750x300, already trimmed to just the clean
+   photo - no baked-in headline text or logo watermark) instead of an
+   arbitrary 16:10 that forced a second, worse crop on top of it. */
+.press-card img { width: 100%; aspect-ratio: 2.5 / 1; object-fit: cover; display: block; }
+.press-card-body { padding: 14px 16px; }
+.press-card-title { font-size: 15px; font-weight: 700; line-height: 1.4; margin: 0 0 4px; color: var(--text); }
+.press-card-source { font-size: 12.5px; color: var(--text-muted); margin: 0; }
+
+.page-banner-photo {
+  width: 100%;
+  max-height: 380px;
+  object-fit: cover;
+  border-radius: 14px;
+  display: block;
+}
 
 .tier-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
-@media (min-width: 768px) {
-  .tier-grid { grid-template-columns: repeat(3, 1fr); align-items: start; }
+@media (min-width: 640px) {
+  .tier-grid { grid-template-columns: repeat(2, 1fr); align-items: start; }
+}
+@media (min-width: 1100px) {
+  .tier-grid { grid-template-columns: repeat(4, 1fr); }
 }
 .tier-card {
   position: relative;
   border: 1px solid var(--border);
   background: var(--surface);
-  border-radius: 14px;
-  padding: 22px 20px;
+  border-radius: 18px;
+  padding: 24px 22px;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
 }
-.tier-star {
-  position: absolute;
-  top: -14px;
-  right: 18px;
-  width: 34px;
-  height: 34px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--accent);
-  color: var(--accent-contrast);
-  border-radius: 50%;
-  font-size: 17px;
-  line-height: 1;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-}
+.tier-card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: var(--shadow-lift); }
 .tier-name {
   font-size: 12.5px;
   font-weight: 700;
@@ -820,7 +1309,15 @@ a { color: var(--accent); }
   color: var(--text-muted);
   margin: 0;
 }
-.tier-price { font-family: Fraunces, Georgia, serif; font-size: 26px; margin: 0; }
+.tier-price { font-family: Fraunces, Georgia, serif; font-weight: 800; font-size: 30px; margin: 0; }
+.tier-limited {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0;
+}
 .tier-list {
   list-style: none;
   margin: 0;
@@ -854,10 +1351,18 @@ a { color: var(--accent); }
 }
 .contact-card a { color: var(--accent); font-weight: 600; }
 
+/* Sponsor logos are supplied as light-background artwork, so this whole
+   section (not just the logo row) is pinned to a white card regardless of
+   theme - a mix of white logo strip against the page's cream/dark
+   background looked like a stray box floating in the section. Text inside
+   gets fixed (not theme-aware) colors to stay legible on that fixed white. */
 .sponsor-strip {
-  margin-top: 40px;
-  padding: 28px 0 8px;
-  border-top: 1px solid var(--border);
+  max-width: var(--content-w);
+  margin: 40px auto 0;
+  padding: 28px 20px 24px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: #ffffff;
   text-align: center;
 }
 .sponsor-strip-heading {
@@ -866,7 +1371,7 @@ a { color: var(--accent); }
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--text-muted);
+  color: #6b6053;
   margin: 0 0 18px;
 }
 .sponsor-logos {
@@ -876,9 +1381,6 @@ a { color: var(--accent); }
   justify-content: center;
   gap: 28px;
   margin-bottom: 20px;
-  padding: 24px;
-  background: #ffffff;
-  border-radius: 12px;
 }
 .sponsor-logo { display: inline-flex; }
 .sponsor-logo img {
@@ -894,7 +1396,7 @@ a.sponsor-logo:hover img { filter: none; }
   margin: 0 auto;
   font-size: 12.5px;
   line-height: 1.6;
-  color: var(--text-muted);
+  color: #6b6053;
 }
 
 @media (prefers-reduced-motion: reduce) {

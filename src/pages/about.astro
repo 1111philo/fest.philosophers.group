@@ -1,13 +1,44 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
-import { loadContent, pageMeta } from '../lib/content.mjs';
+import { loadContent, pageMeta, SITE_TITLE } from '../lib/content.mjs';
 
 const meta = pageMeta(loadContent(), 469, 'about');
-meta.title = 'About — New Orleans Arts & Ideas Festival';
+meta.title = `About — ${SITE_TITLE}`;
 meta.description = 'Philosophy, Philanthropy, Tech, Biz, Education, and Improvisation. Learn about the New Orleans Arts & Ideas Festival and the 11:11 Philosophers Group.';
 
 const TIMES_PICAYUNE_URL = 'https://web.archive.org/web/20250821094845/https://www.nola.com/news/business/innovation/noai-new-orleans-jazz-museum-1111-philosophers-artificial-intelligence-blake-grace-bertuccelli-booth/article_3eddfcb0-9acd-11ef-97c3-1bbd0c95b721.html';
 const HERO_IMAGE = '/media/560-DSC2694.jpg';
+const SLACK_INVITE_URL = 'https://join.slack.com/t/1111philo/shared_invite/zt-2gmnevnx3-qR6119iBjUFxS4BgP8wXzA';
+
+// Every project's own real, currently-live URL (verified against
+// philosophers.group directly, not guessed) - AI for Every Student links
+// internally since this same site already hosts that page.
+const PROJECTS = [
+  {
+    name: 'AI for Every Student',
+    url: '/ai-for-every-student/',
+    external: false,
+    body: 'Bringing AI literacy, coaching, and tools into Louisiana K-12 classrooms.',
+  },
+  {
+    name: 'AI Leaders',
+    url: 'https://ai-leaders.org/',
+    external: true,
+    body: "A fully agentic course on AI literacy and enablement. Its first cohort graduated 36 finalists from over 500 applicants, with partners including Automattic and the University of Illinois Chicago.",
+  },
+  {
+    name: 'Equalify Iris',
+    url: 'https://github.com/equalifyEverything/equalify-iris',
+    external: true,
+    body: 'An open-source tool that converts PDFs into accessible HTML for blind and low-vision readers.',
+  },
+  {
+    name: 'plato',
+    url: 'https://philosophers.group/plato-agentic-classroom/',
+    external: true,
+    body: 'An open-source, AI-powered agentic classroom platform.',
+  },
+];
 
 const GALLERY = [
   { src: '/media/557-DSC0995.jpg', alt: 'A woman speaks into a microphone. She appears to be on a panel, sitting next to another woman.' },
@@ -32,28 +63,109 @@ const GALLERY = [
     </div>
   </section>
 
-  <p class="page-lede">
-    New Orleans Arts &amp; Ideas Festival is a global stage for creative and driven professionals
-    who want to change the world. Organized by the <a href="https://philosophers.group" target="_blank" rel="noopener">11:11 Philosophers Group<span class="sr-only"> (opens in a new window)</span></a>,
-    the festival includes conversations, presentations, and performances that bring New Orleans into
-    conversation with cutting-edge, impact-driven work.
-  </p>
-
-  <div class="page-cta-row">
-    <a class="btn-primary" href="https://buy.stripe.com/9B6cN4dvP13b6d97BQ7Zu06" target="_blank" rel="noopener">
-      Donate<span class="sr-only"> (opens in a new window)</span>
-    </a>
-    <a class="btn-outline" href="mailto:fest@philosophers.group?subject=Presentation%20Submission">
-      Propose a Presentation
-    </a>
-    <a class="btn-outline" href="/">View the Schedule</a>
+  <div class="page-block about-intro page-block-center">
+    <p class="page-lede">
+      New Orleans Arts &amp; Ideas Festival is a global stage for creative and driven professionals
+      who want to change the world. Organized by the <a href="https://philosophers.group" target="_blank" rel="noopener">11:11 Philosophers Group<span class="sr-only"> (opens in a new window)</span></a>,
+      the festival includes conversations, presentations, and performances that bring New Orleans into
+      conversation with cutting-edge, impact-driven work.
+    </p>
+    <div class="page-cta-row">
+      <a class="btn-primary" href="https://buy.stripe.com/9B6cN4dvP13b6d97BQ7Zu06" target="_blank" rel="noopener">
+        Donate<span class="sr-only"> (opens in a new window)</span>
+      </a>
+      <a class="btn-outline" href="mailto:fest@philosophers.group?subject=Presentation%20Submission">
+        Propose a Presentation
+      </a>
+      <a class="btn-outline" href="/">View the Schedule</a>
+    </div>
+    <div class="about-stats">
+      <div class="about-stat">
+        <p class="about-stat-num">2021</p>
+        <p class="about-stat-label">11:11 Founded</p>
+      </div>
+      <div class="about-stat">
+        <p class="about-stat-num">2023</p>
+        <p class="about-stat-label">First Festival</p>
+      </div>
+      <div class="about-stat">
+        <p class="about-stat-num">$333k+</p>
+        <p class="about-stat-label">Directed to Causes</p>
+      </div>
+    </div>
   </div>
 
-  <h2 class="page-section-heading">Celebrating Arts &amp; Ideas Since 2023</h2>
-  <div class="page-gallery">
-    {GALLERY.map((img) => (
-      <img src={img.src} alt={img.alt} loading="lazy" />
-    ))}
+  <div class="page-block">
+    <h2 class="page-section-heading">Celebrating Arts &amp; Ideas Since 2023</h2>
+    <div class="page-gallery">
+      {GALLERY.map((img) => (
+        <img src={img.src} alt={img.alt} loading="lazy" />
+      ))}
+    </div>
+  </div>
+
+  <div class="page-block">
+    <h2 class="page-section-heading">The Group Behind It</h2>
+    <div class="about-org">
+      <div class="about-org-text">
+        <p>
+          New Orleans Arts &amp; Ideas Festival is organized by the <a href="https://philosophers.group" target="_blank" rel="noopener">11:11 Philosophers Group<span class="sr-only"> (opens in a new window)</span></a>,
+          a community whose guiding question is simple: how do we do good better? It started as a Sunday
+          habit &mdash; in October 2021, Blake and Grace Bertuccelli-Booth decided New Orleans needed a
+          place to talk about ideas. Here&rsquo;s how that founding conversation went:
+        </p>
+        <blockquote class="about-quote">
+          <p><strong>Blake:</strong> &ldquo;I wish I could talk about ideas with folks in New Orleans.&rdquo;</p>
+          <p><strong>Grace:</strong> &ldquo;Why not talk with me?&rdquo;</p>
+          <p><strong>Blake:</strong> &ldquo;Bertrand Russell says we need to care about a larger social unit outside of our family.&rdquo;</p>
+          <p><strong>Grace:</strong> &ldquo;Why not start a group?&rdquo;</p>
+          <p><strong>Blake:</strong> &ldquo;Good &mdash; I&rsquo;ll write a manifesto.&rdquo;</p>
+          <p><strong>Grace:</strong> &ldquo;Just email some friends.&rdquo;</p>
+          <p><strong>Blake:</strong> &ldquo;Brilliant.&rdquo;</p>
+          <p><strong>Grace:</strong> &ldquo;What time should we have it?&rdquo;</p>
+          <p><strong>Blake:</strong> &ldquo;It needs to be on Sundays &mdash; like a religious community. After Catholic Mass, but while we can still drink cappuccinos.&rdquo;</p>
+          <p><strong>Grace:</strong> &ldquo;11:11?&rdquo;</p>
+          <p><strong>Blake:</strong> &ldquo;Brilliant!&rdquo;</p>
+          <p class="about-quote-cap">&hellip;and so 11:11 was born.</p>
+        </blockquote>
+        <p>
+          The first meeting, at Petite Clouet caf&eacute; on October 21, 2021, drew an artist, an AI
+          developer, and a few curious neighbors. Weekly meetings ran for years afterward &mdash; and
+          anyone can still join. 1111&rsquo;s meetings and Slack are open to whoever wants in.
+        </p>
+        <div class="page-cta-row">
+          <a class="btn-outline" href="https://philosophers.group" target="_blank" rel="noopener">
+            Visit philosophers.group<span class="sr-only"> (opens in a new window)</span>
+          </a>
+          <a class="btn-outline" href={SLACK_INVITE_URL} target="_blank" rel="noopener">
+            Join the 11:11 Slack<span class="sr-only"> (opens in a new window)</span>
+          </a>
+        </div>
+      </div>
+      <figure class="about-org-photo">
+        <img
+          src="/media/1111-origin-story.jpg"
+          alt="Artist Robert Tannen, wearing a yellow beanie, holds up a hand-lettered sign at 11:11's first meeting outside a New Orleans shotgun house."
+          loading="lazy"
+        />
+        <figcaption>11:11&rsquo;s first meeting, October 21, 2021.</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="page-block">
+    <h2 class="page-section-heading">More From 11:11</h2>
+    <p class="page-lede">
+      The festival is one of several 11:11 projects working on accessible, evidence-based ways to do good better:
+    </p>
+    <div class="org-project-grid">
+      {PROJECTS.map((p) => (
+        <a class="org-project-card" href={p.url} target={p.external ? '_blank' : undefined} rel={p.external ? 'noopener' : undefined}>
+          <p class="org-project-name">{p.name}{p.external && <span class="sr-only"> (opens in a new window)</span>}</p>
+          <p class="org-project-body">{p.body}</p>
+        </a>
+      ))}
+    </div>
   </div>
 
   <a class="live-link" href={TIMES_PICAYUNE_URL} target="_blank" rel="noopener">

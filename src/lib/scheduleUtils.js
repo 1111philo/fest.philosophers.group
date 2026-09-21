@@ -78,6 +78,67 @@ export function getScheduleForYear(data, year) {
   return synthesized;
 }
 
+// Collapses a run of consecutive, same-location schedule rows of the given
+// type (e.g. seven straight Lightning Talks) into one synthetic "program"
+// card, so a slot like that reads as a single block on the schedule
+// instead of crowding the track with a card per speaker. `items` is
+// already time-sorted; a run only continues while both the type and the
+// location keep matching, so it's safe to call on a full day's rows (mixed
+// locations) as well as a single location's own list.
+export function groupConsecutiveByType(items, type) {
+  const result = [];
+  let run = [];
+  const flushRun = () => {
+    if (run.length === 1) {
+      result.push(run[0]);
+    } else if (run.length > 1) {
+      const first = run[0];
+      const last = run[run.length - 1];
+      const startTime = (first.raw_time_range || first.time || '').split(/[–-]/)[0].trim();
+      const endTime = (last.raw_time_range || last.time || '').split(/[–-]/).pop().trim();
+      const timeRange = `${startTime}–${endTime}`;
+      result.push({
+        kind: 'group',
+        year: first.year, day: first.day, date: first.date, sort_time: first.sort_time,
+        time: timeRange, raw_time_range: timeRange,
+        location: first.location, title: `${type}s`,
+        presenters: `${run.length} speakers`, type, tag: first.tag,
+        items: run,
+      });
+    }
+    run = [];
+  };
+  items.forEach((it) => {
+    if (it.type === type && (!run.length || run[0].location === it.location)) {
+      run.push(it);
+    } else {
+      flushRun();
+      if (it.type === type) run.push(it);
+      else result.push(it);
+    }
+  });
+  flushRun();
+  return result;
+}
+
+// A short, readable URL segment for a group - unique enough in practice
+// (one group of a given type per day) without the noise of encoding its
+// full scheduleItemKey.
+export function groupSlug(group) {
+  return `${typeSlug(group.type)}-${group.date}`;
+}
+
+// Every Lightning-Talk-style group for a year, across all days - lets a
+// /group/<key>/ URL (pushed when a group card is opened, so the browser's
+// back button can return to it from a talk opened inside) be resolved back
+// to the right group, the same way findPresentationBySlug resolves /p/.
+export function groupsForYear(data, year) {
+  const rows = getScheduleForYear(data, year)
+    .slice()
+    .sort((a, b) => (a.date + a.sort_time).localeCompare(b.date + b.sort_time));
+  return groupConsecutiveByType(rows, 'Lightning Talk').filter((it) => it.kind === 'group');
+}
+
 // A schedule row has no id of its own (it's a CSV row, not a database
 // record) - title+time alone collides for recurring slots like "Lunch"
 // that appear on multiple days at the same time, so React needs the full
@@ -125,23 +186,17 @@ export function dayLabel(dateStr) {
   };
 }
 
-// Picks a fresh favicon (and, cosmetically, a fresh og:image tag in this
-// document) on every load, from whatever icon-*/ogg-* files the media
-// manifest currently lists. Note this can't make *shared-link* previews
-// change per click: social crawlers read the static og:image already
+// Picks a fresh favicon on every load, from whatever icon-* files the media
+// manifest currently lists. og:image/twitter:image are deliberately left
+// alone here - they should stay whatever the server rendered (the
+// presentation/page's own image, or the fixed ogg-arts.png fallback), not
+// get swapped to a random pool pick. That swap also never affected shared
+// link previews anyway: social crawlers read the static og:image already
 // baked into the HTML they fetch and never run this script.
 export function rotateSiteImages(images) {
   const icons = (images && images.icons) || [];
-  const ogg = (images && images.ogg) || [];
   if (icons.length) {
     const el = document.getElementById('site-favicon');
     if (el) el.href = icons[Math.floor(Math.random() * icons.length)];
-  }
-  if (ogg.length) {
-    const pick = `${location.origin}/${ogg[Math.floor(Math.random() * ogg.length)]}`;
-    ["meta[property='og:image']", "meta[name='twitter:image']"].forEach((sel) => {
-      const el = document.querySelector(sel);
-      if (el) el.setAttribute('content', pick);
-    });
   }
 }

@@ -14,20 +14,43 @@ export const CM_FIELDS = {
   volunteerShifts: 'cm-f-dkiuydur',
   daysAttending: 'cm-f-dkiuyduy',
   accessibilityNotes: 'cm-f-dkiuyduj',
+  // Comma-separated chosen workshop titles.
+  workshops: 'cm-f-dkiujllj',
 };
 
-// Created by `node scripts/setup-stripe.mjs` (run once, locally, with a
-// secret key that's never committed) - see that script for what it made.
-export const STRIPE_PAYMENT_LINK_URL = 'https://buy.stripe.com/14AaEW1N75jr30X5tI7Zu0e';
+// Cloudflare Worker that creates a Stripe Checkout Session server-side -
+// unlike a Payment Link, this lets us preset exact line-item quantities
+// (registrations + only-as-many-extra-workshops-as-selected) and attach
+// the chosen workshop names as real Stripe metadata, neither of which a
+// Payment Link's URL parameters can do (confirmed against Stripe's own
+// docs - prefilled_amount is pay-what-you-want only). See
+// cloudflare-worker/ for the function's source.
+export const CHECKOUT_ENDPOINT = 'https://fest-registration.blake-bf5.workers.dev/create-checkout';
 
-// Prefilled via the Payment Link's `prefilled_promo_code` URL parameter
-// when someone picks "volunteer and receive a discount" - see
-// scripts/setup-stripe.mjs for where this code is created (100% off the
-// ticket only, not workshops/donations). Speaker/staff/student codes
-// aren't wired up the same way: those are typed directly into Stripe's own
-// native "Add promotion code" field on the checkout page, same as the
-// original site's plain "Coupon" input.
-export const VOLUNTEER_PROMO_CODE = 'volunteer';
+export const TICKET_PRICE = 55;
+export const WORKSHOP_PRICE = 25;
+// Flat, not a percentage - see the Worker's VOLUNTEER_PROMO_ID comment for
+// why (a percent-off coupon would scale with registrationQty).
+export const VOLUNTEER_DISCOUNT = 55;
+
+export const DONATION_SUGGESTIONS = [11, 33, 111, 1111];
+
+// Every 2026 workshop (type: "Workshop" rows in content.json's schedule) -
+// kept as static config here, same as DAYS below, rather than fetched at
+// runtime, since RegistrationForm doesn't otherwise need content.json.
+export const WORKSHOPS = [
+  { id: 'tai-chi-basics', title: 'Tai Chi Basics', leader: 'Blake Bertuccelli-Booth', day: 'Thu', time: '9:30 AM' },
+  { id: 'letterpress-workshop', title: 'Analog Intelligence Since 1440: A Hands-On Letterpress Workshop', leader: 'Joseph Makkos', day: 'Thu', time: '10:30 AM' },
+  { id: 'why-machines-cannot-crochet', title: 'Why Machines Cannot Crochet', leader: 'Julia Feliciano', day: 'Thu', time: '1:00 PM' },
+  { id: 'offline-voice-ai-chat-bot', title: 'Age of AI Meets Pre-Internet Times: How to Build an Offline Voice AI Chat Bot', leader: 'Vanessa Pyne', day: 'Thu', time: '2:15 PM' },
+  { id: 'e-bike-conversion-speedrun', title: 'E-Bike Conversion Speedrun', leader: 'Matt Candler', day: 'Thu', time: '3:45 PM' },
+  { id: 'intro-to-clown', title: 'Intro to Clown', leader: 'Grace Bertuccelli-Booth', day: 'Thu', time: '5:00 PM' },
+  { id: 'small-language-models', title: 'Small Language Models', leader: 'Sabelo Jupiter', day: 'Fri', time: '9:30 AM' },
+  { id: 'local-agents-crash-course', title: 'Free and Private Agentic AI: Local Agents Crash Course', leader: 'Legare Kerrison', day: 'Fri', time: '10:45 AM' },
+  { id: 'device-free-writing-lab', title: 'The Intentional Page: A Device-Free Writing Lab with S.I.L.K.', leader: 'Marcus Rosser + Kaylon Seaberry', day: 'Fri', time: '1:00 PM' },
+  { id: 'screening-ai-use-cases', title: 'The Most Valuable AI Skill Is Saying No: Screening AI Use Cases for Real Return', leader: 'Dustin T. Hughes', day: 'Fri', time: '2:30 PM' },
+  { id: 'redesigning-assessment', title: 'Explain It: Redesigning Assessment for the AI Classroom', leader: 'Dr. Blaine Fisher', day: 'Fri', time: '3:45 PM' },
+];
 
 export const DAYS = [
   { value: '11/11', label: 'Wed, Nov 11' },
