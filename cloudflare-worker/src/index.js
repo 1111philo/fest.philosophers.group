@@ -62,6 +62,13 @@ export default {
     if (request.method === 'OPTIONS') {
       return new Response(null, { status: 204, headers: corsHeaders(origin) });
     }
+    // CORS headers only stop a *browser* from reading a mismatched-origin
+    // response - they don't stop the request from being processed server
+    // side (curl, a script, etc. would get a full response regardless).
+    // Reject those origins outright instead of just omitting the header.
+    if (!ALLOWED_ORIGINS.has(origin)) {
+      return jsonResponse({ error: 'Forbidden' }, 403, origin);
+    }
     if (request.method !== 'POST') {
       return jsonResponse({ error: 'Method not allowed' }, 405, origin);
     }

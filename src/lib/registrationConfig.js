@@ -28,8 +28,7 @@ export const CM_FIELDS = {
 // Payment Link's URL parameters can do (confirmed against Stripe's own
 // docs - prefilled_amount is pay-what-you-want only). See
 // cloudflare-worker/ for the function's source.
-// TODO: replace with the deployed Worker's real URL.
-export const CHECKOUT_ENDPOINT = 'https://REPLACE-ME.workers.dev/create-checkout';
+export const CHECKOUT_ENDPOINT = 'https://fest-registration.blake-bf5.workers.dev/create-checkout';
 
 export const TICKET_PRICE = 55;
 export const WORKSHOP_PRICE = 25;
