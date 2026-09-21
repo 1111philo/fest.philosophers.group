@@ -46,7 +46,11 @@ function ScheduleCard({ item, onOpen }) {
 function Tracks({ dayItems, onOpen }) {
   const byLocation = {};
   dayItems.forEach((it) => { (byLocation[it.location] = byLocation[it.location] || []).push(it); });
-  const majorTracks = Object.keys(byLocation).filter((loc) => byLocation[loc].length >= 3);
+  // Main Stage leads the other venue columns regardless of which track's
+  // items happen to sort earliest in the underlying data.
+  const majorTracks = Object.keys(byLocation)
+    .filter((loc) => byLocation[loc].length >= 3)
+    .sort((a, b) => (a.startsWith('Main Stage') ? -1 : b.startsWith('Main Stage') ? 1 : 0));
 
   if (majorTracks.length >= 2) {
     const minorItems = dayItems.filter((it) => majorTracks.indexOf(it.location) === -1);
