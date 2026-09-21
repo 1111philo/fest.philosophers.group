@@ -53,7 +53,6 @@ const TIERS = [
     short: 'Title',
     price: '$11,000',
     stripeUrl: 'https://buy.stripe.com/eVq14mbnH8vDeJF1ds7Zu0k',
-    featured: true,
     limited: 'Only 1 available',
     benefits: [
       'Everything in Premier Sponsor',
@@ -86,8 +85,7 @@ const TIERS = [
   <h2 class="page-section-heading">Sponsorship Levels</h2>
   <div class="tier-grid">
     {TIERS.map((tier) => (
-      <div class:list={['tier-card', { featured: tier.featured }]}>
-        {tier.featured && <span class="tier-star" aria-hidden="true">&#9733;</span>}
+      <div class="tier-card">
         <p class="tier-name">{tier.name}</p>
         <p class="tier-price">{tier.price}</p>
         {tier.limited && <p class="tier-limited">{tier.limited}</p>}
