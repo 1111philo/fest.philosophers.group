@@ -907,7 +907,22 @@ a { color: var(--accent); }
 .page-hero-photo { background-color: var(--surface-2); }
 .page-hero-plain { background: linear-gradient(to bottom, #7a5322 0%, #241708 100%); }
 .page-hero-inner { max-width: 720px; margin: 0 auto; width: 100%; }
+/* Full-bleed works fine at phone/tablet widths, but past that the hero's
+   fixed min-height plus left-aligned text left a wide stretch of empty
+   background (especially the plain gradient variant, with no photo to
+   fill it) - contain the whole hero to the same width as the rest of the
+   page instead, as a rounded card, so it doesn't read as empty space. */
+@media (min-width: 768px) {
+  .page-hero {
+    width: calc(100% - 32px);
+    max-width: 1000px;
+    margin: 24px auto 0;
+    border-radius: 18px;
+    overflow: hidden;
+  }
+}
 @media (min-width: 1100px) {
+  .page-hero { max-width: 1240px; }
   .page-hero-inner { max-width: 960px; }
 }
 .page-eyebrow {
