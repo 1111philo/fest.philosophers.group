@@ -6,6 +6,7 @@ const title = `AI Futures: Build, Think, Lead — ${SITE_TITLE}`;
 const description = 'AI Futures gives high school students 3 to 18 hours of hands-on AI project experience, connecting math, science, and career preparation to real-world work.';
 const canonical = `${SITE_URL}/ai-for-every-student/ai-futures/`;
 const image = `${SITE_URL}/media/ogg-arts.png`;
+const HERO_IMAGE = '/media/ai-futures-hero-2.jpg';
 
 const COURSES = [
   {
@@ -30,21 +31,29 @@ const COURSES = [
   },
 ];
 
+// Every mentor's own real photo, downloaded from noai.philosophers.group
+// (the org's prior site for this same program) - Blake's is already in
+// this repo's media library from an earlier presentation import.
 const MENTORS = [
-  { name: 'Blake Bertuccelli-Booth', url: 'https://www.linkedin.com/in/blake1111/', body: 'Created AI Futures to give students executive-level knowledge of generative AI. Built Equalify, an open-source web accessibility platform now maintained by the University of Illinois Chicago.' },
-  { name: 'Jaime Zhong', url: 'https://www.linkedin.com/in/jaime-zhong/', body: 'Senior software engineer with experience at Riot Games and Nike; distributed systems and cloud architecture.' },
-  { name: 'Justin Obney', url: 'https://www.linkedin.com/in/justinobney/', body: 'CEO of obney.ai and co-founder of Elevator3; former CTO and Director of Software Development at PayStar.' },
-  { name: 'Jackson Dirks', url: null, body: 'Newman High School student, quantum computing enthusiast, and founder of Freemind.' },
-  { name: 'Sonthia Coleman', url: 'https://www.linkedin.com/in/sonthiacoleman/', body: 'Retail strategist and founder of The MVN Tech Group, helping e-commerce brands integrate AI.' },
-  { name: 'Tyler Meyer', url: 'https://www.linkedin.com/in/tyler-meyer-dev/', body: 'Mathematics educator with nearly a decade teaching Algebra II, Pre-Calculus, and Calculus.' },
-  { name: 'Sabelo Jupiter', url: 'https://www.linkedin.com/in/sabelo-jupiter-8659a0212/', body: 'Data scientist and software developer, delivering data-driven solutions at Actionable Outcomes LLC.' },
-  { name: 'Daryl Roberts', url: 'https://www.linkedin.com/in/darylroberts/', body: 'Machine Learning Engineer; former U.S. Marine Sergeant, with certifications in TensorFlow, computer vision, and reinforcement learning.' },
-  { name: 'Andreas Pashos', url: 'https://www.linkedin.com/in/andreaspashos/', body: 'Program and project manager with 10+ years leading cross-sector initiatives across aerospace, manufacturing, and higher education.' },
-  { name: 'Nathan Stockman', url: 'https://www.linkedin.com/in/nathan-stockman-5a5516bb/', body: 'Chief of Education and Training Partnerships at YouthForce NOLA; former high school principal.' },
+  { name: 'Blake Bertuccelli-Booth', url: 'https://www.linkedin.com/in/blake1111/', photo: '/media/1933-1742265570063.jpg', body: 'Created AI Futures to give students executive-level knowledge of generative AI. Built Equalify, an open-source web accessibility platform now maintained by the University of Illinois Chicago.' },
+  { name: 'Jaime Zhong', url: 'https://www.linkedin.com/in/jaime-zhong/', photo: '/media/ai-futures-mentor-jaime-zhong.jpg', body: 'Senior software engineer with experience at Riot Games and Nike; distributed systems and cloud architecture.' },
+  { name: 'Justin Obney', url: 'https://www.linkedin.com/in/justinobney/', photo: '/media/ai-futures-mentor-justin-obney.jpg', body: 'CEO of obney.ai and co-founder of Elevator3; former CTO and Director of Software Development at PayStar.' },
+  { name: 'Jackson Dirks', url: null, photo: '/media/ai-futures-mentor-jackson-dirks.jpg', body: 'Newman High School student, quantum computing enthusiast, and founder of Freemind.' },
+  { name: 'Sonthia Coleman', url: 'https://www.linkedin.com/in/sonthiacoleman/', photo: '/media/ai-futures-mentor-sonthia-coleman.jpg', body: 'Retail strategist and founder of The MVN Tech Group, helping e-commerce brands integrate AI.' },
+  { name: 'Tyler Meyer', url: 'https://www.linkedin.com/in/tyler-meyer-dev/', photo: '/media/ai-futures-mentor-tyler-meyer.jpg', body: 'Mathematics educator with nearly a decade teaching Algebra II, Pre-Calculus, and Calculus.' },
+  { name: 'Sabelo Jupiter', url: 'https://www.linkedin.com/in/sabelo-jupiter-8659a0212/', photo: '/media/ai-futures-mentor-sabelo-jupiter.jpg', body: 'Data scientist and software developer, delivering data-driven solutions at Actionable Outcomes LLC.' },
+  { name: 'Daryl Roberts', url: 'https://www.linkedin.com/in/darylroberts/', photo: '/media/ai-futures-mentor-daryl-roberts.jpg', body: 'Machine Learning Engineer; former U.S. Marine Sergeant, with certifications in TensorFlow, computer vision, and reinforcement learning.' },
+  { name: 'Andreas Pashos', url: 'https://www.linkedin.com/in/andreaspashos/', photo: '/media/ai-futures-mentor-andreas-pashos.jpg', body: 'Program and project manager with 10+ years leading cross-sector initiatives across aerospace, manufacturing, and higher education.' },
+  { name: 'Nathan Stockman', url: 'https://www.linkedin.com/in/nathan-stockman-5a5516bb/', photo: '/media/ai-futures-mentor-nathan-stockman.jpg', body: 'Chief of Education and Training Partnerships at YouthForce NOLA; former high school principal.' },
 ];
 ---
 <PageLayout title={title} description={description} canonical={canonical} image={image} current="ai-for-every-student">
-  <section slot="hero" class="page-hero page-hero-plain" aria-label="AI Futures">
+  <section
+    slot="hero"
+    class="page-hero page-hero-photo"
+    aria-label="AI Futures"
+    style={`background-image: linear-gradient(to top, rgba(20,14,6,0.85), rgba(20,14,6,0.25) 60%), url(${HERO_IMAGE});`}
+  >
     <div class="page-hero-inner">
       <p class="page-eyebrow">AI for Every Student</p>
       <h1 class="page-hero-title">AI Futures: Build, Think, Lead</h1>
@@ -52,36 +61,55 @@ const MENTORS = [
     </div>
   </section>
 
-  <p class="page-lede">
-    AI Futures gives high school students 3 to 18 hours of hands-on AI project experience, connecting math,
-    science, and career preparation to real-world work.
-  </p>
-
-  <div class="page-cta-row">
-    <a class="btn-primary" href="mailto:ai@philosophers.group">Bring AI Futures to Your School</a>
-    <a class="btn-outline" href="/ai-for-every-student/">About AI for Every Student</a>
+  <div class="page-block">
+    <p class="page-lede">
+      AI Futures gives high school students 3 to 18 hours of hands-on AI project experience, connecting math,
+      science, and career preparation to real-world work.
+    </p>
+    <div class="page-cta-row">
+      <a class="btn-primary" href="mailto:ai@philosophers.group">Bring AI Futures to Your School</a>
+      <a class="btn-outline" href="/ai-for-every-student/">About AI for Every Student</a>
+    </div>
   </div>
 
-  <h2 class="page-section-heading">Courses</h2>
-  <div class="tier-grid">
-    {COURSES.map((course) => (
-      <div class="tier-card">
-        <p class="tier-name">{course.name}</p>
-        <p class="tier-price">{course.length}</p>
-        <p>{course.body}</p>
-      </div>
-    ))}
+  <div class="page-block">
+    <h2 class="page-section-heading">Courses</h2>
+    <div class="tier-grid">
+      {COURSES.map((course) => (
+        <div class="tier-card">
+          <p class="tier-name">{course.name}</p>
+          <p class="tier-price">{course.length}</p>
+          <p>{course.body}</p>
+        </div>
+      ))}
+    </div>
   </div>
 
-  <h2 class="page-section-heading">Mentors</h2>
-  <ul style="list-style: none; margin: 12px 0 0; padding: 0; display: flex; flex-direction: column; gap: 10px; font-size: 14px; line-height: 1.5;">
-    {MENTORS.map((m) => (
-      <li>
-        <strong>{m.url ? <a href={m.url} target="_blank" rel="noopener">{m.name}<span class="sr-only"> (opens in a new window)</span></a> : m.name}</strong>
-        {' '}&mdash; {m.body}
-      </li>
-    ))}
-  </ul>
+  <img
+    class="page-banner-photo"
+    src="/media/ai-futures-hero-1.jpg"
+    alt="A student leaps in celebration in front of a classroom projector screen showing a machine-learning training tool, during an AI Futures workshop."
+    loading="lazy"
+  />
+
+  <div class="page-block">
+    <h2 class="page-section-heading">Mentors</h2>
+    <div class="mentor-grid">
+      {MENTORS.map((m) => (
+        <div class="mentor-card">
+          <img class="mentor-photo" src={m.photo} alt="" loading="lazy" />
+          <div class="mentor-body">
+            <p class="mentor-name">
+              {m.url
+                ? <a href={m.url} target="_blank" rel="noopener">{m.name}<span class="sr-only"> (opens in a new window)</span></a>
+                : m.name}
+            </p>
+            <p class="mentor-text">{m.body}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
 
   <div class="contact-card">
     Want AI Futures for your group, or interested in mentoring or sponsoring? Contact <a href="mailto:ai@philosophers.group">ai@philosophers.group</a>.
