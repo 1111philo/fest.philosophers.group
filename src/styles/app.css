@@ -83,15 +83,21 @@ a { color: var(--accent); }
 
 .header {
   position: relative;
-  padding: 20px 20px 16px;
+  padding: 20px 0 16px;
   text-align: left;
   border-bottom: 1px solid var(--border);
 }
 .header-top {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+}
+@media (min-width: 1100px) {
+  .header-top { max-width: 1240px; }
 }
 .header h1 {
   font-family: Fraunces, Georgia, serif;
@@ -377,16 +383,6 @@ a { color: var(--accent); }
   object-fit: cover;
   background: var(--surface-2);
 }
-.card-thumb.placeholder { opacity: 0.55; }
-.card-thumb.type-workshop { background: var(--badge-workshop); }
-.card-thumb.type-panel { background: var(--badge-panel); }
-.card-thumb.type-fireside-chat { background: var(--badge-fireside); }
-.card-thumb.type-party { background: var(--badge-party); }
-.card-thumb.type-food { background: var(--badge-food); }
-.card-thumb.type-informational { background: var(--badge-info); }
-.card-thumb.type-lightning-talk { background: var(--badge-lightning); }
-.card-thumb.type-performance { background: var(--badge-performance); }
-.card-thumb.type-announcement { background: var(--badge-announcement); }
 @media (min-width: 1100px) {
   .card-thumb { width: 56px; height: 56px; border-radius: 12px; }
 }
@@ -650,11 +646,71 @@ a { color: var(--accent); }
 .site-footer a:hover { color: var(--accent); }
 
 /* Registration page */
-.reg-main {
+.reg-shell {
   max-width: 640px;
   margin: 0 auto;
   padding: 24px 16px 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
 }
+@media (min-width: 980px) {
+  .reg-shell {
+    max-width: 1000px;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 40px;
+  }
+  .reg-col-main { flex: 1; min-width: 0; }
+  .reg-col-side { flex: 0 0 300px; position: sticky; top: 24px; }
+}
+.reg-info-card {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  padding: 22px 20px;
+}
+.reg-info-eyebrow {
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0 0 6px;
+}
+.reg-info-dates {
+  font-family: Fraunces, Georgia, serif;
+  font-size: 20px;
+  margin: 0;
+}
+.reg-info-venue { font-size: 14px; margin: 4px 0 18px; }
+.reg-info-list {
+  list-style: none;
+  margin: 0 0 18px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 13.5px;
+  line-height: 1.45;
+}
+.reg-info-list li { padding-left: 20px; position: relative; }
+.reg-info-list li::before {
+  content: '\2713';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 700;
+}
+.reg-info-note {
+  margin: 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+.reg-info-note a { color: var(--accent); font-weight: 600; }
 .reg-title {
   font-family: Fraunces, Georgia, serif;
   font-size: 26px;
@@ -851,6 +907,9 @@ a { color: var(--accent); }
 .page-hero-photo { background-color: var(--surface-2); }
 .page-hero-plain { background: linear-gradient(to bottom, #7a5322 0%, #241708 100%); }
 .page-hero-inner { max-width: 720px; margin: 0 auto; width: 100%; }
+@media (min-width: 1100px) {
+  .page-hero-inner { max-width: 960px; }
+}
 .page-eyebrow {
   font-size: 12.5px;
   font-weight: 700;
@@ -895,6 +954,14 @@ a { color: var(--accent); }
   flex-direction: column;
   gap: 22px;
 }
+/* Widen the page at desktop sizes so the gallery/tier grids below get to
+   use the extra room (they're responsive grids that pick up more columns
+   on their own), but keep prose-only content at a comfortable reading
+   width instead of stretching it edge to edge. */
+@media (min-width: 1100px) {
+  .page-main { max-width: 1240px; }
+  .page-lede, .page-cta-row { max-width: 700px; }
+}
 .page-lede { font-size: 17px; line-height: 1.65; margin: 0; }
 .page-section-heading {
   font-family: Fraunces, Georgia, serif;
@@ -936,6 +1003,15 @@ a { color: var(--accent); }
     grid-auto-rows: 170px;
   }
   .page-gallery img:first-child { grid-column: span 3; }
+}
+@media (min-width: 1100px) {
+  /* Stays 3 columns (not 4) so the 6 non-hero photos still divide evenly
+     into full rows - just bigger, to fill the wider .page-main. */
+  .page-gallery {
+    grid-template-rows: 360px;
+    grid-auto-rows: 220px;
+    gap: 10px;
+  }
 }
 
 .tier-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
@@ -1005,11 +1081,22 @@ a { color: var(--accent); }
 }
 .contact-card a { color: var(--accent); font-weight: 600; }
 
+/* Sponsor logos are supplied as light-background artwork, so this whole
+   section (not just the logo row) is pinned to a white card regardless of
+   theme - a mix of white logo strip against the page's cream/dark
+   background looked like a stray box floating in the section. Text inside
+   gets fixed (not theme-aware) colors to stay legible on that fixed white. */
 .sponsor-strip {
-  margin-top: 40px;
-  padding: 28px 0 8px;
-  border-top: 1px solid var(--border);
+  max-width: 1000px;
+  margin: 40px auto 0;
+  padding: 28px 20px 24px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: #ffffff;
   text-align: center;
+}
+@media (min-width: 1100px) {
+  .sponsor-strip { max-width: 1240px; }
 }
 .sponsor-strip-heading {
   font-family: Fraunces, Georgia, serif;
@@ -1017,7 +1104,7 @@ a { color: var(--accent); }
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--text-muted);
+  color: #6b6053;
   margin: 0 0 18px;
 }
 .sponsor-logos {
@@ -1027,9 +1114,6 @@ a { color: var(--accent); }
   justify-content: center;
   gap: 28px;
   margin-bottom: 20px;
-  padding: 24px;
-  background: #ffffff;
-  border-radius: 12px;
 }
 .sponsor-logo { display: inline-flex; }
 .sponsor-logo img {
@@ -1045,7 +1129,7 @@ a.sponsor-logo:hover img { filter: none; }
   margin: 0 auto;
   font-size: 12.5px;
   line-height: 1.6;
-  color: var(--text-muted);
+  color: #6b6053;
 }
 
 @media (prefers-reduced-motion: reduce) {
