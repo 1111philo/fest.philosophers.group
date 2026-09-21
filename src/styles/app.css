@@ -724,6 +724,31 @@ a { color: var(--accent); }
 .workshop-option-title { font-weight: 600; }
 .workshop-option-meta { font-size: 12px; color: var(--text-muted); }
 
+.donation-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: -4px;
+}
+.donation-chip {
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.donation-chip:hover { background: var(--surface-2); }
+.donation-chip[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--callout-text);
+}
+.donation-chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
 .reg-total {
   display: flex;
   flex-direction: column;

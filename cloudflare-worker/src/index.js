@@ -18,13 +18,7 @@ const ALLOWED_ORIGINS = new Set([
 
 const TICKET_PRICE_ID = 'price_1UHkiYBryIKI7fPqnuFrImGT';
 const WORKSHOP_PRICE_ID = 'price_1UHkiYBryIKI7fPqlvpOJoFc';
-const DONATION_PRICE_IDS = [
-  'price_1UHmK8BryIKI7fPqhXC2jjoX', // $11
-  'price_1UHmK9BryIKI7fPqgjJzesaI', // $33
-  'price_1UHmK9BryIKI7fPqbBMCjp6h', // $111
-  'price_1UHmK9BryIKI7fPq1hjtfR05', // $1,111
-  'price_1UHmK9BryIKI7fPq5VWfT8Vu', // $11,000
-];
+const MAX_DONATION = 50000; // sanity ceiling against fat-fingered/abusive input
 // 100% off the ticket only (amount_off, not percent_off, so it doesn't
 // scale if registrationQty > 1) - see scripts/setup-stripe.mjs.
 const VOLUNTEER_PROMO_ID = 'promo_1UHlKkBryIKI7fPqkYFotFAd';
@@ -99,18 +93,32 @@ export default {
     const isVolunteer = body.isVolunteer === true;
     const extraWorkshopQty = Math.max(workshopTitles.length - registrationQty, 0);
 
+    let donationAmount = Number(body.donationAmount);
+    if (!Number.isFinite(donationAmount) || donationAmount < 0) donationAmount = 0;
+    donationAmount = Math.min(donationAmount, MAX_DONATION);
+    const donationCents = Math.round(donationAmount * 100);
+
     const params = new URLSearchParams();
     params.set('mode', 'payment');
-    params.set('line_items[0][price]', TICKET_PRICE_ID);
-    params.set('line_items[0][quantity]', String(registrationQty));
+    let lineItemIndex = 0;
+    params.set(`line_items[${lineItemIndex}][price]`, TICKET_PRICE_ID);
+    params.set(`line_items[${lineItemIndex}][quantity]`, String(registrationQty));
+    lineItemIndex += 1;
     if (extraWorkshopQty > 0) {
-      params.set('line_items[1][price]', WORKSHOP_PRICE_ID);
-      params.set('line_items[1][quantity]', String(extraWorkshopQty));
+      params.set(`line_items[${lineItemIndex}][price]`, WORKSHOP_PRICE_ID);
+      params.set(`line_items[${lineItemIndex}][quantity]`, String(extraWorkshopQty));
+      lineItemIndex += 1;
     }
-    DONATION_PRICE_IDS.forEach((priceId, i) => {
-      params.set(`optional_items[${i}][price]`, priceId);
-      params.set(`optional_items[${i}][quantity]`, '1');
-    });
+    if (donationCents > 0) {
+      // An ad hoc price (no pre-created Price object needed) so the
+      // donation can be any amount chosen on the form, not just one of a
+      // handful of fixed tiers.
+      params.set(`line_items[${lineItemIndex}][price_data][currency]`, 'usd');
+      params.set(`line_items[${lineItemIndex}][price_data][unit_amount]`, String(donationCents));
+      params.set(`line_items[${lineItemIndex}][price_data][product_data][name]`, 'Donation');
+      params.set(`line_items[${lineItemIndex}][quantity]`, '1');
+      lineItemIndex += 1;
+    }
     if (isVolunteer) {
       params.set('discounts[0][promotion_code]', VOLUNTEER_PROMO_ID);
     } else {
@@ -128,6 +136,11 @@ export default {
     params.set('payment_intent_data[metadata][registration_qty]', String(registrationQty));
 
     params.set('customer_email', email);
+    // Setting receipt_email directly forces Stripe to send a receipt for
+    // this payment regardless of the account's "Successful payments" email
+    // setting - customer_email alone (above) only prefills the Checkout
+    // page, it doesn't trigger a receipt.
+    params.set('payment_intent_data[receipt_email]', email);
     params.set('client_reference_id', email.slice(0, 200));
     params.set('success_url', SUCCESS_URL);
     params.set('cancel_url', CANCEL_URL);
