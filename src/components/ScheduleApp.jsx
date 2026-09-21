@@ -27,8 +27,8 @@ function TypeBadge({ type }) {
 // A presentation's own thumbnail if it has one (checked in the same
 // preference order as the build-time og:image fallback: featured media,
 // then the scraped presenter photo), otherwise null - logistics rows
-// (breaks, parties, etc.) never have one, and get a plain type-colored
-// swatch instead so every row still lines up the same way.
+// (breaks, parties, etc.) never have one, and just don't get a thumbnail
+// rather than a fake placeholder swatch.
 function scheduleThumb(item, presentationsById, mediaById) {
   if (!item.presentation_id) return null;
   const pres = presentationsById[item.presentation_id];
@@ -41,9 +41,7 @@ function ScheduleCard({ item, onOpen, mediaById, presentationsById }) {
   return (
     <button type="button" className="card" onClick={() => onOpen(item)}>
       <div className="card-time">{item.time}</div>
-      {thumb
-        ? <img className="card-thumb" src={thumb} alt="" loading="lazy" />
-        : <div className={`card-thumb placeholder type-${typeSlug(item.type)}`} aria-hidden="true" />}
+      {thumb && <img className="card-thumb" src={thumb} alt="" loading="lazy" />}
       <div className="card-body">
         <div className="card-title">{item.title}</div>
         {item.presenters && <div className="card-presenter">{item.presenters}</div>}
@@ -62,7 +60,12 @@ function ScheduleCard({ item, onOpen, mediaById, presentationsById }) {
 function Tracks({ dayItems, onOpen, mediaById, presentationsById }) {
   const byLocation = {};
   dayItems.forEach((it) => { (byLocation[it.location] = byLocation[it.location] || []).push(it); });
-  const majorTracks = Object.keys(byLocation).filter((loc) => byLocation[loc].length >= 3);
+  // Object.keys() order otherwise falls out of whichever venue's first item
+  // happens earliest that day - pin Main Stage first regardless, since
+  // it's the festival's primary venue.
+  const majorTracks = Object.keys(byLocation)
+    .filter((loc) => byLocation[loc].length >= 3)
+    .sort((a, b) => (b.startsWith('Main Stage') ? 1 : 0) - (a.startsWith('Main Stage') ? 1 : 0));
 
   if (majorTracks.length >= 2) {
     const minorItems = dayItems.filter((it) => majorTracks.indexOf(it.location) === -1);
