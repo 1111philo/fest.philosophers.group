@@ -121,6 +121,50 @@ export function groupConsecutiveByType(items, type) {
   return result;
 }
 
+// One-off pairing for the after-party slot: its "Party" row is immediately
+// followed by a run of Lightning Talk rows at the same location (the
+// after-party's own lightning talks, moved off the main stage) - fold that
+// whole run into the party's own card instead of showing a second,
+// separate "Lightning Talks" group right under it. A synthetic "Speed
+// Tarot Reading" entry (no fixed slot - it runs the length of the party)
+// is prepended so it shows up alongside the talks. Must run before
+// groupConsecutiveByType('Lightning Talk') so it claims these rows first;
+// any other Lightning Talk run (e.g. the main stage's) is untouched.
+export function mergePartyWithTrailingTalks(items) {
+  const result = [];
+  for (let i = 0; i < items.length; i += 1) {
+    const it = items[i];
+    if (it.type === 'Party') {
+      const run = [];
+      let j = i + 1;
+      while (j < items.length && items[j].type === 'Lightning Talk' && items[j].location === it.location) {
+        run.push(items[j]);
+        j += 1;
+      }
+      if (run.length) {
+        result.push({
+          kind: 'group',
+          year: it.year, day: it.day, date: it.date, sort_time: it.sort_time,
+          time: it.time, raw_time_range: it.raw_time_range,
+          location: it.location, title: it.title,
+          presenters: `${run.length + 1} activities`, type: it.type, tag: it.tag,
+          items: [
+            {
+              date: it.date, sort_time: it.sort_time, location: it.location,
+              time: 'Ongoing', title: 'Speed Tarot Reading', presenters: it.presenters,
+            },
+            ...run,
+          ],
+        });
+        i = j - 1;
+        continue;
+      }
+    }
+    result.push(it);
+  }
+  return result;
+}
+
 // A short, readable URL segment for a group - unique enough in practice
 // (one group of a given type per day) without the noise of encoding its
 // full scheduleItemKey.
@@ -136,7 +180,7 @@ export function groupsForYear(data, year) {
   const rows = getScheduleForYear(data, year)
     .slice()
     .sort((a, b) => (a.date + a.sort_time).localeCompare(b.date + b.sort_time));
-  return groupConsecutiveByType(rows, 'Lightning Talk').filter((it) => it.kind === 'group');
+  return groupConsecutiveByType(mergePartyWithTrailingTalks(rows), 'Lightning Talk').filter((it) => it.kind === 'group');
 }
 
 // A schedule row has no id of its own (it's a CSV row, not a database

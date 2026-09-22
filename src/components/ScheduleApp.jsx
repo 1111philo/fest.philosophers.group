@@ -8,7 +8,7 @@ import WpContent from './WpContent';
 import AddToCalendarMenu from './AddToCalendarMenu';
 import {
   getAvailableYears, getScheduleForYear, featuredUrl, dayLabel, typeSlug, stripTags,
-  rotateSiteImages, scheduleItemKey, eventInfoForPresentation, groupConsecutiveByType, groupsForYear, groupSlug,
+  rotateSiteImages, scheduleItemKey, eventInfoForPresentation, groupConsecutiveByType, mergePartyWithTrailingTalks, groupsForYear, groupSlug,
 } from '../lib/scheduleUtils';
 import { routeSlug } from '../lib/slug';
 
@@ -405,7 +405,7 @@ export default function ScheduleApp({ initialView }) {
     mainContent = days.map((date) => {
       const lbl = dayLabel(date);
       const dayItems = groupConsecutiveByType(
-        scheduleForYear.filter((it) => it.date === date).sort((a, b) => a.sort_time.localeCompare(b.sort_time)),
+        mergePartyWithTrailingTalks(scheduleForYear.filter((it) => it.date === date).sort((a, b) => a.sort_time.localeCompare(b.sort_time))),
         'Lightning Talk',
       );
       return (
@@ -417,7 +417,7 @@ export default function ScheduleApp({ initialView }) {
     });
   } else {
     const dayItems = groupConsecutiveByType(
-      scheduleForYear.filter((it) => it.date === day).sort((a, b) => a.sort_time.localeCompare(b.sort_time)),
+      mergePartyWithTrailingTalks(scheduleForYear.filter((it) => it.date === day).sort((a, b) => a.sort_time.localeCompare(b.sort_time))),
       'Lightning Talk',
     );
     mainContent = dayItems.length
