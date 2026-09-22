@@ -32,6 +32,8 @@
   --badge-performance-bg: #e3e6ef;
   --badge-announcement: #6b4a82;
   --badge-announcement-bg: #ece3ef;
+  --badge-keynote: #a02c2c;
+  --badge-keynote-bg: #f5dede;
 
   /* Shared content width for every top-level page container (header,
      schedule toolbar/list, About/Sponsor/AFES page-main, sponsor strip) -
@@ -76,6 +78,8 @@
     --badge-performance-bg: #1e2436;
     --badge-announcement: #cba9de;
     --badge-announcement-bg: #271e2f;
+    --badge-keynote: #e08a8a;
+    --badge-keynote-bg: #3a1f1f;
   }
 }
 
@@ -466,6 +470,7 @@ a { color: var(--accent); }
 .badge.type-lightning-talk { background: var(--badge-lightning-bg); color: var(--badge-lightning); }
 .badge.type-performance { background: var(--badge-performance-bg); color: var(--badge-performance); }
 .badge.type-announcement { background: var(--badge-announcement-bg); color: var(--badge-announcement); }
+.badge.type-keynote { background: var(--badge-keynote-bg); color: var(--badge-keynote); }
 
 .empty-state { text-align: center; color: var(--text-muted); padding: 60px 20px; font-size: 14px; }
 
