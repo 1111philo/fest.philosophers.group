@@ -354,17 +354,30 @@ a { color: var(--accent); }
    one real venue) reads as a narrow column with acres of empty space on
    either side - let it flow into two columns instead, like the .multi
    per-venue tracks already do. Scoped to a direct child so it doesn't
-   also apply to the per-venue lists nested inside .tracks.multi. */
+   also apply to the per-venue lists nested inside .tracks.multi.
+
+   This is CSS multi-column (not Grid) on purpose: Grid's auto-flow fills
+   left-to-right per row (item 1 top-left, item 2 top-right, item 3
+   second row...), which is chronological in the DOM but reads as
+   *out of order* to a human scanning down the left column first, then
+   the right - e.g. 4:00/5:10/6:30/8:00 down the left, 5:00/6:20/7:30
+   down the right. Multi-column fills top-to-bottom within a column
+   before wrapping to the next one (like a newspaper), so each column on
+   its own reads chronologically and the second column simply continues
+   where the first leaves off. */
 @media (min-width: 1100px) {
   .tracks:not(.multi) > .track-list {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px 16px;
-    align-items: start;
+    display: block;
+    column-count: 2;
+    column-gap: 16px;
+  }
+  .tracks:not(.multi) > .track-list > .card {
+    break-inside: avoid;
+    margin-bottom: 10px;
   }
 }
 @media (min-width: 1600px) {
-  .tracks:not(.multi) > .track-list { grid-template-columns: repeat(3, 1fr); }
+  .tracks:not(.multi) > .track-list { column-count: 3; }
 }
 
 .card {
