@@ -38878,6 +38878,114 @@
         "presenter_bio": "Jean-Paul “JP” Morrell is President of the New Orleans City Council, representing an at-large seat since January 2022 and re-elected in 2025. A New Orleans native, he earned his B.S. from Spring Hill College and his J.D. from Tulane University Law School, and worked as a public defender with the Orleans Public Defenders office before entering elected office. He served twelve years in the Louisiana Legislature — in the state House from 2006 to 2008 and the state Senate from 2008 to 2020, representing New Orleans' 3rd district.",
         "presenter_photo_url": "media/jp-morrell-headshot.jpg"
       }
+    },
+    {
+      "id": 2902,
+      "date": "2026-09-22T00:00:00",
+      "date_gmt": "2026-09-22T00:00:00",
+      "guid": {
+        "rendered": ""
+      },
+      "modified": "2026-09-22T00:00:00",
+      "modified_gmt": "2026-09-22T00:00:00",
+      "slug": "welcome-noai-burial",
+      "status": "publish",
+      "type": "presentations",
+      "link": "",
+      "title": {
+        "rendered": "Welcome + \"NOAI\" Burial"
+      },
+      "content": {
+        "rendered": "<p>This is the burial of the NOAI brand as we transition to the Arts &amp; Ideas fest. Founder Blake Bertuccelli-Booth welcomes the after-party crowd and lays the New Orleans AI Festival name to rest, marking the festival's evolution into the New Orleans Arts &amp; Ideas Festival.</p>",
+        "protected": false
+      },
+      "excerpt": {
+        "rendered": "<p>This is the burial of the NOAI brand as we transition to the Arts &amp; Ideas fest.</p>",
+        "protected": false
+      },
+      "featured_media": 0,
+      "template": "",
+      "meta": {
+        "_acf_changed": false,
+        "inline_featured_image": false
+      },
+      "tags": [],
+      "class_list": [
+        "post-2902",
+        "presentations",
+        "type-presentations",
+        "status-publish",
+        "hentry"
+      ],
+      "acf": [],
+      "mb": [],
+      "yoast_head": "",
+      "yoast_head_json": {},
+      "mfb_acf": [],
+      "mfb_rest_fields": [],
+      "_links": {},
+      "scraped_fields": {
+        "date": null,
+        "time": null,
+        "location": null,
+        "presenter_name": "Blake Bertuccelli-Booth",
+        "presenter_bio": "Blake Bertuccelli-Booth works in machine learning and is a founder of the New Orleans AI Festival (NOAI). He leads AI for Every Student, an initiative bringing AI literacy to thousands of kids. Blake lives between New Orleans, Chicago, and Western Massachusetts with his wife, Grace, and their daughter, Willa.",
+        "presenter_photo_url": "media/1933-1742265570063.jpg"
+      }
+    },
+    {
+      "id": 2903,
+      "date": "2026-09-22T00:00:00",
+      "date_gmt": "2026-09-22T00:00:00",
+      "guid": {
+        "rendered": ""
+      },
+      "modified": "2026-09-22T00:00:00",
+      "modified_gmt": "2026-09-22T00:00:00",
+      "slug": "noai-secondline-to-francis-ford-coppolas-house",
+      "status": "publish",
+      "type": "presentations",
+      "link": "",
+      "title": {
+        "rendered": "NOAI Secondline to Francis Ford Coppola's House"
+      },
+      "content": {
+        "rendered": "<p>A traditional jazz secondline to bury the “NOAI” brand at Coppola’s house, as we transition to the name Arts &amp; Ideas Festival. Grab an umbrella and join the brass band for the walk over.</p>",
+        "protected": false
+      },
+      "excerpt": {
+        "rendered": "<p>A traditional jazz secondline to bury the “NOAI” brand at Coppola’s house, as we transition to the name Arts &amp; Ideas Festival.</p>",
+        "protected": false
+      },
+      "featured_media": 0,
+      "template": "",
+      "meta": {
+        "_acf_changed": false,
+        "inline_featured_image": false
+      },
+      "tags": [],
+      "class_list": [
+        "post-2903",
+        "presentations",
+        "type-presentations",
+        "status-publish",
+        "hentry"
+      ],
+      "acf": [],
+      "mb": [],
+      "yoast_head": "",
+      "yoast_head_json": {},
+      "mfb_acf": [],
+      "mfb_rest_fields": [],
+      "_links": {},
+      "scraped_fields": {
+        "date": null,
+        "time": null,
+        "location": null,
+        "presenter_name": "",
+        "presenter_bio": "",
+        "presenter_photo_url": ""
+      }
     }
   ],
   "media": [
@@ -58303,8 +58411,22 @@
       "sort_time": "19:30",
       "raw_time_range": "7:30–8:00",
       "location": "Streets",
-      "title": "LowFi Secondline to Francis Ford Coppola's House",
+      "title": "NOAI Secondline to Francis Ford Coppola's House",
       "presenters": "",
+      "type": "Party",
+      "tag": "Networking",
+      "presentation_id": 2903
+    },
+    {
+      "year": "2026",
+      "day": "Wednesday",
+      "date": "2026-11-11",
+      "time": "7:55 PM",
+      "sort_time": "19:55",
+      "raw_time_range": "7:55 →",
+      "location": "714 Governor Nichols St.",
+      "title": "Party – Talks, Tarot, and \"NOAI\" Burial",
+      "presenters": "Greg Bresnitz, Entrepreneurs' Tarot",
       "type": "Party",
       "tag": "Networking",
       "presentation_id": null
@@ -58313,15 +58435,15 @@
       "year": "2026",
       "day": "Wednesday",
       "date": "2026-11-11",
-      "time": "8:00 PM",
-      "sort_time": "20:00",
-      "raw_time_range": "8:00 →",
+      "time": "7:55 PM",
+      "sort_time": "19:55",
+      "raw_time_range": "7:55–8:10",
       "location": "714 Governor Nichols St.",
-      "title": "After Party — Lightning Talks, Speed Tarot, and Wine",
-      "presenters": "Greg Bresnitz, Entrepreneurs' Tarot",
-      "type": "Party",
-      "tag": "Networking",
-      "presentation_id": null
+      "title": "Welcome + \"NOAI\" Burial",
+      "presenters": "Blake Bertuccelli-Booth",
+      "type": "Informational",
+      "tag": "",
+      "presentation_id": 2902
     },
     {
       "year": "2026",

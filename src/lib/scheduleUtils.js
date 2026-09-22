@@ -122,26 +122,33 @@ export function groupConsecutiveByType(items, type) {
 }
 
 // One-off pairing for the after-party slot: its "Party" row is immediately
-// followed by a run of Lightning Talk rows at the same location (the
-// after-party's own lightning talks, moved off the main stage) - fold that
-// whole run into the party's own card instead of showing a second,
-// separate "Lightning Talks" group right under it. A synthetic "Speed
-// Tarot Reading" entry (no fixed slot - it runs the length of the party)
-// is prepended so it shows up alongside the talks. Must run before
-// groupConsecutiveByType('Lightning Talk') so it claims these rows first;
-// any other Lightning Talk run (e.g. the main stage's) is untouched.
+// followed by a run of other rows at the same location (a welcome, then
+// the after-party's own lightning talks, moved off the main stage) - fold
+// that whole run into the party's own card instead of showing separate
+// cards right under it. A synthetic "Speed Tarot Reading" entry (no fixed
+// slot - it runs the length of the party) is slotted in after any
+// non-talk items (e.g. the welcome) but before the talks themselves. Must
+// run before groupConsecutiveByType('Lightning Talk') so it claims these
+// rows first; any other Lightning Talk run (e.g. the main stage's) is
+// untouched. Matched by exact title, not just type - the evening's other
+// "Party" row ("Doors / Reception / Music") shares its location with a
+// long, unrelated run of rows (remarks, keynote, lightning talks...) that
+// must NOT get swallowed into one giant card the same way.
+const AFTER_PARTY_TITLE = 'Party – Talks, Tarot, and "NOAI" Burial';
 export function mergePartyWithTrailingTalks(items) {
   const result = [];
   for (let i = 0; i < items.length; i += 1) {
     const it = items[i];
-    if (it.type === 'Party') {
+    if (it.type === 'Party' && it.title === AFTER_PARTY_TITLE) {
       const run = [];
       let j = i + 1;
-      while (j < items.length && items[j].type === 'Lightning Talk' && items[j].location === it.location) {
+      while (j < items.length && items[j].type !== 'Party' && items[j].location === it.location) {
         run.push(items[j]);
         j += 1;
       }
       if (run.length) {
+        const leading = run.filter((r) => r.type !== 'Lightning Talk');
+        const talks = run.filter((r) => r.type === 'Lightning Talk');
         result.push({
           kind: 'group',
           year: it.year, day: it.day, date: it.date, sort_time: it.sort_time,
@@ -149,11 +156,12 @@ export function mergePartyWithTrailingTalks(items) {
           location: it.location, title: it.title,
           presenters: `${run.length + 1} activities`, type: it.type, tag: it.tag,
           items: [
+            ...leading,
             {
               date: it.date, sort_time: it.sort_time, location: it.location,
               time: 'Ongoing', title: 'Speed Tarot Reading', presenters: it.presenters,
             },
-            ...run,
+            ...talks,
           ],
         });
         i = j - 1;
