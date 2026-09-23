@@ -146,7 +146,7 @@ export default function RegistrationForm() {
         >
           <Label>Would you like to volunteer?</Label>
           <Text slot="description" className="field-hint">
-            Volunteering is a 4-hour shift. Organizers contact volunteers about two weeks before the festival.
+            <strong>Volunteers receive free admission.</strong> Organizers contact volunteers about two weeks before the festival.
           </Text>
           <Radio className="radio-option" value="no">{VOLUNTEER_LABELS.no}</Radio>
           <Radio className="radio-option" value="yes">{VOLUNTEER_LABELS.yes}</Radio>
@@ -298,11 +298,6 @@ export default function RegistrationForm() {
       </section>
 
       {submitError && <p className="reg-error" role="alert">{submitError}</p>}
-
-      <p className="reg-note">
-        The total above includes your donation and volunteer discount. Speaker/staff/student discount
-        codes can still be entered on the next page with Stripe.
-      </p>
 
       <Button type="submit" className="btn-primary reg-submit" isDisabled={submitting}>
         {submitting ? 'Continuing to payment…' : 'Continue to Payment'}
