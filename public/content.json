@@ -39166,11 +39166,11 @@
         "rendered": "AI and Autonomy in Land, Sea, and Sky in Louisiana"
       },
       "content": {
-        "rendered": "<p>From autonomous vessels navigating the Gulf to drones monitoring Louisiana&#8217;s coastline and farmland, a look at how autonomous and AI-powered systems are already at work across the state&#8217;s land, sea, and sky — and what Louisiana Economic Development is doing to grow that industry here.</p>",
+        "rendered": "<p>From autonomous vessels navigating the Gulf to drones monitoring Louisiana&#8217;s coastline and farmland, a look at how AI-powered autonomy is already at work across the state&#8217;s land, sea, and sky — and how <a href=\"https://la.io\">Louisiana Innovation (LA.IO)</a> is working to increase high-growth, tech-enabled startups in Louisiana and accelerate venture capital activity in the state.</p>",
         "protected": false
       },
       "excerpt": {
-        "rendered": "<p>A look at how autonomous and AI-powered systems are already at work across Louisiana&#8217;s land, sea, and sky, and how the state is working to grow that industry.</p>",
+        "rendered": "<p>A look at how AI-powered autonomy is already at work across Louisiana&#8217;s land, sea, and sky, and how Louisiana Innovation (LA.IO) is working to grow the state&#8217;s tech startup ecosystem.</p>",
         "protected": false
       },
       "featured_media": 0,
@@ -39198,9 +39198,9 @@
         "date": null,
         "time": null,
         "location": null,
-        "presenter_name": "Louisiana Economic Development",
-        "presenter_bio": "Louisiana Economic Development (LED) is the state's economic development agency, working to attract, retain, and grow business in Louisiana through competitive incentives, site development support, and workforce training.",
-        "presenter_photo_url": "media/led-badge.jpg"
+        "presenter_name": "Josh Fleig, Chief Innovation Officer",
+        "presenter_bio": "Josh Fleig is responsible for fostering innovation and entrepreneurship across Louisiana, while assisting small businesses with access to award-winning programs and services designed to accelerate growth and elevate Louisiana’s standing as a hub for innovation and high-value jobs.",
+        "presenter_photo_url": "media/josh-fleig-headshot.jpg"
       }
     },
     {
@@ -59358,7 +59358,7 @@
       "raw_time_range": "9:30–10:00",
       "location": "Main Stage • 400 Esplanade Ave",
       "title": "AI and Autonomy in Land, Sea, and Sky in Louisiana",
-      "presenters": "LED",
+      "presenters": "Josh Fleig, Chief Innovation Officer, LED",
       "type": "",
       "tag": "AI & Technology",
       "presentation_id": 2907
