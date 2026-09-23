@@ -8,7 +8,7 @@ import WpContent from './WpContent';
 import AddToCalendarMenu from './AddToCalendarMenu';
 import {
   getAvailableYears, getScheduleForYear, featuredUrl, dayLabel, typeSlug, stripTags,
-  rotateSiteImages, scheduleItemKey, eventInfoForPresentation, groupConsecutiveByType, mergePartyWithTrailingTalks, groupsForYear, groupSlug,
+  rotateSiteImages, scheduleItemKey, eventInfoForPresentation, groupConsecutiveByType, mergePartyWithTrailingTalks, groupsForYear, groupSlug, itemSlug,
 } from '../lib/scheduleUtils';
 import { routeSlug } from '../lib/slug';
 
@@ -286,8 +286,13 @@ export default function ScheduleApp({ initialView }) {
     if (pres) openPresentation(pres);
   }, [openPresentation]);
 
-  const openLogisticsItem = useCallback((item) => {
+  // Pushes its own URL, like openPresentation/openGroup, so a talk with no
+  // presentation of its own (no write-up ever came in for it) is still
+  // linkable/bookmarkable instead of only reachable by clicking through
+  // the schedule.
+  const openLogisticsItem = useCallback((item, { push = true } = {}) => {
     setDrawerItem({ kind: 'logistics', item });
+    if (push) navigate(`/item/${itemSlug(item)}/`);
   }, []);
 
   // Pushes its own history entry (like openPresentation) so that going back
@@ -331,8 +336,13 @@ export default function ScheduleApp({ initialView }) {
       const group = groupsForYear(dataRef.current, year).find((it) => groupSlug(it) === decodeURIComponent(g[1]));
       if (group) { openGroup(group, { push: false }); return; }
     }
+    const i = /^\/item\/([^/]+)\/?$/.exec(path);
+    if (i && dataRef.current) {
+      const item = getScheduleForYear(dataRef.current, year).find((it) => itemSlug(it) === decodeURIComponent(i[1]));
+      if (item) { openLogisticsItem(item, { push: false }); return; }
+    }
     setDrawerItem(null);
-  }, [findPresentationBySlug, openPresentation, openGroup, year]);
+  }, [findPresentationBySlug, openPresentation, openGroup, openLogisticsItem, year]);
 
   useEffect(() => {
     fetch('/content.json')

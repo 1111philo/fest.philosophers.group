@@ -180,6 +180,16 @@ export function groupSlug(group) {
   return `${typeSlug(group.type)}-${group.date}`;
 }
 
+// Same idea for a plain schedule row that has no presentation of its own
+// to link to (no presentation_id - a fireside chat, panel, or logistics
+// slot that was never given a full write-up). Titles are unique within a
+// day in practice, so title + date is enough without the noise of a full
+// scheduleItemKey.
+export function itemSlug(item) {
+  const titleSlug = (item.title || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+  return `${titleSlug}-${item.date}`;
+}
+
 // Every Lightning-Talk-style group for a year, across all days - lets a
 // /group/<key>/ URL (pushed when a group card is opened, so the browser's
 // back button can return to it from a talk opened inside) be resolved back
