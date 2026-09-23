@@ -73,7 +73,7 @@ function Tracks({ dayItems, onOpen, mediaById, presentationsById }) {
       <div className="tracks multi">
         {majorTracks.map((loc) => (
           <div key={loc}>
-            <div className="track-heading">{loc}</div>
+            <h3 className="track-heading">{loc}</h3>
             <div className="track-list">
               {byLocation[loc].map((it) => (
                 <ScheduleCard key={scheduleItemKey(it)} item={it} onOpen={onOpen} mediaById={mediaById} presentationsById={presentationsById} />
@@ -83,7 +83,7 @@ function Tracks({ dayItems, onOpen, mediaById, presentationsById }) {
         ))}
         {minorItems.length > 0 && (
           <div>
-            <div className="track-heading">Also Today</div>
+            <h3 className="track-heading">Also Today</h3>
             <div className="track-list">
               {minorItems.map((it) => (
                 <ScheduleCard key={scheduleItemKey(it)} item={it} onOpen={onOpen} mediaById={mediaById} presentationsById={presentationsById} />
@@ -389,7 +389,7 @@ export default function ScheduleApp({ initialView }) {
             const lbl = dayLabel(it.date);
             return (
               <div key={scheduleItemKey(it)}>
-                {showHeader && <div className="day-header">{it.day}, {lbl.date}</div>}
+                {showHeader && <h2 className="day-header">{it.day}, {lbl.date}</h2>}
                 <div className="track-list">
                   <ScheduleCard item={it} onOpen={openScheduleItem} mediaById={mediaById} presentationsById={presentationsById} />
                 </div>
@@ -410,7 +410,7 @@ export default function ScheduleApp({ initialView }) {
       );
       return (
         <div key={date}>
-          <div className="day-header">{dayItems[0].day}, {lbl.date}</div>
+          <h2 className="day-header">{dayItems[0].day}, {lbl.date}</h2>
           <Tracks dayItems={dayItems} onOpen={openScheduleItem} mediaById={mediaById} presentationsById={presentationsById} />
         </div>
       );
@@ -421,7 +421,15 @@ export default function ScheduleApp({ initialView }) {
       'Lightning Talk',
     );
     mainContent = dayItems.length
-      ? <Tracks dayItems={dayItems} onOpen={openScheduleItem} mediaById={mediaById} presentationsById={presentationsById} />
+      ? (
+        <>
+          {/* Visually-hidden - the day tab above already shows this, but a
+              track heading (h3) follows immediately and needs an h2
+              ancestor so heading-level navigation doesn't skip from h1. */}
+          <h2 className="sr-only">{dayItems[0].day}, {dayLabel(day).date}</h2>
+          <Tracks dayItems={dayItems} onOpen={openScheduleItem} mediaById={mediaById} presentationsById={presentationsById} />
+        </>
+      )
       : <div className="empty-state">Nothing scheduled yet for this day.</div>;
   }
 

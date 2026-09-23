@@ -25,7 +25,7 @@ const image = `${SITE_URL}/media/ogg-arts.png`;
 
   {days.map((day) => (
     <div id={day.dow.toLowerCase()}>
-      <div class="day-header">{formatDayHeading(day.iso)}</div>
+      <h2 class="day-header">{formatDayHeading(day.iso)}</h2>
       <div class="track-list">
         {day.items.map((item) => (
           <a class="card" href={`/p/${item.slug}/`}>
