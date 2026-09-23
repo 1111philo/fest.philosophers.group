@@ -39058,11 +39058,11 @@
         "rendered": "Funding AI in NOLA Schools Fireside Chat"
       },
       "content": {
-        "rendered": "<p>A conversation about how New Orleans schools are funding AI adoption — from grant programs and pilot initiatives to the budget realities of bringing new tools into the classroom.</p>",
+        "rendered": "<p>A conversation about how New Orleans schools are funding their move into AI &#8212; from pilot programs and educator training to the philanthropic support behind them. Davis Zaunbrecher, founding director of the <a href=\"https://nolaed.ai\">New Orleans AI Education Fund</a>, discusses how the Fund helps K&#8211;12 public schools make strategic, instructionally-sound decisions about AI, with pilots and educator training now reaching schools enrolling nearly 85% of the city&#8217;s public school students in 2026&#8211;27.</p>",
         "protected": false
       },
       "excerpt": {
-        "rendered": "<p>A conversation about how New Orleans schools are funding AI adoption, from grant programs and pilots to the budget realities of bringing new tools into the classroom.</p>",
+        "rendered": "<p>Davis Zaunbrecher, founding director of the New Orleans AI Education Fund, on how the Fund helps New Orleans public schools make strategic decisions about AI &#8212; and how that work gets funded.</p>",
         "protected": false
       },
       "featured_media": 0,
@@ -39090,9 +39090,9 @@
         "date": null,
         "time": null,
         "location": null,
-        "presenter_name": "Davis Zumbrecker",
-        "presenter_bio": "",
-        "presenter_photo_url": ""
+        "presenter_name": "Davis Zaunbrecher",
+        "presenter_bio": "Davis Zaunbrecher is the founding director of the New Orleans AI Education Fund, which helps K–12 public schools make strategic, instructionally-sound decisions about AI, piloting programs and training educators across New Orleans schools enrolling nearly 85% of the city’s public school students in 2026–27. He also serves as Chief Strategy Officer at Collegiate Academies, a network of open-enrollment public charter high schools in New Orleans and Baton Rouge, where he previously served as Chief Financial Officer and Chief Operating Officer and helped launch Opportunities Academy and Las Sierras Academy. A Louisiana native and longtime New Orleans resident, he was a Broad Residency fellow (2017–19) through Yale School of Management’s Broad Center.",
+        "presenter_photo_url": "media/davis-zaunbrecher-headshot.jpg"
       }
     },
     {
@@ -59260,7 +59260,7 @@
       "raw_time_range": "3:30–4:15",
       "location": "Main Stage • 400 Esplanade Ave",
       "title": "Funding AI in NOLA Schools Fireside Chat",
-      "presenters": "Davis Zumbrecker",
+      "presenters": "Davis Zaunbrecher",
       "type": "Fireside Chat",
       "tag": "Education, Policy & Funding",
       "presentation_id": 2905
