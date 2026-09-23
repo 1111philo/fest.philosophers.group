@@ -28539,7 +28539,7 @@
       "type": "presentations",
       "link": "https://noai.philosophers.group/?post_type=presentations&p=2607",
       "title": {
-        "rendered": "AI Together: Service Learning and Community Engaged AI in New Orleans by Nicholas Mattei"
+        "rendered": "AI Together: Service Learning and Community Engaged AI in New Orleans"
       },
       "content": {
         "rendered": "<p>Putting community partnerships and collaborative design processes that foreground all stakeholders is a powerful tool both for building products and services that work. In this presentation we&#8217;ll cover some of our projects including AI tools that expand access to civic processes and data, with a focus on lessons learned and how to engage community in ways that bring more voices to the ideation, design, development, and deployment phases.</p>\n",
@@ -28784,9 +28784,9 @@
         "date": "11/12/2026",
         "time": "1:00 PM",
         "location": "Main Stage • 400 Esplanade Ave",
-        "presenter_name": "Nicholas Mattei",
-        "presenter_bio": "Nicholas Mattei is an Associate Professor of Computer Science at Tulane University, Co-Director of the Tulane Center for Community Engaged AI in New Orleans, LA, USA, and co-author of the book Computing and Technology Ethics: Engaging Through Science Fiction from MIT Press. His research lies at the intersection of artificial intelligence and machine learning with applications in data science, economics, decision making, and psychology. His work leverages theory, data, and experiments to create systems that support decision making. This work is at the interface between AI and society, and he has a passion for studying the impacts of these technologies on society, and educating students to foreground these concerns in their own work.",
-        "presenter_photo_url": "media/presenter-98-2022_headshot_square_smallsize-scaled.jpg",
+        "presenter_name": "Center for Community-Engaged Artificial Intelligence",
+        "presenter_bio": "CEAI is a multi-disciplinary team of scientists, engineers, students, and community partners dedicated to innovating human-centered AI to benefit society. CEAI leads cross-disciplinary scientific research, facilitates project-based learning experiences, conducts extensive community outreach, hosts workshops and symposiums, and awards seed grants to support human-centered AI research across the university.",
+        "presenter_photo_url": "media/ceai-logo.jpg",
         "type": "Panel"
       }
     },
@@ -58664,7 +58664,7 @@
       "raw_time_range": "1:00–2:00",
       "location": "Main Stage • 400 Esplanade Ave",
       "title": "Civic and Community Engaged AI in New Orleans",
-      "presenters": "Tulane Feature",
+      "presenters": "Center for Community-Engaged Artificial Intelligence",
       "type": "Panel",
       "tag": "Community & Civic",
       "presentation_id": 2607
