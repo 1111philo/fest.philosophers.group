@@ -38986,6 +38986,546 @@
         "presenter_bio": "",
         "presenter_photo_url": ""
       }
+    },
+    {
+      "id": 2904,
+      "date": "2026-09-23T00:00:00",
+      "date_gmt": "2026-09-23T00:00:00",
+      "guid": {
+        "rendered": ""
+      },
+      "modified": "2026-09-23T00:00:00",
+      "modified_gmt": "2026-09-23T00:00:00",
+      "slug": "future-of-education-fireside-chat",
+      "status": "publish",
+      "type": "presentations",
+      "link": "",
+      "title": {
+        "rendered": "Future of Education Fireside Chat"
+      },
+      "content": {
+        "rendered": "<p>AI is reshaping classrooms, campuses, and the policies that govern both — often faster than institutions can adapt. This fireside chat brings together leaders spanning open-source technology, K-12 policy, and higher education to talk through what that shift looks like from where they sit.</p>",
+        "protected": false
+      },
+      "excerpt": {
+        "rendered": "<p>Leaders from open-source technology, K-12 policy, and higher education talk through how AI is reshaping education — in the classroom, on campus, and in the policies that govern both.</p>",
+        "protected": false
+      },
+      "featured_media": 0,
+      "template": "",
+      "meta": {
+        "_acf_changed": false,
+        "inline_featured_image": false
+      },
+      "tags": [],
+      "class_list": [
+        "post-2904",
+        "presentations",
+        "type-presentations",
+        "status-publish",
+        "hentry"
+      ],
+      "acf": [],
+      "mb": [],
+      "yoast_head": "",
+      "yoast_head_json": {},
+      "mfb_acf": [],
+      "mfb_rest_fields": [],
+      "_links": {},
+      "scraped_fields": {
+        "date": null,
+        "time": null,
+        "location": null,
+        "presenter_name": "Mary Hubbard, Ronnie Morris & Dr. Jim Henderson",
+        "presenter_bio": "Mary Hubbard is Executive Director of WordPress.org and President of the Open Web Alliance, bringing nearly two decades of experience in product and platform strategy from companies including TikTok, Automattic, eBay, and Walmart. Ronnie Morris is President of the Louisiana State Board of Elementary and Secondary Education (BESE); an LSU-trained engineer, he also volunteers as a substitute math and science teacher in Baton Rouge schools. Dr. Jim Henderson is President of Louisiana Tech University, previously serving as President and CEO of the University of Louisiana System and as president of Northwestern State University and Bossier Parish Community College.",
+        "presenter_photo_url": ""
+      }
+    },
+    {
+      "id": 2905,
+      "date": "2026-09-23T00:00:00",
+      "date_gmt": "2026-09-23T00:00:00",
+      "guid": {
+        "rendered": ""
+      },
+      "modified": "2026-09-23T00:00:00",
+      "modified_gmt": "2026-09-23T00:00:00",
+      "slug": "funding-ai-in-nola-schools-fireside-chat",
+      "status": "publish",
+      "type": "presentations",
+      "link": "",
+      "title": {
+        "rendered": "Funding AI in NOLA Schools Fireside Chat"
+      },
+      "content": {
+        "rendered": "<p>A conversation about how New Orleans schools are funding AI adoption — from grant programs and pilot initiatives to the budget realities of bringing new tools into the classroom.</p>",
+        "protected": false
+      },
+      "excerpt": {
+        "rendered": "<p>A conversation about how New Orleans schools are funding AI adoption, from grant programs and pilots to the budget realities of bringing new tools into the classroom.</p>",
+        "protected": false
+      },
+      "featured_media": 0,
+      "template": "",
+      "meta": {
+        "_acf_changed": false,
+        "inline_featured_image": false
+      },
+      "tags": [],
+      "class_list": [
+        "post-2905",
+        "presentations",
+        "type-presentations",
+        "status-publish",
+        "hentry"
+      ],
+      "acf": [],
+      "mb": [],
+      "yoast_head": "",
+      "yoast_head_json": {},
+      "mfb_acf": [],
+      "mfb_rest_fields": [],
+      "_links": {},
+      "scraped_fields": {
+        "date": null,
+        "time": null,
+        "location": null,
+        "presenter_name": "Davis Zumbrecker",
+        "presenter_bio": "",
+        "presenter_photo_url": ""
+      }
+    },
+    {
+      "id": 2906,
+      "date": "2026-09-23T00:00:00",
+      "date_gmt": "2026-09-23T00:00:00",
+      "guid": {
+        "rendered": ""
+      },
+      "modified": "2026-09-23T00:00:00",
+      "modified_gmt": "2026-09-23T00:00:00",
+      "slug": "ai-leaders-update-and-panel",
+      "status": "publish",
+      "type": "presentations",
+      "link": "",
+      "title": {
+        "rendered": "AI Leaders Update and Panel"
+      },
+      "content": {
+        "rendered": "<p>An update-style panel featuring voices from across the New Orleans AI community, checking in on where local AI initiatives stand and what&#8217;s ahead for the ecosystem heading into next year.</p>",
+        "protected": false
+      },
+      "excerpt": {
+        "rendered": "<p>Voices from across the New Orleans AI community check in on where local AI initiatives stand and what&#8217;s ahead for the ecosystem.</p>",
+        "protected": false
+      },
+      "featured_media": 0,
+      "template": "",
+      "meta": {
+        "_acf_changed": false,
+        "inline_featured_image": false
+      },
+      "tags": [],
+      "class_list": [
+        "post-2906",
+        "presentations",
+        "type-presentations",
+        "status-publish",
+        "hentry"
+      ],
+      "acf": [],
+      "mb": [],
+      "yoast_head": "",
+      "yoast_head_json": {},
+      "mfb_acf": [],
+      "mfb_rest_fields": [],
+      "_links": {},
+      "scraped_fields": {
+        "date": null,
+        "time": null,
+        "location": null,
+        "presenter_name": "",
+        "presenter_bio": "",
+        "presenter_photo_url": ""
+      }
+    },
+    {
+      "id": 2907,
+      "date": "2026-09-23T00:00:00",
+      "date_gmt": "2026-09-23T00:00:00",
+      "guid": {
+        "rendered": ""
+      },
+      "modified": "2026-09-23T00:00:00",
+      "modified_gmt": "2026-09-23T00:00:00",
+      "slug": "ai-and-autonomy-in-land-sea-and-sky-in-louisiana",
+      "status": "publish",
+      "type": "presentations",
+      "link": "",
+      "title": {
+        "rendered": "AI and Autonomy in Land, Sea, and Sky in Louisiana"
+      },
+      "content": {
+        "rendered": "<p>From autonomous vessels navigating the Gulf to drones monitoring Louisiana&#8217;s coastline and farmland, a look at how autonomous and AI-powered systems are already at work across the state&#8217;s land, sea, and sky — and what Louisiana Economic Development is doing to grow that industry here.</p>",
+        "protected": false
+      },
+      "excerpt": {
+        "rendered": "<p>A look at how autonomous and AI-powered systems are already at work across Louisiana&#8217;s land, sea, and sky, and how the state is working to grow that industry.</p>",
+        "protected": false
+      },
+      "featured_media": 0,
+      "template": "",
+      "meta": {
+        "_acf_changed": false,
+        "inline_featured_image": false
+      },
+      "tags": [],
+      "class_list": [
+        "post-2907",
+        "presentations",
+        "type-presentations",
+        "status-publish",
+        "hentry"
+      ],
+      "acf": [],
+      "mb": [],
+      "yoast_head": "",
+      "yoast_head_json": {},
+      "mfb_acf": [],
+      "mfb_rest_fields": [],
+      "_links": {},
+      "scraped_fields": {
+        "date": null,
+        "time": null,
+        "location": null,
+        "presenter_name": "Louisiana Economic Development",
+        "presenter_bio": "Louisiana Economic Development (LED) is the state's economic development agency, working to attract, retain, and grow business in Louisiana through competitive incentives, site development support, and workforce training.",
+        "presenter_photo_url": "media/led-badge.jpg"
+      }
+    },
+    {
+      "id": 2908,
+      "date": "2026-09-23T00:00:00",
+      "date_gmt": "2026-09-23T00:00:00",
+      "guid": {
+        "rendered": ""
+      },
+      "modified": "2026-09-23T00:00:00",
+      "modified_gmt": "2026-09-23T00:00:00",
+      "slug": "everyday-ai-getting-more-out-of-what-you-already-use-by-knud-berthelsen",
+      "status": "publish",
+      "type": "presentations",
+      "link": "",
+      "title": {
+        "rendered": "Everyday AI: Getting More Out of What You Already Use by Knud Berthelsen"
+      },
+      "content": {
+        "rendered": "<p>A practical look at the AI tools most people already have access to — and how to get meaningfully more out of them. Knud Berthelsen walks through everyday ways to put generative AI to work, drawing on what he teaches at Tulane&#8217;s Freeman School and the Connolly Alexander Institute for Data Science.</p>",
+        "protected": false
+      },
+      "excerpt": {
+        "rendered": "<p>A practical look at the AI tools most people already have access to, and how to get meaningfully more out of them, from Tulane&#8217;s Knud Berthelsen.</p>",
+        "protected": false
+      },
+      "featured_media": 0,
+      "template": "",
+      "meta": {
+        "_acf_changed": false,
+        "inline_featured_image": false
+      },
+      "tags": [],
+      "class_list": [
+        "post-2908",
+        "presentations",
+        "type-presentations",
+        "status-publish",
+        "hentry"
+      ],
+      "acf": [],
+      "mb": [],
+      "yoast_head": "",
+      "yoast_head_json": {},
+      "mfb_acf": [],
+      "mfb_rest_fields": [],
+      "_links": {},
+      "scraped_fields": {
+        "date": null,
+        "time": null,
+        "location": null,
+        "presenter_name": "Knud Berthelsen",
+        "presenter_bio": "Knud E. Berthelsen is a Professor of Practice at Tulane University with joint appointments in the Strategy, Leadership and Analytics Minor (SLAM) and the Connolly Alexander Institute for Data Science (CAIDS). His current consulting focus is on applied AI, helping organizations and individuals leverage AI tools to enhance their operations and decision-making. A native of Norway, Berthelsen holds a BA in European and American Studies from the University of Oslo and an MBA in International Business, Strategic Management, and Leadership from Tulane University.",
+        "presenter_photo_url": "media/2096-Jk1Ku4pV_400x400.jpg"
+      }
+    },
+    {
+      "id": 2909,
+      "date": "2026-09-23T00:00:00",
+      "date_gmt": "2026-09-23T00:00:00",
+      "guid": {
+        "rendered": ""
+      },
+      "modified": "2026-09-23T00:00:00",
+      "modified_gmt": "2026-09-23T00:00:00",
+      "slug": "marketing-strategies-quick-tools-for-helping-increase-business",
+      "status": "publish",
+      "type": "presentations",
+      "link": "",
+      "title": {
+        "rendered": "Marketing Strategies & Quick Tools for Helping Increase Business"
+      },
+      "content": {
+        "rendered": "<p>Two working marketers on where AI actually earns its keep in the day-to-day grind of finding, winning, and keeping business — not theory, but the tools and habits worth adopting.</p>",
+        "protected": false
+      },
+      "excerpt": {
+        "rendered": "<p>Two working marketers on where AI actually earns its keep in finding, winning, and keeping business — not theory, but tools and habits worth adopting.</p>",
+        "protected": false
+      },
+      "featured_media": 0,
+      "template": "",
+      "meta": {
+        "_acf_changed": false,
+        "inline_featured_image": false
+      },
+      "tags": [],
+      "class_list": [
+        "post-2909",
+        "presentations",
+        "type-presentations",
+        "status-publish",
+        "hentry"
+      ],
+      "acf": [],
+      "mb": [],
+      "yoast_head": "",
+      "yoast_head_json": {},
+      "mfb_acf": [],
+      "mfb_rest_fields": [],
+      "_links": {},
+      "scraped_fields": {
+        "date": null,
+        "time": null,
+        "location": null,
+        "presenter_name": "Tom Martin & Bill Dalton",
+        "presenter_bio": "Tom Martin is founder of Converse Digital and author of The Invisible Sale, translating decades of business-development experience into practical, science-backed tactics for pitching, persuading, and closing. Bill Dalton is founder and CEO of Firefly Marketing Solutions, a New Orleans marketing agency; since ChatGPT's release he's built AI into his daily workflow and now regularly speaks to business groups about using it to amplify the expertise they already have.",
+        "presenter_photo_url": "media/presenter-110-Tom-Martin-2026-Headshot.jpg"
+      }
+    },
+    {
+      "id": 2910,
+      "date": "2026-09-23T00:00:00",
+      "date_gmt": "2026-09-23T00:00:00",
+      "guid": {
+        "rendered": ""
+      },
+      "modified": "2026-09-23T00:00:00",
+      "modified_gmt": "2026-09-23T00:00:00",
+      "slug": "ai-implementation-group",
+      "status": "publish",
+      "type": "presentations",
+      "link": "",
+      "title": {
+        "rendered": "AI Implementation Group"
+      },
+      "content": {
+        "rendered": "<p>A working session on putting AI tools to use inside real organizations — moving from pilots and demos to tools that actually stick in day-to-day workflows.</p>",
+        "protected": false
+      },
+      "excerpt": {
+        "rendered": "<p>A working session on putting AI tools to use inside real organizations, moving from pilots and demos to tools that actually stick.</p>",
+        "protected": false
+      },
+      "featured_media": 0,
+      "template": "",
+      "meta": {
+        "_acf_changed": false,
+        "inline_featured_image": false
+      },
+      "tags": [],
+      "class_list": [
+        "post-2910",
+        "presentations",
+        "type-presentations",
+        "status-publish",
+        "hentry"
+      ],
+      "acf": [],
+      "mb": [],
+      "yoast_head": "",
+      "yoast_head_json": {},
+      "mfb_acf": [],
+      "mfb_rest_fields": [],
+      "_links": {},
+      "scraped_fields": {
+        "date": null,
+        "time": null,
+        "location": null,
+        "presenter_name": "Apps & Programs",
+        "presenter_bio": "",
+        "presenter_photo_url": ""
+      }
+    },
+    {
+      "id": 2911,
+      "date": "2026-09-23T00:00:00",
+      "date_gmt": "2026-09-23T00:00:00",
+      "guid": {
+        "rendered": ""
+      },
+      "modified": "2026-09-23T00:00:00",
+      "modified_gmt": "2026-09-23T00:00:00",
+      "slug": "ai-forward-business-building-your-ai-team-instead-of-hiring",
+      "status": "publish",
+      "type": "presentations",
+      "link": "",
+      "title": {
+        "rendered": "AI-Forward Business: Building Your AI Team Instead of Hiring"
+      },
+      "content": {
+        "rendered": "<p>A practical case for treating AI systems as your next hires — how small and mid-sized businesses can build out AI-powered capacity in-house instead of scaling headcount the traditional way.</p>",
+        "protected": false
+      },
+      "excerpt": {
+        "rendered": "<p>A practical case for treating AI systems as your next hires, and how small and mid-sized businesses can build out AI-powered capacity in-house instead of scaling headcount the traditional way.</p>",
+        "protected": false
+      },
+      "featured_media": 0,
+      "template": "",
+      "meta": {
+        "_acf_changed": false,
+        "inline_featured_image": false
+      },
+      "tags": [],
+      "class_list": [
+        "post-2911",
+        "presentations",
+        "type-presentations",
+        "status-publish",
+        "hentry"
+      ],
+      "acf": [],
+      "mb": [],
+      "yoast_head": "",
+      "yoast_head_json": {},
+      "mfb_acf": [],
+      "mfb_rest_fields": [],
+      "_links": {},
+      "scraped_fields": {
+        "date": null,
+        "time": null,
+        "location": null,
+        "presenter_name": "Damon Kirin & Rob Gaudet",
+        "presenter_bio": "Damon Kirin is CEO of NOLA AI, Inc., a generative AI and emerging technologies startup helping small and mid-sized businesses adopt AI, and a managing member of the Kirin Law Firm. Rob Gaudet architects and ships agentic AI systems solo — including Victora.ai, a multi-tenant SaaS platform running autonomous Claude workflows — and has built online communities reaching tens of millions of people a year.",
+        "presenter_photo_url": "media/1452-1688450783600.jpeg"
+      }
+    },
+    {
+      "id": 2912,
+      "date": "2026-09-23T00:00:00",
+      "date_gmt": "2026-09-23T00:00:00",
+      "guid": {
+        "rendered": ""
+      },
+      "modified": "2026-09-23T00:00:00",
+      "modified_gmt": "2026-09-23T00:00:00",
+      "slug": "louisiana-startups",
+      "status": "publish",
+      "type": "presentations",
+      "link": "",
+      "title": {
+        "rendered": "Louisiana Startups"
+      },
+      "content": {
+        "rendered": "<p>A look at the state of startup funding in Louisiana, and how Boot64 Ventures is putting early-stage capital to work — including as the first fund in the state to complete and begin distributing under Louisiana&#8217;s participation in the federal State Small Business Credit Initiative (SSBCI).</p>",
+        "protected": false
+      },
+      "excerpt": {
+        "rendered": "<p>A look at the state of startup funding in Louisiana, and how Boot64 Ventures is putting early-stage capital to work across the state.</p>",
+        "protected": false
+      },
+      "featured_media": 0,
+      "template": "",
+      "meta": {
+        "_acf_changed": false,
+        "inline_featured_image": false
+      },
+      "tags": [],
+      "class_list": [
+        "post-2912",
+        "presentations",
+        "type-presentations",
+        "status-publish",
+        "hentry"
+      ],
+      "acf": [],
+      "mb": [],
+      "yoast_head": "",
+      "yoast_head_json": {},
+      "mfb_acf": [],
+      "mfb_rest_fields": [],
+      "_links": {},
+      "scraped_fields": {
+        "date": null,
+        "time": null,
+        "location": null,
+        "presenter_name": "Mickal Adler, Boot64 Ventures",
+        "presenter_bio": "Mickal Adler is Managing Partner at Boot64 Ventures, an early-stage venture fund based in Metairie, Louisiana investing in pre-seed, seed, and select Series A companies across healthcare, sustainability, and technology. A New Orleans attorney and entrepreneur, he co-leads the fund alongside partner John Roberts.",
+        "presenter_photo_url": "media/boot64-badge.jpg"
+      }
+    },
+    {
+      "id": 2913,
+      "date": "2026-09-23T00:00:00",
+      "date_gmt": "2026-09-23T00:00:00",
+      "guid": {
+        "rendered": ""
+      },
+      "modified": "2026-09-23T00:00:00",
+      "modified_gmt": "2026-09-23T00:00:00",
+      "slug": "conference-2027-theme-announce",
+      "status": "publish",
+      "type": "presentations",
+      "link": "",
+      "title": {
+        "rendered": "Conference 2027 Theme Announce"
+      },
+      "content": {
+        "rendered": "<p>A first look at the theme for next year&#8217;s festival.</p>",
+        "protected": false
+      },
+      "excerpt": {
+        "rendered": "<p>A first look at the theme for next year&#8217;s festival.</p>",
+        "protected": false
+      },
+      "featured_media": 0,
+      "template": "",
+      "meta": {
+        "_acf_changed": false,
+        "inline_featured_image": false
+      },
+      "tags": [],
+      "class_list": [
+        "post-2913",
+        "presentations",
+        "type-presentations",
+        "status-publish",
+        "hentry"
+      ],
+      "acf": [],
+      "mb": [],
+      "yoast_head": "",
+      "yoast_head_json": {},
+      "mfb_acf": [],
+      "mfb_rest_fields": [],
+      "_links": {},
+      "scraped_fields": {
+        "date": null,
+        "time": null,
+        "location": null,
+        "presenter_name": "",
+        "presenter_bio": "",
+        "presenter_photo_url": ""
+      }
     }
   ],
   "media": [
@@ -58401,7 +58941,7 @@
       "presenters": "Mary Hubbard (President, Open Web Alliance) + Ronnie Morris (President, BESE) + Dr. Jim Henderson (President, Louisiana Tech)",
       "type": "Fireside Chat",
       "tag": "Education, Policy & Funding",
-      "presentation_id": null
+      "presentation_id": 2904
     },
     {
       "year": "2026",
@@ -58723,7 +59263,7 @@
       "presenters": "Davis Zumbrecker",
       "type": "Fireside Chat",
       "tag": "Education, Policy & Funding",
-      "presentation_id": null
+      "presentation_id": 2905
     },
     {
       "year": "2026",
@@ -58737,7 +59277,7 @@
       "presenters": "",
       "type": "Panel",
       "tag": "Business & Strategy",
-      "presentation_id": null
+      "presentation_id": 2906
     },
     {
       "year": "2026",
@@ -58821,7 +59361,7 @@
       "presenters": "LED",
       "type": "",
       "tag": "AI & Technology",
-      "presentation_id": null
+      "presentation_id": 2907
     },
     {
       "year": "2026",
@@ -58835,7 +59375,7 @@
       "presenters": "Knud Berthelsen",
       "type": "",
       "tag": "AI & Technology",
-      "presentation_id": null
+      "presentation_id": 2908
     },
     {
       "year": "2026",
@@ -58849,7 +59389,7 @@
       "presenters": "Tom Martin + Bill Dalton",
       "type": "",
       "tag": "Business & Strategy",
-      "presentation_id": null
+      "presentation_id": 2909
     },
     {
       "year": "2026",
@@ -58877,7 +59417,7 @@
       "presenters": "Apps & Programs",
       "type": "",
       "tag": "Business & Strategy",
-      "presentation_id": null
+      "presentation_id": 2910
     },
     {
       "year": "2026",
@@ -58891,7 +59431,7 @@
       "presenters": "Damon Kirin + Rob Gaudet",
       "type": "",
       "tag": "Business & Strategy",
-      "presentation_id": null
+      "presentation_id": 2911
     },
     {
       "year": "2026",
@@ -58905,7 +59445,7 @@
       "presenters": "Mickal Adler / Boot64 Ventures",
       "type": "",
       "tag": "Business & Strategy",
-      "presentation_id": null
+      "presentation_id": 2912
     },
     {
       "year": "2026",
@@ -58961,7 +59501,7 @@
       "presenters": "",
       "type": "Announcement",
       "tag": "Networking",
-      "presentation_id": null
+      "presentation_id": 2913
     },
     {
       "year": "2026",
