@@ -4,3 +4,4 @@ dist/
 .env*.local
 cloudflare-worker/.wrangler/
 cloudflare-worker/node_modules/
+cloudflare-worker/.dev.vars
