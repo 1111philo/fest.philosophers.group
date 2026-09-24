@@ -91,7 +91,9 @@ async function fetchAllCheckoutSessions(env) {
     });
     // Two separate expansions - URLSearchParams' object constructor only
     // keeps one value per key, so these are appended instead of set.
-    params.append('expand[]', 'data.total_details.breakdown.discounts');
+    // discounts[].promotion_code is just an id by default; expanding it
+    // gets the actual human-readable code (e.g. "volunteer") that was used.
+    params.append('expand[]', 'data.discounts.promotion_code');
     // customer_details.name only reflects what Checkout's own billing-name
     // step collected (not guaranteed to appear at all); the Customer's own
     // .name is what /create-checkout sets directly and is the reliable source.
@@ -114,8 +116,13 @@ async function fetchAllCheckoutSessions(env) {
 }
 
 function toRegistrationRow(session) {
-  const discounts = session.total_details?.breakdown?.discounts || [];
-  const isVolunteer = discounts.some((d) => d.discount?.promotion_code === VOLUNTEER_PROMO_ID);
+  const discounts = session.discounts || [];
+  // promotion_code is a full object here (expanded); the id is what's
+  // compared against the known volunteer code, .code is the human-readable
+  // string (e.g. "volunteer", "speaker2026") shown on the admin page.
+  const promotionCodes = discounts.map((d) => d.promotion_code).filter(Boolean);
+  const isVolunteer = promotionCodes.some((p) => (typeof p === 'string' ? p : p.id) === VOLUNTEER_PROMO_ID);
+  const couponCode = promotionCodes.map((p) => (typeof p === 'string' ? p : p.code)).filter(Boolean).join(', ');
   // `customer` is a full object here (expanded) for sessions created with
   // one attached, an id string for any that predate that change, or absent
   // entirely for the oldest sessions - fall back through all three name
@@ -125,6 +132,7 @@ function toRegistrationRow(session) {
     created: new Date(session.created * 1000).toISOString(),
     email: customer?.email || session.customer_details?.email || session.customer_email || '',
     name: customer?.name || session.customer_details?.name || '',
+    couponCode,
     // A session with no registration_qty metadata (older/odd sessions) is
     // still one registration, not zero - default it here, once, so every
     // reader (the table, the JSON export, the summary count below) agrees.
@@ -151,6 +159,7 @@ function renderTableRows(rows) {
       <td>${escapeHtml(r.email)}</td>
       <td>${escapeHtml(r.registrationQty)}</td>
       <td>${r.isVolunteer ? 'Yes' : ''}</td>
+      <td>${escapeHtml(r.couponCode)}</td>
       <td>${escapeHtml(r.workshopNames)}</td>
       <td>${r.amount === null ? '' : `$${r.amount.toFixed(2)} ${escapeHtml(r.currency)}`}</td>
     </tr>`).join('');
@@ -182,7 +191,7 @@ function render(rows) {
     const tr = document.createElement('tr');
     tr.append(
       cell(fmtDate(r.created)), cell(r.name), cell(r.email), cell(r.registrationQty),
-      cell(r.isVolunteer ? 'Yes' : ''), cell(r.workshopNames), cell(fmtAmount(r)),
+      cell(r.isVolunteer ? 'Yes' : ''), cell(r.couponCode), cell(r.workshopNames), cell(fmtAmount(r)),
     );
     tbody.appendChild(tr);
   }
@@ -229,7 +238,7 @@ function renderRegistrationsHtml(rows) {
 <p class="summary" id="summary">${totalRegistrations} total registration${totalRegistrations === 1 ? '' : 's'} &middot; $${totalRevenue.toFixed(2)} total paid</p>
 <p class="updated" id="updated">Live - refreshes automatically every 20s</p>
 <table>
-<thead><tr><th>Date</th><th>Name</th><th>Email</th><th>Qty</th><th>Volunteer</th><th>Workshops</th><th>Paid</th></tr></thead>
+<thead><tr><th>Date</th><th>Name</th><th>Email</th><th>Qty</th><th>Volunteer</th><th>Coupon</th><th>Workshops</th><th>Paid</th></tr></thead>
 <tbody id="rows">${renderTableRows(rows)}</tbody>
 </table>
 ${LIVE_REFRESH_SCRIPT}
