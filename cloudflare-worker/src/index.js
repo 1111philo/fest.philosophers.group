@@ -71,6 +71,11 @@ function escapeHtml(str) {
   ));
 }
 
+// Registration for this event opened September 1, 2026 - anything dated
+// before that is stray/test data, not a real registration, and is excluded
+// at the Stripe query itself rather than filtered client-side.
+const REGISTRATIONS_SINCE_UNIX = Math.floor(Date.UTC(2026, 8, 1) / 1000);
+
 // Walks every page of completed Checkout Sessions - a single festival's
 // worth of registrations is nowhere near Stripe's 100-per-page limit, but
 // this doesn't assume that and keeps paging (capped well above any
@@ -82,6 +87,7 @@ async function fetchAllCheckoutSessions(env) {
     const params = new URLSearchParams({
       limit: '100',
       status: 'complete',
+      'created[gte]': String(REGISTRATIONS_SINCE_UNIX),
       'expand[]': 'data.total_details.breakdown.discounts',
     });
     if (startingAfter) params.set('starting_after', startingAfter);
@@ -108,7 +114,10 @@ function toRegistrationRow(session) {
     created: new Date(session.created * 1000).toISOString(),
     email: session.customer_details?.email || session.customer_email || '',
     name: session.customer_details?.name || '',
-    registrationQty: session.metadata?.registration_qty || '',
+    // A session with no registration_qty metadata (older/odd sessions) is
+    // still one registration, not zero - default it here, once, so every
+    // reader (the table, the JSON export, the summary count below) agrees.
+    registrationQty: session.metadata?.registration_qty || '1',
     workshopNames: session.metadata?.workshop_names || '',
     amount: typeof session.amount_total === 'number' ? session.amount_total / 100 : null,
     currency: (session.currency || 'usd').toUpperCase(),
@@ -120,7 +129,7 @@ function toRegistrationRow(session) {
 function summarize(rows) {
   const totalRegistrations = rows.reduce((sum, r) => sum + (Number(r.registrationQty) || 1), 0);
   const totalRevenue = rows.reduce((sum, r) => sum + (r.amount || 0), 0);
-  return { totalRegistrations, totalRevenue, orders: rows.length };
+  return { totalRegistrations, totalRevenue };
 }
 
 function renderTableRows(rows) {
@@ -168,10 +177,8 @@ function render(rows) {
   }
   const totalRegistrations = rows.reduce((sum, r) => sum + (Number(r.registrationQty) || 1), 0);
   const totalRevenue = rows.reduce((sum, r) => sum + (r.amount || 0), 0);
-  document.getElementById('count').textContent = rows.length;
   document.getElementById('summary').textContent =
     totalRegistrations + ' total registration' + (totalRegistrations === 1 ? '' : 's') +
-    ' across ' + rows.length + ' order' + (rows.length === 1 ? '' : 's') +
     ' \\u00b7 $' + totalRevenue.toFixed(2) + ' total paid';
   document.getElementById('updated').textContent = 'Updated ' + new Date().toLocaleTimeString('en-US');
 }
@@ -188,7 +195,7 @@ setInterval(refresh, POLL_MS);
 </script>`;
 
 function renderRegistrationsHtml(rows) {
-  const { totalRegistrations, totalRevenue, orders } = summarize(rows);
+  const { totalRegistrations, totalRevenue } = summarize(rows);
 
   return `<!doctype html>
 <html lang="en">
@@ -207,8 +214,8 @@ function renderRegistrationsHtml(rows) {
 </style>
 </head>
 <body>
-<h1>Registrations (<span id="count">${rows.length}</span>)</h1>
-<p class="summary" id="summary">${totalRegistrations} total registration${totalRegistrations === 1 ? '' : 's'} across ${orders} order${orders === 1 ? '' : 's'} &middot; $${totalRevenue.toFixed(2)} total paid</p>
+<h1>Registrations</h1>
+<p class="summary" id="summary">${totalRegistrations} total registration${totalRegistrations === 1 ? '' : 's'} &middot; $${totalRevenue.toFixed(2)} total paid</p>
 <p class="updated" id="updated">Live - refreshes automatically every 20s</p>
 <table>
 <thead><tr><th>Date</th><th>Name</th><th>Email</th><th>Qty</th><th>Volunteer</th><th>Workshops</th><th>Paid</th></tr></thead>
@@ -234,18 +241,41 @@ function readCookie(request, name) {
   return '';
 }
 
-// Checks the `?key=` query param first (what the very first, shared link
-// uses) and falls back to the admin_key cookie a prior visit would have
-// set - so the key only ever needs to be typed/pasted once per browser,
-// not appended to the URL on every visit afterward. Returns whether the
-// visitor set the cookie just now via the query param, so the caller
-// knows to attach Set-Cookie to its response.
+// Basic Auth credentials travel in a request header, never the URL/address
+// bar/history - the username is ignored, only the password (checked
+// against ADMIN_KEY) matters. Browsers that get a 401 with a
+// WWW-Authenticate: Basic challenge show their own native login prompt and
+// cache what's entered for the origin, so this only needs entering once
+// per browser even without the cookie.
+function checkBasicAuth(request, env) {
+  const header = request.headers.get('Authorization') || '';
+  const m = /^Basic\s+(.+)$/.exec(header);
+  if (!m) return false;
+  let decoded;
+  try {
+    decoded = atob(m[1]);
+  } catch {
+    return false;
+  }
+  const colon = decoded.indexOf(':');
+  const password = colon === -1 ? decoded : decoded.slice(colon + 1);
+  return safeEqual(password, env.ADMIN_KEY);
+}
+
+// Three ways in, checked in order: a `?key=` query param (kept only for
+// scripts/JSON polling that can't do an interactive Basic Auth prompt), the
+// admin_key cookie a prior visit set, or a Basic Auth header the browser
+// already cached from an earlier prompt. Returns whether the visitor
+// authed just now via the query param or Basic Auth, so the caller knows
+// to attach Set-Cookie to its response (skipped for an existing cookie -
+// nothing new to persist).
 function checkAuth(request, url, env) {
   if (!env.ADMIN_KEY) return { ok: false, setCookie: false };
   const queryKey = url.searchParams.get('key') || '';
   if (queryKey && safeEqual(queryKey, env.ADMIN_KEY)) return { ok: true, setCookie: true };
   const cookieKey = readCookie(request, AUTH_COOKIE);
   if (cookieKey && safeEqual(cookieKey, env.ADMIN_KEY)) return { ok: true, setCookie: false };
+  if (checkBasicAuth(request, env)) return { ok: true, setCookie: true };
   return { ok: false, setCookie: false };
 }
 
@@ -255,7 +285,10 @@ async function handleRegistrations(request, url, env) {
     return new Response('Not configured', { status: 500 });
   }
   if (!auth.ok) {
-    return new Response('Unauthorized', { status: 401 });
+    return new Response('Unauthorized', {
+      status: 401,
+      headers: { 'WWW-Authenticate': 'Basic realm="Registrations"' },
+    });
   }
 
   const headers = {};
