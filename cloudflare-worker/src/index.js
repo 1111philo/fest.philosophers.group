@@ -88,8 +88,14 @@ async function fetchAllCheckoutSessions(env) {
       limit: '100',
       status: 'complete',
       'created[gte]': String(REGISTRATIONS_SINCE_UNIX),
-      'expand[]': 'data.total_details.breakdown.discounts',
     });
+    // Two separate expansions - URLSearchParams' object constructor only
+    // keeps one value per key, so these are appended instead of set.
+    params.append('expand[]', 'data.total_details.breakdown.discounts');
+    // customer_details.name only reflects what Checkout's own billing-name
+    // step collected (not guaranteed to appear at all); the Customer's own
+    // .name is what /create-checkout sets directly and is the reliable source.
+    params.append('expand[]', 'data.customer');
     if (startingAfter) params.set('starting_after', startingAfter);
 
     // eslint-disable-next-line no-await-in-loop
@@ -110,10 +116,15 @@ async function fetchAllCheckoutSessions(env) {
 function toRegistrationRow(session) {
   const discounts = session.total_details?.breakdown?.discounts || [];
   const isVolunteer = discounts.some((d) => d.discount?.promotion_code === VOLUNTEER_PROMO_ID);
+  // `customer` is a full object here (expanded) for sessions created with
+  // one attached, an id string for any that predate that change, or absent
+  // entirely for the oldest sessions - fall back through all three name
+  // sources in that order of reliability.
+  const customer = typeof session.customer === 'object' && session.customer ? session.customer : null;
   return {
     created: new Date(session.created * 1000).toISOString(),
-    email: session.customer_details?.email || session.customer_email || '',
-    name: session.customer_details?.name || '',
+    email: customer?.email || session.customer_details?.email || session.customer_email || '',
+    name: customer?.name || session.customer_details?.name || '',
     // A session with no registration_qty metadata (older/odd sessions) is
     // still one registration, not zero - default it here, once, so every
     // reader (the table, the JSON export, the summary count below) agrees.
@@ -351,6 +362,11 @@ export default {
       return jsonResponse({ error: 'Invalid JSON' }, 400, origin);
     }
 
+    const name = typeof body.name === 'string' ? body.name.trim().slice(0, 200) : '';
+    if (!name) {
+      return jsonResponse({ error: 'A name is required' }, 400, origin);
+    }
+
     const email = typeof body.email === 'string' ? body.email.trim() : '';
     if (!EMAIL_RE.test(email)) {
       return jsonResponse({ error: 'A valid email is required' }, 400, origin);
@@ -412,11 +428,36 @@ export default {
     params.set('metadata[registration_qty]', String(registrationQty));
     params.set('payment_intent_data[metadata][registration_qty]', String(registrationQty));
 
-    params.set('customer_email', email);
+    // A Checkout Session's customer_details.name only gets filled in if the
+    // Checkout page itself happens to collect a billing name, which isn't
+    // guaranteed for every payment method - that's why past orders were
+    // showing up nameless. Creating a real Customer object with the name
+    // collected on our own form, then attaching the session to it, puts
+    // the name on record in Stripe itself (visible on the Customer, not
+    // just something we hoped Checkout would ask for).
+    let customerRes;
+    try {
+      customerRes = await fetch('https://api.stripe.com/v1/customers', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${env.STRIPE_SECRET_KEY}`,
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({ name, email }).toString(),
+      });
+    } catch {
+      return jsonResponse({ error: 'Could not reach Stripe' }, 502, origin);
+    }
+    const customerData = await customerRes.json();
+    if (!customerRes.ok) {
+      console.error('Stripe error creating customer', customerData.error);
+      return jsonResponse({ error: 'Could not start checkout' }, 502, origin);
+    }
+
+    params.set('customer', customerData.id);
     // Setting receipt_email directly forces Stripe to send a receipt for
     // this payment regardless of the account's "Successful payments" email
-    // setting - customer_email alone (above) only prefills the Checkout
-    // page, it doesn't trigger a receipt.
+    // setting - the customer's own email alone doesn't trigger one.
     params.set('payment_intent_data[receipt_email]', email);
     params.set('client_reference_id', email.slice(0, 200));
     params.set('success_url', SUCCESS_URL);
