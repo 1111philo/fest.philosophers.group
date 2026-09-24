@@ -117,10 +117,14 @@ function toRegistrationRow(session) {
   };
 }
 
-function renderRegistrationsHtml(rows) {
+function summarize(rows) {
   const totalRegistrations = rows.reduce((sum, r) => sum + (Number(r.registrationQty) || 1), 0);
   const totalRevenue = rows.reduce((sum, r) => sum + (r.amount || 0), 0);
-  const tableRows = rows.map((r) => `
+  return { totalRegistrations, totalRevenue, orders: rows.length };
+}
+
+function renderTableRows(rows) {
+  return rows.map((r) => `
     <tr>
       <td>${escapeHtml(new Date(r.created).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' }))}</td>
       <td>${escapeHtml(r.name)}</td>
@@ -130,6 +134,61 @@ function renderRegistrationsHtml(rows) {
       <td>${escapeHtml(r.workshopNames)}</td>
       <td>${r.amount === null ? '' : `$${r.amount.toFixed(2)} ${escapeHtml(r.currency)}`}</td>
     </tr>`).join('');
+}
+
+// Polls /registrations?format=json every 20s and swaps in fresh rows -
+// picking up new signups without anyone needing to manually reload this
+// tab during the event. Rebuilds the table with DOM APIs (textContent),
+// not string concatenation, so it can't reintroduce the injection risk
+// escapeHtml() guards against server-side.
+const LIVE_REFRESH_SCRIPT = `
+<script>
+const POLL_MS = 20000;
+function fmtDate(iso) {
+  return new Date(iso).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' });
+}
+function fmtAmount(r) {
+  return r.amount === null ? '' : ('$' + r.amount.toFixed(2) + ' ' + r.currency);
+}
+function cell(text) {
+  const td = document.createElement('td');
+  td.textContent = text;
+  return td;
+}
+function render(rows) {
+  const tbody = document.getElementById('rows');
+  tbody.textContent = '';
+  for (const r of rows) {
+    const tr = document.createElement('tr');
+    tr.append(
+      cell(fmtDate(r.created)), cell(r.name), cell(r.email), cell(r.registrationQty),
+      cell(r.isVolunteer ? 'Yes' : ''), cell(r.workshopNames), cell(fmtAmount(r)),
+    );
+    tbody.appendChild(tr);
+  }
+  const totalRegistrations = rows.reduce((sum, r) => sum + (Number(r.registrationQty) || 1), 0);
+  const totalRevenue = rows.reduce((sum, r) => sum + (r.amount || 0), 0);
+  document.getElementById('count').textContent = rows.length;
+  document.getElementById('summary').textContent =
+    totalRegistrations + ' total registration' + (totalRegistrations === 1 ? '' : 's') +
+    ' across ' + rows.length + ' order' + (rows.length === 1 ? '' : 's') +
+    ' \\u00b7 $' + totalRevenue.toFixed(2) + ' total paid';
+  document.getElementById('updated').textContent = 'Updated ' + new Date().toLocaleTimeString('en-US');
+}
+async function refresh() {
+  try {
+    const res = await fetch('/registrations?format=json', { credentials: 'same-origin' });
+    if (!res.ok) return;
+    render(await res.json());
+  } catch {
+    // Transient network hiccup - next poll will retry; leave the table as-is.
+  }
+}
+setInterval(refresh, POLL_MS);
+</script>`;
+
+function renderRegistrationsHtml(rows) {
+  const { totalRegistrations, totalRevenue, orders } = summarize(rows);
 
   return `<!doctype html>
 <html lang="en">
@@ -140,37 +199,75 @@ function renderRegistrationsHtml(rows) {
 <style>
   body { font-family: system-ui, sans-serif; margin: 24px; color: #1a1a1a; }
   h1 { font-size: 20px; }
-  .summary { margin-bottom: 16px; color: #444; }
+  .summary { margin-bottom: 4px; color: #444; }
+  .updated { margin: 0 0 16px; color: #888; font-size: 12px; }
   table { border-collapse: collapse; width: 100%; font-size: 14px; }
   th, td { border-bottom: 1px solid #ddd; padding: 6px 10px; text-align: left; vertical-align: top; }
   th { background: #f4f4f4; position: sticky; top: 0; }
 </style>
 </head>
 <body>
-<h1>Registrations (${rows.length})</h1>
-<p class="summary">${totalRegistrations} total registration${totalRegistrations === 1 ? '' : 's'} across ${rows.length} order${rows.length === 1 ? '' : 's'} &middot; $${totalRevenue.toFixed(2)} total paid</p>
+<h1>Registrations (<span id="count">${rows.length}</span>)</h1>
+<p class="summary" id="summary">${totalRegistrations} total registration${totalRegistrations === 1 ? '' : 's'} across ${orders} order${orders === 1 ? '' : 's'} &middot; $${totalRevenue.toFixed(2)} total paid</p>
+<p class="updated" id="updated">Live - refreshes automatically every 20s</p>
 <table>
 <thead><tr><th>Date</th><th>Name</th><th>Email</th><th>Qty</th><th>Volunteer</th><th>Workshops</th><th>Paid</th></tr></thead>
-<tbody>${tableRows}</tbody>
+<tbody id="rows">${renderTableRows(rows)}</tbody>
 </table>
+${LIVE_REFRESH_SCRIPT}
 </body>
 </html>`;
 }
 
-async function handleRegistrations(url, env) {
+const AUTH_COOKIE = 'admin_key';
+// A year - this is a bookmarked internal tool, not a session that should
+// need re-authenticating; the key itself is what actually gates access.
+const AUTH_COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
+
+function readCookie(request, name) {
+  const header = request.headers.get('Cookie') || '';
+  for (const part of header.split(';')) {
+    const eq = part.indexOf('=');
+    if (eq === -1) continue;
+    if (part.slice(0, eq).trim() === name) return decodeURIComponent(part.slice(eq + 1).trim());
+  }
+  return '';
+}
+
+// Checks the `?key=` query param first (what the very first, shared link
+// uses) and falls back to the admin_key cookie a prior visit would have
+// set - so the key only ever needs to be typed/pasted once per browser,
+// not appended to the URL on every visit afterward. Returns whether the
+// visitor set the cookie just now via the query param, so the caller
+// knows to attach Set-Cookie to its response.
+function checkAuth(request, url, env) {
+  if (!env.ADMIN_KEY) return { ok: false, setCookie: false };
+  const queryKey = url.searchParams.get('key') || '';
+  if (queryKey && safeEqual(queryKey, env.ADMIN_KEY)) return { ok: true, setCookie: true };
+  const cookieKey = readCookie(request, AUTH_COOKIE);
+  if (cookieKey && safeEqual(cookieKey, env.ADMIN_KEY)) return { ok: true, setCookie: false };
+  return { ok: false, setCookie: false };
+}
+
+async function handleRegistrations(request, url, env) {
+  const auth = checkAuth(request, url, env);
   if (!env.ADMIN_KEY) {
     return new Response('Not configured', { status: 500 });
   }
-  const key = url.searchParams.get('key') || '';
-  if (!safeEqual(key, env.ADMIN_KEY)) {
+  if (!auth.ok) {
     return new Response('Unauthorized', { status: 401 });
+  }
+
+  const headers = {};
+  if (auth.setCookie) {
+    headers['Set-Cookie'] = `${AUTH_COOKIE}=${encodeURIComponent(env.ADMIN_KEY)}; Max-Age=${AUTH_COOKIE_MAX_AGE}; Path=/; HttpOnly; Secure; SameSite=Lax`;
   }
 
   let sessions;
   try {
     sessions = await fetchAllCheckoutSessions(env);
   } catch (err) {
-    return new Response(`Could not load registrations: ${err.message}`, { status: 502 });
+    return new Response(`Could not load registrations: ${err.message}`, { status: 502, headers });
   }
 
   const rows = sessions
@@ -179,11 +276,11 @@ async function handleRegistrations(url, env) {
 
   if (url.searchParams.get('format') === 'json') {
     return new Response(JSON.stringify(rows, null, 2), {
-      headers: { 'Content-Type': 'application/json' },
+      headers: { ...headers, 'Content-Type': 'application/json' },
     });
   }
   return new Response(renderRegistrationsHtml(rows), {
-    headers: { 'Content-Type': 'text/html; charset=utf-8' },
+    headers: { ...headers, 'Content-Type': 'text/html; charset=utf-8' },
   });
 }
 
@@ -194,7 +291,7 @@ export default {
     const { pathname } = url;
 
     if (pathname === '/registrations') {
-      return handleRegistrations(url, env);
+      return handleRegistrations(request, url, env);
     }
 
     if (pathname !== '/create-checkout') {
