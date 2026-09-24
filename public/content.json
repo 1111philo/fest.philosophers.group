@@ -39318,21 +39318,21 @@
       "guid": {
         "rendered": ""
       },
-      "modified": "2026-09-23T00:00:00",
-      "modified_gmt": "2026-09-23T00:00:00",
-      "slug": "ai-implementation-group",
+      "modified": "2026-09-24T00:00:00",
+      "modified_gmt": "2026-09-24T00:00:00",
+      "slug": "building-ai-into-businesses-by-jesse-hoppes",
       "status": "publish",
       "type": "presentations",
       "link": "",
       "title": {
-        "rendered": "AI Implementation Group"
+        "rendered": "Building AI Into Businesses by Jesse Hoppes"
       },
       "content": {
-        "rendered": "<p>A working session on putting AI tools to use inside real organizations — moving from pilots and demos to tools that actually stick in day-to-day workflows.</p>",
+        "rendered": "<p>Business leaders talking about how they're actually using AI inside their businesses. We'll start with 10 to 15 minutes of quick examples of things we've built and why. Then Jesse leads a panel with two members of his monthly AI group, business owners and leaders who have been building out programs, applications, and agents for their own companies. How they did it, what worked, what didn't, and what they're worried about big-picture. Then we open it up to questions from the room.</p>\n<p><strong>What attendees get:</strong></p>\n<ul>\n<li>What it really looks like when a regular business builds its own tools, apps, and agents</li>\n<li>How business people with no software background got started, and what they'd do differently</li>\n<li>The honest worries that come with it, from the people doing the work</li>\n</ul>\n",
         "protected": false
       },
       "excerpt": {
-        "rendered": "<p>A working session on putting AI tools to use inside real organizations, moving from pilots and demos to tools that actually stick.</p>",
+        "rendered": "<p>Business leaders talking about how they're actually using AI inside their businesses. We'll start with 10 to 15 minutes of quick examples of things we've built and why. Then Jesse leads a panel with two members of his monthly AI group, business owners and [&hellip;]</p>\n",
         "protected": false
       },
       "featured_media": 0,
@@ -39357,12 +39357,13 @@
       "mfb_rest_fields": [],
       "_links": {},
       "scraped_fields": {
-        "date": null,
-        "time": null,
-        "location": null,
-        "presenter_name": "Apps & Programs",
-        "presenter_bio": "",
-        "presenter_photo_url": ""
+        "date": "11/13/2026",
+        "time": "1:00 PM",
+        "location": "Main Stage • 400 Esplanade Ave",
+        "presenter_name": "Jesse Hoppes",
+        "presenter_bio": "Jesse Hoppes is a Professional Geologist and Co-Owner of Leaaf Environmental, a New Orleans environmental consulting firm, where he's led the company's AI adoption across operations, marketing, and admin. He runs a monthly AI group of business owners and leaders figuring out how to actually use AI in their companies, and he curated the Friday business day at this year's festival.",
+        "presenter_photo_url": "media/jesse-hoppes-headshot.jpg",
+        "type": "Panel"
       }
     },
     {
@@ -59413,9 +59414,9 @@
       "sort_time": "13:00",
       "raw_time_range": "1:00–2:00",
       "location": "Main Stage • 400 Esplanade Ave",
-      "title": "AI Implementation Group",
-      "presenters": "Apps & Programs",
-      "type": "",
+      "title": "Building AI Into Businesses",
+      "presenters": "Jesse Hoppes",
+      "type": "Panel",
       "tag": "Business & Strategy",
       "presentation_id": 2910
     },
