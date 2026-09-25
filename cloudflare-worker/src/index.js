@@ -138,6 +138,8 @@ function toRegistrationRow(session) {
     // reader (the table, the JSON export, the summary count below) agrees.
     registrationQty: session.metadata?.registration_qty || '1',
     workshopNames: session.metadata?.workshop_names || '',
+    volunteerShifts: session.metadata?.volunteer_shifts || '',
+    daysAttending: session.metadata?.days_attending || '',
     amount: typeof session.amount_total === 'number' ? session.amount_total / 100 : null,
     currency: (session.currency || 'usd').toUpperCase(),
     isVolunteer,
@@ -159,8 +161,10 @@ function renderTableRows(rows) {
       <td>${escapeHtml(r.email)}</td>
       <td>${escapeHtml(r.registrationQty)}</td>
       <td>${r.isVolunteer ? 'Yes' : ''}</td>
+      <td>${escapeHtml(r.volunteerShifts)}</td>
       <td>${escapeHtml(r.couponCode)}</td>
       <td>${escapeHtml(r.workshopNames)}</td>
+      <td>${escapeHtml(r.daysAttending)}</td>
       <td>${r.amount === null ? '' : `$${r.amount.toFixed(2)} ${escapeHtml(r.currency)}`}</td>
     </tr>`).join('');
 }
@@ -191,7 +195,8 @@ function render(rows) {
     const tr = document.createElement('tr');
     tr.append(
       cell(fmtDate(r.created)), cell(r.name), cell(r.email), cell(r.registrationQty),
-      cell(r.isVolunteer ? 'Yes' : ''), cell(r.couponCode), cell(r.workshopNames), cell(fmtAmount(r)),
+      cell(r.isVolunteer ? 'Yes' : ''), cell(r.volunteerShifts), cell(r.couponCode), cell(r.workshopNames),
+      cell(r.daysAttending), cell(fmtAmount(r)),
     );
     tbody.appendChild(tr);
   }
@@ -238,7 +243,7 @@ function renderRegistrationsHtml(rows) {
 <p class="summary" id="summary">${totalRegistrations} total registration${totalRegistrations === 1 ? '' : 's'} &middot; $${totalRevenue.toFixed(2)} total paid</p>
 <p class="updated" id="updated">Live - refreshes automatically every 20s</p>
 <table>
-<thead><tr><th>Date</th><th>Name</th><th>Email</th><th>Qty</th><th>Volunteer</th><th>Coupon</th><th>Workshops</th><th>Paid</th></tr></thead>
+<thead><tr><th>Date</th><th>Name</th><th>Email</th><th>Qty</th><th>Volunteer</th><th>Volunteer Times</th><th>Coupon</th><th>Workshops</th><th>Days Attending</th><th>Paid</th></tr></thead>
 <tbody id="rows">${renderTableRows(rows)}</tbody>
 </table>
 ${LIVE_REFRESH_SCRIPT}
@@ -395,6 +400,19 @@ export default {
     const isVolunteer = body.isVolunteer === true;
     const extraWorkshopQty = Math.max(workshopTitles.length - registrationQty, 0);
 
+    const volunteerShifts = Array.isArray(body.volunteerShifts)
+      ? body.volunteerShifts
+        .filter((t) => typeof t === 'string' && t.trim())
+        .map((t) => t.trim())
+        .slice(0, 30)
+      : [];
+    const daysAttending = Array.isArray(body.daysAttending)
+      ? body.daysAttending
+        .filter((t) => typeof t === 'string' && t.trim())
+        .map((t) => t.trim())
+        .slice(0, 30)
+      : [];
+
     let donationAmount = Number(body.donationAmount);
     if (!Number.isFinite(donationAmount) || donationAmount < 0) donationAmount = 0;
     donationAmount = Math.min(donationAmount, MAX_DONATION);
@@ -436,6 +454,20 @@ export default {
     }
     params.set('metadata[registration_qty]', String(registrationQty));
     params.set('payment_intent_data[metadata][registration_qty]', String(registrationQty));
+
+    let volunteerShiftsStr = volunteerShifts.join(', ');
+    if (volunteerShiftsStr.length > 500) volunteerShiftsStr = `${volunteerShiftsStr.slice(0, 497)}...`;
+    if (volunteerShiftsStr) {
+      params.set('metadata[volunteer_shifts]', volunteerShiftsStr);
+      params.set('payment_intent_data[metadata][volunteer_shifts]', volunteerShiftsStr);
+    }
+
+    let daysAttendingStr = daysAttending.join(', ');
+    if (daysAttendingStr.length > 500) daysAttendingStr = `${daysAttendingStr.slice(0, 497)}...`;
+    if (daysAttendingStr) {
+      params.set('metadata[days_attending]', daysAttendingStr);
+      params.set('payment_intent_data[metadata][days_attending]', daysAttendingStr);
+    }
 
     // A Checkout Session's customer_details.name only gets filled in if the
     // Checkout page itself happens to collect a billing name, which isn't

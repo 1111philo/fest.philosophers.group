@@ -57,6 +57,14 @@ export default function RegistrationForm() {
     () => selectedWorkshops.map((id) => WORKSHOPS.find((w) => w.id === id)?.title).filter(Boolean),
     [selectedWorkshops],
   );
+  const volunteerShiftLabels = useMemo(
+    () => volunteerShifts.map((v) => VOLUNTEER_SHIFTS.find((s) => s.value === v)?.label).filter(Boolean),
+    [volunteerShifts],
+  );
+  const daysAttendingLabels = useMemo(
+    () => daysAttending.map((v) => DAYS.find((d) => d.value === v)?.label).filter(Boolean),
+    [daysAttending],
+  );
   const extraWorkshopQty = Math.max(workshopTitles.length - registrationQty, 0);
   const donationCents = Math.max(Math.round((Number(donationAmount) || 0) * 100), 0);
   const donation = donationCents / 100;
@@ -108,6 +116,8 @@ export default function RegistrationForm() {
           workshopTitles,
           isVolunteer,
           donationAmount: donation,
+          volunteerShifts: volunteerShiftLabels,
+          daysAttending: daysAttendingLabels,
         }),
       });
       const data = await res.json().catch(() => null);
