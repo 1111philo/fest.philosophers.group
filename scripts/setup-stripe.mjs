@@ -85,6 +85,8 @@ async function main() {
   // in the summary so it can be renamed/removed if a different flow (e.g.
   // manual approval) is wanted instead.
   await makePromo('volunteer', { amount_off: 5500, currency: 'usd', duration: 'once', name: 'Volunteer' });
+  await makePromo('ACX', { amount_off: 5500, currency: 'usd', duration: 'once', name: 'ACX' });
+  await makePromo('patron', { amount_off: 5500, currency: 'usd', duration: 'once', name: 'Patron' });
 
   console.log('Creating payment link...');
   const paymentLink = await stripe('POST', 'payment_links', flatten({
