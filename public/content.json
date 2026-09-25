@@ -39527,6 +39527,60 @@
         "presenter_bio": "",
         "presenter_photo_url": ""
       }
+    },
+    {
+      "id": 2914,
+      "date": "2026-09-25T00:00:00",
+      "date_gmt": "2026-09-25T00:00:00",
+      "guid": {
+        "rendered": ""
+      },
+      "modified": "2026-09-25T00:00:00",
+      "modified_gmt": "2026-09-25T00:00:00",
+      "slug": "lunch-and-acx-meetup",
+      "status": "publish",
+      "type": "presentations",
+      "link": "",
+      "title": {
+        "rendered": "Lunch and ACX Meetup"
+      },
+      "content": {
+        "rendered": "<p>Grab a new pal and head to lunch. If you want, we&#8217;ll also be hosting an <a href=\"https://www.astralcodexten.com\">Astral Codex Ten</a> meetup. Check out the blog and bring something to talk about. Or just come and lurk. It&#8217;s a great chance to meet new folks. We&#8217;ll meet at the top of the stairs then head somewhere close to eat.</p>",
+        "protected": false
+      },
+      "excerpt": {
+        "rendered": "<p>Grab a new pal and head to lunch, with an optional Astral Codex Ten meetup on the side. Meet at the top of the stairs, then head somewhere close to eat.</p>",
+        "protected": false
+      },
+      "featured_media": 0,
+      "template": "",
+      "meta": {
+        "_acf_changed": false,
+        "inline_featured_image": false
+      },
+      "tags": [],
+      "class_list": [
+        "post-2914",
+        "presentations",
+        "type-presentations",
+        "status-publish",
+        "hentry"
+      ],
+      "acf": [],
+      "mb": [],
+      "yoast_head": "",
+      "yoast_head_json": {},
+      "mfb_acf": [],
+      "mfb_rest_fields": [],
+      "_links": {},
+      "scraped_fields": {
+        "date": null,
+        "time": null,
+        "location": null,
+        "presenter_name": "Astral Codex Ten",
+        "presenter_bio": "",
+        "presenter_photo_url": "media/sponsors/astral-codex-ten.jpeg"
+      }
     }
   ],
   "media": [
@@ -59190,11 +59244,11 @@
       "sort_time": "12:00",
       "raw_time_range": "12:00–1:00",
       "location": "Main Stage • 400 Esplanade Ave",
-      "title": "Lunch",
-      "presenters": "",
+      "title": "Lunch and ACX Meetup",
+      "presenters": "Astral Codex Ten",
       "type": "Food",
       "tag": "Networking",
-      "presentation_id": null
+      "presentation_id": 2914
     },
     {
       "year": "2026",
