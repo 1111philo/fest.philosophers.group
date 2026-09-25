@@ -171,7 +171,7 @@ function SponsorStrip() {
       <p className="sponsor-thanks">
         <strong>Special thanks</strong> to Jesse Hoppes, Dustin Gaspard, Latoya Taylor, Phillip Brimer,
         Sam Birdsong, Blake Bertuccelli-Booth, Joseph Makkos, Ray Fontaine, George Mauer, Chuck Taylor,
-        Baylee Badawy, Sabelo Jupiter, and Luke Hawley.
+        Baylee Badawy, Sabelo Jupiter, Luke Hawley, Renee Peck, the Kirin family, and Walter Isaacson.
       </p>
     </section>
   );
