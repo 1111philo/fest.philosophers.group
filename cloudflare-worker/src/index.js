@@ -140,6 +140,7 @@ function toRegistrationRow(session) {
     workshopNames: session.metadata?.workshop_names || '',
     volunteerShifts: session.metadata?.volunteer_shifts || '',
     daysAttending: session.metadata?.days_attending || '',
+    accessibilityNotes: session.metadata?.accessibility_notes || '',
     amount: typeof session.amount_total === 'number' ? session.amount_total / 100 : null,
     currency: (session.currency || 'usd').toUpperCase(),
     isVolunteer,
@@ -165,6 +166,7 @@ function renderTableRows(rows) {
       <td>${escapeHtml(r.couponCode)}</td>
       <td>${escapeHtml(r.workshopNames)}</td>
       <td>${escapeHtml(r.daysAttending)}</td>
+      <td>${escapeHtml(r.accessibilityNotes)}</td>
       <td>${r.amount === null ? '' : `$${r.amount.toFixed(2)} ${escapeHtml(r.currency)}`}</td>
     </tr>`).join('');
 }
@@ -196,7 +198,7 @@ function render(rows) {
     tr.append(
       cell(fmtDate(r.created)), cell(r.name), cell(r.email), cell(r.registrationQty),
       cell(r.isVolunteer ? 'Yes' : ''), cell(r.volunteerShifts), cell(r.couponCode), cell(r.workshopNames),
-      cell(r.daysAttending), cell(fmtAmount(r)),
+      cell(r.daysAttending), cell(r.accessibilityNotes), cell(fmtAmount(r)),
     );
     tbody.appendChild(tr);
   }
@@ -243,7 +245,7 @@ function renderRegistrationsHtml(rows) {
 <p class="summary" id="summary">${totalRegistrations} total registration${totalRegistrations === 1 ? '' : 's'} &middot; $${totalRevenue.toFixed(2)} total paid</p>
 <p class="updated" id="updated">Live - refreshes automatically every 20s</p>
 <table>
-<thead><tr><th>Date</th><th>Name</th><th>Email</th><th>Qty</th><th>Volunteer</th><th>Volunteer Times</th><th>Coupon</th><th>Workshops</th><th>Days Attending</th><th>Paid</th></tr></thead>
+<thead><tr><th>Date</th><th>Name</th><th>Email</th><th>Qty</th><th>Volunteer</th><th>Volunteer Times</th><th>Coupon</th><th>Workshops</th><th>Days Attending</th><th>Accessibility</th><th>Paid</th></tr></thead>
 <tbody id="rows">${renderTableRows(rows)}</tbody>
 </table>
 ${LIVE_REFRESH_SCRIPT}
@@ -412,6 +414,9 @@ export default {
         .map((t) => t.trim())
         .slice(0, 30)
       : [];
+    const accessibilityNotes = typeof body.accessibilityNotes === 'string'
+      ? body.accessibilityNotes.trim().slice(0, 500)
+      : '';
 
     let donationAmount = Number(body.donationAmount);
     if (!Number.isFinite(donationAmount) || donationAmount < 0) donationAmount = 0;
@@ -467,6 +472,11 @@ export default {
     if (daysAttendingStr) {
       params.set('metadata[days_attending]', daysAttendingStr);
       params.set('payment_intent_data[metadata][days_attending]', daysAttendingStr);
+    }
+
+    if (accessibilityNotes) {
+      params.set('metadata[accessibility_notes]', accessibilityNotes);
+      params.set('payment_intent_data[metadata][accessibility_notes]', accessibilityNotes);
     }
 
     // A Checkout Session's customer_details.name only gets filled in if the

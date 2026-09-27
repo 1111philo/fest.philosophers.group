@@ -118,6 +118,7 @@ export default function RegistrationForm() {
           donationAmount: donation,
           volunteerShifts: volunteerShiftLabels,
           daysAttending: daysAttendingLabels,
+          accessibilityNotes,
         }),
       });
       const data = await res.json().catch(() => null);

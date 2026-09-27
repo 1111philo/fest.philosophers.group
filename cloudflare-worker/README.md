@@ -8,9 +8,10 @@ Link's URL parameters can do. Called by `RegistrationForm.jsx` via
 
 Also serves `GET /registrations` - an admin-only page listing who's
 registered so far (name, email, quantity, workshops, volunteer status,
-volunteer shift times, days attending, amount paid), read live from
-Stripe. Nothing is stored anywhere - not in this repo, not in the
-Worker - every request re-fetches from Stripe.
+volunteer shift times, days attending, accessibility requirements,
+amount paid), read live from Stripe. Nothing is stored anywhere - not
+in this repo, not in the Worker - every request re-fetches from
+Stripe.
 
 ## Deploy
 
