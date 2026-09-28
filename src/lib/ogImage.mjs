@@ -182,7 +182,7 @@ export async function renderPresentationOg(content, pres) {
   const where = cleanText(info.location);
 
   const brand = h('div', { style: { alignItems: 'center', gap: 20 } },
-    h('img', { src: logoDataUri(), width: 140, height: 64 }),
+    h('img', { src: logoDataUri(), width: 141, height: 60 }),
     h('div', { style: { width: 3, height: 44, background: INK } }),
     h('div', { style: { fontSize: 22, fontWeight: 800, letterSpacing: -0.3, color: INK } }, 'New Orleans Arts & Ideas Festival'),
   );
