@@ -1,14 +1,14 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/PageHero.astro';
-import { loadContent, SITE_URL, SITE_IMAGE } from '../../lib/content.mjs';
+import { loadContent, SITE_URL, SITE_IMAGE, SITE_TITLE } from '../../lib/content.mjs';
 import { getPastYearDays, formatDayHeading } from '../../lib/archiveUtils.mjs';
 
 const content = loadContent();
 const days = getPastYearDays(content, '2024');
 
-const title = 'NOAI 2024 Archive — New Orleans Arts & Ideas Festival';
-const description = 'The full schedule of talks, panels, and workshops from the 2024 New Orleans Arts & Ideas Festival.';
+const title = `2024 Archive — ${SITE_TITLE}`;
+const description = 'The full schedule of talks, panels, and workshops from NOAI 2024, an arts & ideas festival in New Orleans.';
 const canonical = `${SITE_URL}/archive/2024/`;
 const image = SITE_IMAGE.url;
 ---
@@ -16,7 +16,7 @@ const image = SITE_IMAGE.url;
   <PageHero slot="hero" label="2024 Archive" eyebrow="Archive" title="NOAI 2024 Schedule" accent="blue" />
 
   <p class="page-lede">
-    Talks, panels, and workshops from the 2024 New Orleans Arts &amp; Ideas Festival. Select a talk below to read more about it.
+    Talks, panels, and workshops from NOAI 2024. Select a talk below to read more about it.
   </p>
 
   {days.map((day) => (

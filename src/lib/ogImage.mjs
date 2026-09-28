@@ -156,8 +156,10 @@ function cleanText(s) {
 // already shows on its own line.
 function cardTitle(pres, presenters) {
   let title = cleanText(stripTags(pres.title.rendered));
+  // Compared letters-only, so "Dustin T Hughes" matches "Dustin T. Hughes".
+  const letters = (x) => x.toLowerCase().replace(/[^\p{L}]/gu, '');
   const by = / by ([^]+)$/i.exec(title);
-  if (by && presenters && presenters.toLowerCase().includes(by[1].toLowerCase().slice(0, 12))) {
+  if (by && presenters && letters(presenters).includes(letters(by[1]).slice(0, 12))) {
     title = title.slice(0, by.index).trim();
   }
   if (title.length > 120) title = `${title.slice(0, 117).replace(/\s+\S*$/, '')}…`;
@@ -241,5 +243,12 @@ export async function renderPresentationOg(content, pres) {
   const png = new Resvg(svg, { fitTo: { mode: 'width', value: OG_WIDTH } }).render().asPng();
   // JPEG, not PNG: the photo cards are ~4x smaller (a PNG set adds ~40MB
   // to the deploy), and 4:4:4 chroma keeps the flat colors and type crisp.
-  return sharp(png).jpeg({ quality: 86, chromaSubsampling: '4:4:4', mozjpeg: true }).toBuffer();
+  // Baseline, not progressive (mozjpeg's default) - Apple's link-preview
+  // loader (iMessage) has been flaky with progressive JPEGs.
+  // (mozjpeg's preset implies progressive, so its other savings are listed
+  // individually here instead.)
+  return sharp(png).jpeg({
+    quality: 86, chromaSubsampling: '4:4:4', progressive: false,
+    trellisQuantisation: true, overshootDeringing: true, optimiseCoding: true,
+  }).toBuffer();
 }

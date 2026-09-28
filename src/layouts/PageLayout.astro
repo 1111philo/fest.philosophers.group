@@ -1,6 +1,7 @@
 ---
 import SiteHeader from '../components/SiteHeader';
 import SiteFooter from '../components/SiteFooter.astro';
+import { SITE_TITLE } from '../lib/content.mjs';
 import '../styles/app.css';
 
 interface Props {
@@ -17,6 +18,16 @@ const { title, description, canonical, image, current } = Astro.props;
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<script is:inline>
+  // The header logo's intro animation (styles/app.css, .logo-intro) plays
+  // once per visit, not on every page load.
+  try {
+    if (!sessionStorage.getItem('noai-logo-intro')) {
+      sessionStorage.setItem('noai-logo-intro', '1');
+      document.documentElement.classList.add('logo-intro');
+    }
+  } catch (e) { /* storage blocked - skip the intro */ }
+</script>
 <meta name="theme-color" content="#f3eddc" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#161513" media="(prefers-color-scheme: dark)">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -29,7 +40,7 @@ const { title, description, canonical, image, current } = Astro.props;
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="New Orleans Arts & Ideas Festival">
+<meta property="og:site_name" content={SITE_TITLE}>
 <meta property="og:title" content={title}>
 <meta property="og:description" content={description}>
 <meta property="og:url" content={canonical}>

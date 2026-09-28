@@ -1,10 +1,10 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/PageHero.astro';
-import { SITE_URL, SITE_IMAGE } from '../../lib/content.mjs';
+import { SITE_URL, SITE_IMAGE, SITE_TITLE } from '../../lib/content.mjs';
 
-const title = 'NOAI 2023 Archive — New Orleans Arts & Ideas Festival';
-const description = 'The program from the first New Orleans Arts & Ideas Festival in 2023: a day of talks and panels on AI in education, creativity, and accessibility, followed by an evening of live performance.';
+const title = `2023 Archive — ${SITE_TITLE}`;
+const description = 'The program from the first NOAI, an arts & ideas festival in New Orleans, in 2023: a day of talks and panels on AI in education, creativity, and accessibility, followed by an evening of live performance.';
 const canonical = `${SITE_URL}/archive/2023/`;
 const image = SITE_IMAGE.url;
 
@@ -76,7 +76,7 @@ const SPONSORS_2023 = [
   <PageHero slot="hero" label="2023 Archive" eyebrow="Archive" title="NOAI 2023 Program" accent="red" />
 
   <p class="page-lede">
-    The first New Orleans Arts &amp; Ideas Festival expanded conversations around AI education, creativity, and
+    The first NOAI festival expanded conversations around AI education, creativity, and
     establishing AI culture-bearers in New Orleans.
   </p>
 
