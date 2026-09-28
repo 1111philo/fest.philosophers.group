@@ -1,5 +1,6 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/PageHero.astro';
 import { SITE_URL, SITE_TITLE } from '../../lib/content.mjs';
 
 const title = `AI for Every Student — ${SITE_TITLE}`;
@@ -71,20 +72,11 @@ const PRESS = [
 ];
 ---
 <PageLayout title={title} description={description} canonical={canonical} image={image} current="ai-for-every-student">
-  <section
-    slot="hero"
-    class="page-hero page-hero-photo"
-    aria-label="AI for Every Student"
-    style={`background-image: linear-gradient(to top, rgba(20,14,6,0.85), rgba(20,14,6,0.25) 60%), url(${HERO_IMAGE});`}
-  >
-    <div class="page-hero-inner">
-      <p class="page-eyebrow">AI Literacy Initiative</p>
-      <h1 class="page-hero-title">AI for Every Student</h1>
-      <p class="page-hero-sub">
-        Graduate Louisiana's <strong>650,000+</strong> digital citizens ready to win the <strong>$4.4 Trillion</strong> AI tech future.
-      </p>
-    </div>
-  </section>
+  <PageHero slot="hero" label="AI for Every Student" eyebrow="AI Literacy Initiative" title="AI for Every Student" image={HERO_IMAGE} accent="teal">
+    <p class="page-hero-sub">
+      Graduate Louisiana's <strong>650,000+</strong> digital citizens ready to win the <strong>$4.4 Trillion</strong> AI tech future.
+    </p>
+  </PageHero>
 
   <div class="page-block about-intro page-block-center">
     <p class="page-lede">
@@ -134,7 +126,7 @@ const PRESS = [
     <ul class="tag-pills">
       {SCHOOLS.map((name) => <li class="tag-pill">{name}</li>)}
     </ul>
-    <p class="page-lede" style="font-size: 14px; color: var(--text-muted);">
+    <p class="page-note">
       $13,000 is the average cost for a school to kickstart AI literacy. Interested schools should email{' '}
       <a href="mailto:ai@philosophers.group">ai@philosophers.group</a>.
     </p>

@@ -1,5 +1,5 @@
 import SiteMenu from './SiteMenu';
-import NoaiMark from './NoaiMark';
+import NoaiLogo from './NoaiLogo';
 
 // Shared across every page - the schedule SPA passes its own onSchedule
 // to reset in-app state instead of reloading; every other page (including
@@ -7,33 +7,47 @@ import NoaiMark from './NoaiMark';
 // mounts this with no props, so the default below does a real navigation
 // instead. `current` marks whichever page is already showing, in both the
 // Register button and the hamburger menu, so it's clear you're already
-// there.
+// there. `titleIsHeading` is turned off on pages that have their own
+// <h1> (every PageLayout page), so screen readers find exactly one
+// top-level heading - the page's own title, not the site name again.
 export default function SiteHeader({
   onSchedule = () => { window.location.href = '/'; },
   current,
+  titleIsHeading = true,
 }) {
+  const TitleTag = titleIsHeading ? 'h1' : 'p';
   return (
     <header className="header">
       <div className="header-top">
-        <div className="header-text">
-          <h1>
-            <a
-              className="header-title-link"
-              href="/"
-              onClick={(e) => { e.preventDefault(); onSchedule(); }}
-            >
-              New Orleans Arts &amp; Ideas Festival
-            </a>
-          </h1>
-          <div className="subtitle">
-            <a href="/about/" className="subtitle-mark-link">
-              <NoaiMark className="subtitle-mark" />
-            </a>
-            {' '}&bull;{' '}
-            November 11&ndash;13, 2026 &bull;{' '}
-            <a href="https://nolajazzmuseum.org/" target="_blank" rel="noopener">
-              Jazz Museum<span className="sr-only"> (opens in a new window)</span>
-            </a>
+        <div className="header-brand">
+          {/* The logo repeats the title link right next to it, so it's
+              hidden from the accessibility tree and tab order instead of
+              announcing the same destination twice. */}
+          <a
+            className="header-logo-link"
+            href="/"
+            tabIndex={-1}
+            aria-hidden="true"
+            onClick={(e) => { e.preventDefault(); onSchedule(); }}
+          >
+            <NoaiLogo className="header-logo" title="" />
+          </a>
+          <div className="header-text">
+            <TitleTag className="header-title">
+              <a
+                className="header-title-link"
+                href="/"
+                onClick={(e) => { e.preventDefault(); onSchedule(); }}
+              >
+                New Orleans Arts &amp; Ideas Festival
+              </a>
+            </TitleTag>
+            <div className="subtitle">
+              November 11&ndash;13, 2026 <span className="subtitle-dot" aria-hidden="true">&bull;</span>{' '}
+              <a href="https://nolajazzmuseum.org/" target="_blank" rel="noopener">
+                Jazz Museum<span className="sr-only"> (opens in a new window)</span>
+              </a>
+            </div>
           </div>
         </div>
         <div className="header-actions">

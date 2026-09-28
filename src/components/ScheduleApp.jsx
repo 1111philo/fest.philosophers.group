@@ -439,7 +439,7 @@ export default function ScheduleApp({ initialView }) {
     return (
       <>
         <SiteHeader onSchedule={goToSchedule} current="schedule" />
-        <main />
+        <main id="main" tabIndex={-1} />
       </>
     );
   }
@@ -511,7 +511,7 @@ export default function ScheduleApp({ initialView }) {
     <>
       <SiteHeader onSchedule={goToSchedule} current="schedule" />
 
-      <main>
+      <main id="main" tabIndex={-1}>
         <Tabs
           selectedKey={day}
           onSelectionChange={(key) => { setDay(key); setQuery(''); }}
