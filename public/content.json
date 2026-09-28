@@ -39264,21 +39264,21 @@
       "guid": {
         "rendered": ""
       },
-      "modified": "2026-09-23T00:00:00",
-      "modified_gmt": "2026-09-23T00:00:00",
-      "slug": "marketing-strategies-quick-tools-for-helping-increase-business",
+      "modified": "2026-09-30T00:00:00",
+      "modified_gmt": "2026-09-30T00:00:00",
+      "slug": "ai-in-action-competitive-research-and-linkedin-networking-sales-prospecting-done-for-you-by-tom-martin-bill-dalton",
       "status": "publish",
       "type": "presentations",
       "link": "",
       "title": {
-        "rendered": "Marketing Strategies & Quick Tools for Helping Increase Business"
+        "rendered": "AI in Action: Competitive Research and LinkedIn Networking & Sales Prospecting Done for You by Tom Martin & Bill Dalton"
       },
       "content": {
-        "rendered": "<p>Two working marketers on where AI actually earns its keep in the day-to-day grind of finding, winning, and keeping business — not theory, but the tools and habits worth adopting.</p>",
+        "rendered": "<p>Two back-to-back talks, then one shared Q&amp;A: each speaker gets 25 to 30 minutes, then the floor opens for questions to both together.</p>\n<h3>Cold Calling with Comments on LinkedIn — Tom Martin</h3>\n<p>Every LinkedIn expert gives the same advice: if you want to meet prospects or network on LinkedIn, comment on other people's posts. The problem is that most people never post. Only a small fraction of LinkedIn users publish anything in a given week, and most of the rest never like, comment, or share. So \"cold calling with comments\" turns into hours of scrolling to find the few conversations worth joining.</p>\n<p>Tom Martin fixed that with a two-part AI system. First, a grading tool scores a large list of profiles on how often they actually post and comment. That separates the few who are active enough to engage from the majority who are hanging out someplace else. Second, an AI sales assistant watches those active prospects and flags their new posts and comments as they appear. It also shows who they're talking to, so new prospects keep turning up without anyone having to search for them. Tom now keeps tabs on more than 200 active prospects and joins the right conversations at the right time, in about 10-15 minutes a day.</p>\n<p><strong>What attendees learn:</strong></p>\n<ul>\n<li>Why commenting works as a way to meet prospects, and why most people give up on it</li>\n<li>How to grade a large prospect list by LinkedIn activity and find the small group worth your time</li>\n<li>How the AI assistant monitors that group and surfaces the conversations to join</li>\n<li>How AI turns your prospects' activity into a list of new people worth meeting</li>\n<li>The tools behind both parts, what each one costs, and how much technical skill it takes</li>\n</ul>\n<h3>From 30 Hours to 3: AI-Powered Market Research for Client Work — Bill Dalton</h3>\n<p>Watch one hypothetical roofing company go from zero to a complete competitive market analysis, keywords, ad spend, competitors, and website gaps, in 3 hours instead of 30. Bill Dalton shows the real workflow, the real tools, and the client-ready presentation it produces.</p>\n",
         "protected": false
       },
       "excerpt": {
-        "rendered": "<p>Two working marketers on where AI actually earns its keep in finding, winning, and keeping business — not theory, but tools and habits worth adopting.</p>",
+        "rendered": "<p>Two back-to-back talks, then one shared Q&amp;A. Tom Martin on grading and monitoring LinkedIn prospects with AI so the right conversations find you, and Bill Dalton on turning a 30-hour competitive market analysis into a 3-hour one [&hellip;]</p>\n",
         "protected": false
       },
       "featured_media": 0,
@@ -39307,8 +39307,20 @@
         "time": null,
         "location": null,
         "presenter_name": "Tom Martin & Bill Dalton",
-        "presenter_bio": "Tom Martin is founder of Converse Digital and author of The Invisible Sale, translating decades of business-development experience into practical, science-backed tactics for pitching, persuading, and closing. Bill Dalton is founder and CEO of Firefly Marketing Solutions, a New Orleans marketing agency; since ChatGPT's release he's built AI into his daily workflow and now regularly speaks to business groups about using it to amplify the expertise they already have.",
-        "presenter_photo_url": "media/presenter-110-Tom-Martin-2026-Headshot.jpg"
+        "presenter_bio": "Tom Martin is founder of Converse Digital and author of The Invisible Sale, translating decades of business-development experience into practical, science-backed tactics for pitching, persuading, and closing. Bill Dalton owns Firefly Marketing Solutions, a digital marketing and web agency serving New Orleans, Lafayette, and the greater Gulf Coast. Firefly has served energy, marine, government, and service-sector clients since 1998. Bill serves as the agency's technical and strategic lead across websites, SEO, and infrastructure. With a background in software development, he builds the systems behind the marketing, and many of Firefly's client relationships now span a decade or more. Lately his focus has been putting AI to work where it saves real hours without cutting corners.",
+        "presenter_photo_url": "media/presenter-110-Tom-Martin-2026-Headshot.jpg",
+        "presenters": [
+          {
+            "name": "Tom Martin",
+            "bio": "Tom Martin is founder of Converse Digital and author of The Invisible Sale, translating decades of business-development experience into practical, science-backed tactics for pitching, persuading, and closing.",
+            "photo_url": "media/presenter-110-Tom-Martin-2026-Headshot.jpg"
+          },
+          {
+            "name": "Bill Dalton",
+            "bio": "Bill Dalton owns Firefly Marketing Solutions, a digital marketing and web agency serving New Orleans, Lafayette, and the greater Gulf Coast. Firefly has served energy, marine, government, and service-sector clients since 1998. Bill serves as the agency's technical and strategic lead across websites, SEO, and infrastructure. With a background in software development, he builds the systems behind the marketing, and many of Firefly's client relationships now span a decade or more. Lately his focus has been putting AI to work where it saves real hours without cutting corners.",
+            "photo_url": ""
+          }
+        ]
       }
     },
     {
@@ -59452,7 +59464,7 @@
       "sort_time": "10:45",
       "raw_time_range": "10:45–12:00",
       "location": "Main Stage • 400 Esplanade Ave",
-      "title": "Marketing Strategies & Quick Tools for Helping Increase Business",
+      "title": "AI in Action: Competitive Research and LinkedIn Networking & Sales Prospecting Done for You",
       "presenters": "Tom Martin + Bill Dalton",
       "type": "",
       "tag": "Business & Strategy",
