@@ -1,5 +1,6 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/PageHero.astro';
 import { SITE_URL, SITE_TITLE, SITE_IMAGE } from '../../lib/content.mjs';
 
 const meta = {
@@ -10,7 +11,7 @@ const meta = {
 };
 ---
 <PageLayout title={meta.title} description={meta.description} canonical={meta.canonical} image={meta.image} current="register">
-  <h1 class="page-section-heading">You&rsquo;re registered!</h1>
+  <PageHero slot="hero" label="Registration confirmed" eyebrow="Registration" title="You’re registered!" accent="yellow" art="field" />
   <p class="page-lede">
     Thanks for signing up for NOAI: Arts &amp; Ideas Festival. A receipt is on its way to your
     inbox from Stripe. We&rsquo;ll follow up by email with more details as the festival gets closer.

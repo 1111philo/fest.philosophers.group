@@ -2,9 +2,12 @@
 // Poster-style page hero shared by every standalone page: a heavy
 // grotesk title on the left, and on the right either a photo (framed by
 // an offset color block, like a Swiss poster's overprinted plates) or -
-// with no photo - a field of the logo's squiggles with its ringed red
-// dot. `accent` picks which of the logo's colors that block/bar uses, so
+// with no photo - one of the brand's abstract compositions (`art`), or by
+// default a field of the logo's squiggles with its ringed red dot.
+// `accent` picks which of the logo's colors the offset block/bar uses, so
 // neighboring pages don't all look identical.
+import AbstractArt from './AbstractArt.astro';
+
 interface Props {
   label: string;
   eyebrow?: string;
@@ -12,9 +15,10 @@ interface Props {
   image?: string;
   imageAlt?: string;
   accent?: 'blue' | 'yellow' | 'red' | 'teal';
+  art?: 'field' | 'sun' | 'target' | 'dots' | 'rows' | 'shapes';
 }
 
-const { label, eyebrow, title, image, imageAlt = '', accent = 'blue' } = Astro.props;
+const { label, eyebrow, title, image, imageAlt = '', accent = 'blue', art } = Astro.props;
 ---
 <section class={`hero hero-accent-${accent}${image ? ' hero-has-photo' : ''}`} aria-label={label}>
   <div class="hero-inner">
@@ -36,6 +40,8 @@ const { label, eyebrow, title, image, imageAlt = '', accent = 'blue' } = Astro.p
             <span class="ring-dot hero-photo-dot" aria-hidden="true"></span>
           </div>
         )
+      ) : art ? (
+        <AbstractArt name={art} class="hero-abstract" />
       ) : (
         <div class="hero-field" aria-hidden="true">
           <div class="squiggle-field"></div>

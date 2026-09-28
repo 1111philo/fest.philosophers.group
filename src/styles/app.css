@@ -1184,7 +1184,10 @@ main:focus { outline: none; }
 .hero {
   --hero-accent: var(--blue);
   border-bottom: var(--rule-heavy) solid var(--ink);
-  overflow: hidden;
+  /* clip, not hidden: "hidden" makes the hero a scroll container, which
+     silently freezes every scroll-driven animation inside it (their view
+     timelines would track this never-scrolling box, not the page). */
+  overflow: clip;
 }
 .hero-accent-yellow { --hero-accent: var(--yellow); }
 .hero-accent-red { --hero-accent: var(--red); }
@@ -1308,6 +1311,22 @@ main:focus { outline: none; }
 }
 @media (min-width: 900px) {
   .hero-field-dot { --d: 170px; }
+}
+
+@property --art-drift { syntax: '<number>'; inherits: true; initial-value: 0; }
+
+/* Abstract-art variant: a framed square of one of the brand compositions
+   (components/AbstractArt.astro), on an offset block of the accent. */
+.abstract-art { line-height: 0; }
+.abstract-art-svg { display: block; width: 100%; height: auto; }
+.hero-abstract {
+  width: min(100% - 18px, 280px);
+  border: 3px solid var(--ink);
+  box-shadow: 18px 18px 0 var(--hero-accent);
+  margin: 0 18px 18px 0;
+}
+@media (min-width: 900px) {
+  .hero-abstract { width: min(100% - 18px, 420px); justify-self: end; margin-left: auto; }
 }
 
 /* --- Standalone pages (About, Sponsor, AFES, archives) --------------------- */
@@ -1854,7 +1873,7 @@ main:focus { outline: none; }
    legible on yellow in dark mode too. */
 .contact-card-block {
   position: relative;
-  overflow: hidden;
+  overflow: clip; /* not hidden - see .hero: keeps its squiggle drift live */
   border: 3px solid #1a1a1a;
   background: var(--yellow);
   color: #1a1a1a;
@@ -2052,6 +2071,22 @@ a.sponsor-logo:hover img { filter: none; }
     @keyframes bar-float {
       from { translate: 0 -24px; }
       to { translate: 0 24px; }
+    }
+
+    /* Abstract art: its squiggle rows drift one wavelength as the piece
+       crosses the viewport. Chrome doesn't advance scroll timelines on
+       elements inside inline SVG, so the (HTML) wrapper animates a
+       registered 0-1 progress property and the squiggle groups inherit it. */
+    .abstract-art {
+      animation-name: art-drift;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: view();
+    }
+    .art-waves { translate: calc(var(--art-drift) * var(--wl)) 0; }
+    @keyframes art-drift {
+      from { --art-drift: 0; }
+      to { --art-drift: 1; }
     }
 
     /* Sponsor tier bands: each squiggle drifts at its own pace. */

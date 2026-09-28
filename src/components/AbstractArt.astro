@@ -1,0 +1,13 @@
+---
+// One of the brand's abstract compositions (lib/abstractArt.mjs), inlined
+// as SVG so it stays crisp at any size. Purely decorative.
+import { abstractArtSvg } from '../lib/abstractArt.mjs';
+
+interface Props {
+  name: 'field' | 'sun' | 'target' | 'dots' | 'rows' | 'shapes';
+  class?: string;
+}
+
+const { name, class: className = '' } = Astro.props;
+---
+<div class={`abstract-art ${className}`.trim()} set:html={abstractArtSvg(name)} />
