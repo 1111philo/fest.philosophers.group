@@ -1,5 +1,6 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/PageHero.astro';
 import { SITE_URL } from '../../lib/content.mjs';
 
 const title = 'NOAI 2023 Archive — New Orleans Arts & Ideas Festival';
@@ -72,12 +73,7 @@ const SPONSORS_2023 = [
 ];
 ---
 <PageLayout title={title} description={description} canonical={canonical} image={image} current="archive">
-  <section slot="hero" class="page-hero page-hero-plain" aria-label="2023 Archive">
-    <div class="page-hero-inner">
-      <p class="page-eyebrow">Archive</p>
-      <h1 class="page-hero-title">NOAI 2023 Program</h1>
-    </div>
-  </section>
+  <PageHero slot="hero" label="2023 Archive" eyebrow="Archive" title="NOAI 2023 Program" accent="red" />
 
   <p class="page-lede">
     The first New Orleans Arts &amp; Ideas Festival expanded conversations around AI education, creativity, and
@@ -85,10 +81,10 @@ const SPONSORS_2023 = [
   </p>
 
   <h2 class="page-section-heading">Symposium &bull; 10 AM&ndash;4:30 PM</h2>
-  <p class="page-hero-sub" style="opacity: 1; color: var(--text-muted);">New Orleans Jazz Museum, 400 Esplanade Ave.</p>
+  <p class="page-note">New Orleans Jazz Museum, 400 Esplanade Ave.</p>
   <div class="track-list">
     {SYMPOSIUM.map((item) => (
-      <div class="card" style="cursor: default;">
+      <div class="card card-static">
         <div class="card-time">{item.time}</div>
         <div class="card-body">
           <div class="card-title">{item.title}</div>
@@ -110,7 +106,7 @@ const SPONSORS_2023 = [
   </p>
 
   <h2 class="page-section-heading">Sponsors &amp; Partners</h2>
-  <ul class="tag-pills" style="margin-top: 0;">
+  <ul class="tag-pills">
     {SPONSORS_2023.map((name) => <li class="tag-pill">{name}</li>)}
   </ul>
 

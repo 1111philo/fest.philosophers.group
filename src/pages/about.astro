@@ -1,5 +1,6 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import PageHero from '../components/PageHero.astro';
 import { loadContent, pageMeta, SITE_TITLE } from '../lib/content.mjs';
 
 const meta = pageMeta(loadContent(), 469, 'about');
@@ -40,6 +41,29 @@ const PROJECTS = [
   },
 ];
 
+// The founding conversation, as data so each speaker gets their own
+// color block in the dialogue layout instead of repeating markup per line.
+const FOUNDING_DIALOGUE = [
+  ['Blake', 'I wish I could talk about ideas with folks in New Orleans.'],
+  ['Grace', 'Why not talk with me?'],
+  ['Blake', 'Bertrand Russell says we need to care about a larger social unit outside of our family.'],
+  ['Grace', 'Why not start a group?'],
+  ['Blake', 'Good \u2014 I\u2019ll write a manifesto.'],
+  ['Grace', 'Just email some friends.'],
+  ['Blake', 'Brilliant.'],
+  ['Grace', 'What time should we have it?'],
+  ['Blake', 'It needs to be on Sundays \u2014 like a religious community. After Catholic Mass, but while we can still drink cappuccinos.'],
+  ['Grace', '11:11?'],
+  ['Blake', 'Brilliant!'],
+];
+
+const STATS = [
+  { num: '2021', label: '11:11 Founded' },
+  { num: '2023', label: 'First Festival' },
+  { num: '$333k', plus: true, label: 'Directed to Causes' },
+  { num: '155', plus: true, label: 'Talks Since 2023' },
+];
+
 const GALLERY = [
   { src: '/media/557-DSC0995.jpg', alt: 'A woman speaks into a microphone. She appears to be on a panel, sitting next to another woman.' },
   { src: '/media/558-DSC1406.jpg', alt: 'A male panelist in the center of the frame speaks to a man on his left, while another man listens on his right.' },
@@ -51,68 +75,66 @@ const GALLERY = [
 ];
 ---
 <PageLayout title={meta.title} description={meta.description} canonical={meta.canonical} image={meta.image.url} current="about">
-  <section
+  <PageHero
     slot="hero"
-    class="page-hero page-hero-photo"
-    aria-label="About the festival"
-    style={`background-image: linear-gradient(to top, rgba(20,14,6,0.85), rgba(20,14,6,0.25) 60%), url(${HERO_IMAGE});`}
-  >
-    <div class="page-hero-inner">
-      <p class="page-eyebrow">About the Festival</p>
-      <h1 class="page-hero-title">Philosophy, Philanthropy, Tech, Biz, Education &amp; Improvisation</h1>
+    label="About the festival"
+    eyebrow="About the Festival"
+    title="Philosophy, Philanthropy, Tech, Biz, Education & Improvisation"
+    image={HERO_IMAGE}
+    accent="blue"
+  />
+
+  <section class="swiss-split" aria-labelledby="about-festival">
+    <p class="section-index" aria-hidden="true">01</p>
+    <div class="swiss-split-body">
+      <h2 class="page-section-heading" id="about-festival">The Festival</h2>
+      <p class="page-lede">
+        NOAI is a global stage for creative and driven professionals
+        who want to change the world. Organized by the <a href="https://philosophers.group" target="_blank" rel="noopener">11:11 Philosophers Group<span class="sr-only"> (opens in a new window)</span></a>,
+        the festival includes conversations, presentations, and performances that bring New Orleans into
+        conversation with cutting-edge, impact-driven work.
+      </p>
+      <p class="theme-statement">
+        Each year, NOAI changes its theme. For 2026, the AI of NOAI is <span class="theme-highlight">Arts &amp; Ideas</span>.
+      </p>
+      <div class="page-cta-row">
+        <a class="btn-primary" href="https://buy.stripe.com/9B6cN4dvP13b6d97BQ7Zu06" target="_blank" rel="noopener">
+          Donate<span class="sr-only"> (opens in a new window)</span>
+        </a>
+        <a class="btn-outline" href="mailto:fest@philosophers.group?subject=Presentation%20Submission">
+          Propose a Presentation
+        </a>
+        <a class="btn-outline" href="/">View the Schedule</a>
+      </div>
     </div>
   </section>
 
-  <div class="page-block about-intro page-block-center">
-    <p class="page-lede">
-      NOAI is a global stage for creative and driven professionals
-      who want to change the world. Organized by the <a href="https://philosophers.group" target="_blank" rel="noopener">11:11 Philosophers Group<span class="sr-only"> (opens in a new window)</span></a>,
-      the festival includes conversations, presentations, and performances that bring New Orleans into
-      conversation with cutting-edge, impact-driven work.
-    </p>
-    <p class="page-lede">
-      Each year, NOAI changes its theme. For 2026, the AI of NOAI is Arts &amp; Ideas.
-    </p>
-    <div class="page-cta-row">
-      <a class="btn-primary" href="https://buy.stripe.com/9B6cN4dvP13b6d97BQ7Zu06" target="_blank" rel="noopener">
-        Donate<span class="sr-only"> (opens in a new window)</span>
-      </a>
-      <a class="btn-outline" href="mailto:fest@philosophers.group?subject=Presentation%20Submission">
-        Propose a Presentation
-      </a>
-      <a class="btn-outline" href="/">View the Schedule</a>
-    </div>
-    <div class="about-stats">
-      <div class="about-stat">
-        <p class="about-stat-num">2021</p>
-        <p class="about-stat-label">11:11 Founded</p>
-      </div>
-      <div class="about-stat">
-        <p class="about-stat-num">2023</p>
-        <p class="about-stat-label">First Festival</p>
-      </div>
-      <div class="about-stat">
-        <p class="about-stat-num">$333k<span class="stat-plus">+</span></p>
-        <p class="about-stat-label">Directed to Causes</p>
-      </div>
-      <div class="about-stat">
-        <p class="about-stat-num">155<span class="stat-plus">+</span></p>
-        <p class="about-stat-label">Talks Since 2023</p>
-      </div>
-    </div>
-  </div>
+  <ul class="about-stats" aria-label="By the numbers">
+    {STATS.map((stat) => (
+      <li class="about-stat">
+        <p class="about-stat-num">{stat.num}{stat.plus && <span class="stat-plus">+</span>}</p>
+        <p class="about-stat-label">{stat.label}</p>
+      </li>
+    ))}
+  </ul>
 
-  <div class="page-block">
-    <h2 class="page-section-heading">Celebrating Arts &amp; Ideas Since 2023</h2>
+  <section class="page-block" aria-labelledby="about-gallery">
+    <div class="section-head">
+      <p class="section-index" aria-hidden="true">02</p>
+      <h2 class="page-section-heading" id="about-gallery">Celebrating Arts &amp; Ideas Since 2023</h2>
+    </div>
     <div class="page-gallery">
       {GALLERY.map((img) => (
         <img src={img.src} alt={img.alt} loading="lazy" />
       ))}
     </div>
-  </div>
+  </section>
 
-  <div class="page-block">
-    <h2 class="page-section-heading">The Group Behind It</h2>
+  <section class="page-block" aria-labelledby="about-group">
+    <div class="section-head">
+      <p class="section-index" aria-hidden="true">03</p>
+      <h2 class="page-section-heading" id="about-group">The Group Behind It</h2>
+    </div>
     <div class="about-org">
       <div class="about-org-text">
         <p>
@@ -122,17 +144,11 @@ const GALLERY = [
           place to talk about ideas. Here&rsquo;s how that founding conversation went:
         </p>
         <blockquote class="about-quote">
-          <p><strong>Blake:</strong> &ldquo;I wish I could talk about ideas with folks in New Orleans.&rdquo;</p>
-          <p><strong>Grace:</strong> &ldquo;Why not talk with me?&rdquo;</p>
-          <p><strong>Blake:</strong> &ldquo;Bertrand Russell says we need to care about a larger social unit outside of our family.&rdquo;</p>
-          <p><strong>Grace:</strong> &ldquo;Why not start a group?&rdquo;</p>
-          <p><strong>Blake:</strong> &ldquo;Good &mdash; I&rsquo;ll write a manifesto.&rdquo;</p>
-          <p><strong>Grace:</strong> &ldquo;Just email some friends.&rdquo;</p>
-          <p><strong>Blake:</strong> &ldquo;Brilliant.&rdquo;</p>
-          <p><strong>Grace:</strong> &ldquo;What time should we have it?&rdquo;</p>
-          <p><strong>Blake:</strong> &ldquo;It needs to be on Sundays &mdash; like a religious community. After Catholic Mass, but while we can still drink cappuccinos.&rdquo;</p>
-          <p><strong>Grace:</strong> &ldquo;11:11?&rdquo;</p>
-          <p><strong>Blake:</strong> &ldquo;Brilliant!&rdquo;</p>
+          {FOUNDING_DIALOGUE.map(([who, line]) => (
+            <p class={`about-quote-line about-quote-${who.toLowerCase()}`}>
+              <strong>{who}:</strong> <span>&ldquo;{line}&rdquo;</span>
+            </p>
+          ))}
           <p class="about-quote-cap">&hellip;and so 11:11 was born.</p>
         </blockquote>
         <p>
@@ -150,32 +166,42 @@ const GALLERY = [
         </div>
       </div>
       <figure class="about-org-photo">
-        <img
-          src="/media/1111-origin-story.jpg"
-          alt="Artist Robert Tannen, wearing a yellow beanie, holds up a hand-lettered sign at 11:11's first meeting outside a New Orleans shotgun house."
-          loading="lazy"
-        />
+        <div class="framed-photo framed-photo-yellow">
+          <img
+            src="/media/1111-origin-story.jpg"
+            alt="Artist Robert Tannen, wearing a yellow beanie, holds up a hand-lettered sign at 11:11's first meeting outside a New Orleans shotgun house."
+            loading="lazy"
+          />
+        </div>
         <figcaption>11:11&rsquo;s first meeting, October 21, 2021.</figcaption>
       </figure>
     </div>
-  </div>
+  </section>
 
-  <div class="page-block">
-    <h2 class="page-section-heading">More From 11:11</h2>
+  <section class="page-block" aria-labelledby="about-projects">
+    <div class="section-head">
+      <p class="section-index" aria-hidden="true">04</p>
+      <h2 class="page-section-heading" id="about-projects">More From 11:11</h2>
+    </div>
     <p class="page-lede">
       The festival is one of several 11:11 projects working on accessible, evidence-based ways to do good better:
     </p>
-    <div class="org-project-grid">
+    <ol class="org-project-list">
       {PROJECTS.map((p) => (
-        <a class="org-project-card" href={p.url} target={p.external ? '_blank' : undefined} rel={p.external ? 'noopener' : undefined}>
-          <p class="org-project-name">{p.name}{p.external && <span class="sr-only"> (opens in a new window)</span>}</p>
-          <p class="org-project-body">{p.body}</p>
-        </a>
+        <li>
+          <a class="org-project-row" href={p.url} target={p.external ? '_blank' : undefined} rel={p.external ? 'noopener' : undefined}>
+            <span class="org-project-name">{p.name}{p.external && <span class="sr-only"> (opens in a new window)</span>}</span>
+            <span class="org-project-body">{p.body}</span>
+            <span class="org-project-arrow" aria-hidden="true">&rarr;</span>
+          </a>
+        </li>
       ))}
-    </div>
-  </div>
+    </ol>
+  </section>
 
-  <a class="live-link" href={TIMES_PICAYUNE_URL} target="_blank" rel="noopener">
-    Read the Times-Picayune feature &rarr;<span class="sr-only"> (opens in a new window)</span>
+  <a class="press-banner" href={TIMES_PICAYUNE_URL} target="_blank" rel="noopener">
+    <span class="squiggle press-banner-squiggle" aria-hidden="true"></span>
+    <span class="press-banner-source">The Times-Picayune</span>
+    <span class="press-banner-cta">Read the feature &rarr;<span class="sr-only"> (opens in a new window)</span></span>
   </a>
 </PageLayout>

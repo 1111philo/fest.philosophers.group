@@ -1,5 +1,6 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/PageHero.astro';
 import { SITE_URL, SITE_TITLE } from '../../lib/content.mjs';
 
 const title = `AI Futures: Build, Think, Lead — ${SITE_TITLE}`;
@@ -48,18 +49,9 @@ const MENTORS = [
 ];
 ---
 <PageLayout title={title} description={description} canonical={canonical} image={image} current="ai-for-every-student">
-  <section
-    slot="hero"
-    class="page-hero page-hero-photo"
-    aria-label="AI Futures"
-    style={`background-image: linear-gradient(to top, rgba(20,14,6,0.85), rgba(20,14,6,0.25) 60%), url(${HERO_IMAGE});`}
-  >
-    <div class="page-hero-inner">
-      <p class="page-eyebrow">AI for Every Student</p>
-      <h1 class="page-hero-title">AI Futures: Build, Think, Lead</h1>
-      <p class="page-hero-sub">Build your own AI future.</p>
-    </div>
-  </section>
+  <PageHero slot="hero" label="AI Futures" eyebrow="AI for Every Student" title="AI Futures: Build, Think, Lead" image={HERO_IMAGE} accent="red">
+    <p class="page-hero-sub">Build your own AI future.</p>
+  </PageHero>
 
   <div class="page-block page-block-center">
     <p class="page-lede">

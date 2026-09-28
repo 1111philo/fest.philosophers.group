@@ -1,5 +1,6 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/PageHero.astro';
 import { loadContent, SITE_URL } from '../../lib/content.mjs';
 import { getPastYearDays, formatDayHeading } from '../../lib/archiveUtils.mjs';
 
@@ -12,12 +13,7 @@ const canonical = `${SITE_URL}/archive/2025/`;
 const image = `${SITE_URL}/media/ogg-arts.png`;
 ---
 <PageLayout title={title} description={description} canonical={canonical} image={image} current="archive">
-  <section slot="hero" class="page-hero page-hero-plain" aria-label="2025 Archive">
-    <div class="page-hero-inner">
-      <p class="page-eyebrow">Archive</p>
-      <h1 class="page-hero-title">NOAI 2025 Schedule</h1>
-    </div>
-  </section>
+  <PageHero slot="hero" label="2025 Archive" eyebrow="Archive" title="NOAI 2025 Schedule" accent="teal" />
 
   <p class="page-lede">
     Talks, panels, and workshops from the 2025 New Orleans Arts &amp; Ideas Festival. Select a talk below to read more about it.

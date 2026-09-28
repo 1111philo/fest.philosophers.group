@@ -1,5 +1,6 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import PageHero from '../components/PageHero.astro';
 import { loadContent, pageMeta, SITE_TITLE } from '../lib/content.mjs';
 
 const meta = pageMeta(loadContent(), 620, 'sponsor');
@@ -64,60 +65,70 @@ const TIERS = [
 ];
 ---
 <PageLayout title={meta.title} description={meta.description} canonical={meta.canonical} image={meta.image.url} current="sponsor">
-  <section slot="hero" class="page-hero page-hero-plain" aria-label="Sponsorship">
-    <div class="page-hero-inner">
-      <p class="page-eyebrow">Sponsorship</p>
-      <h1 class="page-hero-title">Sponsor the Festival</h1>
-      <p class="page-hero-sub">
-        Past speakers have come from <strong>Google DeepMind</strong>, <strong>IBM</strong>, <strong>Adobe</strong>, <strong>Tulane University</strong>, and <strong>LSU</strong>.
+  <PageHero slot="hero" label="Sponsorship" eyebrow="Sponsorship" title="Sponsor the Festival" accent="yellow">
+    <p class="page-hero-sub">Past speakers have come from:</p>
+    <ul class="speaker-list">
+      {PAST_SPEAKERS.map((name) => <li>{name}</li>)}
+    </ul>
+  </PageHero>
+
+  <section class="swiss-split" aria-labelledby="sponsor-why">
+    <p class="section-index" aria-hidden="true">01</p>
+    <div class="swiss-split-body">
+      <h2 class="page-section-heading" id="sponsor-why">Why Sponsor</h2>
+      <p class="page-lede">
+        Sponsors get a presentation slot, logo placement, and complimentary registrations and event invites.
+        Higher tiers also get attendee contact information for opted-in attendees. Details for each tier are below.
       </p>
-      <ul class="speaker-pills">
-        {PAST_SPEAKERS.map((name) => <li class="speaker-pill">{name}</li>)}
-      </ul>
     </div>
   </section>
 
-  <div class="page-block page-block-center">
-    <p class="page-lede">
-      Sponsors get a presentation slot, logo placement, and complimentary registrations and event invites.
-      Higher tiers also get attendee contact information for opted-in attendees. Details for each tier are below.
-    </p>
-    <div class="about-stats">
-      <div class="about-stat">
-        <p class="about-stat-num">{TIERS.length}</p>
-        <p class="about-stat-label">Sponsorship Tiers</p>
-      </div>
-      <div class="about-stat">
-        <p class="about-stat-num">$500+</p>
-        <p class="about-stat-label">Starting Price</p>
-      </div>
-      <div class="about-stat">
-        <p class="about-stat-num">60 min</p>
-        <p class="about-stat-label">Stage Time Included</p>
-      </div>
-    </div>
-  </div>
+  <ul class="about-stats" aria-label="Sponsorship at a glance">
+    <li class="about-stat">
+      <p class="about-stat-num">{TIERS.length}</p>
+      <p class="about-stat-label">Sponsorship Tiers</p>
+    </li>
+    <li class="about-stat">
+      <p class="about-stat-num">$500<span class="stat-plus">+</span></p>
+      <p class="about-stat-label">Starting Price</p>
+    </li>
+    <li class="about-stat">
+      <p class="about-stat-num">60 min</p>
+      <p class="about-stat-label">Stage Time Included</p>
+    </li>
+  </ul>
 
-  <div class="page-block">
-    <h2 class="page-section-heading">Sponsorship Levels</h2>
+  <section class="page-block" aria-labelledby="sponsor-levels">
+    <div class="section-head">
+      <p class="section-index" aria-hidden="true">02</p>
+      <h2 class="page-section-heading" id="sponsor-levels">Sponsorship Levels</h2>
+    </div>
     <div class="tier-grid">
-      {TIERS.map((tier) => (
-        <div class="tier-card">
-          <p class="tier-name">{tier.name}</p>
-          <p class="tier-price">{tier.price}</p>
-          {tier.limited && <p class="tier-limited">{tier.limited}</p>}
-          <ul class="tier-list">
-            {tier.benefits.map((b) => <li>{b}</li>)}
-          </ul>
-          <a class="btn-primary tier-buy" href={tier.stripeUrl} target="_blank" rel="noopener">
-            Purchase {tier.short}<span class="sr-only"> (opens in a new window)</span>
-          </a>
+      {TIERS.map((tier, i) => (
+        <div class={`tier-card tier-card-${i + 1}${tier.limited ? ' tier-card-featured' : ''}`}>
+          <div class="tier-band" aria-hidden="true">
+            <span class="squiggle tier-squiggle"></span>
+          </div>
+          <div class="tier-content">
+            <p class="tier-name">{tier.name}</p>
+            <p class="tier-price">{tier.price}</p>
+            {tier.limited && <p class="tier-limited">{tier.limited}</p>}
+            <ul class="tier-list">
+              {tier.benefits.map((b) => <li>{b}</li>)}
+            </ul>
+            <a class="btn-primary tier-buy" href={tier.stripeUrl} target="_blank" rel="noopener">
+              Purchase {tier.short}<span class="sr-only"> (opens in a new window)</span>
+            </a>
+          </div>
         </div>
       ))}
     </div>
-  </div>
+  </section>
 
-  <div class="contact-card">
-    Questions? Contact <a href="mailto:fest@philosophers.group">fest@philosophers.group</a>.
+  <div class="contact-card contact-card-block">
+    <div class="squiggle-field contact-card-field" aria-hidden="true"></div>
+    <p class="contact-card-text">
+      Questions? Contact <a href="mailto:fest@philosophers.group">fest@philosophers.group</a>.
+    </p>
   </div>
 </PageLayout>

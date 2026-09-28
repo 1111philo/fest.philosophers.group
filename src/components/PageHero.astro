@@ -1,0 +1,41 @@
+---
+// Poster-style page hero shared by every standalone page: a heavy
+// grotesk title on the left, and on the right either a photo (framed by
+// an offset color block, like a Swiss poster's overprinted plates) or -
+// with no photo - a field of the logo's squiggles with its ringed red
+// dot. `accent` picks which of the logo's colors that block/bar uses, so
+// neighboring pages don't all look identical.
+interface Props {
+  label: string;
+  eyebrow?: string;
+  title: string;
+  image?: string;
+  imageAlt?: string;
+  accent?: 'blue' | 'yellow' | 'red' | 'teal';
+}
+
+const { label, eyebrow, title, image, imageAlt = '', accent = 'blue' } = Astro.props;
+---
+<section class={`hero hero-accent-${accent}${image ? ' hero-has-photo' : ''}`} aria-label={label}>
+  <div class="hero-inner">
+    <div class="hero-text">
+      {eyebrow && <p class="hero-eyebrow">{eyebrow}</p>}
+      <h1 class="hero-title">{title}</h1>
+      <slot />
+    </div>
+    <div class="hero-art">
+      {image ? (
+        <figure class="hero-photo">
+          <img src={image} alt={imageAlt} />
+          <span class="ring-dot hero-photo-dot" aria-hidden="true"></span>
+        </figure>
+      ) : (
+        <div class="hero-field" aria-hidden="true">
+          <div class="squiggle-field"></div>
+          <span class="hero-bar"></span>
+          <span class="ring-dot hero-field-dot"></span>
+        </div>
+      )}
+    </div>
+  </div>
+</section>
