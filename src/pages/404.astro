@@ -1,0 +1,25 @@
+---
+// GitHub Pages serves dist/404.html for any path that doesn't exist.
+import PageLayout from '../layouts/PageLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import { SITE_URL, SITE_TITLE, SITE_IMAGE } from '../lib/content.mjs';
+
+const meta = {
+  title: `Page Not Found — ${SITE_TITLE}`,
+  description: 'That page doesn’t exist. Find the schedule, speakers, and more at NOAI: Arts & Ideas Festival.',
+  canonical: `${SITE_URL}/404.html`,
+  image: SITE_IMAGE.url,
+};
+---
+<PageLayout title={meta.title} description={meta.description} canonical={meta.canonical} image={meta.image} current="">
+  <PageHero slot="hero" label="Page not found" eyebrow="404" title="This page wandered off" accent="teal" art="shapes" />
+  <p class="page-lede">
+    The link may be old, or the page may have moved. The schedule, speakers, and everything else are
+    still right where you left them.
+  </p>
+  <div class="page-cta-row">
+    <a class="btn-primary" href="/">View the Schedule</a>
+    <a class="btn-outline" href="/about/">About the Festival</a>
+    <a class="btn-outline" href="/register/">Register</a>
+  </div>
+</PageLayout>

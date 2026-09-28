@@ -55,6 +55,13 @@ const { title, description, canonical, image } = Astro.props;
 </head>
 <body>
 <a class="skip-link" href={`${Astro.url.pathname}#main`}>Skip to content</a>
+<script is:inline>
+  // <base href="/"> makes a bare "#main" resolve to the homepage, so the
+  // link carries the page's own path - but the build-time path is wrong on
+  // the 404 page (served at any missing URL) and drops the schedule's
+  // filter query, so point it at wherever the visitor actually is.
+  document.currentScript.previousElementSibling.href = location.pathname + location.search + '#main';
+</script>
 <SiteHeader client:load current="register" />
 <main id="main" tabindex="-1" class="reg-shell">
   <div class="reg-col-main">
