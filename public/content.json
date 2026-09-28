@@ -39210,21 +39210,21 @@
       "guid": {
         "rendered": ""
       },
-      "modified": "2026-09-23T00:00:00",
-      "modified_gmt": "2026-09-23T00:00:00",
-      "slug": "everyday-ai-getting-more-out-of-what-you-already-use-by-knud-berthelsen",
+      "modified": "2026-09-28T00:00:00",
+      "modified_gmt": "2026-09-28T00:00:00",
+      "slug": "from-chatting-to-doing-putting-your-ai-tools-to-work-by-knud-berthelsen",
       "status": "publish",
       "type": "presentations",
       "link": "",
       "title": {
-        "rendered": "Everyday AI: Getting More Out of What You Already Use by Knud Berthelsen"
+        "rendered": "From Chatting to Doing: Putting Your AI Tools to Work by Knud Berthelsen"
       },
       "content": {
-        "rendered": "<p>A practical look at the AI tools most people already have access to — and how to get meaningfully more out of them. Knud Berthelsen walks through everyday ways to put generative AI to work, drawing on what he teaches at Tulane&#8217;s Freeman School and the Connolly Alexander Institute for Data Science.</p>",
+        "rendered": "<p>Everyone knows you can chat with AI, and you still can. You can just also do a lot more. The theme of this year's most important AI developments is the move from chatting to doing.</p>\n<p>Chatting itself has become much better. That comes from a combination of better models and better context. Context engineering has replaced prompt engineering.</p>\n<p>AI tools used to start working only when you prompted them. That is no longer the case. Tasks now run on schedules, get triggered by events, and increasingly run as ongoing, proactive processes. Give these agents your email, calendar, task manager and browser, and they become genius personal assistants, secretaries, and chiefs of staff.</p>\n<p>Professor Berthelsen shares how his own daily and weekly agents have drastically improved his productivity and wellbeing. He explains why this doesn't all have to be about work-work: it can be life-work too. His advice is to start with what you waste time on, what you hate doing, and what would improve your life the most. Then ask your AI how it can help you.</p>\n",
         "protected": false
       },
       "excerpt": {
-        "rendered": "<p>A practical look at the AI tools most people already have access to, and how to get meaningfully more out of them, from Tulane&#8217;s Knud Berthelsen.</p>",
+        "rendered": "<p>Everyone knows you can chat with AI, and you still can. You can just also do a lot more. The theme of this year's most important AI developments is the move from chatting to doing. Chatting itself has become much better. [&hellip;]</p>\n",
         "protected": false
       },
       "featured_media": 0,
@@ -39253,8 +39253,8 @@
         "time": null,
         "location": null,
         "presenter_name": "Knud Berthelsen",
-        "presenter_bio": "Knud E. Berthelsen is a Professor of Practice at Tulane University with joint appointments in the Strategy, Leadership and Analytics Minor (SLAM) and the Connolly Alexander Institute for Data Science (CAIDS). His current consulting focus is on applied AI, helping organizations and individuals leverage AI tools to enhance their operations and decision-making. A native of Norway, Berthelsen holds a BA in European and American Studies from the University of Oslo and an MBA in International Business, Strategic Management, and Leadership from Tulane University.",
-        "presenter_photo_url": "media/2096-Jk1Ku4pV_400x400.jpg"
+        "presenter_bio": "Knud E. Berthelsen is a Professor of Practice at Tulane University, with a joint appointment in the Strategy, Leadership & Analytics Minor (SLAM) and the Connolly Alexander Institute for Data Science (CAIDS), where he is also Senior Advisor for AI Literacy. He teaches applied generative AI and AI and society, runs AI workshops for faculty, staff, and students, and consults, trains, and speaks on applied AI through his New Orleans firm Connect + Trade.",
+        "presenter_photo_url": "media/knud-berthelsen-headshot.jpg"
       }
     },
     {
@@ -59426,7 +59426,7 @@
       "sort_time": "10:00",
       "raw_time_range": "10:00–10:45",
       "location": "Main Stage • 400 Esplanade Ave",
-      "title": "Everyday AI: Getting More Out of What You Already Use",
+      "title": "From Chatting to Doing: Putting Your AI Tools to Work",
       "presenters": "Knud Berthelsen",
       "type": "",
       "tag": "AI & Technology",
