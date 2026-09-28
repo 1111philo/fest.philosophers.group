@@ -1,6 +1,7 @@
 ---
 import ScheduleApp from '../components/ScheduleApp';
 import SiteFooter from '../components/SiteFooter.astro';
+import { SITE_TITLE } from '../lib/content.mjs';
 import '../styles/app.css';
 
 interface Props {
@@ -35,7 +36,7 @@ const {
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta property="og:type" content={ogType}>
-<meta property="og:site_name" content="New Orleans Arts & Ideas Festival">
+<meta property="og:site_name" content={SITE_TITLE}>
 <meta property="og:title" content={title}>
 <meta property="og:description" content={description}>
 <meta property="og:url" content={canonical}>

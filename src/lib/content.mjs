@@ -12,9 +12,9 @@ import { routeSlug } from './slug.js';
 // silently break a __dirname-relative path.
 const CONTENT_PATH = path.join(process.cwd(), 'public/content.json');
 export const SITE_URL = 'https://fest.philosophers.group';
-// The "(NOAI)" suffix is only for <title>/og:title/twitter:title - it's SEO
-// breadcrumb for people still searching the old festival name.
-export const SITE_TITLE = 'New Orleans Arts & Ideas Festival (NOAI)';
+// The festival's name as it appears in <title>/og:title/twitter:title and
+// og:site_name. Descriptions still say "New Orleans" for search.
+export const SITE_TITLE = 'NOAI: An Arts & Ideas Festival';
 
 let cached = null;
 export function loadContent() {
