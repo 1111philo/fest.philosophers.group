@@ -1055,8 +1055,6 @@ a { color: var(--accent); }
   .page-block-center { text-align: center; }
   .page-block-center .page-lede { margin-left: auto; margin-right: auto; }
   .page-block-center .page-cta-row { justify-content: center; }
-  .page-block-center .about-stats { justify-content: center; }
-  .page-block-center .about-stat { flex: 0 1 160px; }
 }
 .page-section-heading {
   font-family: Fraunces, Georgia, serif;
@@ -1078,12 +1076,17 @@ a { color: var(--accent); }
    for schedule/type tags elsewhere, so it stays inside the site's
    existing (dark-mode-checked) color system instead of inventing new
    ones. */
-.about-stats { display: flex; flex-wrap: wrap; gap: 14px; }
+/* A grid, not flex-wrap - a flex row of unevenly-sized items leaves an
+   odd one out stretched full-width on its own row at narrow widths
+   (e.g. 3 items wrapping 2+1), which reads as broken/lopsided. auto-fit
+   sizes as many equal columns as fit the container at this minmax, then
+   collapses any leftover empty track so the real items (3 here, 4
+   there) evenly fill the row instead of stretching unevenly - no
+   per-page item-count tuning needed. */
+.about-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; }
 .about-stat {
-  flex: 1 1 140px;
-  min-width: 130px;
-  border-radius: 16px;
-  padding: 18px 20px;
+  border-radius: 18px;
+  padding: 24px 22px;
   background: var(--accent-soft);
   border: 1px solid var(--border);
 }
@@ -1092,7 +1095,7 @@ a { color: var(--accent); }
 .about-stat-num {
   font-family: Fraunces, Georgia, serif;
   font-weight: 800;
-  font-size: 34px;
+  font-size: 38px;
   letter-spacing: -0.01em;
   color: var(--callout-text);
   margin: 0;
@@ -1100,16 +1103,25 @@ a { color: var(--accent); }
 }
 .about-stat:nth-child(3n+2) .about-stat-num { color: var(--badge-panel); }
 .about-stat:nth-child(3n+3) .about-stat-num { color: var(--badge-workshop); }
+/* The Fraunces "+" glyph renders small and low against bold display
+   digits at this size - give it its own sans-serif span instead of
+   fighting the serif's own metrics for it. */
+.stat-plus {
+  font-family: Archivo, system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 0.6em;
+  vertical-align: 0.14em;
+}
 .about-stat-label {
-  font-size: 11.5px;
+  font-size: 12.5px;
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--text-muted);
-  margin: 4px 0 0;
+  margin: 6px 0 0;
 }
 @media (min-width: 900px) {
-  .about-stat-num { font-size: 42px; }
+  .about-stat-num { font-size: 50px; }
 }
 
 .about-quote {
