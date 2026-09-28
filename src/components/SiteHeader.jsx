@@ -1,4 +1,5 @@
 import SiteMenu from './SiteMenu';
+import NoaiMark from './NoaiMark';
 
 // Shared across every page - the schedule SPA passes its own onSchedule
 // to reset in-app state instead of reloading; every other page (including
@@ -25,6 +26,7 @@ export default function SiteHeader({
             </a>
           </h1>
           <div className="subtitle">
+            <NoaiMark className="subtitle-mark" />
             November 11&ndash;13, 2026 &bull;{' '}
             <a href="https://nolajazzmuseum.org/" target="_blank" rel="noopener">
               Jazz Museum<span className="sr-only"> (opens in a new window)</span>
