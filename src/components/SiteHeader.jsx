@@ -39,7 +39,9 @@ export default function SiteHeader({
                 href="/"
                 onClick={(e) => { e.preventDefault(); onSchedule(); }}
               >
-                New Orleans Arts &amp; Ideas Festival
+                {/* The logo beside it is aria-hidden, so its name is
+                    spoken here instead. */}
+                <span className="sr-only">NOAI: </span>An Arts &amp; Ideas Festival
               </a>
             </TitleTag>
             <div className="subtitle">

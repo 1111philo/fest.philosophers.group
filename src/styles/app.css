@@ -196,7 +196,6 @@ main:focus { outline: none; }
 }
 
 /* --- Logo ---------------------------------------------------------------- */
-.logo-ink { stroke: var(--ink); }
 .logo-blue { fill: var(--blue); }
 .logo-yellow { fill: var(--yellow); }
 .logo-red { fill: var(--red); }
@@ -226,7 +225,7 @@ main:focus { outline: none; }
 }
 .header-brand { display: contents; }
 .header-logo-link { grid-area: logo; display: block; line-height: 0; }
-.header-logo { display: block; height: 44px; width: auto; }
+.header-logo { display: block; height: 40px; width: auto; }
 .header-text { grid-area: text; min-width: 0; }
 .header-actions { grid-area: actions; display: flex; align-items: center; gap: 8px; }
 @media (min-width: 720px) {
@@ -236,7 +235,7 @@ main:focus { outline: none; }
     grid-template-areas: "logo text actions";
     gap: 20px;
   }
-  .header-logo { height: 58px; }
+  .header-logo { height: 52px; }
   .header-text { padding-left: 20px; border-left: var(--rule) solid var(--ink); }
 }
 .header .header-title {

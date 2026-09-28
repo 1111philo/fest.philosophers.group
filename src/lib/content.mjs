@@ -22,8 +22,13 @@ export function loadContent() {
   return cached;
 }
 
+// The site-wide share image: the NOAI logo on the poster's cream, 1200x630.
+// Every site page uses it; presentations fall back to it when they have no
+// photo of their own.
+export const SITE_IMAGE = { url: `${SITE_URL}/media/og-noai.png`, width: 1200, height: 630 };
+
 // The presentation/page's own featured image if it has one, otherwise the
-// site's one fixed fallback share image (ogg-arts.png) - consistent across
+// site's one fixed fallback share image (SITE_IMAGE) - consistent across
 // every page/presentation that lacks its own image, rather than a
 // per-item pick from the ogg-* pool.
 export function imageFor(content, featuredMediaId) {
@@ -35,45 +40,7 @@ export function imageFor(content, featuredMediaId) {
       height: media.media_details.height,
     };
   }
-  return { url: `${SITE_URL}/media/ogg-arts.png`, width: 1424, height: 752 };
-}
-
-// Minimal, dependency-free PNG/JPEG dimension reader - just enough to give
-// social/iMessage link previews a correctly-sized og:image, without pulling
-// in an image library for something this small.
-function readImageSize(absPath) {
-  const buf = fs.readFileSync(absPath);
-  if (buf.length > 24 && buf[0] === 0x89 && buf[1] === 0x50 && buf[2] === 0x4e && buf[3] === 0x47) {
-    return { width: buf.readUInt32BE(16), height: buf.readUInt32BE(20) };
-  }
-  if (buf.length > 4 && buf[0] === 0xff && buf[1] === 0xd8) {
-    let offset = 2;
-    while (offset + 8 < buf.length && buf[offset] === 0xff) {
-      const marker = buf[offset + 1];
-      if (marker === 0x01 || (marker >= 0xd0 && marker <= 0xd9)) { offset += 2; continue; }
-      const length = buf.readUInt16BE(offset + 2);
-      const isSOF = marker >= 0xc0 && marker <= 0xcf && marker !== 0xc4 && marker !== 0xc8 && marker !== 0xcc;
-      if (isSOF) return { height: buf.readUInt16BE(offset + 5), width: buf.readUInt16BE(offset + 7) };
-      offset += 2 + length;
-    }
-  }
-  return null;
-}
-
-// A presenter's photo (scraped_fields.presenter_photo_url) lives outside
-// the normal WP media pool - content.media has no entry for it - so it
-// isn't reachable through imageFor()'s featured_media lookup. Used as a
-// fallback so link previews show the actual speaker instead of a random
-// generic image whenever a presentation's featured_media is missing or
-// stale (about a quarter of them, checked against content.media).
-function presenterPhotoImage(sourceUrl) {
-  try {
-    const size = readImageSize(path.join(process.cwd(), 'public', sourceUrl));
-    if (size) return { url: `${SITE_URL}/${sourceUrl}`, ...size };
-  } catch {
-    // File missing or unreadable - fall through to the generic pool image.
-  }
-  return null;
+  return SITE_IMAGE;
 }
 
 export function presentationMeta(content, pres) {
@@ -81,9 +48,10 @@ export function presentationMeta(content, pres) {
   const excerpt = stripTags((pres.excerpt || {}).rendered || '');
   const sf = pres.scraped_fields || {};
   const description = truncate(excerpt || sf.presenter_bio || stripTags(pres.content.rendered) || title);
-  const hasFeaturedMedia = content.media.some((m) => m.id === pres.featured_media);
-  const image = (!hasFeaturedMedia && sf.presenter_photo_url && presenterPhotoImage(sf.presenter_photo_url))
-    || imageFor(content, pres.featured_media);
+  // Every presentation gets its own generated card (src/pages/og/) - the
+  // talk's title, presenter, date and venue, with the presenter's photo
+  // when there is one.
+  const image = { url: `${SITE_URL}/og/${routeSlug(pres.slug)}.jpg`, width: 1200, height: 630 };
   return {
     title: `${title} — ${SITE_TITLE}`,
     description,

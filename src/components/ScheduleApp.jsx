@@ -8,7 +8,7 @@ import WpContent from './WpContent';
 import AddToCalendarMenu from './AddToCalendarMenu';
 import {
   getAvailableYears, getScheduleForYear, featuredUrl, dayLabel, typeSlug, stripTags,
-  rotateSiteImages, scheduleItemKey, eventInfoForPresentation, groupConsecutiveByType, mergePartyWithTrailingTalks, groupsForYear, groupSlug, itemSlug,
+  scheduleItemKey, eventInfoForPresentation, groupConsecutiveByType, mergePartyWithTrailingTalks, groupsForYear, groupSlug, itemSlug,
 } from '../lib/scheduleUtils';
 import { routeSlug } from '../lib/slug';
 
@@ -403,7 +403,6 @@ export default function ScheduleApp({ initialView }) {
       .then((json) => {
         dataRef.current = json;
         setData(json);
-        rotateSiteImages(json.site_images);
         if (initialView && initialView.type === 'presentation') {
           const pres = (json.presentations || []).find((p) => p.slug === initialView.slug);
           if (pres) setDrawerItem({ kind: 'presentation', pres });
