@@ -39427,21 +39427,21 @@
       "guid": {
         "rendered": ""
       },
-      "modified": "2026-09-23T00:00:00",
-      "modified_gmt": "2026-09-23T00:00:00",
-      "slug": "louisiana-startups",
+      "modified": "2026-09-28T00:00:00",
+      "modified_gmt": "2026-09-28T00:00:00",
+      "slug": "investing-where-the-puck-is-going-going-gone-by-mickal-adler",
       "status": "publish",
       "type": "presentations",
       "link": "",
       "title": {
-        "rendered": "Louisiana Startups"
+        "rendered": "Investing where the puck is . . . going? Going? Gone! by Mickal Adler"
       },
       "content": {
-        "rendered": "<p>A look at the state of startup funding in Louisiana, and how Boot64 Ventures is putting early-stage capital to work — including as the first fund in the state to complete and begin distributing under Louisiana&#8217;s participation in the federal State Small Business Credit Initiative (SSBCI).</p>",
+        "rendered": "<p>When the technology is changing so fast, how does one make investment decisions? The first vintage fund of Boot64 Ventures began deploying in 2023, during the first wave of AI eating the planet. Boot64's portfolio companies, 43 and growing, span the gamut of technologies and products from foundational AI models, energy, biotechnology, and software to shoelaces. Making an investment decision is like placing a bet on a vision of the future. If you want to know where the puck is going, you can't figure that out by looking at a snapshot of the puck. You need a moving picture of where it has been so you can envision the trajectory and speed to make your forecast.</p>\n<p>This presentation will take you through the evolution over the last couple of years of the Venture landscape. This traverse will be peppered with data and anecdotes and maybe even some predictions.</p>\n",
         "protected": false
       },
       "excerpt": {
-        "rendered": "<p>A look at the state of startup funding in Louisiana, and how Boot64 Ventures is putting early-stage capital to work across the state.</p>",
+        "rendered": "<p>When the technology is changing so fast, how does one make investment decisions? The first vintage fund of Boot64 Ventures began deploying in 2023, during the first wave of AI eating the planet. Boot64's portfolio companies, 43 and growing, span the gamut of [&hellip;]</p>\n",
         "protected": false
       },
       "featured_media": 0,
@@ -39471,7 +39471,7 @@
         "location": null,
         "presenter_name": "Mickal Adler, Boot64 Ventures",
         "presenter_bio": "Mickal Adler is Managing Partner at Boot64 Ventures, an early-stage venture fund based in Metairie, Louisiana investing in pre-seed, seed, and select Series A companies across healthcare, sustainability, and technology. A New Orleans attorney and entrepreneur, he co-leads the fund alongside partner John Roberts.",
-        "presenter_photo_url": "media/boot64-badge.jpg"
+        "presenter_photo_url": "media/mickal-adler-headshot.jpg"
       }
     },
     {
@@ -59496,7 +59496,7 @@
       "sort_time": "14:45",
       "raw_time_range": "2:45–3:30",
       "location": "Main Stage • 400 Esplanade Ave",
-      "title": "Louisiana Startups",
+      "title": "Investing where the puck is . . . going? Going? Gone!",
       "presenters": "Mickal Adler / Boot64 Ventures",
       "type": "",
       "tag": "Business & Strategy",
