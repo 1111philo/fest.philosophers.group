@@ -1351,6 +1351,9 @@ main:focus { outline: none; }
   padding-top: 8px;
   border-top: var(--rule-heavy) solid var(--ink);
   width: 56px;
+  /* Its own height, not stretched to the section's grid row - keeps the
+     scroll wipe-in (Motion, below) short. Looks the same either way. */
+  align-self: start;
 }
 .section-head { display: flex; flex-direction: column; gap: 14px; }
 .swiss-split { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
@@ -1371,7 +1374,9 @@ main:focus { outline: none; }
   max-width: 24ch;
 }
 .theme-highlight {
-  background: var(--yellow);
+  /* A gradient rather than a flat color only so the About page's scroll
+     animation can sweep it in (background-size); it looks identical. */
+  background: linear-gradient(var(--yellow), var(--yellow)) no-repeat left center / 100% 100%;
   color: #1a1a1a;
   padding: 0 0.15em;
   box-decoration-break: clone;
@@ -2027,6 +2032,126 @@ a.sponsor-logo:hover img { filter: none; }
     /* Sponsor tier bands: each squiggle drifts at its own pace. */
     .tier-card-2 .tier-squiggle { animation-direction: reverse; }
     .tier-card-4 .tier-squiggle { animation-direction: reverse; }
+
+    /* ---- About page ---------------------------------------------------- */
+    /* Ranges end at (or near) "entry 100%" - the moment an element is fully
+       on screen - so nothing visible when the page loads sits half-animated
+       waiting for a scroll. */
+
+    /* Section numbers (01-04) and their rule wipe in left to right. */
+    .section-index {
+      animation-name: wipe-in;
+      animation-timing-function: ease-out;
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 100%;
+    }
+    @keyframes wipe-in {
+      from { clip-path: inset(0 100% 0 0); }
+      to { clip-path: inset(0 0 0 0); }
+    }
+
+    /* The yellow highlight on "Arts & Ideas" sweeps across. Its ink
+       fades in with it, so the words stay legible on the dark theme's
+       background before the yellow reaches them. */
+    .theme-highlight {
+      animation-name: highlight-sweep;
+      animation-timing-function: ease-out;
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 100%;
+    }
+    @keyframes highlight-sweep {
+      from { background-size: 0% 100%; color: var(--text); }
+      to { background-size: 100% 100%; color: #1a1a1a; }
+    }
+
+    /* About's stat blocks rise in one after another - same row, so
+       staggered ranges rather than delays (delays don't apply to scroll
+       timelines). Opt-in class, not every .about-stats: Sponsor's sit at
+       the fold on load, where they'd stay half-faded until you scrolled. */
+    .about-stats-rise .about-stat {
+      animation-name: rise-in;
+      animation-timing-function: ease-out;
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 55%;
+    }
+    .about-stats-rise .about-stat:nth-child(2) { animation-range: entry 8% entry 63%; }
+    .about-stats-rise .about-stat:nth-child(3) { animation-range: entry 16% entry 71%; }
+    .about-stats-rise .about-stat:nth-child(4) { animation-range: entry 24% entry 79%; }
+    @keyframes rise-in {
+      from { opacity: 0; translate: 0 36px; }
+      to { opacity: 1; translate: 0 0; }
+    }
+
+    /* Gallery photos wipe open from the top, then pan slowly inside
+       their frames (object-position, so nothing spills past the grid). */
+    .page-gallery img {
+      animation-name: photo-reveal, photo-pan;
+      animation-timing-function: ease-out, linear;
+      animation-fill-mode: both, both;
+      animation-timeline: view(), view();
+      animation-range: entry 0% entry 80%, normal;
+    }
+    @keyframes photo-reveal {
+      from { clip-path: inset(0 0 100% 0); }
+      to { clip-path: inset(0 0 0 0); }
+    }
+    @keyframes photo-pan {
+      from { object-position: 50% 20%; }
+      to { object-position: 50% 80%; }
+    }
+
+    /* The founding conversation reads like a chat: Blake's lines slide
+       in from the left, Grace's from the right. */
+    .about-quote-line, .about-quote-cap {
+      animation-name: line-in-left;
+      animation-timing-function: ease-out;
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: entry 10% entry 100%;
+    }
+    .about-quote-grace { animation-name: line-in-right; }
+    @keyframes line-in-left {
+      from { opacity: 0; translate: -28px 0; }
+      to { opacity: 1; translate: 0 0; }
+    }
+    @keyframes line-in-right {
+      from { opacity: 0; translate: 28px 0; }
+      to { opacity: 1; translate: 0 0; }
+    }
+
+    /* The first-meeting photo's yellow block grows out from behind it. */
+    .framed-photo-yellow {
+      animation-name: frame-offset;
+      animation-timing-function: ease-out;
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: entry 20% cover 45%;
+    }
+    @keyframes frame-offset {
+      from { box-shadow: 0 0 0 var(--yellow); }
+      to { box-shadow: 14px 14px 0 var(--yellow); }
+    }
+
+    /* Project rows slide in; the Times-Pic banner wipes open. */
+    .org-project-list li {
+      animation-name: line-in-left;
+      animation-timing-function: ease-out;
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 100%;
+    }
+    /* Entry-only range: the banner sits near the page bottom, so a range
+       reaching into "cover" could run out of scroll before finishing. */
+    .press-banner {
+      animation-name: wipe-in;
+      animation-timing-function: ease-out;
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 100%;
+    }
   }
 }
 
