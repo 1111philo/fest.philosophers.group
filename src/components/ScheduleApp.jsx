@@ -126,7 +126,15 @@ function PresentationBody({ pres, mediaById, onOpenPresentationSlug, eventInfo }
       {eventInfo && (
         <AddToCalendarMenu item={eventInfo} description={sf.presenter_name || ''} />
       )}
-      {(sf.presenter_name || sf.presenter_bio) && (
+      {sf.presenters ? sf.presenters.map((person) => (
+        <div className="presenter-card" key={person.name}>
+          {person.photo_url && <img src={person.photo_url} alt="" />}
+          <div>
+            <div className="presenter-name">{person.name}</div>
+            <PresenterBio text={person.bio || ''} />
+          </div>
+        </div>
+      )) : (sf.presenter_name || sf.presenter_bio) && (
         <div className="presenter-card">
           {sf.presenter_photo_url && <img src={sf.presenter_photo_url} alt="" />}
           <div>

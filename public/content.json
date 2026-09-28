@@ -39417,7 +39417,19 @@
         "location": null,
         "presenter_name": "Damon Kirin & Rob Gaudet",
         "presenter_bio": "Damon Kirin is an entrepreneur and attorney with a track record of success at the nexus of law, business, and technology. As Chief Operating Officer and General Counsel of Bravura AI, he oversees day-to-day operations and provides seasoned leadership in corporate governance, compliance, and complex transactions. Over nearly three decades he has been involved in tort litigation across highly scientific and technical disciplines and has negotiated hundreds of contracts, including a major eight-figure engineering and intellectual property development agreement with a leading global energy company. He is also Co-Founder of NOLA AI, Inc., founder and Managing Member of Kirin Law Firm, and served as Adjunct Professor of Law at Tulane University Law School from 2008 to 2018. J.D., cum laude, Tulane University Law School, with a Certificate in Environmental Law; B.S. with distinction, University of Michigan. Rob Gaudet has thirty years of software architecture behind him. In 2006 he co-authored Microsoft's .NET architecture certification exams in Redmond. He has built systems for GE, Wells Fargo, and Blue Cross Blue Shield, built an engineering department from zero, and took a remote patient monitoring platform through two FDA clearances. Today he and his team build AI systems solo. GaudetSystems.com",
-        "presenter_photo_url": "media/damon-kirin-headshot.png"
+        "presenter_photo_url": "media/damon-kirin-headshot.png",
+        "presenters": [
+          {
+            "name": "Damon Kirin",
+            "bio": "Damon Kirin is an entrepreneur and attorney with a track record of success at the nexus of law, business, and technology. As Chief Operating Officer and General Counsel of Bravura AI, he oversees day-to-day operations and provides seasoned leadership in corporate governance, compliance, and complex transactions. Over nearly three decades he has been involved in tort litigation across highly scientific and technical disciplines and has negotiated hundreds of contracts, including a major eight-figure engineering and intellectual property development agreement with a leading global energy company. He is also Co-Founder of NOLA AI, Inc., founder and Managing Member of Kirin Law Firm, and served as Adjunct Professor of Law at Tulane University Law School from 2008 to 2018. J.D., cum laude, Tulane University Law School, with a Certificate in Environmental Law; B.S. with distinction, University of Michigan.",
+            "photo_url": "media/damon-kirin-headshot.png"
+          },
+          {
+            "name": "Rob Gaudet",
+            "bio": "Rob Gaudet has thirty years of software architecture behind him. In 2006 he co-authored Microsoft's .NET architecture certification exams in Redmond. He has built systems for GE, Wells Fargo, and Blue Cross Blue Shield, built an engineering department from zero, and took a remote patient monitoring platform through two FDA clearances. Today he and his team build AI systems solo. GaudetSystems.com",
+            "photo_url": "media/rob-gaudet-headshot.jpg"
+          }
+        ]
       }
     },
     {
