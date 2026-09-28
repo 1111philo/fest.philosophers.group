@@ -39373,21 +39373,21 @@
       "guid": {
         "rendered": ""
       },
-      "modified": "2026-09-23T00:00:00",
-      "modified_gmt": "2026-09-23T00:00:00",
-      "slug": "ai-forward-business-building-your-ai-team-instead-of-hiring",
+      "modified": "2026-09-29T00:00:00",
+      "modified_gmt": "2026-09-29T00:00:00",
+      "slug": "your-next-hire-doesnt-sleep-what-it-costs-to-put-ai-on-the-payroll-and-what-it-costs-not-to-by-damon-kirin-rob-gaudet",
       "status": "publish",
       "type": "presentations",
       "link": "",
       "title": {
-        "rendered": "AI-Forward Business: Building Your AI Team Instead of Hiring"
+        "rendered": "Your Next Hire Doesn't Sleep: What it costs to put AI on the payroll, and what it costs not to by Damon Kirin & Rob Gaudet"
       },
       "content": {
-        "rendered": "<p>A practical case for treating AI systems as your next hires — how small and mid-sized businesses can build out AI-powered capacity in-house instead of scaling headcount the traditional way.</p>",
+        "rendered": "<p>A small business owner watches work stack up and has two choices: hire, or burn out. There's now a third. A practical case for treating AI systems as your next hires: how small and mid-sized businesses can build AI-powered capacity in-house instead of scaling headcount the traditional way. Rob Gaudet takes the builder's side: which jobs AI can take on today, how to set those systems up so they run reliably, and where a person still needs to be involved. Damon Kirin takes the other half: what those hires cost in governance, in people, and in exposure to the vendor, including the cost of inference as a real cost of doing business. Between them, the whole picture.</p>\n",
         "protected": false
       },
       "excerpt": {
-        "rendered": "<p>A practical case for treating AI systems as your next hires, and how small and mid-sized businesses can build out AI-powered capacity in-house instead of scaling headcount the traditional way.</p>",
+        "rendered": "<p>A small business owner watches work stack up and has two choices: hire, or burn out. There's now a third. A practical case for treating AI systems as your next hires: how small and mid-sized businesses can build AI-powered capacity in-house [&hellip;]</p>\n",
         "protected": false
       },
       "featured_media": 0,
@@ -39416,7 +39416,7 @@
         "time": null,
         "location": null,
         "presenter_name": "Damon Kirin & Rob Gaudet",
-        "presenter_bio": "Damon Kirin is CEO of NOLA AI, Inc., a generative AI and emerging technologies startup helping small and mid-sized businesses adopt AI, and a managing member of the Kirin Law Firm. Rob Gaudet architects and ships agentic AI systems solo — including Victora.ai, a multi-tenant SaaS platform running autonomous Claude workflows — and has built online communities reaching tens of millions of people a year.",
+        "presenter_bio": "Damon Kirin is an entrepreneur and attorney with a track record of success at the nexus of law, business, and technology. As Chief Operating Officer and General Counsel of Bravura AI, he oversees day-to-day operations and provides seasoned leadership in corporate governance, compliance, and complex transactions. Over nearly three decades he has been involved in tort litigation across highly scientific and technical disciplines and has negotiated hundreds of contracts, including a major eight-figure engineering and intellectual property development agreement with a leading global energy company. He is also Co-Founder of NOLA AI, Inc., founder and Managing Member of Kirin Law Firm, and served as Adjunct Professor of Law at Tulane University Law School from 2008 to 2018. J.D., cum laude, Tulane University Law School, with a Certificate in Environmental Law; B.S. with distinction, University of Michigan. Rob Gaudet has thirty years of software architecture behind him. In 2006 he co-authored Microsoft's .NET architecture certification exams in Redmond. He has built systems for GE, Wells Fargo, and Blue Cross Blue Shield, built an engineering department from zero, and took a remote patient monitoring platform through two FDA clearances. Today he and his team build AI systems solo. GaudetSystems.com",
         "presenter_photo_url": "media/1452-1688450783600.jpeg"
       }
     },
@@ -59482,7 +59482,7 @@
       "sort_time": "14:00",
       "raw_time_range": "2:00–2:45",
       "location": "Main Stage • 400 Esplanade Ave",
-      "title": "AI-Forward Business: Building Your AI Team Instead of Hiring",
+      "title": "Your Next Hire Doesn't Sleep: What it costs to put AI on the payroll, and what it costs not to",
       "presenters": "Damon Kirin + Rob Gaudet",
       "type": "",
       "tag": "Business & Strategy",
