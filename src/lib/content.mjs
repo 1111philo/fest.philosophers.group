@@ -22,8 +22,13 @@ export function loadContent() {
   return cached;
 }
 
+// The site-wide share image: the NOAI logo on the poster's cream, 1200x630.
+// Every site page uses it; presentations fall back to it when they have no
+// photo of their own.
+export const SITE_IMAGE = { url: `${SITE_URL}/media/og-noai.png`, width: 1200, height: 630 };
+
 // The presentation/page's own featured image if it has one, otherwise the
-// site's one fixed fallback share image (ogg-arts.png) - consistent across
+// site's one fixed fallback share image (SITE_IMAGE) - consistent across
 // every page/presentation that lacks its own image, rather than a
 // per-item pick from the ogg-* pool.
 export function imageFor(content, featuredMediaId) {
@@ -35,7 +40,7 @@ export function imageFor(content, featuredMediaId) {
       height: media.media_details.height,
     };
   }
-  return { url: `${SITE_URL}/media/ogg-arts.png`, width: 1424, height: 752 };
+  return SITE_IMAGE;
 }
 
 // Minimal, dependency-free PNG/JPEG dimension reader - just enough to give

@@ -1,12 +1,12 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/PageHero.astro';
-import { SITE_URL } from '../../lib/content.mjs';
+import { SITE_URL, SITE_IMAGE } from '../../lib/content.mjs';
 
 const title = 'NOAI 2023 Archive — New Orleans Arts & Ideas Festival';
 const description = 'The program from the first New Orleans Arts & Ideas Festival in 2023: a day of talks and panels on AI in education, creativity, and accessibility, followed by an evening of live performance.';
 const canonical = `${SITE_URL}/archive/2023/`;
-const image = `${SITE_URL}/media/ogg-arts.png`;
+const image = SITE_IMAGE.url;
 
 const SYMPOSIUM = [
   { time: '9:00 AM', title: 'Check-in Opens', body: 'Coffee and pastries provided.' },
