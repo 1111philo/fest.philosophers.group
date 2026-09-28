@@ -48,6 +48,7 @@ const {
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+<a class="skip-link" href={`${Astro.url.pathname}#main`}>Skip to content</a>
 <ScheduleApp client:load initialView={initialView} />
 <SiteFooter />
 </body>

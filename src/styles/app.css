@@ -133,6 +133,24 @@ button { font-family: inherit; color: inherit; }
 a { color: var(--accent); text-underline-offset: 0.15em; text-decoration-thickness: 1.5px; }
 :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 
+.skip-link {
+  position: absolute;
+  left: 16px;
+  top: -100px;
+  z-index: 200;
+  padding: 10px 16px;
+  background: var(--yellow);
+  color: #1a1a1a;
+  border: var(--rule) solid #1a1a1a;
+  font-family: var(--font-display);
+  font-weight: 800;
+  text-decoration: none;
+}
+.skip-link:focus { top: 12px; }
+/* main takes focus from the skip link (tabindex=-1) - no ring on a
+   whole-page landmark. */
+main:focus { outline: none; }
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -221,7 +239,7 @@ a { color: var(--accent); text-underline-offset: 0.15em; text-decoration-thickne
   .header-logo { height: 58px; }
   .header-text { padding-left: 20px; border-left: var(--rule) solid var(--ink); }
 }
-.header h1 {
+.header .header-title {
   font-family: var(--font-display);
   font-weight: 800;
   font-size: clamp(20px, 2.6vw, 30px);
@@ -1606,7 +1624,9 @@ a { color: var(--accent); text-underline-offset: 0.15em; text-decoration-thickne
   letter-spacing: -0.025em;
   line-height: 1.15;
 }
-.speaker-list li:not(:last-child)::after { content: "/"; color: var(--red); margin: 0 0.3em; font-weight: 700; }
+/* Empty alt text (after the slash) keeps screen readers from reading
+   "slash" between names - the list semantics already separate them. */
+.speaker-list li:not(:last-child)::after { content: "/"; content: "/" / ""; color: var(--red); margin: 0 0.3em; font-weight: 700; }
 
 .tag-pills { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
 .tag-pill {

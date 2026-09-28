@@ -25,10 +25,17 @@ const { label, eyebrow, title, image, imageAlt = '', accent = 'blue' } = Astro.p
     </div>
     <div class="hero-art">
       {image ? (
-        <figure class="hero-photo">
-          <img src={image} alt={imageAlt} />
-          <span class="ring-dot hero-photo-dot" aria-hidden="true"></span>
-        </figure>
+        imageAlt ? (
+          <figure class="hero-photo">
+            <img src={image} alt={imageAlt} />
+            <span class="ring-dot hero-photo-dot" aria-hidden="true"></span>
+          </figure>
+        ) : (
+          <div class="hero-photo">
+            <img src={image} alt="" />
+            <span class="ring-dot hero-photo-dot" aria-hidden="true"></span>
+          </div>
+        )
       ) : (
         <div class="hero-field" aria-hidden="true">
           <div class="squiggle-field"></div>

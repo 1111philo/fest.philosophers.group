@@ -40,10 +40,13 @@ const { title, description, canonical, image, current } = Astro.props;
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-<SiteHeader client:load current={current} />
-<slot name="hero" />
-<main class="page-main">
-  <slot />
+<a class="skip-link" href={`${Astro.url.pathname}#main`}>Skip to content</a>
+<SiteHeader client:load current={current} titleIsHeading={false} />
+<main id="main" tabindex="-1">
+  <slot name="hero" />
+  <div class="page-main">
+    <slot />
+  </div>
 </main>
 <SiteFooter />
 </body>

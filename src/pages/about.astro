@@ -5,7 +5,7 @@ import { loadContent, pageMeta, SITE_TITLE } from '../lib/content.mjs';
 
 const meta = pageMeta(loadContent(), 469, 'about');
 meta.title = `About — ${SITE_TITLE}`;
-meta.description = 'Philosophy, Philanthropy, Tech, Biz, Education, and Improvisation. Learn about the New Orleans Arts & Ideas Festival and the 11:11 Philosophers Group.';
+meta.description = 'Philosophy, Philanthropy, Tech, Biz, and Education. Learn about the New Orleans Arts & Ideas Festival and the 11:11 Philosophers Group.';
 
 const TIMES_PICAYUNE_URL = 'https://web.archive.org/web/20250821094845/https://www.nola.com/news/business/innovation/noai-new-orleans-jazz-museum-1111-philosophers-artificial-intelligence-blake-grace-bertuccelli-booth/article_3eddfcb0-9acd-11ef-97c3-1bbd0c95b721.html';
 const HERO_IMAGE = '/media/560-DSC2694.jpg';
@@ -79,7 +79,7 @@ const GALLERY = [
     slot="hero"
     label="About the festival"
     eyebrow="About the Festival"
-    title="Philosophy, Philanthropy, Tech, Biz, Education & Improvisation"
+    title="Philosophy, Philanthropy, Tech, Biz & Education"
     image={HERO_IMAGE}
     accent="blue"
   />
@@ -190,8 +190,8 @@ const GALLERY = [
       {PROJECTS.map((p) => (
         <li>
           <a class="org-project-row" href={p.url} target={p.external ? '_blank' : undefined} rel={p.external ? 'noopener' : undefined}>
-            <span class="org-project-name">{p.name}{p.external && <span class="sr-only"> (opens in a new window)</span>}</span>
-            <span class="org-project-body">{p.body}</span>
+            <span class="org-project-name">{p.name}<span class="sr-only">: </span></span>
+            <span class="org-project-body">{p.body}{p.external && <span class="sr-only"> (opens in a new window)</span>}</span>
             <span class="org-project-arrow" aria-hidden="true">&rarr;</span>
           </a>
         </li>
@@ -201,7 +201,7 @@ const GALLERY = [
 
   <a class="press-banner" href={TIMES_PICAYUNE_URL} target="_blank" rel="noopener">
     <span class="squiggle press-banner-squiggle" aria-hidden="true"></span>
-    <span class="press-banner-source">The Times-Picayune</span>
-    <span class="press-banner-cta">Read the feature &rarr;<span class="sr-only"> (opens in a new window)</span></span>
+    <span class="press-banner-source">Times-Pic article</span>
+    <span class="press-banner-cta">Read the feature <span aria-hidden="true">&rarr;</span><span class="sr-only"> (opens in a new window)</span></span>
   </a>
 </PageLayout>

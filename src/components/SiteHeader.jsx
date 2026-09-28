@@ -7,11 +7,15 @@ import NoaiLogo from './NoaiLogo';
 // mounts this with no props, so the default below does a real navigation
 // instead. `current` marks whichever page is already showing, in both the
 // Register button and the hamburger menu, so it's clear you're already
-// there.
+// there. `titleIsHeading` is turned off on pages that have their own
+// <h1> (every PageLayout page), so screen readers find exactly one
+// top-level heading - the page's own title, not the site name again.
 export default function SiteHeader({
   onSchedule = () => { window.location.href = '/'; },
   current,
+  titleIsHeading = true,
 }) {
+  const TitleTag = titleIsHeading ? 'h1' : 'p';
   return (
     <header className="header">
       <div className="header-top">
@@ -29,7 +33,7 @@ export default function SiteHeader({
             <NoaiLogo className="header-logo" title="" />
           </a>
           <div className="header-text">
-            <h1>
+            <TitleTag className="header-title">
               <a
                 className="header-title-link"
                 href="/"
@@ -37,7 +41,7 @@ export default function SiteHeader({
               >
                 New Orleans Arts &amp; Ideas Festival
               </a>
-            </h1>
+            </TitleTag>
             <div className="subtitle">
               November 11&ndash;13, 2026 <span className="subtitle-dot" aria-hidden="true">&bull;</span>{' '}
               <a href="https://nolajazzmuseum.org/" target="_blank" rel="noopener">
