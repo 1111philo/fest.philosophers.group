@@ -3,7 +3,9 @@
 // them in content.json's `site_images` key. Re-run after adding new files
 // named `icon-*` (favicon candidates, ideally square) or `ogg-*` (social
 // share image candidates, ideally ~1200x630+) to public/media/, then
-// redeploy. Runs automatically as part of the GitHub Actions build too.
+// redeploy. The site itself no longer rotates through either pool - the
+// favicon is the fixed public/favicon.svg set and the share image is
+// media/og-noai.png - so these lists are informational only. Runs automatically as part of the GitHub Actions build too.
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';

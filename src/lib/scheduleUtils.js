@@ -248,17 +248,3 @@ export function dayLabel(dateStr) {
   };
 }
 
-// Picks a fresh favicon on every load, from whatever icon-* files the media
-// manifest currently lists. og:image/twitter:image are deliberately left
-// alone here - they should stay whatever the server rendered (the
-// presentation/page's own image, or the fixed og-noai.png fallback), not
-// get swapped to a random pool pick. That swap also never affected shared
-// link previews anyway: social crawlers read the static og:image already
-// baked into the HTML they fetch and never run this script.
-export function rotateSiteImages(images) {
-  const icons = (images && images.icons) || [];
-  if (icons.length) {
-    const el = document.getElementById('site-favicon');
-    if (el) el.href = icons[Math.floor(Math.random() * icons.length)];
-  }
-}
