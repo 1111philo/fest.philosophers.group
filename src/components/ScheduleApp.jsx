@@ -13,10 +13,24 @@ import {
 import { routeSlug } from '../lib/slug';
 
 function navigate(url) {
-  if (location.pathname !== url) history.pushState(null, '', url);
+  if (location.pathname + location.search !== url) history.pushState(null, '', url);
 }
-function navigateHome() {
-  if (location.pathname !== '/') history.pushState(null, '', '/');
+function navigateHome(search = '') {
+  const url = `/${search}`;
+  if (location.pathname + location.search !== url) history.pushState(null, '', url);
+}
+
+// Reflects the year/day/search filters as query params, so a link to (say)
+// a past year, a specific day, or a search result is shareable/bookmarkable
+// - omitting whichever ones are just the default, so the common case (this
+// year, all days, no search) still has a clean bare URL.
+function buildFilterSearch(year, day, query) {
+  const params = new URLSearchParams();
+  if (year && year !== '2026') params.set('year', year);
+  if (day && day !== 'all') params.set('day', day);
+  if (query && query.trim()) params.set('q', query.trim());
+  const s = params.toString();
+  return s ? `?${s}` : '';
 }
 
 function TypeBadge({ type }) {
@@ -249,11 +263,24 @@ function GroupBody({ group, onOpenPresentationId }) {
   );
 }
 
+// Seeds year/day/search from the URL the page was loaded with, so a link
+// like /?year=2023, /?year=2023&day=2023-11-11, or /?q=chess opens straight
+// into that filtered view instead of always starting from the defaults.
+function initialFilters() {
+  if (typeof window === 'undefined') return { year: '2026', day: 'all', query: '' };
+  const params = new URLSearchParams(window.location.search);
+  return {
+    year: params.get('year') || '2026',
+    day: params.get('day') || 'all',
+    query: params.get('q') || '',
+  };
+}
+
 export default function ScheduleApp({ initialView }) {
   const [data, setData] = useState(null);
-  const [year, setYear] = useState('2026');
-  const [day, setDay] = useState('all');
-  const [query, setQuery] = useState('');
+  const [year, setYear] = useState(() => initialFilters().year);
+  const [day, setDay] = useState(() => initialFilters().day);
+  const [query, setQuery] = useState(() => initialFilters().query);
   const [drawerItem, setDrawerItem] = useState(null); // { kind: 'presentation'|'logistics', pres?, item? }
   const dataRef = useRef(null);
 
@@ -279,10 +306,15 @@ export default function ScheduleApp({ initialView }) {
     (dataRef.current && dataRef.current.presentations || []).find((p) => routeSlug(p.slug) === routeSlug(slug))
   ), []);
 
+  // Carried along on every pushed drawer URL (and reapplied when one
+  // closes back to "/") so the current year/day/search filters stay
+  // reflected in the address bar no matter what else is showing.
+  const filterSearch = useMemo(() => buildFilterSearch(year, day, query), [year, day, query]);
+
   const openPresentation = useCallback((pres, { push = true } = {}) => {
     setDrawerItem({ kind: 'presentation', pres });
-    if (push) navigate(`/p/${routeSlug(pres.slug)}/`);
-  }, []);
+    if (push) navigate(`/p/${routeSlug(pres.slug)}/${filterSearch}`);
+  }, [filterSearch]);
 
   const openPresentationSlug = useCallback((slug) => {
     const pres = findPresentationBySlug(slug);
@@ -300,16 +332,16 @@ export default function ScheduleApp({ initialView }) {
   // the schedule.
   const openLogisticsItem = useCallback((item, { push = true } = {}) => {
     setDrawerItem({ kind: 'logistics', item });
-    if (push) navigate(`/item/${itemSlug(item)}/`);
-  }, []);
+    if (push) navigate(`/item/${itemSlug(item)}/${filterSearch}`);
+  }, [filterSearch]);
 
   // Pushes its own history entry (like openPresentation) so that going back
   // from a talk opened from inside the group's drawer returns to the group
   // list, instead of closing straight through to the full schedule.
   const openGroup = useCallback((group, { push = true } = {}) => {
     setDrawerItem({ kind: 'group', item: group });
-    if (push) navigate(`/group/${groupSlug(group)}/`);
-  }, []);
+    if (push) navigate(`/group/${groupSlug(group)}/${filterSearch}`);
+  }, [filterSearch]);
 
   const openScheduleItem = useCallback((item) => {
     if (item.kind === 'group') { openGroup(item); return; }
@@ -321,8 +353,8 @@ export default function ScheduleApp({ initialView }) {
   }, [openPresentation, openLogisticsItem, openGroup]);
 
   const closeDrawer = useCallback((open) => {
-    if (!open) { setDrawerItem(null); navigateHome(); }
-  }, []);
+    if (!open) { setDrawerItem(null); navigateHome(filterSearch); }
+  }, [filterSearch]);
 
   const goToSchedule = useCallback(() => {
     setDrawerItem(null);
@@ -332,8 +364,21 @@ export default function ScheduleApp({ initialView }) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
+  // Re-syncs both the drawer (from the path) and the year/day/search
+  // filters (from the query string) to whatever URL is now showing - used
+  // on back/forward, where the browser has already restored an earlier
+  // URL and React state needs to catch up to match it. Reads the year
+  // straight from that URL (not the possibly-stale `year` state) since a
+  // pushed group/item URL is scoped to whatever year was active when it
+  // was pushed.
   const resolveFromLocation = useCallback(() => {
     const path = location.pathname;
+    const params = new URLSearchParams(location.search);
+    const urlYear = params.get('year') || '2026';
+    setYear(urlYear);
+    setDay(params.get('day') || 'all');
+    setQuery(params.get('q') || '');
+
     const m = /^\/p\/([^/]+)\/?$/.exec(path);
     if (m) {
       const pres = findPresentationBySlug(decodeURIComponent(m[1]));
@@ -341,16 +386,16 @@ export default function ScheduleApp({ initialView }) {
     }
     const g = /^\/group\/([^/]+)\/?$/.exec(path);
     if (g && dataRef.current) {
-      const group = groupsForYear(dataRef.current, year).find((it) => groupSlug(it) === decodeURIComponent(g[1]));
+      const group = groupsForYear(dataRef.current, urlYear).find((it) => groupSlug(it) === decodeURIComponent(g[1]));
       if (group) { openGroup(group, { push: false }); return; }
     }
     const i = /^\/item\/([^/]+)\/?$/.exec(path);
     if (i && dataRef.current) {
-      const item = getScheduleForYear(dataRef.current, year).find((it) => itemSlug(it) === decodeURIComponent(i[1]));
+      const item = getScheduleForYear(dataRef.current, urlYear).find((it) => itemSlug(it) === decodeURIComponent(i[1]));
       if (item) { openLogisticsItem(item, { push: false }); return; }
     }
     setDrawerItem(null);
-  }, [findPresentationBySlug, openPresentation, openGroup, openLogisticsItem, year]);
+  }, [findPresentationBySlug, openPresentation, openGroup, openLogisticsItem]);
 
   useEffect(() => {
     fetch('/content.json')
@@ -371,6 +416,17 @@ export default function ScheduleApp({ initialView }) {
     window.addEventListener('popstate', resolveFromLocation);
     return () => window.removeEventListener('popstate', resolveFromLocation);
   }, [resolveFromLocation]);
+
+  // Keeps whatever path is currently showing ("/" or a drawer's own
+  // "/p/<slug>/" etc.) in sync with the live year/day/search filters, so
+  // changing a filter while a talk is open still ends up reflected in the
+  // address bar. A plain replaceState (not pushState) - filter changes
+  // shouldn't each get their own back-button stop the way opening a talk
+  // does.
+  useEffect(() => {
+    const url = location.pathname + filterSearch;
+    if (location.pathname + location.search !== url) history.replaceState(null, '', url);
+  }, [filterSearch]);
 
   const years = useMemo(() => (data ? getAvailableYears(data) : []), [data]);
   const scheduleForYear = useMemo(() => (data ? getScheduleForYear(data, year) : []), [data, year]);
