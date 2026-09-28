@@ -41,7 +41,7 @@ export default function SiteHeader({
               >
                 {/* The logo beside it is aria-hidden, so its name is
                     spoken here instead. */}
-                <span className="sr-only">NOAI: </span>An Arts &amp; Ideas Festival
+                <span className="sr-only">NOAI: </span>Arts &amp; Ideas Festival
               </a>
             </TitleTag>
             <div className="subtitle">
@@ -52,6 +52,9 @@ export default function SiteHeader({
             </div>
           </div>
         </div>
+        {/* Decorative rows of the logo's squiggle, filling the header's
+            open space between the title and the actions. */}
+        <div className="header-wiggles" aria-hidden="true" />
         <div className="header-actions">
           {current !== 'register' && (
             <a className="btn-primary" href="/register/">
