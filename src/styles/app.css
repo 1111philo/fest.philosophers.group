@@ -218,10 +218,22 @@ main:focus { outline: none; }
   display: grid;
   grid-template-columns: auto 1fr auto;
   grid-template-areas:
-    "logo . actions"
+    "logo wiggles actions"
     "text text text";
   align-items: center;
   gap: 10px 16px;
+}
+/* Two rows of squiggles - ink over red - sized to the logo's height and
+   stretching across whatever room the title leaves. The mask tile is one
+   row tall; the background gradient colors each row. */
+.header-wiggles {
+  grid-area: wiggles;
+  align-self: center;
+  min-width: 0;
+  height: 40px;
+  background: linear-gradient(to bottom, var(--ink) 0 50%, var(--red) 50% 100%);
+  -webkit-mask: var(--squiggle-field-mask) repeat left top / 18px 20px;
+          mask: var(--squiggle-field-mask) repeat left top / 18px 20px;
 }
 .header-brand { display: contents; }
 .header-logo-link { grid-area: logo; display: block; line-height: 0; }
@@ -231,11 +243,21 @@ main:focus { outline: none; }
 @media (min-width: 720px) {
   .header { padding: 18px 0; }
   .header-top {
-    grid-template-columns: auto 1fr auto;
-    grid-template-areas: "logo text actions";
+    grid-template-columns: auto auto minmax(0, 1fr) auto;
+    grid-template-areas: "logo text wiggles actions";
     gap: 20px;
   }
   .header-logo { height: 52px; }
+  .header-wiggles {
+    height: 52px;
+    -webkit-mask-size: 23px 26px;
+            mask-size: 23px 26px;
+  }
+}
+/* Tablet widths: the title leaves only a sliver - skip the wiggles rather
+   than show a stub. */
+@media (min-width: 720px) and (max-width: 939px) {
+  .header-wiggles { display: none; }
   .header-text { padding-left: 20px; border-left: var(--rule) solid var(--ink); }
 }
 .header .header-title {
@@ -1929,6 +1951,9 @@ a.sponsor-logo:hover img { filter: none; }
   @keyframes logo-slide-in { from { transform: translateX(-40%); opacity: 0; } }
   @keyframes logo-pop { from { transform: scale(0.2); opacity: 0; } }
   @keyframes logo-rise { from { transform: translateY(45%); opacity: 0; } }
+  /* ...and the header's squiggle rows wipe in after it. */
+  .logo-intro .header-wiggles { animation: wiggles-in 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.35s both; }
+  @keyframes wiggles-in { from { clip-path: inset(0 100% 0 0); } }
 
   /* Hovering the logo: the red disc rolls around inside its ring, like an
      eye looking about. (Units are the logo's own SVG units.) */

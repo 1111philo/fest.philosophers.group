@@ -14,7 +14,7 @@ const CONTENT_PATH = path.join(process.cwd(), 'public/content.json');
 export const SITE_URL = 'https://fest.philosophers.group';
 // The festival's name as it appears in <title>/og:title/twitter:title and
 // og:site_name. Descriptions still say "New Orleans" for search.
-export const SITE_TITLE = 'NOAI: An Arts & Ideas Festival';
+export const SITE_TITLE = 'NOAI: Arts & Ideas Festival';
 
 let cached = null;
 export function loadContent() {
