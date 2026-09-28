@@ -26,7 +26,10 @@ export default function SiteHeader({
             </a>
           </h1>
           <div className="subtitle">
-            <NoaiMark className="subtitle-mark" />
+            <a href="/about/" className="subtitle-mark-link">
+              <NoaiMark className="subtitle-mark" />
+            </a>
+            {' '}&bull;{' '}
             November 11&ndash;13, 2026 &bull;{' '}
             <a href="https://nolajazzmuseum.org/" target="_blank" rel="noopener">
               Jazz Museum<span className="sr-only"> (opens in a new window)</span>

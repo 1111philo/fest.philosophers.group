@@ -3,7 +3,7 @@
 // whatever text color it's dropped next to, light or dark mode alike.
 export default function NoaiMark({ className }) {
   return (
-    <svg className={className} viewBox="0 0 916 332" aria-hidden="true" focusable="false">
+    <svg className={className} viewBox="0 0 916 332" role="img" aria-label="NOAI">
       <g fill="currentColor">
         <path d="M27 10 L25 14 L25 230 L80 231 L80 110 L82 109
                  L213 297 L218 301 L269 301 L271 297 L270 11

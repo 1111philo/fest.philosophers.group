@@ -138,11 +138,14 @@ a { color: var(--accent); }
   font-weight: 600;
   letter-spacing: 0.02em;
 }
+.subtitle-mark-link {
+  text-decoration: none;
+}
+.subtitle-mark-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .subtitle-mark {
   height: 1em;
   width: auto;
   vertical-align: -0.15em;
-  margin-right: 0.3em;
 }
 .header-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 .btn-primary {
