@@ -486,6 +486,116 @@ main:focus { outline: none; }
 .search::placeholder { color: var(--text-muted); }
 .search:focus { outline: 3px solid var(--accent); outline-offset: -1px; }
 
+/* Audience filter ("For:" + multi-select toggles). Each audience has its
+   own color; a selected chip fills with it and shows a check, so state
+   never rests on color alone. Scrolls sideways on narrow screens rather
+   than wrapping and doubling the sticky toolbar's height. */
+.aud-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.aud-label {
+  flex-shrink: 0;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 800;
+}
+.aud-group {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 3px 2px;
+  margin: -3px 0;
+}
+.aud-group::-webkit-scrollbar { display: none; }
+.aud-chip {
+  --aud: var(--blue);
+  --aud-on: #fff;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 34px;
+  padding: 0 12px;
+  border: var(--rule) solid var(--ink);
+  border-radius: 0;
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.aud-students { --aud: var(--teal); --aud-on: #1a1a1a; }
+.aud-business { --aud: #1a1a1a; --aud-on: #f3eddc; }
+.aud-artists { --aud: var(--red); --aud-on: #fff; }
+.aud-fun { --aud: var(--yellow); --aud-on: #1a1a1a; }
+.aud-chip-mark {
+  width: 11px;
+  height: 11px;
+  background: var(--aud);
+  box-shadow: 0 0 0 1px var(--ink);
+  flex-shrink: 0;
+}
+.aud-chip[data-hovered] { background: var(--surface-2); }
+.aud-chip[data-selected] { background: var(--aud); color: var(--aud-on); }
+.aud-chip[data-selected] .aud-chip-mark {
+  background: none;
+  box-shadow: none;
+  width: auto;
+  height: auto;
+}
+.aud-chip[data-selected] .aud-chip-mark::before { content: "\2713"; content: "\2713" / ""; font-weight: 900; }
+.aud-chip[data-focus-visible] { outline: 3px solid var(--accent); outline-offset: 2px; }
+@media (prefers-color-scheme: dark) {
+  /* Ink-colored Business chip would vanish on the dark page. */
+  .aud-business { --aud: #f3eddc; --aud-on: #1a1a1a; }
+}
+
+/* The visible status line under the toolbar while an audience is chosen. */
+.aud-status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  margin: 0 0 18px;
+}
+.aud-status-text {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 800;
+}
+.aud-clear {
+  border: none;
+  background: none;
+  padding: 0;
+  color: var(--accent);
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+  cursor: pointer;
+}
+.aud-clear[data-focus-visible] { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+/* "For: Teachers, Students" on cards and in the talk drawer. */
+.aud-line {
+  display: block;
+  margin: 7px 0 0;
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: var(--text-muted);
+}
+.aud-line-label { font-weight: 800; color: var(--text); }
+.aud-tag { font-weight: 600; }
+.modal-aud { margin: -4px 0 14px; font-size: 14px; }
+.group-talk-aud { width: 100%; margin: 0; }
+
 /* --- Schedule list --------------------------------------------------------- */
 .main-panel {
   display: block;
@@ -894,19 +1004,26 @@ main:focus { outline: none; }
   max-width: 640px;
   margin: 0 auto;
   padding: 32px 16px 60px;
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 24px;
 }
+.reg-shell .reg-title { margin-bottom: 0; }
 @media (min-width: 980px) {
   .reg-shell {
     max-width: var(--content-w);
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 48px;
+    grid-template-columns: minmax(0, 720px) 320px;
+    grid-template-areas:
+      "title side"
+      "form side";
+    grid-template-rows: auto 1fr;
+    justify-content: space-between;
+    align-items: start;
+    column-gap: 48px;
   }
-  .reg-col-main { flex: 1; min-width: 0; max-width: 720px; }
-  .reg-col-side { flex: 0 0 320px; position: sticky; top: 24px; margin-left: auto; }
+  .reg-shell .reg-title { grid-area: title; }
+  .reg-col-main { grid-area: form; min-width: 0; }
+  .reg-col-side { grid-area: side; position: sticky; top: 24px; }
 }
 .reg-info-card {
   border: 3px solid var(--ink);

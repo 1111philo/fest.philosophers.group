@@ -1,0 +1,1085 @@
+{
+  "_readme": "Audience tags for the schedule's For Teachers / Students / Business / Artists / Fun filters. 'presentations' is keyed by presentation id (title alongside only for readability); 'scheduleItems' covers schedule rows with no presentation, keyed by their exact title. Untagged items still show in the normal schedule, just not under any audience filter.",
+  "presentations": {
+    "861": {
+      "title": "Web Accessibility and AI: Lessons from Building Equalify",
+      "for": [
+        "business"
+      ]
+    },
+    "864": {
+      "title": "the beaning of life",
+      "for": [
+        "fun"
+      ]
+    },
+    "890": {
+      "title": "Ruth Messinger, In Conversation",
+      "for": [
+        "business"
+      ]
+    },
+    "892": {
+      "title": "Technology, Art and Innovation at the Winter Circus in Ghent",
+      "for": [
+        "artists",
+        "fun"
+      ]
+    },
+    "894": {
+      "title": "NOLA Artist Incubator: Creating a Network of Makers for a More Equitable &#038; Sustainable New Orleans",
+      "for": [
+        "artists"
+      ]
+    },
+    "897": {
+      "title": "Leveraging BERT for Real-Time Clinical Note Generation in Emergency Medical Services",
+      "for": [
+        "business"
+      ]
+    },
+    "929": {
+      "title": "Mastering AI Autonomy: Unleashing Open-Source Powerhouses for Transformative Business Solutions",
+      "for": [
+        "business"
+      ]
+    },
+    "931": {
+      "title": "Looking backwards to see the future of AI technology jobs",
+      "for": [
+        "students",
+        "business"
+      ]
+    },
+    "934": {
+      "title": "AI and the Future of Work",
+      "for": [
+        "students",
+        "business"
+      ]
+    },
+    "936": {
+      "title": "Nailing Descartes to the Wall: The Existential Consequences of Ignoring Animal Rights",
+      "for": [
+        "students"
+      ]
+    },
+    "938": {
+      "title": "From Policy to Where You Got Your Shoes At",
+      "for": [
+        "business",
+        "fun"
+      ]
+    },
+    "940": {
+      "title": "The Future is Extensible: Leveraging LLMs and WASM for Customizable Software",
+      "for": [
+        "business"
+      ]
+    },
+    "942": {
+      "title": "Co-creating Civic AI: Partnering Academia with Local Communities",
+      "for": [
+        "teachers",
+        "students"
+      ]
+    },
+    "946": {
+      "title": "Agentic AI Origins, Design Patterns, Importance, and Application",
+      "for": [
+        "business"
+      ]
+    },
+    "951": {
+      "title": "Holding the Baton in a Never Ending Relay Race of Stewardship",
+      "for": [
+        "students"
+      ]
+    },
+    "953": {
+      "title": "Nouveau Né Parish On The Blue Tech Delta; Reimagining the Future of the Louisiana Estuary",
+      "for": [
+        "business"
+      ]
+    },
+    "957": {
+      "title": "What’s Humanities Response to Revolutionary Products of the Past Uncover about the Future of AI",
+      "for": [
+        "teachers",
+        "students"
+      ]
+    },
+    "959": {
+      "title": "Intersection of Business and Art",
+      "for": [
+        "business",
+        "artists"
+      ]
+    },
+    "961": {
+      "title": "Build Your Own Search Engine with DuckDB and Embedding Vectors",
+      "for": [
+        "students",
+        "business"
+      ]
+    },
+    "976": {
+      "title": "place4pals, a non-profit & open-source social media platform",
+      "for": [
+        "business"
+      ]
+    },
+    "978": {
+      "title": "Help us write the next chapter of New Orleans’ story—one book at a time.",
+      "for": [
+        "teachers",
+        "students"
+      ]
+    },
+    "991": {
+      "title": "Tulane Student AI Use",
+      "for": [
+        "teachers",
+        "students"
+      ]
+    },
+    "993": {
+      "title": "Breakout Session: How do we Implement AI for Every Student in NOLA?",
+      "for": [
+        "teachers"
+      ]
+    },
+    "995": {
+      "title": "Reflecting on 20 years of service with Youth Rebuilding New Orleans: building up our youth and community",
+      "for": [
+        "teachers",
+        "students"
+      ]
+    },
+    "996": {
+      "title": "Khanmigo @ College Track!",
+      "for": [
+        "teachers",
+        "students"
+      ]
+    },
+    "1003": {
+      "title": "How AI is Changing Writing at Scale: A Tactical Analysis",
+      "for": [
+        "business",
+        "artists"
+      ]
+    },
+    "1005": {
+      "title": "Probablility Spaces and Machine Learning",
+      "for": [
+        "students"
+      ]
+    },
+    "1007": {
+      "title": "You and (👁️ A.I. 愛❤️ I)",
+      "for": [
+        "artists"
+      ]
+    },
+    "1009": {
+      "title": "The Musicians’ Hierarchy of Needs",
+      "for": [
+        "artists"
+      ]
+    },
+    "1011": {
+      "title": "Programming a Million Pages of Historic Newspaper with AI",
+      "for": [
+        "teachers",
+        "students"
+      ]
+    },
+    "1013": {
+      "title": "Unveiling the New Orleans Cinematic Universe",
+      "for": [
+        "artists",
+        "fun"
+      ]
+    },
+    "1017": {
+      "title": "How to Bloom in the Live Entertainment Industry",
+      "for": [
+        "business",
+        "artists"
+      ]
+    },
+    "1025": {
+      "title": "Lousiana Economic Development",
+      "for": [
+        "business"
+      ]
+    },
+    "1042": {
+      "title": "From Data to Dialogue: Enhancing Human-Like Memory in AI Chatbots with RAG and Advanced Engineering",
+      "for": [
+        "business"
+      ]
+    },
+    "1245": {
+      "title": "Code to Success: How Operation Spark Transformed Our Lives",
+      "for": [
+        "students"
+      ]
+    },
+    "1275": {
+      "title": "Morris Bart on Making Philanthropy Work for Business",
+      "for": [
+        "business"
+      ]
+    },
+    "1286": {
+      "title": "Colorful History (and Future) of Jewish Philanthropy in NOLA",
+      "for": [
+        "business"
+      ]
+    },
+    "1312": {
+      "title": "Radio Resistance: 102.3FM WHIV-LP Amplifies the Call for Human Rights and Social Justice in NOLA",
+      "for": [
+        "artists"
+      ]
+    },
+    "1314": {
+      "title": "Kings, Rings, and Algorithms: The History of Chess, Boxing, and AI in New Orleans",
+      "for": [
+        "fun"
+      ]
+    },
+    "1385": {
+      "title": "Tales of a chessboxer",
+      "for": [
+        "fun"
+      ]
+    },
+    "1395": {
+      "title": "Aveblen Giving: The Ultimate Philanthropy",
+      "for": [
+        "business"
+      ]
+    },
+    "1451": {
+      "title": "Fireside Chat with the CEO of NOLA AI, Damon Kirin",
+      "for": [
+        "business"
+      ]
+    },
+    "1455": {
+      "title": "Computing and Technology Ethics Through Science Fiction",
+      "for": [
+        "teachers",
+        "students"
+      ]
+    },
+    "1467": {
+      "title": "Chess Boxing Circus",
+      "for": [
+        "fun"
+      ]
+    },
+    "1468": {
+      "title": "Electric Monks Show (AI + Physical Theater Performance & Discussion)Electric Monks Show",
+      "for": [
+        "artists",
+        "fun"
+      ]
+    },
+    "1473": {
+      "title": "Fireside Chat – David Kovacic, Senior Director of Intelligent Platforms at Baker Hughes",
+      "for": [
+        "business"
+      ]
+    },
+    "1484": {
+      "title": "On Data Dignity, Civic-engagement, and Computer Science Education",
+      "for": [
+        "teachers",
+        "students"
+      ]
+    },
+    "1488": {
+      "title": "Striker VR Demo Fun",
+      "for": [
+        "fun"
+      ]
+    },
+    "1544": {
+      "title": "Life Print Afterlife AI",
+      "for": [
+        "artists"
+      ]
+    },
+    "1546": {
+      "title": "Innovation in Community Care for the Aging and Disability Community",
+      "for": [
+        "business"
+      ]
+    },
+    "1549": {
+      "title": "A Virtual Conversation with Todd Rundgren",
+      "for": [
+        "artists",
+        "fun"
+      ]
+    },
+    "1916": {
+      "title": "DebateLab.xyz: Revolutionizing Civil Discourse in the Digital Age by Barrington K Hebert",
+      "for": [
+        "teachers",
+        "students"
+      ]
+    },
+    "1924": {
+      "title": "Build Smarter: Creating Software & Apps Without Writing Code by Paul Saputo",
+      "for": [
+        "students",
+        "business",
+        "artists"
+      ]
+    },
+    "1929": {
+      "title": "Hacking AI by Gant Laborde",
+      "for": [
+        "students",
+        "fun"
+      ]
+    },
+    "1985": {
+      "title": "“VIBE Coding Revolution: Building Industry Diversity Through AI Co-Creation” by Sonthia Coleman",
+      "for": [
+        "students",
+        "artists"
+      ]
+    },
+    "1988": {
+      "title": "Rebuilding the LA Economy with Intelligence by Robert Ayala",
+      "for": [
+        "business"
+      ]
+    },
+    "2039": {
+      "title": "DeepAgent Fusion™: Interactive Hybrid‑AI Merch Bundles",
+      "for": [
+        "business"
+      ]
+    },
+    "2042": {
+      "title": "Intelligent Connection: Exploring the Future of Therapy and AI by Michael VanderWaal",
+      "for": [
+        "business"
+      ]
+    },
+    "2085": {
+      "title": "Augmented Trails & Neighborhoods: Place across Time and Space by Jacob Harver",
+      "for": [
+        "teachers",
+        "fun"
+      ]
+    },
+    "2095": {
+      "title": "AI’s Green Revolution: Debunking Myths and Unlocking Environmental Solutions by Knud Berthelsen",
+      "for": [
+        "students"
+      ]
+    },
+    "2155": {
+      "title": "The Future of AI flows through Louisiana by Curtis Cummings",
+      "for": [
+        "students",
+        "business"
+      ]
+    },
+    "2158": {
+      "title": "Rolling with Randomness: The Creative Chaos of WCMX & Adaptive Skate by Antonio Torres (Tony)",
+      "for": [
+        "fun"
+      ]
+    },
+    "2162": {
+      "title": "Bootstrap to Breakthrough: Emergent Beauty in Repository-Based Agent Memory by Mark Stark",
+      "for": [
+        "business"
+      ]
+    },
+    "2168": {
+      "title": "The AI-Powered Developer: What Your Job Will Really Look Like by Dustin P Gaspard",
+      "for": [
+        "students",
+        "business"
+      ]
+    },
+    "2171": {
+      "title": "Biomimicry: Using Nature to Develop New Technologies by Noshir Pesika",
+      "for": [
+        "teachers",
+        "students"
+      ]
+    },
+    "2174": {
+      "title": "Engineering in a Post AI World by Daryl Roberts",
+      "for": [
+        "students",
+        "business"
+      ]
+    },
+    "2177": {
+      "title": "The Evolution of Education, From Push to Pull in an AI World by Blaine Steven Fisher",
+      "for": [
+        "teachers"
+      ]
+    },
+    "2180": {
+      "title": "Ecological AI: Imagining an alternative alignment by Delaney Martin",
+      "for": [
+        "students",
+        "artists"
+      ]
+    },
+    "2183": {
+      "title": "Unlocking Revenue with Conversational AI by Yasmine Gardiner",
+      "for": [
+        "business"
+      ]
+    },
+    "2186": {
+      "title": "AI Cowboys & Louisiana Swamp Monsters by Alex Cotant",
+      "for": [
+        "business",
+        "artists"
+      ]
+    },
+    "2189": {
+      "title": "LLMs for Civic Transparency by Aron Culotta",
+      "for": [
+        "students"
+      ]
+    },
+    "2192": {
+      "title": "AI and Sustainability: Perpetual Adversaries or Ultimate Collaborators? by Mike Sammartino",
+      "for": [
+        "students",
+        "business"
+      ]
+    },
+    "2195": {
+      "title": "PANEL: SustAInability in Action: AI, Policy, and Power",
+      "for": [
+        "business"
+      ]
+    },
+    "2198": {
+      "title": "Code, Bias & Bots: Voices of Operation Spark Alumni Navigating AI’s Future by Johnnie James II",
+      "for": [
+        "students"
+      ]
+    },
+    "2201": {
+      "title": "Entangled Intelligence: The Regenerative AI Stack — retrieval, feedback, and rest cycles that favor living systems. by Dustin Hughes",
+      "for": [
+        "business"
+      ]
+    },
+    "2204": {
+      "title": "It’s PostgreSQL all the way down by Christopher Aitken",
+      "for": [
+        "business"
+      ]
+    },
+    "2207": {
+      "title": "The Entangled Defense: Cultivating Resilience in the Age of AI by Amanda Hartle",
+      "for": [
+        "business"
+      ]
+    },
+    "2210": {
+      "title": "Algorithms for Care: Using AI to Support Black Maternal Health by Jordan Williams",
+      "for": [
+        "students"
+      ]
+    },
+    "2213": {
+      "title": "AI-Driven Rehabilitation: BioSmart’s Vision for the Future of Medicine by Marzonet Palmer",
+      "for": [
+        "business"
+      ]
+    },
+    "2220": {
+      "title": "Gaia’s Children by Tatyana Thompson",
+      "for": [
+        "teachers"
+      ]
+    },
+    "2223": {
+      "title": "A BUNDL of Ambition & Care by Joseph Clay Politz",
+      "for": [
+        "students",
+        "business"
+      ]
+    },
+    "2226": {
+      "title": "AI’s Role in Transforming Music & Film by DOMONIQUE-ALPHONZO STALEY",
+      "for": [
+        "artists"
+      ]
+    },
+    "2229": {
+      "title": "How Vibe Coding Saved My Life! by Charles Handler",
+      "for": [
+        "business",
+        "fun"
+      ]
+    },
+    "2232": {
+      "title": "No Robot! Teaching toddlers about AI by Blake Bertuccelli-Booth",
+      "for": [
+        "teachers"
+      ]
+    },
+    "2234": {
+      "title": "Agents: Human, Rational and Intelligent by Sabelo Jupiter",
+      "for": [
+        "students"
+      ]
+    },
+    "2237": {
+      "title": "Activating the Archive: The Intelligent Future of Cultural Data by Joseph S. Makkos",
+      "for": [
+        "teachers",
+        "artists"
+      ]
+    },
+    "2244": {
+      "title": "human chess in the age of ai by baylee badawy",
+      "for": [
+        "fun"
+      ]
+    },
+    "2247": {
+      "title": "Just Chat It, Bro by Jackson Dirks",
+      "for": [
+        "teachers",
+        "students"
+      ]
+    },
+    "2250": {
+      "title": "AI in K-12 Education by Stefin Pasternak",
+      "for": [
+        "teachers"
+      ]
+    },
+    "2252": {
+      "title": "The Surplus of Adjacency: Context, Compression, and the Shape of Intelligence by Rick Montgomery",
+      "for": [
+        "students"
+      ]
+    },
+    "2268": {
+      "title": "Mary Hubbard, WordPress Executive Director (Fireside Chat)",
+      "for": [
+        "business",
+        "artists"
+      ]
+    },
+    "2270": {
+      "title": "Fireside Chat with Josh Fleig (LED) and Matt Wisdom (Civilized.AI)",
+      "for": [
+        "business"
+      ]
+    },
+    "2272": {
+      "title": "Andy Quick, Entergy, Former Chief AI Officer (Fireside Chat)",
+      "for": [
+        "business"
+      ]
+    },
+    "2323": {
+      "title": "Al in Environmental Science Panel: Perspectives from Louisiana’s Leading Nonprofits",
+      "for": [
+        "students",
+        "business"
+      ]
+    },
+    "2400": {
+      "title": "Vibe Code Web Design Workshop",
+      "for": [
+        "students",
+        "fun"
+      ]
+    },
+    "2414": {
+      "title": "Creativity With AI by Jimmy Lepore Hagan",
+      "for": [
+        "artists"
+      ]
+    },
+    "2424": {
+      "title": "Passive vs Active AI in Education by Martin Holly",
+      "for": [
+        "teachers"
+      ]
+    },
+    "2604": {
+      "title": "Are Teachers Ready for AI? Measuring and Building Generative AI Literacy by Ruiping Huang",
+      "for": [
+        "teachers"
+      ]
+    },
+    "2607": {
+      "title": "AI Together: Service Learning and Community Engaged AI in New Orleans",
+      "for": [
+        "teachers",
+        "students"
+      ]
+    },
+    "2611": {
+      "title": "Design Better With AI: Human thinking, modern workflows by Steven Achord",
+      "for": [
+        "business",
+        "artists"
+      ]
+    },
+    "2615": {
+      "title": "Cold Calling with Comments on LinkedIn by Tom Martin",
+      "for": [
+        "business"
+      ]
+    },
+    "2618": {
+      "title": "Beneath the Surface by Wes Kennison",
+      "for": [
+        "artists",
+        "fun"
+      ]
+    },
+    "2621": {
+      "title": "50 First Dates with AI by Ryan Hageman",
+      "for": [
+        "students",
+        "business"
+      ]
+    },
+    "2624": {
+      "title": "AI Made Us Faster. Evidence Makes Us Confident. by Dustin P Gaspard",
+      "for": [
+        "business"
+      ]
+    },
+    "2627": {
+      "title": "AI for Airport Operations: Forecasting Passenger Throughput at Newark Liberty International Airport by Pappu Jha",
+      "for": [
+        "students",
+        "business"
+      ]
+    },
+    "2631": {
+      "title": "Designing AI Agents Like Computer Systems by Yinkun Qu",
+      "for": [
+        "students"
+      ]
+    },
+    "2633": {
+      "title": "AI & CREATIVITY: REVOLUTIONIZING MUSIC AND FILM FOR INDEPENDENTS EMPOWERING THE NEXT GENERATION OF ARTISTS & FILMMAKERS PT. II by Domonique-Alphonzo Staley",
+      "for": [
+        "artists"
+      ]
+    },
+    "2637": {
+      "title": "Where Does AI Fit in Education? by Olin Gallet",
+      "for": [
+        "teachers"
+      ]
+    },
+    "2640": {
+      "title": "Temporal Mental Models by George Mauer",
+      "for": [
+        "business"
+      ]
+    },
+    "2644": {
+      "title": "why playing chess and eating ice cream in the street matters: a case study by baylee badawy",
+      "for": [
+        "fun"
+      ]
+    },
+    "2647": {
+      "title": "Explain It: Redesigning Assessment for the AI Classroom by Dr. Blaine Fisher",
+      "for": [
+        "teachers"
+      ]
+    },
+    "2650": {
+      "title": "The Message Runner: What Tech can Learn from the Creative Practices of Theater, Film, and TV. by Dan Woods",
+      "for": [
+        "business",
+        "artists"
+      ]
+    },
+    "2654": {
+      "title": "Coding for Good at AI Speed: Mapping New Orleans’ Bumpy Roads by Adam Davies",
+      "for": [
+        "students",
+        "fun"
+      ]
+    },
+    "2656": {
+      "title": "Beyond Hallucination: Verifying AI Results for Accessible Digital Experiences by Mingren (Michael) Fu",
+      "for": [
+        "business"
+      ]
+    },
+    "2659": {
+      "title": "Nobody Trains You for This: Junior Talent, AI, and the Job Market by Johnnie James II",
+      "for": [
+        "students",
+        "business"
+      ]
+    },
+    "2662": {
+      "title": "A Four Horsemen of Sustainable Innovation? by Johnnie James II",
+      "for": [
+        "business",
+        "artists"
+      ]
+    },
+    "2667": {
+      "title": "Human in the Loop: Agentic Feedback Loops + AI Literacy by Blake Bertuccelli-Booth",
+      "for": [
+        "teachers",
+        "students"
+      ]
+    },
+    "2706": {
+      "title": "Artificial Intelligence, Gaussian Splatting, and the Future of Visual Effects: Lessons from the Production of Cyberpunk Manifesto by Trai Thomas",
+      "for": [
+        "artists"
+      ]
+    },
+    "2720": {
+      "title": "Free and Private Agentic AI: Local Agents Crash Course by Legare Kerrison",
+      "for": [
+        "students",
+        "business"
+      ]
+    },
+    "2729": {
+      "title": "e-bike conversion speedrun by Matt Candler",
+      "for": [
+        "students",
+        "fun"
+      ]
+    },
+    "2732": {
+      "title": "The Most Valuable AI Skill Is Saying No : Screening AI use cases for real return. by Dustin T Hughes",
+      "for": [
+        "business"
+      ]
+    },
+    "2737": {
+      "title": "AI Resume Matching Service by Mason Mitchell",
+      "for": [
+        "students"
+      ]
+    },
+    "2746": {
+      "title": "Life’s a Pitch: THE SCIENCE OF GETTING PEOPLE TO LISTEN TO, TRUST IN, AND SAY “YES” TO YOUR IDEAS. by Tom Martin",
+      "for": [
+        "business"
+      ]
+    },
+    "2749": {
+      "title": "Intro to Clown by Grace Bertuccelli-Booth",
+      "for": [
+        "artists",
+        "fun"
+      ]
+    },
+    "2754": {
+      "title": "The Intentional Page: A Device-Free Writing Lab with S.I.L.K. by Marcus Rosser and Kaylon Seaberry (S.I.L.K.)",
+      "for": [
+        "artists"
+      ]
+    },
+    "2757": {
+      "title": "Beyond Chatbots: Turn One SOP into a Working AI Workflow by Marcus Rosser",
+      "for": [
+        "business"
+      ]
+    },
+    "2760": {
+      "title": "Open the Studio: A Community Technology Curriculum Anyone Can Run by Marcus Rosser",
+      "for": [
+        "teachers",
+        "artists"
+      ]
+    },
+    "2800": {
+      "title": "Beyond Technical Expertise: The Skills That Drive Success by Nathan Stockman",
+      "for": [
+        "students",
+        "business"
+      ]
+    },
+    "2803": {
+      "title": "Why machines cannot crochet by Julia Feliciano",
+      "for": [
+        "artists",
+        "fun"
+      ]
+    },
+    "2809": {
+      "title": "Entrepreneurs’ Tarot: A Strategic Mirror by Greg Bresnitz",
+      "for": [
+        "business",
+        "fun"
+      ]
+    },
+    "2813": {
+      "title": "Nobody Asked for This by Cam’ron Caldwell",
+      "for": [
+        "artists",
+        "fun"
+      ]
+    },
+    "2815": {
+      "title": "“Who you Callin’ soft?!” People skills and Communication skills in the agentic age. by Stefan Poole",
+      "for": [
+        "students",
+        "business"
+      ]
+    },
+    "2820": {
+      "title": "Analog Intelligence Since 1440: A Hands-On Letterpress Workshop by Joseph Makkos",
+      "for": [
+        "artists",
+        "fun"
+      ]
+    },
+    "2823": {
+      "title": "Tai Chi Basics by Blake Bertuccelli-Booth",
+      "for": [
+        "fun"
+      ]
+    },
+    "2826": {
+      "title": "Small Language Models: The Most Important, Least Understood, Highly Impactful Portion of the Industry by Sabelo Jupiter",
+      "for": [
+        "students",
+        "business"
+      ]
+    },
+    "2837": {
+      "title": "AI is changing marketing by William Dalton",
+      "for": [
+        "business"
+      ]
+    },
+    "2841": {
+      "title": "We’re Building Computers in a Garage Again by Rob Gaudet",
+      "for": [
+        "business"
+      ]
+    },
+    "2900": {
+      "title": "Age of AI Meets Pre-Internet Times: How to Build an Offline Voice AI Chat Bot by Vanessa Pyne",
+      "for": [
+        "students",
+        "fun"
+      ]
+    },
+    "2901": {
+      "title": "Is AI Acceleration Good for New Orleans?",
+      "for": [
+        "business"
+      ]
+    },
+    "2902": {
+      "title": "Welcome + \"NOAI\" Burial",
+      "for": [
+        "fun"
+      ]
+    },
+    "2903": {
+      "title": "NOAI Secondline to Francis Ford Coppola's House",
+      "for": [
+        "fun"
+      ]
+    },
+    "2904": {
+      "title": "Future of Education Fireside Chat",
+      "for": [
+        "teachers"
+      ]
+    },
+    "2905": {
+      "title": "Funding AI in NOLA Schools Fireside Chat",
+      "for": [
+        "teachers"
+      ]
+    },
+    "2906": {
+      "title": "AI Leaders Update and Panel",
+      "for": [
+        "business"
+      ]
+    },
+    "2907": {
+      "title": "AI and Autonomy in Land, Sea, and Sky in Louisiana",
+      "for": [
+        "business"
+      ]
+    },
+    "2908": {
+      "title": "From Chatting to Doing: Putting Your AI Tools to Work by Knud Berthelsen",
+      "for": [
+        "students",
+        "business"
+      ]
+    },
+    "2909": {
+      "title": "AI in Action: Competitive Research and LinkedIn Networking & Sales Prospecting Done for You by Tom Martin & Bill Dalton",
+      "for": [
+        "business"
+      ]
+    },
+    "2910": {
+      "title": "Building AI Into Businesses by Jesse Hoppes",
+      "for": [
+        "business"
+      ]
+    },
+    "2911": {
+      "title": "Your Next Hire Doesn't Sleep: What it costs to put AI on the payroll, and what it costs not to by Damon Kirin & Rob Gaudet",
+      "for": [
+        "business"
+      ]
+    },
+    "2912": {
+      "title": "Investing where the puck is . . . going? Going? Gone! by Mickal Adler",
+      "for": [
+        "business"
+      ]
+    },
+    "2914": {
+      "title": "Lunch and ACX Meetup",
+      "for": [
+        "fun"
+      ]
+    },
+    "2917": {
+      "title": "AI in the Classroom",
+      "for": [
+        "teachers"
+      ]
+    },
+    "2918": {
+      "title": "New Orleans 2033: How NOLA Becomes Culture-Bearer of the AI Generation",
+      "for": [
+        "business",
+        "artists"
+      ]
+    },
+    "2919": {
+      "title": "Using LLMs for Early Childhood Learning",
+      "for": [
+        "teachers"
+      ]
+    },
+    "2920": {
+      "title": "ACX Lunch and Learn",
+      "for": [
+        "fun"
+      ]
+    },
+    "2921": {
+      "title": "Drum Interlude",
+      "for": [
+        "artists",
+        "fun"
+      ]
+    },
+    "2922": {
+      "title": "Alex Ebert’s EEG Machine",
+      "for": [
+        "artists",
+        "fun"
+      ]
+    },
+    "2923": {
+      "title": "AI x-Risk: An Introduction to AI Existential Risk",
+      "for": [
+        "students"
+      ]
+    },
+    "2924": {
+      "title": "Helping Students Read with AI",
+      "for": [
+        "teachers"
+      ]
+    },
+    "2925": {
+      "title": "AI From LLMs to Agents: A Journey Through the LangChain Ecosystem",
+      "for": [
+        "students",
+        "business"
+      ]
+    },
+    "2926": {
+      "title": "AI + Chess in New Orleans",
+      "for": [
+        "fun"
+      ]
+    },
+    "2927": {
+      "title": "AI for the Visual Creator",
+      "for": [
+        "artists"
+      ]
+    },
+    "2928": {
+      "title": "AI + Accessibility",
+      "for": [
+        "business"
+      ]
+    },
+    "2929": {
+      "title": "Closing Remarks & Performance",
+      "for": [
+        "artists",
+        "fun"
+      ]
+    },
+    "2930": {
+      "title": "Live Performances",
+      "for": [
+        "artists",
+        "fun"
+      ]
+    },
+    "2931": {
+      "title": "Afterparty",
+      "for": [
+        "fun"
+      ]
+    }
+  },
+  "scheduleItems": {
+    "Doors / Reception / Music": [
+      "fun"
+    ],
+    "Party – Talks, Tarot, and \"NOAI\" Burial": [
+      "fun"
+    ],
+    "Secret Friday 13th Afterparty": [
+      "fun"
+    ],
+    "The Ella Project: What We Do": [
+      "business",
+      "artists"
+    ]
+  }
+}
