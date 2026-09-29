@@ -346,6 +346,10 @@ export default function ScheduleApp({ initialView }) {
   const [day, setDay] = useState(() => initialFilters().day);
   const [query, setQuery] = useState(() => initialFilters().query);
   const [audiences, setAudiences] = useState(() => initialFilters().audiences);
+  // The audience toggles scroll sideways when they don't fit; these say
+  // whether more are hidden off either edge, so a fade can show it.
+  const audScrollRef = useRef(null);
+  const [audFade, setAudFade] = useState({ left: false, right: false });
   const [drawerItem, setDrawerItem] = useState(null); // { kind: 'presentation'|'logistics', pres?, item? }
   const dataRef = useRef(null);
 
@@ -477,6 +481,20 @@ export default function ScheduleApp({ initialView }) {
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    const el = audScrollRef.current;
+    if (!el) return undefined;
+    const update = () => {
+      const max = el.scrollWidth - el.clientWidth;
+      setAudFade({ left: el.scrollLeft > 2, right: el.scrollLeft < max - 2 });
+    };
+    update();
+    el.addEventListener('scroll', update, { passive: true });
+    const resize = new ResizeObserver(update);
+    resize.observe(el);
+    return () => { el.removeEventListener('scroll', update); resize.disconnect(); };
+  }, [data]);
 
   useEffect(() => {
     window.addEventListener('popstate', resolveFromLocation);
@@ -623,12 +641,15 @@ export default function ScheduleApp({ initialView }) {
               </div>
 
               {/* Audience filter: multi-select toggle buttons (aria-pressed),
-                  labelled "For (filter talks by audience)" for screen
-                  readers - the visible label is just "For:". */}
+                  labelled "Filter For audience" for screen readers - the
+                  visible label is "Filter For:". When the toggles overflow,
+                  the group scrolls sideways and fades out at whichever
+                  edge still has more hidden. */}
               <div className="aud-row">
-                <span className="aud-label" id="aud-label">For<span className="sr-only"> (filter talks by audience)</span>:</span>
+                <span className="aud-label" id="aud-label">Filter For<span className="sr-only"> audience</span>:</span>
                 <ToggleButtonGroup
-                  className="aud-group"
+                  ref={audScrollRef}
+                  className={`aud-group${audFade.left ? ' fade-left' : ''}${audFade.right ? ' fade-right' : ''}`}
                   aria-labelledby="aud-label"
                   selectionMode="multiple"
                   selectedKeys={new Set(audiences)}
