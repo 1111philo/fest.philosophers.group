@@ -70,5 +70,83 @@ const { title, description, canonical, image, current } = Astro.props;
   </div>
 </main>
 <SiteFooter />
+<script is:inline>
+  // First-view reveals (styles in app.css, "First-view reveals"): stat
+  // blocks and the gallery play once when they first scroll into view;
+  // dialogue lines and project rows reveal one at a time as they arrive,
+  // queued so a fast scroll still plays them in sequence. Skipped entirely
+  // under reduced motion or without IntersectionObserver - then everything
+  // just shows.
+  (function () {
+    if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    // Count a stat number up to its value. The visible digits are
+    // aria-hidden; screen readers get the final text from a sr-only copy.
+    function countUp(el, delay) {
+      var node = Array.prototype.find.call(el.childNodes, function (n) { return n.nodeType === 3 && /\d/.test(n.nodeValue); });
+      if (!node) return;
+      var m = /^(\D*)([\d,]+)(.*)$/.exec(node.nodeValue.trim());
+      if (!m) return;
+      var pre = m[1], digits = m[2], suf = m[3];
+      var target = Number(digits.replace(/,/g, ''));
+      var commas = digits.indexOf(',') !== -1;
+      var isYear = target >= 1900 && target <= 2100;
+      var from = isYear ? target - 25 : 0;
+      var fmt = function (v) { return pre + (commas ? v.toLocaleString('en-US') : String(v)) + suf; };
+      var shown = document.createElement('span');
+      shown.setAttribute('aria-hidden', 'true');
+      shown.textContent = fmt(from);
+      var spoken = document.createElement('span');
+      spoken.className = 'sr-only';
+      spoken.textContent = node.nodeValue;
+      el.replaceChild(shown, node);
+      el.insertBefore(spoken, shown);
+      var duration = isYear ? 1000 : 1400;
+      setTimeout(function () {
+        var start;
+        requestAnimationFrame(function step(t) {
+          if (start === undefined) start = t;
+          var p = Math.min(1, (t - start) / duration);
+          var eased = 1 - Math.pow(1 - p, 3);
+          shown.textContent = fmt(Math.round(from + (target - from) * eased));
+          if (p < 1) requestAnimationFrame(step);
+        });
+      }, delay);
+    }
+
+    var groups = document.querySelectorAll('.about-stats, .page-gallery');
+    var groupObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var g = entry.target;
+        groupObserver.unobserve(g);
+        g.classList.remove('reveal-pending');
+        g.classList.add('reveal-in');
+        if (g.classList.contains('about-stats')) {
+          g.querySelectorAll('.about-stat').forEach(function (stat, i) {
+            if (i % 4 === 1 || i % 4 === 3) countUp(stat.querySelector('.about-stat-num'), 140 * i + 150);
+          });
+        }
+      });
+    }, { threshold: 0.35 });
+    groups.forEach(function (g) { g.classList.add('reveal-pending'); groupObserver.observe(g); });
+
+    var items = document.querySelectorAll('.about-quote-line, .about-quote-cap, .org-project-list li');
+    var nextAt = 0;
+    var itemObserver = new IntersectionObserver(function (entries) {
+      entries.filter(function (e) { return e.isIntersecting; })
+        .sort(function (a, b) { return a.boundingClientRect.top - b.boundingClientRect.top; })
+        .forEach(function (entry) {
+          var el = entry.target;
+          itemObserver.unobserve(el);
+          var now = performance.now();
+          var at = Math.max(now, nextAt);
+          nextAt = at + 170;
+          setTimeout(function () { el.setAttribute('data-reveal', 'in'); }, at - now);
+        });
+    }, { rootMargin: '0px 0px -12% 0px' });
+    items.forEach(function (el) { el.setAttribute('data-reveal', 'pending'); itemObserver.observe(el); });
+  })();
+</script>
 </body>
 </html>

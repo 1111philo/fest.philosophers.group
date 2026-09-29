@@ -64,10 +64,7 @@ const { title, description, canonical, image } = Astro.props;
 </script>
 <SiteHeader client:load current="register" />
 <main id="main" tabindex="-1" class="reg-shell">
-  <div class="reg-col-main">
-    <h2 class="reg-title">Register</h2>
-    <RegistrationForm client:load />
-  </div>
+  <h2 class="reg-title">Register</h2>
   <aside class="reg-col-side">
     <div class="reg-info-card">
       <p class="reg-info-eyebrow">NOAI: Arts &amp; Ideas Festival</p>
@@ -76,7 +73,7 @@ const { title, description, canonical, image } = Astro.props;
         <a href="https://nolajazzmuseum.org/" target="_blank" rel="noopener">Jazz Museum<span class="sr-only"> (opens in a new window)</span></a>, New Orleans
       </p>
       <ul class="reg-info-list">
-        <li>Full access to all three festival days</li>
+        <li>Full access to all three festival days &ndash; $55</li>
         <li>One workshop ticket included per registration</li>
         <li>Additional workshop tickets available for $25 each</li>
         <li>Volunteers get free admission.</li>
@@ -86,6 +83,12 @@ const { title, description, canonical, image } = Astro.props;
       </p>
     </div>
   </aside>
+  {/* The summary comes before the form in the page itself, so phones and
+      screen readers get what's included (and the price) first; on wide
+      screens the grid moves it to a sticky right-hand sidebar. */}
+  <div class="reg-col-main">
+    <RegistrationForm client:load />
+  </div>
 </main>
 <SiteFooter />
 </body>

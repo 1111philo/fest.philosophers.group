@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { SearchField, Input, Tabs, TabList, Tab, TabPanel } from 'react-aria-components';
+import { SearchField, Input, Tabs, TabList, Tab, TabPanel, ToggleButtonGroup, ToggleButton, Button } from 'react-aria-components';
 import SiteHeader from './SiteHeader';
 import YearMenu from './YearMenu';
 import Drawer from './Drawer';
@@ -11,6 +11,47 @@ import {
   scheduleItemKey, eventInfoForPresentation, groupConsecutiveByType, mergePartyWithTrailingTalks, groupsForYear, groupSlug, itemSlug,
 } from '../lib/scheduleUtils';
 import { routeSlug } from '../lib/slug';
+import audienceData from '../data/audiences.json';
+
+// Audience tags (data/audiences.json). Stored and shown without "For" -
+// the UI supplies the "For:" label wherever they appear.
+const AUDIENCES = [
+  ['teachers', 'Teachers'],
+  ['students', 'Students'],
+  ['business', 'Business'],
+  ['artists', 'Artists'],
+  ['fun', 'Fun'],
+];
+const AUDIENCE_IDS = AUDIENCES.map(([id]) => id);
+const AUDIENCE_LABEL = Object.fromEntries(AUDIENCES);
+
+// A schedule row's audiences: its presentation's tags, or - for rows with
+// no presentation (parties, receptions) - tags keyed by the row's title.
+function audiencesFor(item) {
+  // A grouped card (a run of lightning talks, or a party with its talks)
+  // stands for every audience of the items inside it.
+  if (Array.isArray(item.items)) {
+    const inner = new Set([...(audienceData.scheduleItems[item.title] || []), ...item.items.flatMap(audiencesFor)]);
+    return AUDIENCE_IDS.filter((id) => inner.has(id));
+  }
+  const pres = item.presentation_id && audienceData.presentations[item.presentation_id];
+  if (pres) return pres.for;
+  return audienceData.scheduleItems[item.title] || [];
+}
+
+// "Teachers", "Teachers or Artists", "Teachers, Students, or Artists".
+function audiencePhrase(ids) {
+  const labels = ids.map((id) => AUDIENCE_LABEL[id]);
+  if (labels.length <= 2) return labels.join(' or ');
+  return `${labels.slice(0, -1).join(', ')}, or ${labels[labels.length - 1]}`;
+}
+
+// ?for=teachers&for=artists (also tolerates a comma list), validated and
+// kept in the canonical AUDIENCES order.
+function parseAudiences(params) {
+  const wanted = new Set(params.getAll('for').flatMap((v) => v.split(',')));
+  return AUDIENCE_IDS.filter((id) => wanted.has(id));
+}
 
 function navigate(url) {
   if (location.pathname + location.search !== url) history.pushState(null, '', url);
@@ -20,15 +61,17 @@ function navigateHome(search = '') {
   if (location.pathname + location.search !== url) history.pushState(null, '', url);
 }
 
-// Reflects the year/day/search filters as query params, so a link to (say)
-// a past year, a specific day, or a search result is shareable/bookmarkable
-// - omitting whichever ones are just the default, so the common case (this
-// year, all days, no search) still has a clean bare URL.
-function buildFilterSearch(year, day, query) {
+// Reflects the year/day/search/audience filters as query params, so a link
+// to (say) a past year, a specific day, a search result, or a set of
+// audiences is shareable/bookmarkable - omitting whichever ones are just
+// the default, so the common case (this year, all days, no search, every
+// audience) still has a clean bare URL.
+function buildFilterSearch(year, day, query, audiences = []) {
   const params = new URLSearchParams();
   if (year && year !== '2026') params.set('year', year);
   if (day && day !== 'all') params.set('day', day);
   if (query && query.trim()) params.set('q', query.trim());
+  audiences.forEach((id) => params.append('for', id));
   const s = params.toString();
   return s ? `?${s}` : '';
 }
@@ -50,6 +93,22 @@ function scheduleThumb(item, presentationsById, mediaById) {
   return featuredUrl(mediaById, pres, 'thumbnail') || (pres.scraped_fields || {}).presenter_photo_url || null;
 }
 
+// "For: Teachers, Students" - the audience tags wherever they're shown. A
+// block-level <span>, not <p>, since cards and group rows are <button>s.
+function AudienceLine({ ids, className = '' }) {
+  if (!ids || !ids.length) return null;
+  return (
+    <span className={`aud-line ${className}`.trim()}>
+      <span className="aud-line-label">For:</span>{' '}
+      {ids.map((id, i) => (
+        <span key={id} className={`aud-tag aud-${id}`}>
+          {AUDIENCE_LABEL[id]}{i < ids.length - 1 && ', '}
+        </span>
+      ))}
+    </span>
+  );
+}
+
 function ScheduleCard({ item, onOpen, mediaById, presentationsById }) {
   const thumb = scheduleThumb(item, presentationsById, mediaById);
   return (
@@ -63,6 +122,7 @@ function ScheduleCard({ item, onOpen, mediaById, presentationsById }) {
           <span className="badge loc">{item.location}</span>
           <TypeBadge type={item.type} />
         </div>
+        <AudienceLine ids={audiencesFor(item)} className="card-aud" />
       </div>
     </button>
   );
@@ -131,6 +191,7 @@ function PresentationBody({ pres, mediaById, onOpenPresentationSlug, eventInfo }
         {(sf.date || sf.time) && <span className="badge loc">{[sf.date, sf.time].filter(Boolean).join(' · ')}</span>}
         <TypeBadge type={sf.type} />
       </div>
+      <AudienceLine ids={(audienceData.presentations[pres.id] || {}).for} className="modal-aud" />
       {sf.type === 'Workshop' && (
         <p className="reg-note workshop-ticket-note">
           A ticket is required to join this workshop. All registrations include one workshop ticket -
@@ -240,6 +301,7 @@ function GroupBody({ group, onOpenPresentationId }) {
                   <>
                     <span className="sr-only">, </span>
                     <span className="group-talk-presenter">{it.presenters}</span>
+                    <AudienceLine ids={audiencesFor(it)} className="group-talk-aud" />
                   </>
                 )}
               </button>
@@ -252,6 +314,7 @@ function GroupBody({ group, onOpenPresentationId }) {
                   <>
                     <span className="sr-only">, </span>
                     <span className="group-talk-presenter">{it.presenters}</span>
+                    <AudienceLine ids={audiencesFor(it)} className="group-talk-aud" />
                   </>
                 )}
               </div>
@@ -267,12 +330,13 @@ function GroupBody({ group, onOpenPresentationId }) {
 // like /?year=2023, /?year=2023&day=2023-11-11, or /?q=chess opens straight
 // into that filtered view instead of always starting from the defaults.
 function initialFilters() {
-  if (typeof window === 'undefined') return { year: '2026', day: 'all', query: '' };
+  if (typeof window === 'undefined') return { year: '2026', day: 'all', query: '', audiences: [] };
   const params = new URLSearchParams(window.location.search);
   return {
     year: params.get('year') || '2026',
     day: params.get('day') || 'all',
     query: params.get('q') || '',
+    audiences: parseAudiences(params),
   };
 }
 
@@ -281,6 +345,7 @@ export default function ScheduleApp({ initialView }) {
   const [year, setYear] = useState(() => initialFilters().year);
   const [day, setDay] = useState(() => initialFilters().day);
   const [query, setQuery] = useState(() => initialFilters().query);
+  const [audiences, setAudiences] = useState(() => initialFilters().audiences);
   const [drawerItem, setDrawerItem] = useState(null); // { kind: 'presentation'|'logistics', pres?, item? }
   const dataRef = useRef(null);
 
@@ -309,7 +374,7 @@ export default function ScheduleApp({ initialView }) {
   // Carried along on every pushed drawer URL (and reapplied when one
   // closes back to "/") so the current year/day/search filters stay
   // reflected in the address bar no matter what else is showing.
-  const filterSearch = useMemo(() => buildFilterSearch(year, day, query), [year, day, query]);
+  const filterSearch = useMemo(() => buildFilterSearch(year, day, query, audiences), [year, day, query, audiences]);
 
   const openPresentation = useCallback((pres, { push = true } = {}) => {
     setDrawerItem({ kind: 'presentation', pres });
@@ -361,6 +426,7 @@ export default function ScheduleApp({ initialView }) {
     navigateHome();
     setDay('all');
     setQuery('');
+    setAudiences([]);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
@@ -378,6 +444,7 @@ export default function ScheduleApp({ initialView }) {
     setYear(urlYear);
     setDay(params.get('day') || 'all');
     setQuery(params.get('q') || '');
+    setAudiences(parseAudiences(params));
 
     const m = /^\/p\/([^/]+)\/?$/.exec(path);
     if (m) {
@@ -429,6 +496,14 @@ export default function ScheduleApp({ initialView }) {
 
   const years = useMemo(() => (data ? getAvailableYears(data) : []), [data]);
   const scheduleForYear = useMemo(() => (data ? getScheduleForYear(data, year) : []), [data, year]);
+  // What the audience filter leaves showing (any selected audience
+  // matches). Day tabs still come from the full year, so picking an
+  // audience never makes a tab vanish out from under you.
+  const visibleSchedule = useMemo(() => {
+    if (!audiences.length) return scheduleForYear;
+    const wanted = new Set(audiences);
+    return scheduleForYear.filter((it) => audiencesFor(it).some((id) => wanted.has(id)));
+  }, [scheduleForYear, audiences]);
   const days = useMemo(
     () => [...new Set(scheduleForYear.map((s) => s.date))].sort(),
     [scheduleForYear],
@@ -444,18 +519,23 @@ export default function ScheduleApp({ initialView }) {
   }
 
   const trimmedQuery = query.trim().toLowerCase();
+  const forPhrase = audiences.length ? ` for ${audiencePhrase(audiences)}` : '';
+  // How many cards the current view shows (a run of lightning talks is one
+  // grouped card) - for the audience status line and its announcement.
+  let shownCount = 0;
   let mainContent;
   if (trimmedQuery) {
-    const matches = scheduleForYear
+    const matches = visibleSchedule
       .filter((it) => `${it.title} ${it.presenters} ${it.location}`.toLowerCase().includes(trimmedQuery))
       .sort((a, b) => (a.date + a.sort_time).localeCompare(b.date + b.sort_time));
+    shownCount = matches.length;
     if (!matches.length) {
-      mainContent = <div className="empty-state">No matches for &ldquo;{query}&rdquo;.</div>;
+      mainContent = <div className="empty-state">No matches for &ldquo;{query}&rdquo;{forPhrase}.</div>;
     } else {
       let lastDate = null;
       mainContent = (
         <>
-          <p className="search-results-note">{matches.length} result{matches.length === 1 ? '' : 's'} across the full schedule</p>
+          <p className="search-results-note">{matches.length} result{matches.length === 1 ? '' : 's'}{forPhrase} across the full schedule</p>
           {matches.map((it) => {
             const showHeader = it.date !== lastDate;
             lastDate = it.date;
@@ -475,24 +555,32 @@ export default function ScheduleApp({ initialView }) {
   } else if (!scheduleForYear.length) {
     mainContent = <div className="empty-state">No schedule published for {year} yet.</div>;
   } else if (day === 'all') {
-    mainContent = days.map((date) => {
+    // Days the audience filter empties are skipped rather than shown as a
+    // bare heading.
+    const sections = days.map((date) => {
       const lbl = dayLabel(date);
       const dayItems = groupConsecutiveByType(
-        mergePartyWithTrailingTalks(scheduleForYear.filter((it) => it.date === date).sort((a, b) => a.sort_time.localeCompare(b.sort_time))),
+        mergePartyWithTrailingTalks(visibleSchedule.filter((it) => it.date === date).sort((a, b) => a.sort_time.localeCompare(b.sort_time))),
         'Lightning Talk',
       );
+      if (!dayItems.length) return null;
+      shownCount += dayItems.length;
       return (
         <div key={date}>
           <h2 className="day-header">{dayItems[0].day}, {lbl.date}</h2>
           <Tracks dayItems={dayItems} onOpen={openScheduleItem} mediaById={mediaById} presentationsById={presentationsById} />
         </div>
       );
-    });
+    }).filter(Boolean);
+    mainContent = sections.length
+      ? sections
+      : <div className="empty-state">Nothing{forPhrase} in the {year} schedule yet.</div>;
   } else {
     const dayItems = groupConsecutiveByType(
-      mergePartyWithTrailingTalks(scheduleForYear.filter((it) => it.date === day).sort((a, b) => a.sort_time.localeCompare(b.sort_time))),
+      mergePartyWithTrailingTalks(visibleSchedule.filter((it) => it.date === day).sort((a, b) => a.sort_time.localeCompare(b.sort_time))),
       'Lightning Talk',
     );
+    shownCount = dayItems.length;
     mainContent = dayItems.length
       ? (
         <>
@@ -503,8 +591,14 @@ export default function ScheduleApp({ initialView }) {
           <Tracks dayItems={dayItems} onOpen={openScheduleItem} mediaById={mediaById} presentationsById={presentationsById} />
         </>
       )
-      : <div className="empty-state">Nothing scheduled yet for this day.</div>;
+      : <div className="empty-state">{audiences.length ? `Nothing${forPhrase} on this day.` : 'Nothing scheduled yet for this day.'}</div>;
   }
+
+  // Spoken through a persistent live region whenever the audience filter
+  // (or the view it applies to) changes; the visible status line below
+  // says the same thing for sighted users.
+  const itemWord = shownCount === 1 ? 'session' : 'sessions';
+  const audienceStatus = audiences.length ? `Showing ${shownCount} ${itemWord}${forPhrase}.` : '';
 
   return (
     <>
@@ -528,6 +622,27 @@ export default function ScheduleApp({ initialView }) {
                 </SearchField>
               </div>
 
+              {/* Audience filter: multi-select toggle buttons (aria-pressed),
+                  labelled "For (filter talks by audience)" for screen
+                  readers - the visible label is just "For:". */}
+              <div className="aud-row">
+                <span className="aud-label" id="aud-label">For<span className="sr-only"> (filter talks by audience)</span>:</span>
+                <ToggleButtonGroup
+                  className="aud-group"
+                  aria-labelledby="aud-label"
+                  selectionMode="multiple"
+                  selectedKeys={new Set(audiences)}
+                  onSelectionChange={(keys) => setAudiences(AUDIENCE_IDS.filter((id) => keys.has(id)))}
+                >
+                  {AUDIENCES.map(([id, label]) => (
+                    <ToggleButton key={id} id={id} className={`aud-chip aud-${id}`}>
+                      <span className="aud-chip-mark" aria-hidden="true" />
+                      {label}
+                    </ToggleButton>
+                  ))}
+                </ToggleButtonGroup>
+              </div>
+
               <TabList aria-label="Day" className="day-tabs">
                 <Tab id="all" className="day-tab">All Days</Tab>
                 {days.map((date) => {
@@ -548,8 +663,15 @@ export default function ScheduleApp({ initialView }) {
               here gives the active tab's aria-controls a real element to
               point to, instead of a dangling reference. */}
           <TabPanel id={day} className="main-panel">
+            {audiences.length > 0 && (
+              <div className="aud-status">
+                <p className="aud-status-text">{audienceStatus}</p>
+                <Button className="aud-clear" onPress={() => setAudiences([])}>Clear audience filter</Button>
+              </div>
+            )}
             {mainContent}
           </TabPanel>
+          <p className="sr-only" role="status" aria-live="polite">{audienceStatus}</p>
         </Tabs>
 
         <SponsorStrip />

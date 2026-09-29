@@ -468,6 +468,11 @@ main:focus { outline: none; }
 .day-tab .dow { display: block; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); }
 .day-tab[data-selected] { background: var(--ink); color: var(--bg); }
 .day-tab[data-selected] .dow { color: var(--yellow); }
+@media (prefers-color-scheme: dark) {
+  /* The selected tab fills with cream in dark mode - yellow on cream is
+     unreadable, so the weekday goes blue there. */
+  .day-tab[data-selected] .dow { color: var(--blue); }
+}
 .day-tab[data-focus-visible] { outline: 3px solid var(--accent); outline-offset: -5px; }
 
 .search-row { display: flex; gap: 8px; align-items: center; }
@@ -485,6 +490,116 @@ main:focus { outline: none; }
 }
 .search::placeholder { color: var(--text-muted); }
 .search:focus { outline: 3px solid var(--accent); outline-offset: -1px; }
+
+/* Audience filter ("For:" + multi-select toggles). Each audience has its
+   own color; a selected chip fills with it and shows a check, so state
+   never rests on color alone. Scrolls sideways on narrow screens rather
+   than wrapping and doubling the sticky toolbar's height. */
+.aud-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.aud-label {
+  flex-shrink: 0;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 800;
+}
+.aud-group {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 3px 2px;
+  margin: -3px 0;
+}
+.aud-group::-webkit-scrollbar { display: none; }
+.aud-chip {
+  --aud: var(--blue);
+  --aud-on: #fff;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 34px;
+  padding: 0 12px;
+  border: var(--rule) solid var(--ink);
+  border-radius: 0;
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.aud-students { --aud: var(--teal); --aud-on: #1a1a1a; }
+.aud-business { --aud: #1a1a1a; --aud-on: #f3eddc; }
+.aud-artists { --aud: var(--red); --aud-on: #fff; }
+.aud-fun { --aud: var(--yellow); --aud-on: #1a1a1a; }
+.aud-chip-mark {
+  width: 11px;
+  height: 11px;
+  background: var(--aud);
+  box-shadow: 0 0 0 1px var(--ink);
+  flex-shrink: 0;
+}
+.aud-chip[data-hovered] { background: var(--surface-2); }
+.aud-chip[data-selected] { background: var(--aud); color: var(--aud-on); }
+.aud-chip[data-selected] .aud-chip-mark {
+  background: none;
+  box-shadow: none;
+  width: auto;
+  height: auto;
+}
+.aud-chip[data-selected] .aud-chip-mark::before { content: "\2713"; content: "\2713" / ""; font-weight: 900; }
+.aud-chip[data-focus-visible] { outline: 3px solid var(--accent); outline-offset: 2px; }
+@media (prefers-color-scheme: dark) {
+  /* Ink-colored Business chip would vanish on the dark page. */
+  .aud-business { --aud: #f3eddc; --aud-on: #1a1a1a; }
+}
+
+/* The visible status line under the toolbar while an audience is chosen. */
+.aud-status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  margin: 0 0 18px;
+}
+.aud-status-text {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 800;
+}
+.aud-clear {
+  border: none;
+  background: none;
+  padding: 0;
+  color: var(--accent);
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+  cursor: pointer;
+}
+.aud-clear[data-focus-visible] { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+/* "For: Teachers, Students" on cards and in the talk drawer. */
+.aud-line {
+  display: block;
+  margin: 7px 0 0;
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: var(--text-muted);
+}
+.aud-line-label { font-weight: 800; color: var(--text); }
+.aud-tag { font-weight: 600; }
+.modal-aud { margin: -4px 0 14px; font-size: 14px; }
+.group-talk-aud { width: 100%; margin: 0; }
 
 /* --- Schedule list --------------------------------------------------------- */
 .main-panel {
@@ -894,19 +1009,26 @@ main:focus { outline: none; }
   max-width: 640px;
   margin: 0 auto;
   padding: 32px 16px 60px;
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 24px;
 }
+.reg-shell .reg-title { margin-bottom: 0; }
 @media (min-width: 980px) {
   .reg-shell {
     max-width: var(--content-w);
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 48px;
+    grid-template-columns: minmax(0, 720px) 320px;
+    grid-template-areas:
+      "title side"
+      "form side";
+    grid-template-rows: auto 1fr;
+    justify-content: space-between;
+    align-items: start;
+    column-gap: 48px;
   }
-  .reg-col-main { flex: 1; min-width: 0; max-width: 720px; }
-  .reg-col-side { flex: 0 0 320px; position: sticky; top: 24px; margin-left: auto; }
+  .reg-shell .reg-title { grid-area: title; }
+  .reg-col-main { grid-area: form; min-width: 0; }
+  .reg-col-side { grid-area: side; position: sticky; top: 24px; }
 }
 .reg-info-card {
   border: 3px solid var(--ink);
@@ -1623,6 +1745,14 @@ main:focus { outline: none; }
 /* Empty alt text (after the slash) keeps screen readers from reading
    "slash" between names - the list semantics already separate them. */
 .speaker-list li:not(:last-child)::after { content: "/"; content: "/" / ""; color: var(--red); margin: 0 0.3em; font-weight: 700; }
+.hero .hero-sub-second { margin-top: 26px; font-size: clamp(15px, 1.4vw, 17px); }
+.speaker-list-small { margin-top: 6px; font-size: clamp(17px, 1.8vw, 22px); font-weight: 800; }
+.speaker-list-more {
+  margin: 10px 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(17px, 1.8vw, 21px);
+  font-weight: 800;
+}
 
 .tag-pills { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
 .tag-pill {
@@ -1899,6 +2029,55 @@ a.sponsor-logo:hover img { filter: none; }
 }
 .sponsor-thanks a { color: #2250d6; }
 
+/* --- First-view reveals (scripts in layouts/PageLayout.astro) ---------------
+   One-time entrances that play when a group first scrolls into view,
+   rather than being scrubbed by scroll position - so they read as a moment
+   and don't get skipped by a fast phone flick. The script only marks
+   things pending when motion is allowed and IntersectionObserver exists;
+   without it, everything simply shows. */
+
+/* Stat blocks: four different entrances, cycling. Numbers in the 2nd and
+   4th blocks also count up (years roll up like a slot machine). */
+.about-stats.reveal-pending .about-stat { opacity: 0; }
+.about-stats.reveal-in .about-stat { animation: stat-pop 0.7s cubic-bezier(0.3, 1.6, 0.5, 1) both; }
+.about-stats.reveal-in .about-stat:nth-child(4n+2) { animation-name: stat-rise; animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1); }
+.about-stats.reveal-in .about-stat:nth-child(4n+3) { animation-name: stat-flip; animation-timing-function: cubic-bezier(0.3, 1.3, 0.5, 1); }
+.about-stats.reveal-in .about-stat:nth-child(4n+4) { animation-name: stat-slide; animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1); }
+.about-stats.reveal-in .about-stat:nth-child(2) { animation-delay: 0.14s; }
+.about-stats.reveal-in .about-stat:nth-child(3) { animation-delay: 0.28s; }
+.about-stats.reveal-in .about-stat:nth-child(4) { animation-delay: 0.42s; }
+.about-stat-num { font-variant-numeric: tabular-nums; }
+@keyframes stat-pop { from { opacity: 0; transform: scale(0.55); } 60% { opacity: 1; } }
+@keyframes stat-rise { from { opacity: 0; transform: translateY(46px); } }
+@keyframes stat-flip { from { opacity: 0; transform: perspective(700px) rotateX(-95deg); transform-origin: 50% 0; } }
+@keyframes stat-slide { from { opacity: 0; transform: translateX(48px); } }
+
+/* Gallery: every photo wipes open, staggered, from alternating sides. */
+.page-gallery.reveal-pending img { clip-path: inset(0 0 100% 0); }
+.page-gallery.reveal-in img { animation: wipe-down 0.75s cubic-bezier(0.6, 0, 0.2, 1) both; }
+.page-gallery.reveal-in img:nth-child(4n+2) { animation-name: wipe-right; }
+.page-gallery.reveal-in img:nth-child(4n+3) { animation-name: wipe-up; }
+.page-gallery.reveal-in img:nth-child(4n+4) { animation-name: wipe-left; }
+.page-gallery.reveal-in img:nth-child(2) { animation-delay: 0.12s; }
+.page-gallery.reveal-in img:nth-child(3) { animation-delay: 0.2s; }
+.page-gallery.reveal-in img:nth-child(4) { animation-delay: 0.28s; }
+.page-gallery.reveal-in img:nth-child(5) { animation-delay: 0.36s; }
+.page-gallery.reveal-in img:nth-child(6) { animation-delay: 0.44s; }
+.page-gallery.reveal-in img:nth-child(7) { animation-delay: 0.52s; }
+@keyframes wipe-down { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0); } }
+@keyframes wipe-up { from { clip-path: inset(100% 0 0 0); } to { clip-path: inset(0); } }
+@keyframes wipe-right { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0); } }
+@keyframes wipe-left { from { clip-path: inset(0 0 0 100%); } to { clip-path: inset(0); } }
+
+/* Items revealed one at a time as they arrive (queued, so a fast scroll
+   still plays them in sequence): the founding dialogue - Blake from the
+   left, Grace from the right - and the project rows. */
+[data-reveal="pending"] { opacity: 0; }
+[data-reveal="in"] { animation: reveal-left 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+[data-reveal="in"].about-quote-grace { animation-name: reveal-right; }
+@keyframes reveal-left { from { opacity: 0; transform: translateX(-32px); } }
+@keyframes reveal-right { from { opacity: 0; transform: translateX(32px); } }
+
 /* --- Motion ------------------------------------------------------------------
    Everything below is opt-in to motion (prefers-reduced-motion: no-preference)
    and tied to the reader's own scrolling rather than looping on its own, so
@@ -2060,62 +2239,6 @@ a.sponsor-logo:hover img { filter: none; }
       to { background-size: 100% 100%; color: #1a1a1a; }
     }
 
-    /* About's stat blocks rise in one after another - same row, so
-       staggered ranges rather than delays (delays don't apply to scroll
-       timelines). Opt-in class, not every .about-stats: Sponsor's sit at
-       the fold on load, where they'd stay half-faded until you scrolled. */
-    .about-stats-rise .about-stat {
-      animation-name: rise-in;
-      animation-timing-function: ease-out;
-      animation-fill-mode: both;
-      animation-timeline: view();
-      animation-range: entry 0% entry 55%;
-    }
-    .about-stats-rise .about-stat:nth-child(2) { animation-range: entry 8% entry 63%; }
-    .about-stats-rise .about-stat:nth-child(3) { animation-range: entry 16% entry 71%; }
-    .about-stats-rise .about-stat:nth-child(4) { animation-range: entry 24% entry 79%; }
-    @keyframes rise-in {
-      from { opacity: 0; translate: 0 36px; }
-      to { opacity: 1; translate: 0 0; }
-    }
-
-    /* Gallery photos wipe open from the top, then pan slowly inside
-       their frames (object-position, so nothing spills past the grid). */
-    .page-gallery img {
-      animation-name: photo-reveal, photo-pan;
-      animation-timing-function: ease-out, linear;
-      animation-fill-mode: both, both;
-      animation-timeline: view(), view();
-      animation-range: entry 0% entry 80%, normal;
-    }
-    @keyframes photo-reveal {
-      from { clip-path: inset(0 0 100% 0); }
-      to { clip-path: inset(0 0 0 0); }
-    }
-    @keyframes photo-pan {
-      from { object-position: 50% 20%; }
-      to { object-position: 50% 80%; }
-    }
-
-    /* The founding conversation reads like a chat: Blake's lines slide
-       in from the left, Grace's from the right. */
-    .about-quote-line, .about-quote-cap {
-      animation-name: line-in-left;
-      animation-timing-function: ease-out;
-      animation-fill-mode: both;
-      animation-timeline: view();
-      animation-range: entry 10% entry 100%;
-    }
-    .about-quote-grace { animation-name: line-in-right; }
-    @keyframes line-in-left {
-      from { opacity: 0; translate: -28px 0; }
-      to { opacity: 1; translate: 0 0; }
-    }
-    @keyframes line-in-right {
-      from { opacity: 0; translate: 28px 0; }
-      to { opacity: 1; translate: 0 0; }
-    }
-
     /* The first-meeting photo's yellow block grows out from behind it. */
     .framed-photo-yellow {
       animation-name: frame-offset;
@@ -2129,15 +2252,7 @@ a.sponsor-logo:hover img { filter: none; }
       to { box-shadow: 14px 14px 0 var(--yellow); }
     }
 
-    /* Project rows slide in; the Times-Pic banner wipes open. */
-    .org-project-list li {
-      animation-name: line-in-left;
-      animation-timing-function: ease-out;
-      animation-fill-mode: both;
-      animation-timeline: view();
-      animation-range: entry 0% entry 100%;
-    }
-    /* Entry-only range: the banner sits near the page bottom, so a range
+    /* The Times-Pic banner wipes open. Entry-only range: it sits near the page bottom, so a range
        reaching into "cover" could run out of scroll before finishing. */
     .press-banner {
       animation-name: wipe-in;
