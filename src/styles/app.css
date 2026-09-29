@@ -1623,6 +1623,14 @@ main:focus { outline: none; }
 /* Empty alt text (after the slash) keeps screen readers from reading
    "slash" between names - the list semantics already separate them. */
 .speaker-list li:not(:last-child)::after { content: "/"; content: "/" / ""; color: var(--red); margin: 0 0.3em; font-weight: 700; }
+.hero .hero-sub-second { margin-top: 26px; font-size: clamp(15px, 1.4vw, 17px); }
+.speaker-list-small { margin-top: 6px; font-size: clamp(17px, 1.8vw, 22px); font-weight: 800; }
+.speaker-list-more {
+  margin: 10px 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(17px, 1.8vw, 21px);
+  font-weight: 800;
+}
 
 .tag-pills { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
 .tag-pill {
