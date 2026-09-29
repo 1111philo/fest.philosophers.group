@@ -98,6 +98,17 @@ export function abstractArtSvg(name) {
   const piece = PIECES[name];
   if (!piece) throw new Error(`Unknown abstract art "${name}" (have: ${ART_NAMES.join(', ')})`);
   const [bg, body] = piece();
+  // Paper grain over the whole piece, matching the site's CSS texture
+  // (styles/app.css --grain): calibrated noise blended with soft-light, so
+  // it speckles every color without shifting it. The frequency is in the
+  // SVG's 1080-unit space, scaled for the ~300-420px it's shown at.
+  const grain = `<filter id="grain-${name}" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">`
+    + '<feTurbulence type="fractalNoise" baseFrequency=".3" numOctaves="3" stitchTiles="stitch"/>'
+    + '<feColorMatrix type="saturate" values="0"/>'
+    + '<feComponentTransfer><feFuncR type="linear" slope="2.2" intercept="-0.6"/><feFuncG type="linear" slope="2.2" intercept="-0.6"/>'
+    + '<feFuncB type="linear" slope="2.2" intercept="-0.6"/><feFuncA type="linear" slope="0" intercept="1"/></feComponentTransfer></filter>';
   return `<svg class="abstract-art-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${W}" aria-hidden="true" focusable="false">`
-    + `<rect width="${W}" height="${W}" fill="${bg}"/>${body}</svg>`;
+    + `<defs>${grain}</defs>`
+    + `<rect width="${W}" height="${W}" fill="${bg}"/>${body}`
+    + `<rect width="${W}" height="${W}" filter="url(#grain-${name})" style="mix-blend-mode:soft-light"/></svg>`;
 }
