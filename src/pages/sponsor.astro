@@ -3,12 +3,19 @@ import PageLayout from '../layouts/PageLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import { loadContent, pageMeta, SITE_TITLE } from '../lib/content.mjs';
 
-const meta = pageMeta(loadContent(), 620, 'sponsor');
+const content = loadContent();
+const meta = pageMeta(content, 620, 'sponsor');
 meta.title = `Sponsor — ${SITE_TITLE}`;
 meta.description = 'Sponsor NOAI: Arts & Ideas Festival, the Gulf South’s source for innovation. Attendees come from Tulane University, LSU, Louisiana Tech, ULL, Ochsner Health, and over 200 other organizations. Past speakers have come from Google DeepMind, IBM, Adobe, and Microsoft.';
 
 const ATTENDEE_ORGS = ['Tulane University', 'LSU', 'Louisiana Tech', 'ULL', 'Ochsner Health'];
 const PAST_SPEAKERS = ['Google DeepMind', 'IBM', 'Adobe', 'Microsoft'];
+
+// This year's talks, counted from the published schedule so the stat
+// stays current as presentations are added.
+const PRESENTATION_COUNT = new Set(
+  content.schedule.filter((row) => row.year === '2026' && row.presentation_id).map((row) => row.presentation_id),
+).size;
 
 const TIERS = [
   {
@@ -91,16 +98,16 @@ const TIERS = [
 
   <ul class="about-stats" aria-label="Sponsorship at a glance">
     <li class="about-stat">
-      <p class="about-stat-num">{TIERS.length}</p>
-      <p class="about-stat-label">Sponsorship Tiers</p>
+      <p class="about-stat-num">3</p>
+      <p class="about-stat-label">Days of Talks</p>
     </li>
     <li class="about-stat">
       <p class="about-stat-num">$333k<span class="stat-plus">+</span></p>
       <p class="about-stat-label">Directed to Causes</p>
     </li>
     <li class="about-stat">
-      <p class="about-stat-num">60 min</p>
-      <p class="about-stat-label">Stage Time Included</p>
+      <p class="about-stat-num">{PRESENTATION_COUNT}</p>
+      <p class="about-stat-label">Presentations</p>
     </li>
     <li class="about-stat">
       <p class="about-stat-num">250<span class="stat-plus">+</span></p>
