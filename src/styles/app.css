@@ -468,6 +468,11 @@ main:focus { outline: none; }
 .day-tab .dow { display: block; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); }
 .day-tab[data-selected] { background: var(--ink); color: var(--bg); }
 .day-tab[data-selected] .dow { color: var(--yellow); }
+@media (prefers-color-scheme: dark) {
+  /* The selected tab fills with cream in dark mode - yellow on cream is
+     unreadable, so the weekday goes blue there. */
+  .day-tab[data-selected] .dow { color: var(--blue); }
+}
 .day-tab[data-focus-visible] { outline: 3px solid var(--accent); outline-offset: -5px; }
 
 .search-row { display: flex; gap: 8px; align-items: center; }
