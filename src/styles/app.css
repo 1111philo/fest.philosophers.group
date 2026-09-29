@@ -619,16 +619,6 @@ main:focus { outline: none; }
   line-height: 1.1;
   margin: 36px 0 14px;
 }
-.day-header::after {
-  content: "";
-  display: block;
-  width: 84px;
-  height: 11px;
-  margin-top: 8px;
-  background-color: var(--red);
-  -webkit-mask: var(--squiggle-mask) repeat-x left center / auto 100%;
-          mask: var(--squiggle-mask) repeat-x left center / auto 100%;
-}
 .main-panel > *:first-child .day-header,
 .page-main > .day-header:first-child { margin-top: 0; }
 
@@ -987,16 +977,6 @@ main:focus { outline: none; }
   letter-spacing: -0.035em;
   margin: 0 0 28px;
 }
-.reg-title::after {
-  content: "";
-  display: block;
-  width: 112px;
-  height: 14px;
-  margin-top: 14px;
-  background-color: var(--blue);
-  -webkit-mask: var(--squiggle-mask) repeat-x left center / auto 100%;
-          mask: var(--squiggle-mask) repeat-x left center / auto 100%;
-}
 .reg-form { display: flex; flex-direction: column; gap: 28px; }
 .reg-section {
   display: flex;
@@ -1353,7 +1333,6 @@ main:focus { outline: none; }
   .page-block-center .page-lede { font-size: 20px; }
 }
 .page-section-heading {
-  --squiggle-color: var(--blue);
   font-family: var(--font-display);
   font-weight: 900;
   font-size: clamp(30px, 4vw, 48px);
@@ -1362,23 +1341,6 @@ main:focus { outline: none; }
   margin: 0;
   text-wrap: balance;
 }
-.page-section-heading::after {
-  content: "";
-  display: block;
-  width: 96px;
-  height: 13px;
-  margin-top: 14px;
-  background-color: var(--squiggle-color);
-  -webkit-mask: var(--squiggle-mask) repeat-x left center / auto 100%;
-          mask: var(--squiggle-mask) repeat-x left center / auto 100%;
-}
-/* Cycle each page's section squiggles through the logo's colors. */
-.page-main > :nth-child(4n+2) .page-section-heading,
-.page-main > .page-section-heading:nth-child(4n+2) { --squiggle-color: var(--red); }
-.page-main > :nth-child(4n+3) .page-section-heading,
-.page-main > .page-section-heading:nth-child(4n+3) { --squiggle-color: var(--yellow); }
-.page-main > :nth-child(4n+4) .page-section-heading,
-.page-main > .page-section-heading:nth-child(4n+4) { --squiggle-color: var(--teal); }
 
 /* Swiss section numbering: a big index number in its own column on wide
    screens, a small label above the heading on phones. */
@@ -1447,16 +1409,6 @@ main:focus { outline: none; }
 .about-stat:nth-child(4n+2) { background: var(--yellow); color: #1a1a1a; }
 .about-stat:nth-child(4n+3) { background: var(--red); color: #fff; }
 .about-stat:nth-child(4n+4) { background: var(--teal); color: #1a1a1a; }
-.about-stat::after {
-  content: "";
-  display: block;
-  width: 56px;
-  height: 10px;
-  margin-top: 16px;
-  background-color: currentColor;
-  -webkit-mask: var(--squiggle-mask) repeat-x left center / auto 100%;
-          mask: var(--squiggle-mask) repeat-x left center / auto 100%;
-}
 .about-stat-num {
   font-family: var(--font-display);
   font-weight: 900;
@@ -1642,7 +1594,6 @@ main:focus { outline: none; }
   transition: background-color 0.12s ease;
 }
 .press-banner:hover { background: var(--blue); color: #fff; }
-.press-banner-squiggle { width: 112px; color: var(--yellow); }
 .press-banner-source {
   font-family: var(--font-display);
   font-weight: 900;
@@ -1652,7 +1603,7 @@ main:focus { outline: none; }
 }
 .press-banner-cta { font-family: var(--font-display); font-weight: 700; font-size: 16px; }
 @media (min-width: 900px) {
-  .press-banner { grid-template-columns: 160px minmax(0, 1fr) auto; align-items: center; gap: 32px; padding: 32px 36px; }
+  .press-banner { grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 32px; padding: 32px 36px; }
 }
 
 /* Sponsor hero's past-speaker list: big type split by slashes. */
@@ -1990,9 +1941,6 @@ a.sponsor-logo:hover img { filter: none; }
 
     /* Squiggles drift like a traveling wave while they cross the viewport. */
     .squiggle,
-    .day-header::after,
-    .about-stat::after,
-    .reg-title::after,
     .drawer-handle {
       animation-name: squiggle-drift;
       animation-timing-function: linear;
@@ -2025,20 +1973,6 @@ a.sponsor-logo:hover img { filter: none; }
     @keyframes field-drift-back {
       from { -webkit-mask-position: -84px 0; mask-position: -84px 0; }
       to { -webkit-mask-position: 0 0; mask-position: 0 0; }
-    }
-
-    /* Section headings' squiggles draw themselves in as the heading
-       arrives, then keep drifting. */
-    .page-section-heading::after {
-      animation-name: squiggle-draw, squiggle-drift;
-      animation-timing-function: linear;
-      animation-fill-mode: both;
-      animation-timeline: view(), view();
-      animation-range: entry 20% cover 35%, normal;
-    }
-    @keyframes squiggle-draw {
-      from { clip-path: inset(0 100% 0 0); }
-      to { clip-path: inset(0 0 0 0); }
     }
 
     /* The ringed dots pop in on arrival and float a little slower than
