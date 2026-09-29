@@ -666,6 +666,7 @@
     "2624": {
       "title": "AI Made Us Faster. Evidence Makes Us Confident. by Dustin P Gaspard",
       "for": [
+        "teachers",
         "business"
       ]
     },
@@ -679,6 +680,7 @@
     "2631": {
       "title": "Designing AI Agents Like Computer Systems by Yinkun Qu",
       "for": [
+        "teachers",
         "students"
       ]
     },
@@ -894,6 +896,8 @@
     "2901": {
       "title": "Is AI Acceleration Good for New Orleans?",
       "for": [
+        "teachers",
+        "students",
         "business"
       ]
     },
@@ -912,7 +916,8 @@
     "2904": {
       "title": "Future of Education Fireside Chat",
       "for": [
-        "teachers"
+        "teachers",
+        "students"
       ]
     },
     "2905": {
@@ -924,6 +929,8 @@
     "2906": {
       "title": "AI Leaders Update and Panel",
       "for": [
+        "teachers",
+        "students",
         "business"
       ]
     },
@@ -943,6 +950,7 @@
     "2909": {
       "title": "AI in Action: Competitive Research and LinkedIn Networking & Sales Prospecting Done for You by Tom Martin & Bill Dalton",
       "for": [
+        "students",
         "business"
       ]
     },
@@ -1072,6 +1080,7 @@
       "fun"
     ],
     "Party – Talks, Tarot, and \"NOAI\" Burial": [
+      "teachers",
       "fun"
     ],
     "Secret Friday 13th Afterparty": [
