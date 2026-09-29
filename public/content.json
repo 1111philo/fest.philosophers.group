@@ -32473,19 +32473,19 @@
       },
       "modified": "2026-09-18T15:23:50",
       "modified_gmt": "2026-09-18T15:23:50",
-      "slug": "beyond-hallucination-verifying-ai-results-for-accessible-digital-experiences-by-mingren-michael-fu",
+      "slug": "designing-an-ai-literacy-course",
       "status": "draft",
       "type": "presentations",
       "link": "https://noai.philosophers.group/?post_type=presentations&p=2656",
       "title": {
-        "rendered": "Beyond Hallucination: Verifying AI Results for Accessible Digital Experiences by Mingren (Michael) Fu"
+        "rendered": "Designing an AI Literacy Course"
       },
       "content": {
-        "rendered": "<p>AI can help us understand information, summarize content, create digital experiences, act on our behalf, and so much more. As the role of AI continues to evolve, how can we use AI effectively while ensuring the results promote equal access? This session introduces ACCESS, a practical framework for evaluating AI results through a digital accessibility lens. Through rapid, real-world examples, attendees will learn to identify potential gaps in AI results, verify those results against key criteria, and assess whether all users have equal access to essential information and opportunities.</p>\n",
+        "rendered": "<p>In 2026, Benjamin Franklin High School pioneered a new AI Literacy course for our 9th graders. AI Literacy was interwoven with executive functioning skills in an introductory course, with a goal of teaching responsible and creative AI use. Come experience it firsthand: escape Zombie Island to uncover how LLMs actually process language, then take our AI &#8220;personality&#8221; quiz and learn to build your own custom version. We&#8217;ll unpack the course&#8217;s core framework and walk through standout lessons you can bring back to your own classroom. Other school initiatives such as the AI Podcast Club for teachers, the AI Innovation Contest, and the AI Environmental Grant program will also be shared briefly.</p>\n",
         "protected": false
       },
       "excerpt": {
-        "rendered": "<p>AI can help us understand information, summarize content, create digital experiences, act on our behalf, and so much more. As the role of AI continues to evolve, how can we use AI effectively while ensuring the results promote equal access? This session introduces ACCESS, a practical framework for evaluating AI results through a digital accessibility [&hellip;]</p>\n",
+        "rendered": "<p>In 2026, Benjamin Franklin High School pioneered a new AI Literacy course for our 9th graders, interweaving AI literacy with executive functioning skills to teach responsible and creative AI use. Come experience it firsthand: escape Zombie Island to uncover how LLMs actually process language, then take our AI &#8220;personality&#8221; [&hellip;]</p>\n",
         "protected": false
       },
       "featured_media": 2657,
@@ -32724,9 +32724,9 @@
         "date": "11/12/2026",
         "time": "2:05 PM",
         "location": "Main Stage • 400 Esplanade Ave",
-        "presenter_name": "Mingren (Michael) Fu",
-        "presenter_bio": "Mingren (Michael) Fu is a CPACC-certified Digital Accessibility Specialist at the University of Illinois Chicago, dedicated to creating inclusive and accessible digital experiences. With expertise in WCAG compliance, UX/UI design, and assistive technologies, he helps organizations identify and remove accessibility barriers to ensure usability for all. \r\n\r\nMichael has advanced accessibility initiatives at New York University and led research and design projects for the United Nations, Google, and the Humboldt Forum Museum, applying human-centered design and compliance strategies to improve digital inclusivity. As a problem solver and AI enthusiast, he is passionate about bridging technology and accessibility to drive innovative and equitable solutions.",
-        "presenter_photo_url": "media/presenter-105-Mingren_Headshot.png",
+        "presenter_name": "Rebecca Gaillot",
+        "presenter_bio": "A veteran educator of more than 20 years, Rebecca Gaillot teaches engineering at Benjamin Franklin High School and is building out a new AI Literacy course there for the 2026–2027 school year. She also advises on AI in education at the state and district level, through seats on Louisiana's BESE AI Task Force, its Department of Education Teacher Advisory Committee, and the New Orleans Public Schools AI Task Force.",
+        "presenter_photo_url": "media/rebecca-gaillot-headshot.jpg",
         "type": ""
       }
     },
@@ -59797,10 +59797,10 @@
       "sort_time": "14:00",
       "raw_time_range": "2:00–2:30",
       "location": "Main Stage • 400 Esplanade Ave",
-      "title": "Beyond Hallucination: Verifying AI Results for Accessible Digital Experiences",
-      "presenters": "Mingren (Michael) Fu",
+      "title": "Designing an AI Literacy Course",
+      "presenters": "Rebecca Gaillot",
       "type": "",
-      "tag": "Accessibility",
+      "tag": "Education",
       "presentation_id": 2656
     },
     {
