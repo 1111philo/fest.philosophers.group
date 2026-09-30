@@ -91,6 +91,7 @@ async function main() {
   await makePromo('bikeeasy', { amount_off: 5500, currency: 'usd', duration: 'once', name: 'Bikeeasy' });
   await makePromo('tnt360', { amount_off: 5500, currency: 'usd', duration: 'once', name: 'TNT360' });
   await makePromo('Lourdes', { amount_off: 5500, currency: 'usd', duration: 'once', name: 'Lourdes' });
+  await makePromo('lacanain', { amount_off: 5500, currency: 'usd', duration: 'once', name: 'Lacanain' });
 
   console.log('Creating payment link...');
   const paymentLink = await stripe('POST', 'payment_links', flatten({
