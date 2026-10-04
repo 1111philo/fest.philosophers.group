@@ -231,6 +231,9 @@ body,
 .tier-limited,
 .press-banner,
 .manifesto-banner,
+.mf-plate,
+.mf-highlight,
+.mf-rule > span,
 .contact-card-block,
 .hero-bar,
 .ring-dot,
@@ -2074,26 +2077,30 @@ a.sponsor-logo:hover img { filter: none; }
 .sponsor-thanks a { color: #2250d6; }
 
 /* --- Manifesto (pages/manifesto.astro) -------------------------------------
-   A poem in one justified column of big type, stanza by stanza: ink only,
-   two faces (the grotesk, and a script for the italic lines). */
+   A poem in one justified column of big type, stanza by stanza. One face,
+   two weights (heavy claims, light narrative), and color by rule: plates
+   for the people and the closing call, a yellow highlight for the thesis,
+   blue for the thread of truth. See the page's header comment. */
 .mf { display: flex; flex-direction: column; gap: 40px; }
-.mf-head { display: flex; flex-direction: column; gap: 18px; }
+.mf-head { display: flex; flex-direction: column; gap: 16px; }
 .mf-title {
   margin: 0;
   font-family: var(--font-display);
   font-size: 15px;
-  font-weight: 900;
+  font-weight: 800;
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
-.mf-rule { display: block; height: 8px; width: 96px; background-color: var(--ink); }
-/* Justified stanzas: hyphenation keeps the big type from opening rivers
-   on narrow screens; each stanza's last line stays ragged. */
+/* The four name colors, as a key. */
+.mf-rule { display: flex; width: 120px; height: 8px; }
+.mf-rule > span { flex: 1; }
+/* Hyphenation keeps the justified big type from opening rivers on narrow
+   screens; each stanza's last line stays ragged. */
 .mf-text {
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: 800;
   font-size: clamp(25px, 3.9vw, 54px);
-  line-height: 1.16;
+  line-height: 1.2;
   letter-spacing: -0.03em;
   max-width: 30ch;
   text-align: justify;
@@ -2101,20 +2108,33 @@ a.sponsor-logo:hover img { filter: none; }
   -webkit-hyphens: auto;
 }
 .mf-text p { margin: 0; }
-.mf-text p + p { margin-top: 0.85em; }
-/* Supporting sentences step back in weight, so the claims carry. */
-.mf-quiet { font-weight: 400; }
-.mf-loud { font-weight: 900; letter-spacing: -0.02em; }
-/* The second face: a humanist script, sized up to the grotesk's x-height.
-   Its line-height is pinned so the bigger glyphs don't open the lines. */
-.mf-script {
-  font-family: 'Tangerine', 'Snell Roundhand', 'Apple Chancery', cursive;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 1.5em;
-  line-height: 0.7;
-  letter-spacing: 0;
+.mf-text p + p { margin-top: 0.9em; }
+.mf-quiet { font-weight: 400; letter-spacing: -0.015em; }
+.mf-quiet b { font-weight: 700; }
+.mf-text em { font-style: italic; }
+
+.mf-plate {
+  padding: 0.02em 0.16em 0.06em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
 }
+/* The names form one solid block of the four colors, exactly the width
+   of the column: stacked bars on phones, a 2x2 grid when there's room. */
+.mf-names { display: grid; grid-template-columns: minmax(0, 1fr); }
+.mf-names .mf-plate { display: block; padding: 0.06em 0.22em 0.1em; text-align: left; }
+@media (min-width: 720px) { .mf-names { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.mf-blue { background-color: var(--blue); color: #fff; }
+.mf-red { background-color: var(--red); color: #fff; }
+.mf-yellow { background-color: var(--yellow); color: #1a1a1a; }
+.mf-teal { background-color: var(--teal); color: #1a1a1a; }
+.mf-highlight {
+  background-color: var(--yellow);
+  color: #1a1a1a;
+  padding: 0 0.12em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.mf-truth { color: var(--accent); }
 
 /* About page: the manifesto teaser. */
 .manifesto-banner {

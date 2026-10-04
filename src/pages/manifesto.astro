@@ -1,7 +1,11 @@
 ---
 // The NOAI Manifesto - a poem set as one justified column of big type,
-// stanza by stanza, in ink only and two faces: the site's grotesk, and a
-// humanist script (Tangerine) for "divinity" and the italic lines.
+// stanza by stanza, in the site's grotesk. Color follows three rules:
+//   plates (solid fills) - the people, and the closing call;
+//   yellow highlight     - the thesis, once;
+//   blue text            - the thread of truth: divinity, the clarinet's
+//                          tone, the renaissance.
+// Everything else is ink: heavy for claims, light for narrative.
 import PageLayout from '../layouts/PageLayout.astro';
 import { SITE_URL, SITE_TITLE, SITE_IMAGE } from '../lib/content.mjs';
 
@@ -13,21 +17,21 @@ const meta = {
 };
 ---
 <PageLayout title={meta.title} description={meta.description} canonical={meta.canonical} image={meta.image} current="">
-  <link slot="head" href="https://fonts.googleapis.com/css2?family=Tangerine:wght@700&display=swap" rel="stylesheet">
+  <link slot="head" href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@1,400;1,700&display=swap" rel="stylesheet">
   <article class="mf" aria-labelledby="mf-title">
     <header class="mf-head">
       <h1 class="mf-title" id="mf-title">The NOAI Manifesto</h1>
-      <span class="mf-rule" aria-hidden="true"></span>
+      <span class="mf-rule" aria-hidden="true"><span class="mf-blue"></span><span class="mf-red"></span><span class="mf-yellow"></span><span class="mf-teal"></span></span>
     </header>
 
     <div class="mf-text">
-      <p class="mf-loud">Louis Armstrong. Huey P. Long. Paul Morphy. Master P.</p>
-      <p>The greatest New Orleanians <strong class="mf-loud">never asked permission.</strong></p>
-      <p><span class="mf-quiet">Armstrong gave jazz to the world. Morphy beat Europe at 21. Long made every man a king, every woman a queen. Master P turned the projects into a hip-hop empire.</span> No one signed off. <strong class="mf-loud">They built.</strong></p>
-      <p>We are their heirs. <span class="mf-quiet">Scrappy. Under-resourced.</span> Chasing one thing: <em class="mf-script">divinity.</em></p>
-      <p><span class="mf-quiet">The Renaissance masters chased it too.</span> <em class="mf-script">Michelangelo&rsquo;s hand of God. Galileo&rsquo;s falling bodies.</em> Truth beyond art, beyond reason:</p>
-      <p><em class="mf-script">A clarinet&rsquo;s long tone, drifting through the mist of a French Quarter morning.</em></p>
-      <p>The age of AI can be a renaissance. But Silicon Valley&rsquo;s coders and their venture funders <strong class="mf-loud">can&rsquo;t build it alone.</strong></p>
+      <p class="mf-names"><span class="mf-plate mf-blue">Louis Armstrong.</span> <span class="mf-plate mf-red">Huey P. Long.</span> <span class="mf-plate mf-yellow">Paul Morphy.</span> <span class="mf-plate mf-teal">Master P.</span></p>
+      <p>The greatest New Orleanians <span class="mf-highlight">never asked permission.</span></p>
+      <p><span class="mf-quiet"><b>Armstrong</b> gave jazz to the world. <b>Morphy</b> beat Europe at 21. <b>Long</b> made every man a king, every woman a queen. <b>Master P</b> turned the projects into a hip-hop empire.</span> No one signed off. They built.</p>
+      <p>We are their heirs. <span class="mf-quiet">Scrappy. Under-resourced.</span> Chasing one thing: <span class="mf-truth">divinity.</span></p>
+      <p><span class="mf-quiet">The Renaissance masters chased it too. <em>Michelangelo&rsquo;s hand of God. Galileo&rsquo;s falling bodies.</em></span> Truth beyond art, beyond reason:</p>
+      <p class="mf-truth"><em>A clarinet&rsquo;s long tone, drifting through the mist of a French Quarter morning.</em></p>
+      <p>The age of AI can be a <span class="mf-truth">renaissance.</span> But Silicon Valley&rsquo;s coders and their venture funders <span class="mf-plate mf-red">can&rsquo;t build it alone.</span></p>
     </div>
 
     <div class="page-cta-row">
