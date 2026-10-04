@@ -230,6 +230,7 @@ body,
 .tier-card-featured,
 .tier-limited,
 .press-banner,
+.manifesto-banner,
 .contact-card-block,
 .hero-bar,
 .ring-dot,
@@ -2072,6 +2073,74 @@ a.sponsor-logo:hover img { filter: none; }
 }
 .sponsor-thanks a { color: #2250d6; }
 
+/* --- Manifesto (pages/manifesto.astro) -------------------------------------
+   A poem in one justified column of big type, stanza by stanza: ink only,
+   two faces (the grotesk, and a script for the italic lines). */
+.mf { display: flex; flex-direction: column; gap: 40px; }
+.mf-head { display: flex; flex-direction: column; gap: 18px; }
+.mf-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.mf-rule { display: block; height: 8px; width: 96px; background-color: var(--ink); }
+/* Justified stanzas: hyphenation keeps the big type from opening rivers
+   on narrow screens; each stanza's last line stays ragged. */
+.mf-text {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(25px, 3.9vw, 54px);
+  line-height: 1.16;
+  letter-spacing: -0.03em;
+  max-width: 30ch;
+  text-align: justify;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+.mf-text p { margin: 0; }
+.mf-text p + p { margin-top: 0.85em; }
+/* Supporting sentences step back in weight, so the claims carry. */
+.mf-quiet { font-weight: 400; }
+.mf-loud { font-weight: 900; letter-spacing: -0.02em; }
+/* The second face: a humanist script, sized up to the grotesk's x-height.
+   Its line-height is pinned so the bigger glyphs don't open the lines. */
+.mf-script {
+  font-family: 'Tangerine', 'Snell Roundhand', 'Apple Chancery', cursive;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 1.5em;
+  line-height: 0.7;
+  letter-spacing: 0;
+}
+
+/* About page: the manifesto teaser. */
+.manifesto-banner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+  padding: 26px 24px;
+  background-color: var(--red);
+  color: #fff;
+  text-decoration: none;
+  transition: background-color 0.12s ease;
+}
+.manifesto-banner:hover { background-color: var(--blue); }
+.manifesto-banner-quote {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(26px, 3.6vw, 42px);
+  letter-spacing: -0.035em;
+  line-height: 1.02;
+  text-wrap: balance;
+}
+.manifesto-banner-cta { font-family: var(--font-display); font-weight: 700; font-size: 16px; }
+@media (min-width: 900px) {
+  .manifesto-banner { grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 32px; padding: 32px 36px; }
+}
+
 /* --- First-view reveals (scripts in layouts/PageLayout.astro) ---------------
    One-time entrances that play when a group first scrolls into view,
    rather than being scrubbed by scroll position - so they read as a moment
@@ -2293,6 +2362,15 @@ a.sponsor-logo:hover img { filter: none; }
     @keyframes frame-offset {
       from { box-shadow: 0 0 0 var(--yellow); }
       to { box-shadow: 14px 14px 0 var(--yellow); }
+    }
+
+    /* The About page's manifesto teaser wipes open. */
+    .manifesto-banner {
+      animation-name: wipe-in;
+      animation-timing-function: ease-out;
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 100%;
     }
 
     /* The Times-Pic banner wipes open. Entry-only range: it sits near the page bottom, so a range

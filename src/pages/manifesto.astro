@@ -1,0 +1,38 @@
+---
+// The NOAI Manifesto - a poem set as one justified column of big type,
+// stanza by stanza, in ink only and two faces: the site's grotesk, and a
+// humanist script (Tangerine) for "divinity" and the italic lines.
+import PageLayout from '../layouts/PageLayout.astro';
+import { SITE_URL, SITE_TITLE, SITE_IMAGE } from '../lib/content.mjs';
+
+const meta = {
+  title: `The NOAI Manifesto — ${SITE_TITLE}`,
+  description: 'The greatest New Orleanians never asked permission. The age of AI can be a renaissance, but Silicon Valley can’t build it alone.',
+  canonical: `${SITE_URL}/manifesto/`,
+  image: SITE_IMAGE.url,
+};
+---
+<PageLayout title={meta.title} description={meta.description} canonical={meta.canonical} image={meta.image} current="">
+  <link slot="head" href="https://fonts.googleapis.com/css2?family=Tangerine:wght@700&display=swap" rel="stylesheet">
+  <article class="mf" aria-labelledby="mf-title">
+    <header class="mf-head">
+      <h1 class="mf-title" id="mf-title">The NOAI Manifesto</h1>
+      <span class="mf-rule" aria-hidden="true"></span>
+    </header>
+
+    <div class="mf-text">
+      <p class="mf-loud">Louis Armstrong. Huey P. Long. Paul Morphy. Master P.</p>
+      <p>The greatest New Orleanians <strong class="mf-loud">never asked permission.</strong></p>
+      <p><span class="mf-quiet">Armstrong gave jazz to the world. Morphy beat Europe at 21. Long made every man a king, every woman a queen. Master P turned the projects into a hip-hop empire.</span> No one signed off. <strong class="mf-loud">They built.</strong></p>
+      <p>We are their heirs. <span class="mf-quiet">Scrappy. Under-resourced.</span> Chasing one thing: <em class="mf-script">divinity.</em></p>
+      <p><span class="mf-quiet">The Renaissance masters chased it too.</span> <em class="mf-script">Michelangelo&rsquo;s hand of God. Galileo&rsquo;s falling bodies.</em> Truth beyond art, beyond reason:</p>
+      <p><em class="mf-script">A clarinet&rsquo;s long tone, drifting through the mist of a French Quarter morning.</em></p>
+      <p>The age of AI can be a renaissance. But Silicon Valley&rsquo;s coders and their venture funders <strong class="mf-loud">can&rsquo;t build it alone.</strong></p>
+    </div>
+
+    <div class="page-cta-row">
+      <a class="btn-primary" href="/register/">Register for NOAI 2026</a>
+      <a class="btn-outline" href="/about/">About the Festival</a>
+    </div>
+  </article>
+</PageLayout>
