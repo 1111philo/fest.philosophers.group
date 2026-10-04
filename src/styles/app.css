@@ -2135,10 +2135,21 @@ a.sponsor-logo:hover img { filter: none; }
   -webkit-box-decoration-break: clone;
 }
 .mf-truth { color: var(--accent); }
-/* "d•i•v•i•n•i•t•y" - spelled out, kept on one line. Screen readers get
+/* "divinity" spelled out with a squiggle between letters, on one line. Screen readers get
    the plain word. */
 .mf-spelled { white-space: nowrap; }
-.mf-dot { display: inline-block; width: 0.6em; text-align: center; font-weight: 400; letter-spacing: 0; }
+/* Between the letters: a wave and a half of the logo's squiggle, muted
+   so the letters carry. */
+.mf-curl {
+  display: inline-block;
+  width: 0.64em;
+  height: 0.3em;
+  margin: 0 0.12em;
+  vertical-align: 0.1em;
+  background-color: var(--text-muted);
+  -webkit-mask: var(--squiggle-mask) repeat-x left center / auto 100%;
+          mask: var(--squiggle-mask) repeat-x left center / auto 100%;
+}
 
 /* About page: the manifesto teaser. */
 .manifesto-banner {
