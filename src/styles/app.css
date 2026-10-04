@@ -2100,7 +2100,7 @@ a.sponsor-logo:hover img { filter: none; }
   font-family: var(--font-display);
   font-weight: 800;
   font-size: clamp(25px, 3.9vw, 54px);
-  line-height: 1.2;
+  line-height: 1.4;
   letter-spacing: -0.03em;
   max-width: 30ch;
   text-align: justify;
@@ -2108,7 +2108,7 @@ a.sponsor-logo:hover img { filter: none; }
   -webkit-hyphens: auto;
 }
 .mf-text p { margin: 0; }
-.mf-text p + p { margin-top: 0.9em; }
+.mf-text p + p { margin-top: 1.1em; }
 .mf-quiet { font-weight: 400; letter-spacing: -0.015em; }
 .mf-quiet b { font-weight: 700; }
 .mf-text em { font-style: italic; }
@@ -2121,7 +2121,7 @@ a.sponsor-logo:hover img { filter: none; }
 /* The names form one solid block of the four colors, exactly the width
    of the column: stacked bars on phones, a 2x2 grid when there's room. */
 .mf-names { display: grid; grid-template-columns: minmax(0, 1fr); }
-.mf-names .mf-plate { display: block; padding: 0.06em 0.22em 0.1em; text-align: left; }
+.mf-names .mf-plate { display: block; padding: 0.1em 0.22em 0.14em; line-height: 1.2; text-align: left; }
 @media (min-width: 720px) { .mf-names { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .mf-blue { background-color: var(--blue); color: #fff; }
 .mf-red { background-color: var(--red); color: #fff; }
@@ -2135,6 +2135,10 @@ a.sponsor-logo:hover img { filter: none; }
   -webkit-box-decoration-break: clone;
 }
 .mf-truth { color: var(--accent); }
+/* "d•i•v•i•n•i•t•y" - spelled out, kept on one line. Screen readers get
+   the plain word. */
+.mf-spelled { white-space: nowrap; }
+.mf-dot { display: inline-block; width: 0.6em; text-align: center; font-weight: 400; letter-spacing: 0; }
 
 /* About page: the manifesto teaser. */
 .manifesto-banner {
