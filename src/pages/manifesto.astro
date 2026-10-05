@@ -7,13 +7,14 @@
 //                          tone, the renaissance.
 // Everything else is ink: heavy for claims, light for narrative.
 import PageLayout from '../layouts/PageLayout.astro';
-import { SITE_URL, SITE_TITLE, SITE_IMAGE } from '../lib/content.mjs';
+import { SITE_URL, SITE_TITLE } from '../lib/content.mjs';
 
 const meta = {
   title: `The NOAI Manifesto — ${SITE_TITLE}`,
   description: 'The greatest Louisianans never asked permission. The age of AI can be a renaissance, but Silicon Valley can’t build it alone.',
   canonical: `${SITE_URL}/manifesto/`,
-  image: SITE_IMAGE.url,
+  // Its own share card (pages/og/manifesto.jpg.js).
+  image: `${SITE_URL}/og/manifesto.jpg`,
 };
 ---
 <PageLayout title={meta.title} description={meta.description} canonical={meta.canonical} image={meta.image} current="">
@@ -21,13 +22,13 @@ const meta = {
   <article class="mf" aria-labelledby="mf-title">
     <header class="mf-head">
       <h1 class="mf-title" id="mf-title">The NOAI Manifesto</h1>
-      <span class="mf-rule" aria-hidden="true"><span class="mf-blue"></span><span class="mf-red"></span><span class="mf-yellow"></span><span class="mf-teal"></span></span>
+      <span class="mf-rule" aria-hidden="true"><span class="mf-blue"></span><span class="mf-red"></span><span class="mf-yellow"></span></span>
     </header>
 
     <div class="mf-text">
-      <p class="mf-names"><span class="mf-plate mf-blue">Louis Armstrong.</span> <span class="mf-plate mf-red">Huey P. Long.</span> <span class="mf-plate mf-yellow">Paul Morphy.</span> <span class="mf-plate mf-teal">Master P.</span></p>
+      <p class="mf-names"><span class="mf-plate mf-blue">Louis Armstrong.</span> <span class="mf-plate mf-red">Huey P. Long.</span> <span class="mf-plate mf-yellow">Paul Morphy.</span></p>
       <p>The greatest Louisianans <span class="mf-highlight">never asked permission.</span></p>
-      <p><span class="mf-quiet"><b>Armstrong</b> gave jazz to the world. <b>Morphy</b> beat Europe at 21. <b>Long</b> made every man a king, every woman a queen. <b>Master P</b> turned the projects into a hip-hop empire.</span> No one signed off. They built.</p>
+      <p><span class="mf-quiet"><b>Armstrong</b> gave jazz to the world. <b>Morphy</b> beat Europe at 21. <b>Long</b> made every man a king, every woman a queen.</span> No one signed off. They built.</p>
       <p>We are their heirs. <span class="mf-quiet">Scrappy. Under-resourced.</span> Chasing one thing: <span class="mf-truth mf-spelled"><span class="sr-only">divinity.</span><span aria-hidden="true">{[...'divinity'].map((ch, i) => <>{i > 0 && <span class="mf-curl"></span>}{ch}</>)}.</span></span></p>
       <p><span class="mf-quiet">The Renaissance masters chased it too. <em>Michelangelo&rsquo;s hand of God. Galileo&rsquo;s falling bodies.</em></span> Truth beyond art, beyond reason:</p>
       <p class="mf-truth"><em>A clarinet&rsquo;s long tone, drifting through the mist of a French Quarter morning.</em></p>

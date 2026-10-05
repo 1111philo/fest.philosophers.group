@@ -2091,7 +2091,7 @@ a.sponsor-logo:hover img { filter: none; }
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
-/* The four name colors, as a key. */
+/* The three name colors, as a key. */
 .mf-rule { display: flex; width: 120px; height: 8px; }
 .mf-rule > span { flex: 1; }
 /* Hyphenation keeps the justified big type from opening rivers on narrow
@@ -2118,15 +2118,13 @@ a.sponsor-logo:hover img { filter: none; }
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
 }
-/* The names form one solid block of the four colors, exactly the width
-   of the column: stacked bars on phones, a 2x2 grid when there's room. */
+/* The names form one solid block of three colors, stacked bars exactly
+   the width of the column. */
 .mf-names { display: grid; grid-template-columns: minmax(0, 1fr); }
 .mf-names .mf-plate { display: block; padding: 0.1em 0.22em 0.14em; line-height: 1.2; text-align: left; }
-@media (min-width: 720px) { .mf-names { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .mf-blue { background-color: var(--blue); color: #fff; }
 .mf-red { background-color: var(--red); color: #fff; }
 .mf-yellow { background-color: var(--yellow); color: #1a1a1a; }
-.mf-teal { background-color: var(--teal); color: #1a1a1a; }
 .mf-highlight {
   background-color: var(--yellow);
   color: #1a1a1a;
