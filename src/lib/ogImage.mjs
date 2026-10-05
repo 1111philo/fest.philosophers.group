@@ -239,6 +239,11 @@ export async function renderPresentationOg(content, pres) {
   art,
   );
 
+  return renderJpeg(tree);
+}
+
+// Lays a card out with satori, rasterizes it with resvg, and encodes it.
+async function renderJpeg(tree) {
   const svg = await satori(tree, { width: OG_WIDTH, height: OG_HEIGHT, fonts: fonts() });
   const png = new Resvg(svg, { fitTo: { mode: 'width', value: OG_WIDTH } }).render().asPng();
   // JPEG, not PNG: the photo cards are ~4x smaller (a PNG set adds ~40MB
@@ -251,4 +256,42 @@ export async function renderPresentationOg(content, pres) {
     quality: 86, chromaSubsampling: '4:4:4', progressive: false,
     trellisQuantisation: true, overshootDeringing: true, optimiseCoding: true,
   }).toBuffer();
+}
+
+// The manifesto's share card: the three name plates as one strip, the
+// thesis with its yellow highlight, and the festival line - the page's
+// own color rules at 1200x630.
+export async function renderManifestoOg() {
+  const [BLUE, RED, YELLOW] = ACCENTS;
+  const label = h('div', { style: { alignItems: 'center', gap: 22 } },
+    h('img', { src: logoDataUri(), height: 52, width: Math.round(52 * 1124 / 481) }),
+    h('div', { style: { width: 3, height: 40, background: INK } }),
+    h('div', { style: { fontSize: 22, fontWeight: 800, letterSpacing: 3, textTransform: 'uppercase', color: INK } }, 'The NOAI Manifesto'),
+  );
+
+  const plate = (text, bg, fg) => h('div', {
+    style: { flexGrow: 1, background: bg, color: fg, fontSize: 40, fontWeight: 900, letterSpacing: -1.4, padding: '6px 16px 10px' },
+  }, text);
+  const names = h('div', { style: { width: '100%' } },
+    plate('Louis Armstrong.', BLUE, '#ffffff'),
+    plate('Huey P. Long.', RED, '#ffffff'),
+    plate('Paul Morphy.', YELLOW, INK),
+  );
+
+  const thesis = h('div', { style: { flexDirection: 'column', alignItems: 'flex-start', gap: 8, fontSize: 78, fontWeight: 900, letterSpacing: -3, lineHeight: 1.04 } },
+    h('div', { style: { paddingLeft: 16 } }, 'The greatest Louisianans'),
+    h('div', { style: { background: YELLOW, padding: '0 16px 4px' } }, 'never asked permission.'),
+  );
+
+  const footer = h('div', { style: { justifyContent: 'space-between', alignItems: 'center', borderTop: `4px solid ${INK}`, paddingTop: 16, fontSize: 24, fontWeight: 800, letterSpacing: -0.3 } },
+    h('div', {}, 'Arts & Ideas Festival · Nov 11–13, 2026 · New Orleans'),
+    h('div', { style: { color: MUTED, fontWeight: 700 } }, 'fest.philosophers.group/manifesto'),
+  );
+
+  return renderJpeg(h('div', {
+    style: {
+      width: OG_WIDTH, height: OG_HEIGHT, background: PAPER, fontFamily: 'Inter Tight, Inter Tight Ext', color: INK,
+      flexDirection: 'column', justifyContent: 'space-between', padding: '48px 64px 44px',
+    },
+  }, label, names, thesis, footer));
 }
