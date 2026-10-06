@@ -180,20 +180,51 @@ function Tracks({ dayItems, onOpen, mediaById, presentationsById }) {
   );
 }
 
+// "Wednesday, Nov 11, 2026" from an ISO date, read as a calendar date (no
+// timezone shift).
+function formatEventDate(iso) {
+  const [y, m, d] = iso.split('-').map(Number);
+  return new Date(y, m - 1, d).toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+// "8:40–8:50 PM": the schedule's range ("8:40–8:50") with the meridiem
+// from its start time ("8:40 PM"), flipped for the end when the range
+// crosses noon ("11:30–12:30" from "11:30 AM" ends PM). Falls back to
+// whichever field is there.
+function timeRangeLabel({ time = '', raw_time_range: range = '' }) {
+  const m = /^(\d{1,2}):\d{2}\s*(AM|PM)$/i.exec(time.trim());
+  const r = /^(\d{1,2}):\d{2}\s*[–-]\s*(\d{1,2}):\d{2}$/.exec(range.trim());
+  if (!m || !r) return range || time;
+  let mer = m[2].toUpperCase();
+  const start = Number(r[1]) % 12;
+  const end = Number(r[2]) % 12;
+  if (end < start) mer = mer === 'AM' ? 'PM' : 'AM';
+  return `${range.trim()} ${mer}`;
+}
+
 function PresentationBody({ pres, mediaById, onOpenPresentationSlug, eventInfo }) {
   const sf = pres.scraped_fields || {};
   const hero = featuredUrl(mediaById, pres, 'large');
+  // When/where/type come from the published schedule row (eventInfo) when
+  // there is one - the same source as the schedule cards. The WordPress
+  // post's own fields go stale as the schedule changes, so they're only a
+  // fallback for talks with no schedule row.
+  const location = (eventInfo && eventInfo.location) || sf.location;
+  const when = eventInfo
+    ? [eventInfo.date && formatEventDate(eventInfo.date), timeRangeLabel(eventInfo)].filter(Boolean).join(' · ')
+    : [sf.date, sf.time].filter(Boolean).join(' · ');
+  const type = (eventInfo && eventInfo.type) || sf.type;
   return (
     <>
       {hero && <img className="modal-hero" src={hero} alt="" />}
       <h2 dangerouslySetInnerHTML={{ __html: pres.title.rendered }} />
       <div className="modal-meta">
-        {sf.location && <span className="badge loc">{sf.location}</span>}
-        {(sf.date || sf.time) && <span className="badge loc">{[sf.date, sf.time].filter(Boolean).join(' · ')}</span>}
-        <TypeBadge type={sf.type} />
+        {location && <span className="badge loc">{location}</span>}
+        {when && <span className="badge loc">{when}</span>}
+        <TypeBadge type={type} />
       </div>
       <AudienceLine ids={(audienceData.presentations[pres.id] || {}).for} className="modal-aud" />
-      {sf.type === 'Workshop' && (
+      {type === 'Workshop' && (
         <p className="reg-note workshop-ticket-note">
           A ticket is required to join this workshop. All registrations include one workshop ticket -
           additional tickets may be available on the <a href="/register/">registration form</a>.
