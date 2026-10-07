@@ -3,6 +3,7 @@ import { SearchField, Input, Tabs, TabList, Tab, TabPanel, Button } from 'react-
 import SiteHeader from './SiteHeader';
 import YearMenu from './YearMenu';
 import AudienceMenu from './AudienceMenu';
+import HotelBanner from './HotelBanner';
 import Drawer from './Drawer';
 import PresenterBio from './PresenterBio';
 import WpContent from './WpContent';
@@ -637,6 +638,7 @@ export default function ScheduleApp({ initialView }) {
       <SiteHeader onSchedule={goToSchedule} current="schedule" />
 
       <main id="main" tabIndex={-1}>
+        <HotelBanner />
         <Tabs
           selectedKey={day}
           onSelectionChange={(key) => { setDay(key); setQuery(''); }}
