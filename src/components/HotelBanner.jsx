@@ -1,9 +1,8 @@
-// A slim, full-bleed promo strip for Hôtel 11:11 (coppola.philosophers.group) -
+// A slim promo strip for Hôtel 11:11 (coppola.philosophers.group) -
 // Francis Ford Coppola's own New Orleans house, run as a limited,
-// festival-dates-only retreat. Same full-width-bar-with-centered-inner
-// structure as .toolbar, so it reads as its own banner (solid color,
-// edge to edge) rather than another bordered control next to the
-// search/filter row.
+// festival-dates-only retreat. It sits on the page's own background in
+// both themes, with a squiggle rule beneath it to set it apart from the
+// search/filter toolbar below.
 export default function HotelBanner() {
   return (
     <a className="hotel-banner" href="https://coppola.philosophers.group/" target="_blank" rel="noopener">
@@ -18,13 +17,14 @@ export default function HotelBanner() {
           />
         </span>
         <span className="hotel-banner-text">
-          <span className="hotel-banner-title">H&ocirc;tel 11:11</span>
+          <span className="hotel-banner-title">H&ocirc;tel 11:11 Available</span>
           <span className="hotel-banner-sub">Francis Ford Coppola&rsquo;s retreat &middot; Nov 10&ndash;15 &middot; Limited Edition</span>
         </span>
         <span className="hotel-banner-cta">
           View rooms <span aria-hidden="true">&rarr;</span><span className="sr-only"> (opens in a new window)</span>
         </span>
       </span>
+      <span className="hotel-banner-rule" aria-hidden="true"><span className="squiggle" /></span>
     </a>
   );
 }
