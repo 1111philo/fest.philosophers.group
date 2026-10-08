@@ -6,7 +6,7 @@ import { loadContent, pageMeta, SITE_TITLE } from '../lib/content.mjs';
 const content = loadContent();
 const meta = pageMeta(content, 620, 'sponsor');
 meta.title = `Sponsor — ${SITE_TITLE}`;
-meta.description = 'Sponsor NOAI: Arts & Ideas Festival, the Gulf South’s source for innovation. Attendees come from Tulane University, LSU, Louisiana Tech, ULL, Ochsner Health, and over 200 other organizations. Past speakers have come from Google DeepMind, IBM, Adobe, and Microsoft.';
+meta.description = 'Sponsor NOAI: Arts & Ideas Festival, the Gulf South’s source for innovation. Attendees are tech leads in key regional organizations, including Tulane University, LSU, Louisiana Tech, ULL, Ochsner Health, and over 200 others. Past speakers have come from Google DeepMind, IBM, Adobe, and Microsoft.';
 
 const ATTENDEE_ORGS = ['Tulane University', 'LSU', 'Louisiana Tech', 'ULL', 'Ochsner Health'];
 const PAST_SPEAKERS = ['Google DeepMind', 'IBM', 'Adobe', 'Microsoft'];
@@ -74,7 +74,7 @@ const TIERS = [
 ---
 <PageLayout title={meta.title} description={meta.description} canonical={meta.canonical} image={meta.image.url} current="sponsor">
   <PageHero slot="hero" label="Sponsorship" eyebrow="Sponsorship" title="Sponsor the Festival" accent="red" art="sun">
-    <p class="page-hero-sub"><strong>The Gulf South’s source for innovation.</strong> Attendees come from key regional organizations:</p>
+    <p class="page-hero-sub"><strong>The Gulf South’s source for innovation.</strong> Attendees are tech leads in key regional organizations:</p>
     <ul class="speaker-list">
       {ATTENDEE_ORGS.map((name) => <li>{name}</li>)}
     </ul>
