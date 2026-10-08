@@ -210,6 +210,7 @@ main:focus { outline: none; }
 body,
 .header,
 .toolbar,
+.hotel-banner,
 .drawer,
 .card,
 .tier-card,
@@ -230,7 +231,6 @@ body,
 .tier-card-featured,
 .tier-limited,
 .press-banner,
-.hotel-banner,
 .manifesto-banner,
 .mf-plate,
 .mf-highlight,
@@ -1776,21 +1776,24 @@ body,
   .press-banner { grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 32px; padding: 32px 36px; }
 }
 
-/* Slim, full-bleed promo bar for Hôtel 11:11 (coppola.philosophers.group) -
-   same full-width-bar/centered-inner structure as .toolbar, so it reads
-   as a distinct colored banner rather than another bordered control. The
-   round thumbnail is cropped from that site's own (already ornate) Ada
-   Lovelace portrait. */
+/* Slim promo strip for Hôtel 11:11 (coppola.philosophers.group), on the
+   page's own background in both themes. An ink squiggle beneath (dark on
+   light, light on dark) separates it from the toolbar below. The round
+   thumbnail is cropped from that site's own (already ornate) Ada Lovelace
+   portrait. Colors are theme tokens throughout, so hover and focus stay
+   legible in dark mode. */
 .hotel-banner {
   display: block;
   width: 100%;
-  background-color: var(--blue);
-  color: #fff;
+  background-color: var(--bg);
+  color: var(--text);
   text-decoration: none;
-  transition: background-color 0.12s ease;
 }
-.hotel-banner:hover { background-color: var(--ink); }
-.hotel-banner:focus-visible { outline: 3px solid var(--yellow); outline-offset: -3px; }
+.hotel-banner:hover .hotel-banner-title { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.hotel-banner:hover .hotel-banner-cta { color: var(--accent); }
+.hotel-banner:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; }
+.hotel-banner-rule { display: block; max-width: var(--content-w); margin: 0 auto; padding: 0 16px 8px; }
+.hotel-banner-rule .squiggle { height: 10px; color: var(--ink); }
 .hotel-banner-inner {
   display: flex;
   align-items: center;
@@ -1806,7 +1809,7 @@ body,
   height: 36px;
   border-radius: 50%;
   overflow: hidden;
-  border: var(--rule) solid #fff;
+  border: var(--rule) solid var(--ink);
 }
 .hotel-banner-portrait img {
   display: block;
@@ -1823,7 +1826,7 @@ body,
   letter-spacing: -0.01em;
   white-space: nowrap;
 }
-.hotel-banner-sub { font-size: 13px; color: rgba(255, 255, 255, 0.78); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hotel-banner-sub { font-size: 13px; color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .hotel-banner-cta { flex: none; font-family: var(--font-display); font-weight: 800; font-size: 13px; white-space: nowrap; }
 @media (max-width: 560px) {
   .hotel-banner-sub { display: none; }
