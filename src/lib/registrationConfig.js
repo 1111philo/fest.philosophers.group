@@ -41,15 +41,15 @@ export const DONATION_SUGGESTIONS = [11, 33, 111, 1111];
 export const WORKSHOPS = [
   { id: 'tai-chi-basics', title: 'Tai Chi Basics', leader: 'Blake Bertuccelli-Booth', day: 'Thu', time: '9:30 AM' },
   { id: 'letterpress-workshop', title: 'Analog Intelligence Since 1440: A Hands-On Letterpress Workshop', leader: 'Joseph Makkos', day: 'Thu', time: '10:30 AM' },
-  { id: 'why-machines-cannot-crochet', title: 'Why Machines Cannot Crochet', leader: 'Julia Feliciano', day: 'Thu', time: '1:00 PM' },
-  { id: 'offline-voice-ai-chat-bot', title: 'Age of AI Meets Pre-Internet Times: How to Build an Offline Voice AI Chat Bot', leader: 'Vanessa Pyne', day: 'Thu', time: '2:15 PM' },
-  { id: 'e-bike-conversion-speedrun', title: 'E-Bike Conversion Speedrun', leader: 'Matt Candler', day: 'Thu', time: '3:45 PM' },
-  { id: 'intro-to-clown', title: 'Intro to Clown', leader: 'Grace Bertuccelli-Booth', day: 'Thu', time: '5:00 PM' },
+  { id: 'why-machines-cannot-crochet', title: 'Why Machines Cannot Crochet', leader: 'Julia Feliciano', day: 'Thu', time: '12:00 PM' },
+  { id: 'offline-voice-ai-chat-bot', title: 'Age of AI Meets Pre-Internet Times: How to Build an Offline Voice AI Chat Bot', leader: 'Vanessa Pyne', day: 'Thu', time: '1:30 PM' },
+  { id: 'e-bike-conversion-speedrun', title: 'E-Bike Conversion Speedrun', leader: 'Matt Candler', day: 'Thu', time: '3:00 PM' },
+  { id: 'intro-to-clown', title: 'Intro to Clown', leader: 'Grace Bertuccelli-Booth', day: 'Thu', time: '4:30 PM' },
   { id: 'small-language-models', title: 'Small Language Models', leader: 'Sabelo Jupiter', day: 'Fri', time: '9:30 AM' },
-  { id: 'local-agents-crash-course', title: 'Free and Private Agentic AI: Local Agents Crash Course', leader: 'Legare Kerrison', day: 'Fri', time: '10:45 AM' },
+  { id: 'local-agents-crash-course', title: 'Free and Private Agentic AI: Local Agents Crash Course', leader: 'Legare Kerrison', day: 'Fri', time: '11:00 AM' },
   { id: 'device-free-writing-lab', title: 'The Intentional Page: A Device-Free Writing Lab with S.I.L.K.', leader: 'Marcus Rosser + Kaylon Seaberry', day: 'Fri', time: '1:00 PM' },
   { id: 'screening-ai-use-cases', title: 'The Most Valuable AI Skill Is Saying No: Screening AI Use Cases for Real Return', leader: 'Dustin T. Hughes', day: 'Fri', time: '2:30 PM' },
-  { id: 'redesigning-assessment', title: 'Explain It: Redesigning Assessment for the AI Classroom', leader: 'Dr. Blaine Fisher', day: 'Fri', time: '3:45 PM' },
+  { id: 'redesigning-assessment', title: 'Explain It: Redesigning Assessment for the AI Classroom', leader: 'Dr. Blaine Fisher', day: 'Fri', time: '4:00 PM' },
 ];
 
 export const DAYS = [
