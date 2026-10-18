@@ -30394,19 +30394,19 @@
       },
       "modified": "2026-09-18T15:23:50",
       "modified_gmt": "2026-09-18T15:23:50",
-      "slug": "designing-ai-agents-like-computer-systems-by-yinkun-qu",
+      "slug": "ai-at-university-of-illinois-chicago",
       "status": "draft",
       "type": "presentations",
       "link": "https://noai.philosophers.group/?post_type=presentations&p=2631",
       "title": {
-        "rendered": "Designing AI Agents Like Computer Systems by Yinkun Qu"
+        "rendered": "AI at University of Illinois Chicago"
       },
       "content": {
-        "rendered": "<p>What can computer architecture teach us about designing better AI agents? This talk connects memory hierarchy, caching, locality, prefetching, and scheduling with agent memory, retrieval, context management, and tool selection. We will look at AI agents as resource constrained systems and explore how classic systems principles can guide more efficient, reliable, and scalable agent architectures.</p>\n",
+        "rendered": "<p>The University of Illinois Chicago (UIC) <a href=\"https://dase.uic.edu/\">Digital Accessibility</a> team is leading the nation in AI-enabled accessibility work. Blake Bertuccelli-Booth and Brother J share how the team uses AI to automate engineering tasks, make documents more accessible, and cut costs.</p>\n<p>At a university where every stakeholder has an opinion on AI, the work is as much about people as tools. They&#8217;ll also cover how the team builds systems that earn broad buy-in while making everyone more efficient.</p>\n",
         "protected": false
       },
       "excerpt": {
-        "rendered": "<p>What can computer architecture teach us about designing better AI agents? This talk connects memory hierarchy, caching, locality, prefetching, and scheduling with agent memory, retrieval, context management, and tool selection. We will look at AI agents as resource constrained systems and explore how classic systems principles can guide more efficient, reliable, and scalable agent architectures.</p>\n",
+        "rendered": "<p>The University of Illinois Chicago (UIC) Digital Accessibility team is leading the nation in AI-enabled accessibility work. Hear how the team uses AI to automate engineering tasks, make documents more accessible, and cut costs, and how it builds buy-in [&hellip;]</p>\n",
         "protected": false
       },
       "featured_media": 0,
@@ -30619,11 +30619,11 @@
       },
       "scraped_fields": {
         "date": "11/12/2026",
-        "time": "2:40 PM",
+        "time": "2:30 PM",
         "location": "Main Stage • 400 Esplanade Ave",
-        "presenter_name": "Yinkun Qu",
-        "presenter_bio": "Yinkun Qu is a graduate student at University of Illinois at Chicago, majoring in Electrical and Computer Engineering. His research interests including both Computer Architecture and Agent Development.",
-        "presenter_photo_url": null,
+        "presenter_name": "Blake Bertuccelli-Booth & Brother J",
+        "presenter_bio": "Blake Bertuccelli-Booth is Assistant Director of Digital Accessibility Engineering at the University of Illinois Chicago (UIC), and Brother J is a Manual Testing Specialist on UIC's Digital Accessibility team.",
+        "presenter_photo_url": "media/uic-logo.png",
         "type": ""
       }
     },
@@ -59811,8 +59811,8 @@
       "sort_time": "14:30",
       "raw_time_range": "2:30–3:00",
       "location": "Main Stage • 400 Esplanade Ave",
-      "title": "Designing AI Agents Like Computer Systems",
-      "presenters": "Yinkun Qu",
+      "title": "AI at University of Illinois Chicago",
+      "presenters": "Blake Bertuccelli-Booth & Brother J",
       "type": "",
       "tag": "Engineering",
       "presentation_id": 2631
