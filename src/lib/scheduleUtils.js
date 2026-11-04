@@ -134,7 +134,7 @@ export function groupConsecutiveByType(items, type) {
 // "Party" row ("Doors / Reception / Music") shares its location with a
 // long, unrelated run of rows (remarks, keynote, lightning talks...) that
 // must NOT get swallowed into one giant card the same way.
-const AFTER_PARTY_TITLE = 'Party – Talks, Tarot, and "NOAI" Burial';
+const AFTER_PARTY_TITLE = 'NOAI After Hours';
 export function mergePartyWithTrailingTalks(items) {
   const result = [];
   for (let i = 0; i < items.length; i += 1) {
@@ -155,6 +155,8 @@ export function mergePartyWithTrailingTalks(items) {
           time: it.time, raw_time_range: it.raw_time_range,
           location: it.location, title: it.title,
           presenters: `${run.length + 1} activities`, type: it.type, tag: it.tag,
+          // Shown as a second badge, since the party now carries talks.
+          extraTypes: talks.length ? ['Lightning Talk'] : [],
           items: [
             ...leading,
             {

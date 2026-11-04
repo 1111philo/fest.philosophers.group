@@ -123,6 +123,7 @@ function ScheduleCard({ item, onOpen, mediaById, presentationsById }) {
         <div className="card-meta">
           <span className="badge loc">{item.location}</span>
           <TypeBadge type={item.type} />
+          {(item.extraTypes || []).map((t) => <TypeBadge key={t} type={t} />)}
         </div>
         <AudienceLine ids={audiencesFor(item)} className="card-aud" />
       </div>
