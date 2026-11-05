@@ -33,6 +33,15 @@ const MAX_DONATION = 50000; // sanity ceiling against fat-fingered/abusive input
 // scale if registrationQty > 1) - see scripts/setup-stripe.mjs.
 const VOLUNTEER_PROMO_ID = 'promo_1UHlKkBryIKI7fPqkYFotFAd';
 
+// Workshop changes made after checkout. A completed Checkout Session's
+// metadata can't be edited from the Stripe Dashboard, so a registrant who
+// switches workshops is recorded here instead, keyed by session id, and the
+// /registrations list shows the new workshop in place of the original.
+const WORKSHOP_OVERRIDES = {
+  // Letterpress workshop cancelled; switched to crochet.
+  cs_live_b1E2DEYUbw5EzoaqtWwnGBpNCHjwnLjoyFquxuIkekhhOAbdHQIu69DH9X: 'Why Machines Cannot Crochet',
+};
+
 const SUCCESS_URL = 'https://fest.philosophers.group/register/thank-you/?session_id={CHECKOUT_SESSION_ID}';
 const CANCEL_URL = 'https://fest.philosophers.group/register/';
 
@@ -137,7 +146,7 @@ function toRegistrationRow(session) {
     // still one registration, not zero - default it here, once, so every
     // reader (the table, the JSON export, the summary count below) agrees.
     registrationQty: session.metadata?.registration_qty || '1',
-    workshopNames: session.metadata?.workshop_names || '',
+    workshopNames: WORKSHOP_OVERRIDES[session.id] ?? (session.metadata?.workshop_names || ''),
     volunteerShifts: session.metadata?.volunteer_shifts || '',
     daysAttending: session.metadata?.days_attending || '',
     accessibilityNotes: session.metadata?.accessibility_notes || '',
