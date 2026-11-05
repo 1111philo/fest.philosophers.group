@@ -40,7 +40,6 @@ export const DONATION_SUGGESTIONS = [11, 33, 111, 1111];
 // runtime, since RegistrationForm doesn't otherwise need content.json.
 export const WORKSHOPS = [
   { id: 'tai-chi-basics', title: 'Tai Chi Basics', leader: 'Blake Bertuccelli-Booth', day: 'Thu', time: '9:30 AM' },
-  { id: 'letterpress-workshop', title: 'Analog Intelligence Since 1440: A Hands-On Letterpress Workshop', leader: 'Joseph Makkos', day: 'Thu', time: '10:30 AM' },
   { id: 'why-machines-cannot-crochet', title: 'Why Machines Cannot Crochet', leader: 'Julia Feliciano', day: 'Thu', time: '12:00 PM' },
   { id: 'offline-voice-ai-chat-bot', title: 'Age of AI Meets Pre-Internet Times: How to Build an Offline Voice AI Chat Bot', leader: 'Vanessa Pyne', day: 'Thu', time: '1:30 PM' },
   { id: 'e-bike-conversion-speedrun', title: 'E-Bike Conversion Speedrun', leader: 'Matt Candler', day: 'Thu', time: '3:00 PM' },
