@@ -262,7 +262,6 @@ const SPONSORS = [
   { name: 'Louisiana Economic Development', logo: '/media/sponsors/led.jpg', url: 'https://www.opportunitylouisiana.gov' },
   { name: 'Excella', logo: '/media/sponsors/excella.png', url: 'https://www.excella.com' },
   { name: 'Intelligent Archives', logo: '/media/sponsors/intelligent-archives.png', url: null },
-  { name: 'Starbucks', logo: '/media/sponsors/starbucks.png', url: null },
   { name: 'Astral Codex Ten', logo: '/media/sponsors/astral-codex-ten.jpeg', url: null },
   { name: 'Equalify', logo: '/media/sponsors/equalify.png', url: 'https://equalify.app/' },
 ];
