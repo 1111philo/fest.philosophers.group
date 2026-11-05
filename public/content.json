@@ -39004,11 +39004,11 @@
         "rendered": "Future of Education Fireside Chat"
       },
       "content": {
-        "rendered": "<p>AI is reshaping classrooms, campuses, and the policies that govern both — often faster than institutions can adapt. This fireside chat brings together leaders spanning open-source technology, K-12 policy, and higher education to talk through what that shift looks like from where they sit.</p>",
+        "rendered": "<p>AI is reshaping classrooms, campuses, and the policies that govern both — often faster than institutions can adapt. This fireside chat brings together leaders from open-source technology and K-12 policy to talk through what that shift looks like from where they sit.</p>",
         "protected": false
       },
       "excerpt": {
-        "rendered": "<p>Leaders from open-source technology, K-12 policy, and higher education talk through how AI is reshaping education — in the classroom, on campus, and in the policies that govern both.</p>",
+        "rendered": "<p>Leaders from open-source technology and K-12 policy talk through how AI is reshaping education — in the classroom, on campus, and in the policies that govern both.</p>",
         "protected": false
       },
       "featured_media": 0,
@@ -39036,8 +39036,8 @@
         "date": null,
         "time": null,
         "location": null,
-        "presenter_name": "Mary Hubbard, Ronnie Morris & Dr. Jim Henderson",
-        "presenter_bio": "Mary Hubbard is Executive Director of WordPress.org and President of the Open Web Alliance, bringing nearly two decades of experience in product and platform strategy from companies including TikTok, Automattic, eBay, and Walmart. Ronnie Morris is President of the Louisiana State Board of Elementary and Secondary Education (BESE); an LSU-trained engineer, he also volunteers as a substitute math and science teacher in Baton Rouge schools. Dr. Jim Henderson is President of Louisiana Tech University, previously serving as President and CEO of the University of Louisiana System and as president of Northwestern State University and Bossier Parish Community College.",
+        "presenter_name": "Mary Hubbard & Ronnie Morris",
+        "presenter_bio": "Mary Hubbard is Executive Director of WordPress.org and President of the Open Web Alliance, bringing nearly two decades of experience in product and platform strategy from companies including TikTok, Automattic, eBay, and Walmart. Ronnie Morris is former President of the Louisiana State Board of Elementary and Secondary Education (BESE); an LSU-trained engineer, he also volunteers as a substitute math and science teacher in Baton Rouge schools.",
         "presenter_photo_url": ""
       }
     },
@@ -59518,7 +59518,7 @@
       "raw_time_range": "6:30–7:30",
       "location": "Main Stage • 400 Esplanade Ave",
       "title": "Future of Education Fireside Chat",
-      "presenters": "Mary Hubbard (President, Open Web Alliance) + Ronnie Morris (President, BESE) + Dr. Jim Henderson (President, Louisiana Tech)",
+      "presenters": "Mary Hubbard (President, Open Web Alliance) + Ronnie Morris (Former President, BESE)",
       "type": "Fireside Chat",
       "tag": "Education, Policy & Funding",
       "presentation_id": 2904
