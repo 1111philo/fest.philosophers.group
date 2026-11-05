@@ -95,6 +95,7 @@ async function main() {
   // Stripe codes can't contain spaces, so "Workshops Only" is entered as WorkshopsOnly (codes are case-insensitive).
   await makePromo('WorkshopsOnly', { amount_off: 3300, currency: 'usd', duration: 'once', name: 'Workshops Only' });
   await makePromo('education', { amount_off: 5500, currency: 'usd', duration: 'once', name: 'Education' });
+  await makePromo('Nieux', { amount_off: 504, currency: 'usd', duration: 'once', name: 'Nieux' });
 
   console.log('Creating payment link...');
   const paymentLink = await stripe('POST', 'payment_links', flatten({
