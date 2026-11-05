@@ -40,6 +40,8 @@ const VOLUNTEER_PROMO_ID = 'promo_1UHlKkBryIKI7fPqkYFotFAd';
 const WORKSHOP_OVERRIDES = {
   // Letterpress workshop cancelled; switched to crochet.
   cs_live_b1E2DEYUbw5EzoaqtWwnGBpNCHjwnLjoyFquxuIkekhhOAbdHQIu69DH9X: 'Why Machines Cannot Crochet',
+  // Added after checkout.
+  cs_live_b1ASeibhKJqgIFKGvsVzBLLHAbDCGPfa7y92FC8ZdvZpOLazkQxzTpjRR7: 'AI in Action: Competitive Research and LinkedIn Networking & Sales Prospecting Done for You',
 };
 
 const SUCCESS_URL = 'https://fest.philosophers.group/register/thank-you/?session_id={CHECKOUT_SESSION_ID}';
