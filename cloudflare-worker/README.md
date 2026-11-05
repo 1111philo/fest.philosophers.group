@@ -27,6 +27,14 @@ npx wrangler deploy
 Copy `<url>/create-checkout` into `CHECKOUT_ENDPOINT` in
 `../src/lib/registrationConfig.js`.
 
+## Automatic deploys
+
+`.github/workflows/deploy-worker.yml` runs `wrangler deploy` whenever anything
+in `cloudflare-worker/` changes on main (and can be run by hand from the
+Actions tab). It uses the `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`
+repository secrets; the Worker's own secrets above stay in Cloudflare and are
+untouched by a deploy.
+
 ## Viewing registrations
 
 Visit `<worker-url>/registrations?key=<ADMIN_KEY>` (the same value you set
