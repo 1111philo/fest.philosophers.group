@@ -29049,7 +29049,7 @@
         "time": null,
         "location": null,
         "presenter_name": "Steven Achord",
-        "presenter_bio": "Steven Achord is a designer, developer, and creative strategist who has built a career by continually adapting to new mediums, technologies, and ways of working. His experience spans marketing, brand, product design, user research, front-end development, and software strategy, with work for organizations including the NBA, Ruth’s Chris, and NASA.\r\n\r\nToday, Steven is Lead Product Designer and Front-End Developer at Maverix, where he helps shape products from user experience and design through implementation and broader software strategy. His work is grounded in design thinking, empathy, and a deep understanding of how technology and business come together to solve real problems.\r\n\r\nHe is also a generative artist, musician, songwriter, and co-host of the CreativeBlocks Podcast, which explores what it is like to work as a creative professional. He is currently focused on how AI is changing the creative process, not as a replacement for human thinking, but as a new medium for designing, building, experimenting, and creating.",
+        "presenter_bio": "Steven Achord is a designer, developer, and creative strategist who has built a career by continually adapting to new mediums, technologies, and ways of working. His experience spans marketing, brand, product design, user research, front-end development, and software strategy, with work for organizations including the NBA, Ruth’s Chris, and NASA.\r\n\r\nToday, Steven is Lead Product Designer and Front-End Developer at Maverix, where he helps shape products from user experience and design through implementation and broader software strategy. His work is grounded in design thinking, empathy, and a deep understanding of how technology and business come together to solve real problems.\r\n\r\nHe is also a generative artist, musician, songwriter, and co-host of Various Methods of Escape: Creative Podcast, which explores what it is like to work as a creative professional. He is currently focused on how AI is changing the creative process, not as a replacement for human thinking, but as a new medium for designing, building, experimenting, and creating.",
         "presenter_photo_url": "media/presenter-123-steve-cd.jpg"
       }
     },
@@ -59595,16 +59595,16 @@
     },
     {
       "year": "2026",
-      "day": "Wednesday",
-      "date": "2026-11-11",
-      "time": "8:30 PM",
-      "sort_time": "20:30",
-      "raw_time_range": "8:30–8:40",
-      "location": "714 Governor Nichols St.",
+      "day": "Thursday",
+      "date": "2026-11-12",
+      "time": "11:15 AM",
+      "sort_time": "11:15",
+      "raw_time_range": "11:15–12:00",
+      "location": "Education Center • 400 Esplanade Ave",
       "title": "Design Better With AI",
       "presenters": "Steven Achord",
-      "type": "Lightning Talk",
-      "tag": "Lightning Talks",
+      "type": "",
+      "tag": "AI & Technology",
       "presentation_id": 2611
     },
     {
