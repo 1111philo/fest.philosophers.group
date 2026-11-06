@@ -2,6 +2,8 @@
 import SiteHeader from '../components/SiteHeader';
 import RegistrationForm from '../components/RegistrationForm';
 import SiteFooter from '../components/SiteFooter.astro';
+import MetaPixel from '../components/MetaPixel.astro';
+import MetaPixelFallback from '../components/MetaPixelFallback.astro';
 import { SITE_TITLE } from '../lib/content.mjs';
 import '../styles/app.css';
 
@@ -52,8 +54,10 @@ const { title, description, canonical, image } = Astro.props;
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<MetaPixel />
 </head>
 <body>
+<MetaPixelFallback />
 <a class="skip-link" href={`${Astro.url.pathname}#main`}>Skip to content</a>
 <script is:inline>
   // <base href="/"> makes a bare "#main" resolve to the homepage, so the
