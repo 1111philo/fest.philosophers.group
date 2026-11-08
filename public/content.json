@@ -7789,7 +7789,7 @@
         "rendered": "<p>Giving some basic insights that the field doesn&#8217;t seem to give enough attention and credence to regarding probablility theory and how it can help not just the average data scientist up their game in the field, but also allow the layman to interact with AI in a more effective and impactful way.</p>\n",
         "protected": false
       },
-      "featured_media": 1006,
+      "featured_media": 0,
       "template": "",
       "meta": {
         "_acf_changed": false,
@@ -8030,7 +8030,7 @@
         "location": "Upstairs Theater – New Orleans Jazz Museum",
         "presenter_name": "Sabelo Jupiter",
         "presenter_bio": "Data Scientist and ML engineer",
-        "presenter_photo_url": "media/1006-Photo-on-6-16-22-at-2.15-PM.jpg"
+        "presenter_photo_url": "media/sabelo-jupiter.jpg"
       }
     },
     {
@@ -38251,7 +38251,7 @@
         "location": "Education Center • 400 Esplanade Ave",
         "presenter_name": "Sabelo Jupiter",
         "presenter_bio": "I am a Machine Learning Engineer and Data Scientist with proven success delivering high-value analytics and generative AI solutions for government and enterprise. I’ve worked on projects causing $1B+ in fraud prevention savings for the US Treasury and enhanced real-time data systems for rapid decision-making.\r\n\r\nI specialize in building robust ML pipelines, deploying classical and deep learning models (NLP, computer vision, entity resolution), and optimizing data flows in cloud environments (AWS Lambda, Redshift, Docker, Step Functions). A core focus of my recent work is small language models (SLMs) — fine-tuning, distilling, and quantizing compact models to deliver LLM-quality results at a fraction of the cost, latency, and infrastructure footprint, including deployments in resource-constrained and privacy-sensitive environments where large hosted models aren’t an option. I thrive when translating complex technical concepts for diverse stakeholders, driving impact across cross-functional teams.\r\n\r\nMy experience spans computer science, applied mathematics, and cross-industry data applications, including leading conference talks and collaborating on AI community events. As a lifelong learner, I am passionate about pairing technical expertise with clear communication to unlock transformative solutions.\r\n\r\nAsk me about designing scalable ML architecture, small language models and efficient AI, tackling data-intensive projects, or speaking on generative AI trends.",
-        "presenter_photo_url": null,
+        "presenter_photo_url": "media/sabelo-jupiter.jpg",
         "type": "Workshop"
       }
     },
