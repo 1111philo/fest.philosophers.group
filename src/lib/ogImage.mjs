@@ -158,9 +158,15 @@ function cardTitle(pres, presenters) {
   let title = cleanText(stripTags(pres.title.rendered));
   // Compared letters-only, so "Dustin T Hughes" matches "Dustin T. Hughes".
   const letters = (x) => x.toLowerCase().replace(/[^\p{L}]/gu, '');
+  // Also matches several names ("by A & B") when the presenters line puts
+  // something between them (e.g. "A / Company + B / Company").
   const by = / by ([^]+)$/i.exec(title);
-  if (by && presenters && letters(presenters).includes(letters(by[1]).slice(0, 12))) {
-    title = title.slice(0, by.index).trim();
+  if (by && presenters) {
+    const have = letters(presenters);
+    const names = by[1].split(/\s*(?:&|,|\band\b)\s*/i).filter(Boolean);
+    const matches = have.includes(letters(by[1]).slice(0, 12))
+      || (names.length > 1 && names.every((n) => have.includes(letters(n).slice(0, 12))));
+    if (matches) title = title.slice(0, by.index).trim();
   }
   if (title.length > 120) title = `${title.slice(0, 117).replace(/\s+\S*$/, '')}…`;
   return title;
@@ -180,6 +186,15 @@ export async function renderPresentationOg(content, pres) {
   const accent = ACCENTS[pres.id % ACCENTS.length];
   const photoPath = presentationPhotoPath(content, pres);
   const photo = photoPath ? await photoDataUri(photoPath, 400) : null;
+  // A talk with two presenters listed with their own photos shows both,
+  // as two overlapping frames, instead of only the first.
+  const pairPaths = ((pres.scraped_fields || {}).presenters || [])
+    .map((p) => p.photo_url && path.join(PUBLIC_DIR, p.photo_url))
+    .filter((abs) => abs && fs.existsSync(abs))
+    .slice(0, 2);
+  const pair = pairPaths.length === 2
+    ? (await Promise.all(pairPaths.map((abs) => photoDataUri(abs, 300)))).filter(Boolean)
+    : [];
   const when = [info.date, info.time].filter(Boolean).join(' · ');
   const where = cleanText(info.location);
 
@@ -213,7 +228,19 @@ export async function renderPresentationOg(content, pres) {
     return h('img', { src: `data:image/svg+xml;base64,${Buffer.from(svg).toString('base64')}`, width: d, height: d, style: { position: 'absolute', ...style } });
   };
 
-  const art = photo
+  const second = ACCENTS[(pres.id + 1) % ACCENTS.length];
+  const frame = (src, style, shadow) => h('div', {
+    style: { position: 'absolute', width: 260, height: 260, border: `4px solid ${INK}`, boxShadow: `14px 14px 0 ${shadow}`, ...style },
+  }, h('img', { src, width: 252, height: 252, style: { objectFit: 'cover' } }));
+
+  const art = pair.length === 2
+    ? h('div', { style: { position: 'relative', width: 440, height: 630 } },
+      h('img', { src: squiggleDataUri(260, 300, { rows: 6, rowGap: 50, stroke: 9 }), width: 260, height: 300, style: { position: 'absolute', top: 36, right: 0 } }),
+      frame(pair[0], { top: 70, left: 24 }, accent),
+      frame(pair[1], { top: 280, left: 150 }, second),
+      ringDot(110, { left: 6, bottom: 40 }),
+    )
+    : photo
     ? h('div', { style: { position: 'relative', width: 440, height: 630, alignItems: 'center', justifyContent: 'center' } },
       h('img', { src: squiggleDataUri(260, 300, { rows: 6, rowGap: 50, stroke: 9 }), width: 260, height: 300, style: { position: 'absolute', top: 36, right: 0 } }),
       h('div', { style: { position: 'relative', width: 380, height: 380, border: `4px solid ${INK}`, boxShadow: `18px 18px 0 ${accent}`, marginTop: 20, marginRight: 18 } },
