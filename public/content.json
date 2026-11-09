@@ -39458,10 +39458,10 @@
       "type": "presentations",
       "link": "",
       "title": {
-        "rendered": "Investing where the puck is . . . going? Going? Gone! by Mickal Adler"
+        "rendered": "Investing where the puck is . . . going? Going? Gone! by Mickal Adler & Max Materne"
       },
       "content": {
-        "rendered": "<p>When the technology is changing so fast, how does one make investment decisions? The first vintage fund of Boot64 Ventures began deploying in 2023, during the first wave of AI eating the planet. Boot64's portfolio companies, 43 and growing, span the gamut of technologies and products from foundational AI models, energy, biotechnology, and software to shoelaces. Making an investment decision is like placing a bet on a vision of the future. If you want to know where the puck is going, you can't figure that out by looking at a snapshot of the puck. You need a moving picture of where it has been so you can envision the trajectory and speed to make your forecast.</p>\n<p>This presentation will take you through the evolution over the last couple of years of the Venture landscape. This traverse will be peppered with data and anecdotes and maybe even some predictions.</p>\n",
+        "rendered": "<p>When the technology is changing so fast, how does one make investment decisions? The first vintage fund of Boot64 Ventures began deploying in 2023, during the first wave of AI eating the planet. Boot64's portfolio companies, 43 and growing, span the gamut of technologies and products from foundational AI models, energy, biotechnology, and software to shoelaces. Making an investment decision is like placing a bet on a vision of the future. If you want to know where the puck is going, you can't figure that out by looking at a snapshot of the puck. You need a moving picture of where it has been so you can envision the trajectory and speed to make your forecast.</p>\n<p>This presentation will take you through the evolution over the last couple of years of the Venture landscape. This traverse will be peppered with data and anecdotes and maybe even some predictions.</p>\n<p>Joining Mickal is Max Materne, COO of Raven. Together they&#8217;ll walk through what it takes to become an AI-forward business: first one person, then the team, then the whole company.</p>\n",
         "protected": false
       },
       "excerpt": {
@@ -39493,9 +39493,21 @@
         "date": null,
         "time": null,
         "location": null,
-        "presenter_name": "Mickal Adler, Boot64 Ventures",
-        "presenter_bio": "Mickal Adler is Managing Partner at Boot64 Ventures, an early-stage venture fund based in Metairie, Louisiana investing in pre-seed, seed, and select Series A companies across healthcare, sustainability, and technology. A New Orleans attorney and entrepreneur, he co-leads the fund alongside partner John Roberts.",
-        "presenter_photo_url": "media/mickal-adler-headshot.jpg"
+        "presenter_name": "Mickal Adler & Max Materne",
+        "presenter_bio": "Mickal Adler is Managing Partner at Boot64 Ventures, an early-stage venture fund based in Metairie, Louisiana investing in pre-seed, seed, and select Series A companies across healthcare, sustainability, and technology. A New Orleans attorney and entrepreneur, he co-leads the fund alongside partner John Roberts. Max Materne is COO of Raven, a New Orleans experiential fabrication shop that is using AI to rebuild how the whole business runs. He is also the founder of Ownex, owned and ran a downtown New Orleans motorcycle dealership for 17 years, and is a Certified Master Technician.",
+        "presenter_photo_url": "media/mickal-adler-headshot.jpg",
+        "presenters": [
+          {
+            "name": "Mickal Adler, Boot64 Ventures",
+            "bio": "Mickal Adler is Managing Partner at Boot64 Ventures, an early-stage venture fund based in Metairie, Louisiana investing in pre-seed, seed, and select Series A companies across healthcare, sustainability, and technology. A New Orleans attorney and entrepreneur, he co-leads the fund alongside partner John Roberts.",
+            "photo_url": "media/mickal-adler-headshot.jpg"
+          },
+          {
+            "name": "Max Materne, Raven",
+            "bio": "Max Materne is COO of Raven, a New Orleans experiential fabrication shop that is using AI to rebuild how the whole business runs. He is also the founder of Ownex, owned and ran a downtown New Orleans motorcycle dealership for 17 years, and is a Certified Master Technician.",
+            "photo_url": "media/max-materne-headshot.jpg"
+          }
+        ]
       }
     },
     {
@@ -59919,9 +59931,9 @@
       "year": "2026",
       "day": "Friday",
       "date": "2026-11-13",
-      "time": "9:30 AM",
-      "sort_time": "09:30",
-      "raw_time_range": "9:30–10:00",
+      "time": "11:30 AM",
+      "sort_time": "11:30",
+      "raw_time_range": "11:30–12:00",
       "location": "Main Stage • 400 Esplanade Ave",
       "title": "AI and Autonomy in Land, Sea, and Sky in Louisiana",
       "presenters": "Josh Fleig, Chief Innovation Officer, LED",
@@ -59933,9 +59945,9 @@
       "year": "2026",
       "day": "Friday",
       "date": "2026-11-13",
-      "time": "10:00 AM",
-      "sort_time": "10:00",
-      "raw_time_range": "10:00–10:45",
+      "time": "9:30 AM",
+      "sort_time": "09:30",
+      "raw_time_range": "9:30–10:15",
       "location": "Main Stage • 400 Esplanade Ave",
       "title": "From Chatting to Doing: Putting Your AI Tools to Work",
       "presenters": "Knud Berthelsen",
@@ -59947,9 +59959,9 @@
       "year": "2026",
       "day": "Friday",
       "date": "2026-11-13",
-      "time": "10:45 AM",
-      "sort_time": "10:45",
-      "raw_time_range": "10:45–12:00",
+      "time": "10:15 AM",
+      "sort_time": "10:15",
+      "raw_time_range": "10:15–11:30",
       "location": "Main Stage • 400 Esplanade Ave",
       "title": "AI in Action: Competitive Research and LinkedIn Networking & Sales Prospecting Done for You",
       "presenters": "Tom Martin + Bill Dalton",
@@ -60008,7 +60020,7 @@
       "raw_time_range": "2:45–3:30",
       "location": "Main Stage • 400 Esplanade Ave",
       "title": "Investing where the puck is . . . going? Going? Gone!",
-      "presenters": "Mickal Adler / Boot64 Ventures",
+      "presenters": "Mickal Adler / Boot64 Ventures + Max Materne / Raven",
       "type": "",
       "tag": "Business & Strategy",
       "presentation_id": 2912
