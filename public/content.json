@@ -39036,9 +39036,26 @@
         "date": null,
         "time": null,
         "location": null,
-        "presenter_name": "Mary Hubbard & Ronnie Morris",
-        "presenter_bio": "Mary Hubbard is Executive Director of WordPress.org and President of the Open Web Alliance, bringing nearly two decades of experience in product and platform strategy from companies including TikTok, Automattic, eBay, and Walmart. Ronnie Morris is former President of the Louisiana State Board of Elementary and Secondary Education (BESE); an LSU-trained engineer, he also volunteers as a substitute math and science teacher in Baton Rouge schools.",
-        "presenter_photo_url": ""
+        "presenter_name": "Mary Hubbard, Ronnie Morris & James Grierson",
+        "presenter_bio": "Mary Hubbard is Executive Director of WordPress.org and President of the Open Web Alliance, bringing nearly two decades of experience in product and platform strategy from companies including TikTok, Automattic, eBay, and Walmart. Ronnie Morris is former President of the Louisiana State Board of Elementary and Secondary Education (BESE); an LSU-trained engineer, he also volunteers as a substitute math and science teacher in Baton Rouge schools. James Grierson is CEO of Jetpack and has worked with its parent company, Automattic, the company behind WordPress.com and Tumblr, since 2017. A self-described tinkerer, he loves figuring out how and why things work.",
+        "presenter_photo_url": "",
+        "presenters": [
+          {
+            "name": "Mary Hubbard, Open Web Alliance",
+            "bio": "Mary Hubbard is Executive Director of WordPress.org and President of the Open Web Alliance, bringing nearly two decades of experience in product and platform strategy from companies including TikTok, Automattic, eBay, and Walmart.",
+            "photo_url": ""
+          },
+          {
+            "name": "Ronnie Morris, Former President of BESE",
+            "bio": "Ronnie Morris is former President of the Louisiana State Board of Elementary and Secondary Education (BESE); an LSU-trained engineer, he also volunteers as a substitute math and science teacher in Baton Rouge schools.",
+            "photo_url": ""
+          },
+          {
+            "name": "James Grierson, Jetpack",
+            "bio": "James Grierson is CEO of Jetpack and has worked with its parent company, Automattic, the company behind WordPress.com and Tumblr, since 2017. A self-described tinkerer, he loves figuring out how and why things work.",
+            "photo_url": "media/james-grierson-headshot.jpg"
+          }
+        ]
       }
     },
     {
@@ -59530,7 +59547,7 @@
       "raw_time_range": "6:30–7:30",
       "location": "Main Stage • 400 Esplanade Ave",
       "title": "Future of Education Fireside Chat",
-      "presenters": "Mary Hubbard (President, Open Web Alliance) + Ronnie Morris (Former President, BESE)",
+      "presenters": "Mary Hubbard (President, Open Web Alliance) + Ronnie Morris (Former President, BESE) + James Grierson (CEO, Jetpack)",
       "type": "Fireside Chat",
       "tag": "Education, Policy & Funding",
       "presentation_id": 2904
