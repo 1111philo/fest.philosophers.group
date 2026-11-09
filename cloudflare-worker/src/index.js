@@ -42,6 +42,7 @@ const WORKSHOP_OVERRIDES = {
   cs_live_b1E2DEYUbw5EzoaqtWwnGBpNCHjwnLjoyFquxuIkekhhOAbdHQIu69DH9X: 'Why Machines Cannot Crochet',
   // Added after checkout.
   cs_live_b1ASeibhKJqgIFKGvsVzBLLHAbDCGPfa7y92FC8ZdvZpOLazkQxzTpjRR7: 'AI in Action: Competitive Research and LinkedIn Networking & Sales Prospecting Done for You',
+  cs_live_b1r3w7pmke6k1yTur6oYFEfRGejsxpgKlGHYnzi8oP0OfhLx4AgdadPhFR: 'Free and Private Agentic AI: Local Agents Crash Course',
 };
 
 const SUCCESS_URL = 'https://fest.philosophers.group/register/thank-you/?session_id={CHECKOUT_SESSION_ID}';
