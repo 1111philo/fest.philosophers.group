@@ -39161,9 +39161,31 @@
         "date": null,
         "time": null,
         "location": null,
-        "presenter_name": "",
-        "presenter_bio": "",
-        "presenter_photo_url": ""
+        "presenter_name": "Amanda Gill, Lindsey Vincent, Stephen Poole & Henry Perkins",
+        "presenter_bio": "Amanda Gill: AI Leaders Community Manager & Cohort 1 Graduate, LA Tech. Lindsey Vincent: Partner University Leader, LA Tech. Stephen Poole: Cohort 1 Graduate. Henry Perkins: Cohort 1 Graduate.",
+        "presenter_photo_url": "",
+        "presenters": [
+          {
+            "name": "Amanda Gill",
+            "bio": "AI Leaders Community Manager & Cohort 1 Graduate, LA Tech",
+            "photo_url": ""
+          },
+          {
+            "name": "Lindsey Vincent",
+            "bio": "Partner University Leader, LA Tech",
+            "photo_url": ""
+          },
+          {
+            "name": "Stephen Poole",
+            "bio": "Cohort 1 Graduate",
+            "photo_url": ""
+          },
+          {
+            "name": "Henry Perkins",
+            "bio": "Cohort 1 Graduate",
+            "photo_url": ""
+          }
+        ]
       }
     },
     {
@@ -59869,7 +59891,7 @@
       "raw_time_range": "4:15–5:15",
       "location": "Main Stage • 400 Esplanade Ave",
       "title": "AI Leaders Update and Panel",
-      "presenters": "",
+      "presenters": "Amanda Gill (AI Leaders Community Manager & Cohort 1 Graduate, LA Tech) + Lindsey Vincent (Partner University Leader, LA Tech) + Stephen Poole (Cohort 1 Graduate) + Henry Perkins (Cohort 1 Graduate)",
       "type": "Panel",
       "tag": "Business & Strategy",
       "presentation_id": 2906
