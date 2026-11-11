@@ -22,6 +22,7 @@ const AUDIENCES = [
   ['students', 'Students'],
   ['business', 'Business'],
   ['artists', 'Artists'],
+  ['technical', 'Technical'],
   ['fun', 'Fun'],
 ];
 const AUDIENCE_IDS = AUDIENCES.map(([id]) => id);

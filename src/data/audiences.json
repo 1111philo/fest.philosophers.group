@@ -1,5 +1,5 @@
 {
-  "_readme": "Audience tags for the schedule's For Teachers / Students / Business / Artists / Fun filters. 'presentations' is keyed by presentation id (title alongside only for readability); 'scheduleItems' covers schedule rows with no presentation, keyed by their exact title. Untagged items still show in the normal schedule, just not under any audience filter.",
+  "_readme": "Audience tags for the schedule's For Teachers / Students / Business / Artists / Technical / Fun filters. 'presentations' is keyed by presentation id (title alongside only for readability); 'scheduleItems' covers schedule rows with no presentation, keyed by their exact title. Untagged items still show in the normal schedule, just not under any audience filter.",
   "presentations": {
     "861": {
       "title": "Web Accessibility and AI: Lessons from Building Equalify",
@@ -660,7 +660,8 @@
       "title": "50 First Dates with AI by Ryan Hageman",
       "for": [
         "students",
-        "business"
+        "business",
+        "technical"
       ]
     },
     "2624": {
@@ -682,7 +683,8 @@
       "for": [
         "teachers",
         "students",
-        "business"
+        "business",
+        "technical"
       ]
     },
     "2633": {
@@ -700,7 +702,7 @@
     "2640": {
       "title": "Temporal Mental Models by George Mauer",
       "for": [
-        "business"
+        "technical"
       ]
     },
     "2644": {
@@ -726,6 +728,7 @@
       "title": "Coding for Good at AI Speed: Mapping New Orleans’ Bumpy Roads by Adam Davies",
       "for": [
         "students",
+        "technical",
         "fun"
       ]
     },
@@ -759,14 +762,16 @@
     "2706": {
       "title": "Artificial Intelligence, Gaussian Splatting, and the Future of Visual Effects: Lessons from the Production of Cyberpunk Manifesto by Trai Thomas",
       "for": [
-        "artists"
+        "artists",
+        "technical"
       ]
     },
     "2720": {
       "title": "Free and Private Agentic AI: Local Agents Crash Course by Legare Kerrison",
       "for": [
         "students",
-        "business"
+        "business",
+        "technical"
       ]
     },
     "2729": {
@@ -872,7 +877,8 @@
       "title": "Small Language Models: The Most Important, Least Understood, Highly Impactful Portion of the Industry by Sabelo Jupiter",
       "for": [
         "students",
-        "business"
+        "business",
+        "technical"
       ]
     },
     "2837": {
@@ -891,6 +897,7 @@
       "title": "Age of AI Meets Pre-Internet Times: How to Build an Offline Voice AI Chat Bot by Vanessa Pyne",
       "for": [
         "students",
+        "technical",
         "fun"
       ]
     },
