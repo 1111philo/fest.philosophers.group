@@ -39,7 +39,7 @@ export const DONATION_SUGGESTIONS = [11, 33, 111, 1111];
 // kept as static config here, same as DAYS below, rather than fetched at
 // runtime, since RegistrationForm doesn't otherwise need content.json.
 export const WORKSHOPS = [
-  { id: 'tai-chi-basics', title: 'Tai Chi Basics', leader: 'Blake Bertuccelli-Booth', day: 'Thu', time: '9:30 AM' },
+  { id: 'tai-chi-basics', title: 'Tai Chi Basics', leader: 'Blake Bertuccelli-Booth', day: 'Thu', time: '10:00 AM' },
   { id: 'why-machines-cannot-crochet', title: 'Why Machines Cannot Crochet', leader: 'Julia Feliciano', day: 'Thu', time: '12:00 PM' },
   { id: 'offline-voice-ai-chat-bot', title: 'Age of AI Meets Pre-Internet Times: How to Build an Offline Voice AI Chat Bot', leader: 'Vanessa Pyne', day: 'Thu', time: '1:30 PM' },
   { id: 'e-bike-conversion-speedrun', title: 'E-Bike Conversion Speedrun', leader: 'Matt Candler', day: 'Thu', time: '3:00 PM' },
