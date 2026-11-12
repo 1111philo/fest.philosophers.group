@@ -43,6 +43,8 @@ const WORKSHOP_OVERRIDES = {
   // Added after checkout.
   cs_live_b1ASeibhKJqgIFKGvsVzBLLHAbDCGPfa7y92FC8ZdvZpOLazkQxzTpjRR7: 'AI in Action: Competitive Research and LinkedIn Networking & Sales Prospecting Done for You',
   cs_live_b1r3w7pmke6k1yTur6oYFEfRGejsxpgKlGHYnzi8oP0OfhLx4AgdadPhFR: 'Free and Private Agentic AI: Local Agents Crash Course',
+  // E-Bike added after checkout.
+  cs_live_b1PmqnkkqfgIWtfKomCii0KRrnK3CcAaN98vWMSYMvGms71s9PkOwvTqrW: 'Age of AI Meets Pre-Internet Times: How to Build an Offline Voice AI Chat Bot, E-Bike Conversion Speedrun',
 };
 
 const SUCCESS_URL = 'https://fest.philosophers.group/register/thank-you/?session_id={CHECKOUT_SESSION_ID}';
