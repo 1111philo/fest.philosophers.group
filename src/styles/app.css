@@ -221,7 +221,8 @@ body,
 .group-talk,
 .initiative-card,
 .mentor-card,
-.press-card {
+.press-card,
+.engage-dialog {
   background-image: var(--grain-soft);
   background-size: 240px 240px;
   background-blend-mode: soft-light;
@@ -248,6 +249,9 @@ body,
 .number-stepper button,
 .donation-chip[aria-pressed="true"],
 .modal-close,
+.engage-action-red,
+.engage-action-teal,
+.engage-success,
 .skip-link,
 .badge.type-keynote,
 .badge.type-performance,
@@ -342,7 +346,6 @@ body,
 }
 .header .subtitle a { color: inherit; text-decoration: underline; text-decoration-thickness: 1.5px; }
 .header .subtitle a:hover { color: var(--accent); }
-.subtitle-dot { color: var(--red); margin: 0 2px; }
 
 /* --- Buttons -------------------------------------------------------------- */
 .btn-primary, .btn-outline {
@@ -1011,6 +1014,100 @@ body,
   }
   .drawer.drawer-hidden { transform: translateX(100%); }
   .drawer-handle { display: none; }
+}
+
+/* --- Engage popup ----------------------------------------------------------
+   A real ModalOverlay (components/EngagePopup.jsx) - unlike the Drawer
+   above, this one is meant to block the page and trap focus, since it's
+   asking for something rather than showing more of what's already on
+   screen. */
+.engage-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(26, 26, 26, 0.6);
+}
+.engage-modal {
+  width: 100%;
+  max-width: 440px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.engage-dialog {
+  position: relative;
+  border: var(--rule-heavy) solid var(--ink);
+  background-color: var(--bg);
+  color: var(--text);
+  padding: 26px 24px 24px;
+  outline: none;
+}
+.engage-squiggle {
+  height: 12px;
+  margin: 0 0 16px;
+  background-color: var(--teal);
+  -webkit-mask: var(--squiggle-mask) repeat-x left center / auto 100%;
+          mask: var(--squiggle-mask) repeat-x left center / auto 100%;
+}
+.engage-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin: 0 0 10px;
+  padding-right: 32px;
+  text-wrap: balance;
+}
+.engage-body {
+  margin: 0 0 18px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+.engage-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.engage-action {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  border: var(--rule) solid var(--ink);
+  padding: 12px 14px;
+  text-decoration: none;
+  transition: transform 0.12s ease;
+}
+.engage-action:hover { transform: translateY(-2px); }
+.engage-action:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.engage-action-red { background-color: var(--red); color: #fff; }
+.engage-action-teal { background-color: var(--teal); color: #1a1a1a; }
+.engage-action-title { font-family: var(--font-display); font-weight: 800; font-size: 15px; }
+.engage-action-sub { display: block; font-size: 12px; opacity: 0.85; }
+.engage-newsletter { display: flex; align-items: flex-end; gap: 10px; }
+.engage-newsletter .field { flex: 1; }
+.engage-subscribe-btn { flex-shrink: 0; height: 42px; }
+.engage-success {
+  margin: 0;
+  padding: 11px 14px;
+  background-color: var(--teal);
+  color: #1a1a1a;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+}
+@media (max-width: 420px) {
+  .engage-actions { grid-template-columns: 1fr; }
+  .engage-newsletter { flex-direction: column; align-items: stretch; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .engage-action { transition: none; }
+  .engage-action:hover { transform: none; }
 }
 
 /* --- Footer --------------------------------------------------------------- */

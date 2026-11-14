@@ -41,11 +41,10 @@ export default function SiteHeader({
               >
                 {/* The logo beside it is aria-hidden, so its name is
                     spoken here instead. */}
-                <span className="sr-only">NOAI: </span>Arts &amp; Ideas Festival
+                NOAI
               </a>
             </TitleTag>
             <div className="subtitle">
-              November 11&ndash;13, 2026 <span className="subtitle-dot" aria-hidden="true">&bull;</span>{' '}
               <a href="https://nolajazzmuseum.org/" target="_blank" rel="noopener">
                 Jazz Museum<span className="sr-only"> (opens in a new window)</span>
               </a>, New Orleans

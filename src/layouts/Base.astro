@@ -1,5 +1,6 @@
 ---
 import ScheduleApp from '../components/ScheduleApp';
+import EngagePopup from '../components/EngagePopup';
 import SiteFooter from '../components/SiteFooter.astro';
 import { SITE_TITLE } from '../lib/content.mjs';
 import '../styles/app.css';
@@ -73,5 +74,6 @@ const {
 </script>
 <ScheduleApp client:load initialView={initialView} />
 <SiteFooter />
+<EngagePopup client:load />
 </body>
 </html>
