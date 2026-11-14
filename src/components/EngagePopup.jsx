@@ -10,28 +10,31 @@ const SLACK_INVITE_URL = 'https://join.slack.com/t/1111philo/shared_invite/zt-2g
 const SHOWN_KEY = 'noai-engage-popup-shown';
 const SHOW_DELAY_MS = 1200;
 
-// A once-per-session nudge toward the three ways to support NOAI outside
-// of just attending: donating, the Slack, and the newsletter. Unlike
-// Drawer (see its own comment), this one is a real ModalOverlay - it's
-// asking for something, not showing more detail on what's already on
-// screen, so blocking the page and trapping focus until it's dismissed
-// is the right call here.
-export default function EngagePopup() {
+// A nudge toward the three ways to support NOAI outside of just
+// attending: donating, the Slack, and the newsletter. Unlike Drawer (see
+// its own comment), this one is a real ModalOverlay - it's asking for
+// something, not showing more detail on what's already on screen, so
+// blocking the page and trapping focus until it's dismissed is the right
+// call here. On most pages it only nags once per session; the homepage
+// and the register page (alwaysShow) are worth the nudge on every visit.
+export default function EngagePopup({ alwaysShow = false }) {
   const [isOpen, setIsOpen] = useState(false);
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
 
   useEffect(() => {
-    let alreadyShown = true;
-    try {
-      alreadyShown = !!sessionStorage.getItem(SHOWN_KEY);
-    } catch (e) {
-      alreadyShown = false; // storage blocked - show once anyway
+    let alreadyShown = false;
+    if (!alwaysShow) {
+      try {
+        alreadyShown = !!sessionStorage.getItem(SHOWN_KEY);
+      } catch (e) {
+        alreadyShown = false; // storage blocked - show once anyway
+      }
     }
     if (alreadyShown) return undefined;
     const timer = setTimeout(() => setIsOpen(true), SHOW_DELAY_MS);
     return () => clearTimeout(timer);
-  }, []);
+  }, [alwaysShow]);
 
   function dismiss() {
     setIsOpen(false);

@@ -1,6 +1,7 @@
 ---
 import SiteHeader from '../components/SiteHeader';
 import RegistrationForm from '../components/RegistrationForm';
+import EngagePopup from '../components/EngagePopup';
 import SiteFooter from '../components/SiteFooter.astro';
 import { SITE_TITLE } from '../lib/content.mjs';
 import '../styles/app.css';
@@ -67,8 +68,8 @@ const { title, description, canonical, image } = Astro.props;
   <h2 class="reg-title">Register</h2>
   <aside class="reg-col-side">
     <div class="reg-info-card">
-      <p class="reg-info-eyebrow">NOAI: Arts &amp; Ideas Festival</p>
-      <p class="reg-info-dates">November 11&ndash;13, 2026</p>
+      <p class="reg-info-eyebrow">NOAI Festival</p>
+      <p class="reg-info-dates">November 11&ndash;13</p>
       <p class="reg-info-venue">
         <a href="https://nolajazzmuseum.org/" target="_blank" rel="noopener">Jazz Museum<span class="sr-only"> (opens in a new window)</span></a>, New Orleans
       </p>
@@ -91,5 +92,6 @@ const { title, description, canonical, image } = Astro.props;
   </div>
 </main>
 <SiteFooter />
+<EngagePopup client:load alwaysShow />
 </body>
 </html>

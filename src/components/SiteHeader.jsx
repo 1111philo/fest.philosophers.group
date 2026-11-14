@@ -45,6 +45,7 @@ export default function SiteHeader({
               </a>
             </TitleTag>
             <div className="subtitle">
+              November 11&ndash;13 <span className="subtitle-dot" aria-hidden="true">&bull;</span>{' '}
               <a href="https://nolajazzmuseum.org/" target="_blank" rel="noopener">
                 Jazz Museum<span className="sr-only"> (opens in a new window)</span>
               </a>, New Orleans

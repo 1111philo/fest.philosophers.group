@@ -14,11 +14,12 @@ interface Props {
   imageWidth: number;
   imageHeight: number;
   initialView?: { type: string; slug?: string } | null;
+  alwaysShowEngagePopup?: boolean;
 }
 
 const {
   title, description, canonical, ogType, image, imageWidth, imageHeight,
-  initialView = null,
+  initialView = null, alwaysShowEngagePopup = false,
 } = Astro.props;
 ---
 <!doctype html>
@@ -74,6 +75,6 @@ const {
 </script>
 <ScheduleApp client:load initialView={initialView} />
 <SiteFooter />
-<EngagePopup client:load />
+<EngagePopup client:load alwaysShow={alwaysShowEngagePopup} />
 </body>
 </html>
