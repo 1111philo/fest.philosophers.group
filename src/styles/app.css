@@ -1062,6 +1062,13 @@ body,
   padding-right: 32px;
   text-wrap: balance;
 }
+.engage-tease {
+  margin: 0 0 8px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--text);
+}
+.engage-tease strong { font-family: var(--font-display); font-weight: 800; }
 .engage-body {
   margin: 0 0 18px;
   font-size: 14px;

@@ -8,7 +8,7 @@ import { loadCampaignMonitorScript, submitToCampaignMonitor } from '../lib/campa
 const DONATE_URL = 'https://buy.stripe.com/9B6cN4dvP13b6d97BQ7Zu06';
 const SLACK_INVITE_URL = 'https://join.slack.com/t/1111philo/shared_invite/zt-2gmnevnx3-qR6119iBjUFxS4BgP8wXzA';
 const SHOWN_KEY = 'noai-engage-popup-shown';
-const SHOW_DELAY_MS = 4000;
+const SHOW_DELAY_MS = 1200;
 
 // A once-per-session nudge toward the three ways to support NOAI outside
 // of just attending: donating, the Slack, and the newsletter. Unlike
@@ -57,9 +57,12 @@ export default function EngagePopup() {
         <Dialog className="engage-dialog">
           <Button className="modal-close" aria-label="Close" onPress={dismiss}>&times;</Button>
           <div className="engage-squiggle" aria-hidden="true" />
-          <Heading slot="title" className="engage-title">Help keep NOAI going</Heading>
+          <Heading slot="title" className="engage-title">NOAI Festival returns in 2027</Heading>
+          <p className="engage-tease">
+            The theme: <strong>Progress</strong>. How can AI fix problems in government, business, education, and engineering?
+          </p>
           <p className="engage-body">
-            NOAI runs on donations, volunteers, and a community that keeps talking all year. Pick one:
+            Help us get there — donate, join the Slack, or join the newsletter for updates.
           </p>
           <div className="engage-actions">
             <a

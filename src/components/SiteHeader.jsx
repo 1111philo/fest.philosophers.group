@@ -41,7 +41,7 @@ export default function SiteHeader({
               >
                 {/* The logo beside it is aria-hidden, so its name is
                     spoken here instead. */}
-                NOAI
+                NOAI Festival
               </a>
             </TitleTag>
             <div className="subtitle">
