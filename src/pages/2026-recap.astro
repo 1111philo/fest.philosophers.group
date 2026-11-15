@@ -1,0 +1,248 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import { SITE_URL, SITE_IMAGE, SITE_TITLE } from '../lib/content.mjs';
+
+const title = `2026 Recap: Final Figures — ${SITE_TITLE}`;
+const description = 'The full financial recap of NOAI Festival 2026: attendance, revenue, sponsorships, workshop popularity, and itemized expenses.';
+const canonical = `${SITE_URL}/2026-recap/`;
+const image = SITE_IMAGE.url;
+
+const STATS = [
+  { num: '153', label: 'Attendees' },
+  { num: '$8,026', label: 'Gross Revenue' },
+  { num: '$10,800', label: 'Expenses' },
+  { num: '–$2,917', label: 'Net Result' },
+];
+
+const REVENUE = [
+  { label: 'Tickets + workshops, actually collected (net of comps/discounts, net of $110 still-processing, net of $153.11 embedded donations)', amount: '$3,399.96' },
+  { label: 'Donations — standalone (Donate button/popup, 4 gifts)', amount: '$750.81' },
+  { label: 'Donations — embedded at checkout (8 gifts)', amount: '$153.11' },
+  { label: 'Sponsorship — Excella, Exhibiting Sponsor', amount: '$2,222.00' },
+  { label: 'Sponsorship — Madeline Kawanaka, Exhibiting Sponsor (paid outside Stripe)', amount: '$1,500.00' },
+  { label: 'Stripe processing fees', amount: '–$143.28' },
+];
+
+const EXCLUDED_PENDING = [
+  'James Grierson, Title Sponsor — $11,000, still unpaid',
+  'New Orleans AI Education Fund — $1,100, still unpaid',
+  '2 registrations with bank-transfer payments still processing — $110',
+];
+
+const COMPS = [
+  { label: 'Speaker', people: 44, amount: '$2,420.00' },
+  { label: 'Volunteer', people: 25, amount: '$1,375.00' },
+  { label: 'Education', people: 20, amount: '$1,100.00' },
+  { label: 'Teacher', people: 3, amount: '$165.00' },
+  { label: 'Workshops-only rate', people: 5, amount: '$165.00' },
+  { label: 'ACX partner', people: 2, amount: '$110.00' },
+  { label: 'Misc one-off', people: 1, amount: '$5.04' },
+];
+
+const WORKSHOPS = [
+  { label: 'Free and Private Agentic AI: Local Agents Crash Course', count: 26 },
+  { label: 'The Most Valuable AI Skill Is Saying No', count: 18 },
+  { label: 'Small Language Models', count: 13 },
+  { label: 'Offline Voice AI Chat Bot', count: 12 },
+  { label: 'Explain It: Redesigning Assessment for the AI Classroom', count: 9 },
+  { label: 'The Intentional Page / S.I.L.K.', count: 7 },
+  { label: 'Why Machines Cannot Crochet', count: 6 },
+  { label: 'E-Bike Conversion Speedrun', count: 5 },
+  { label: 'Tai Chi Basics', count: 5 },
+  { label: 'Intro to Clown', count: 4 },
+  { label: 'Letterpress — cancelled, 3 unconverted signups', count: 3 },
+  { label: 'AI in Action: Competitive Research/LinkedIn', count: 1 },
+];
+
+const DAYS = [
+  { label: 'Fri, Nov 13', count: 91 },
+  { label: 'Thu, Nov 12', count: 83 },
+  { label: 'Wed, Nov 11', count: 65 },
+];
+
+const EXPENSES = [
+  { label: 'Jazz Museum', amount: '$1,500.00', unpaid: true },
+  { label: 'Running the fest (Phil)', amount: '$1,000.00' },
+  { label: '11/12 NOAI Pizza', amount: '$155.00' },
+  { label: 'Organizing (Joseph)', amount: '$500.00' },
+  { label: 'Sax (Stephan)', amount: '$222.00' },
+  { label: 'Coppola house rental', amount: '$500.00' },
+  { label: 'PA rental (Alex Smith)', amount: '$250.00' },
+  { label: 'TV rental (MightyAV)', amount: '$572.50' },
+  { label: 'Wine/Beer (Wholefoods)', amount: '$354.62' },
+  { label: 'Kazoos (Amazon)', amount: '$86.76' },
+  { label: 'NOAI cups (Amazon)', amount: '$26.33' },
+  { label: 'NOAI markers (Amazon)', amount: '$10.96' },
+  { label: 'NOAI posters (Amazon)', amount: '$80.28' },
+  { label: 'NOAI paints (Amazon)', amount: '$44.72' },
+  { label: 'NOAI tambourines (Amazon)', amount: '$86.68' },
+  { label: 'Hard drive (Amazon)', amount: '$131.69' },
+  { label: 'NOAI name tags (Amazon)', amount: '$9.87' },
+  { label: 'Latoya', amount: 'TBA', excluded: true },
+  { label: 'Sign making (Baylee)', amount: '$222.22' },
+  { label: 'Photography (Sam)', amount: '$500.00' },
+  { label: 'R Bar bar tab', amount: '$269.00' },
+  { label: 'Musicians', amount: '$300.00' },
+  { label: 'Car rental', amount: '$570.74' },
+  { label: 'Lyft', amount: '$22.91' },
+  { label: 'Claude Annual', amount: '$316.08', unpaid: true },
+  { label: 'Website (Jetpack)', amount: '$348.00' },
+  { label: 'NOAI domain name', amount: '$16.90' },
+  { label: 'NOAI AI Leaders Lunch', amount: '$158.86' },
+  { label: 'addy.io email forwarding', amount: '$36.00' },
+  { label: 'Nov NOAI Newsletter', amount: '$25.20' },
+  { label: 'Oct NOAI Newsletter', amount: '$42.30' },
+  { label: 'Sep NOAI Newsletter', amount: '$42.30' },
+  { label: 'Workshop leader payout (109 signups × $22)', amount: '$2,398.00', unpaid: true },
+];
+---
+<PageLayout title={title} description={description} canonical={canonical} image={image} current="recap">
+  <PageHero slot="hero" label="2026 Recap" eyebrow="Recap" title="2026: Final Figures" accent="yellow" art="field" />
+
+  <p class="page-lede">
+    NOAI Festival 2026 wrapped November 11&ndash;13. Here&rsquo;s the full financial recap &mdash;
+    attendance, revenue, sponsorships, workshop popularity, and every line of spend &mdash;
+    re-pulled and cross-checked directly against Stripe.
+  </p>
+
+  <ul class="about-stats recap-stats" aria-label="Headline figures">
+    {STATS.map((stat) => (
+      <li class="about-stat">
+        <p class="about-stat-num">{stat.num}</p>
+        <p class="about-stat-label">{stat.label}</p>
+      </li>
+    ))}
+  </ul>
+
+  <section class="swiss-split" aria-labelledby="recap-attendance">
+    <p class="section-index" aria-hidden="true">01</p>
+    <div class="swiss-split-body">
+      <h2 class="page-section-heading" id="recap-attendance">Attendance</h2>
+      <p class="page-lede">153 total.</p>
+      <ul class="ledger-list">
+        <li class="ledger-row">
+          <span class="ledger-row-label">Through paid registration (145 orders: 142 solo, 2 pairs, 1 group of 4)</span>
+          <span class="ledger-row-amount">150</span>
+        </li>
+        <li class="ledger-row">
+          <span class="ledger-row-label">Free staff/workshop-leader comps (legacy ticket link)</span>
+          <span class="ledger-row-amount">3</span>
+        </li>
+      </ul>
+      <p class="page-note">
+        2 of the 150 have payments still processing via bank transfer &mdash; counted as attendees, not yet counted as revenue below.
+      </p>
+    </div>
+  </section>
+
+  <section class="swiss-split" aria-labelledby="recap-revenue">
+    <p class="section-index" aria-hidden="true">02</p>
+    <div class="swiss-split-body">
+      <h2 class="page-section-heading" id="recap-revenue">Revenue</h2>
+      <p class="page-lede">Gross $8,025.88 &middot; Net $7,882.60 after fees.</p>
+      <ul class="ledger-list">
+        {REVENUE.map((r) => (
+          <li class="ledger-row">
+            <span class="ledger-row-label">{r.label}</span>
+            <span class="ledger-row-amount">{r.amount}</span>
+          </li>
+        ))}
+        <li class="ledger-total">
+          <span class="ledger-row-label">Net revenue</span>
+          <span class="ledger-row-amount">$7,882.60</span>
+        </li>
+      </ul>
+      <p class="page-note">
+        Excluded, noted but not counted above:
+      </p>
+      <ul class="tag-pills">
+        {EXCLUDED_PENDING.map((item) => <li class="tag-pill">{item}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="swiss-split" aria-labelledby="recap-comps">
+    <p class="section-index" aria-hidden="true">03</p>
+    <div class="swiss-split-body">
+      <h2 class="page-section-heading" id="recap-comps">Comps &amp; Discounts Given</h2>
+      <p class="page-lede">$5,340.04 in free/discounted access extended &mdash; not revenue, shown for context.</p>
+      <ul class="ledger-list">
+        {COMPS.map((c) => (
+          <li class="ledger-row">
+            <span class="ledger-row-label">{c.label} &mdash; {c.people} {c.people === 1 ? 'person' : 'people'}</span>
+            <span class="ledger-row-amount">{c.amount}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="swiss-split" aria-labelledby="recap-workshops">
+    <p class="section-index" aria-hidden="true">04</p>
+    <div class="swiss-split-body">
+      <h2 class="page-section-heading" id="recap-workshops">Workshop Signups</h2>
+      <p class="page-lede">109 total, across 12 workshops.</p>
+      <ul class="ledger-list">
+        {WORKSHOPS.map((w) => (
+          <li class="ledger-row">
+            <span class="ledger-row-label">{w.label}</span>
+            <span class="ledger-row-amount">{w.count}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="swiss-split" aria-labelledby="recap-days">
+    <p class="section-index" aria-hidden="true">05</p>
+    <div class="swiss-split-body">
+      <h2 class="page-section-heading" id="recap-days">Days Attended</h2>
+      <ul class="ledger-list">
+        {DAYS.map((d) => (
+          <li class="ledger-row">
+            <span class="ledger-row-label">{d.label}</span>
+            <span class="ledger-row-amount">{d.count}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="swiss-split" aria-labelledby="recap-expenses">
+    <p class="section-index" aria-hidden="true">06</p>
+    <div class="swiss-split-body">
+      <h2 class="page-section-heading" id="recap-expenses">Expenses</h2>
+      <p class="page-lede">$10,799.92 total.</p>
+      <ul class="ledger-list">
+        {EXPENSES.map((e) => (
+          <li class="ledger-row">
+            <span class="ledger-row-label">
+              {e.label}
+              {e.unpaid && <span class="ledger-row-flag">Not yet paid</span>}
+              {e.excluded && <span class="ledger-row-flag">Excluded from totals</span>}
+            </span>
+            <span class="ledger-row-amount">{e.amount}</span>
+          </li>
+        ))}
+        <li class="ledger-total">
+          <span class="ledger-row-label">Total expenses</span>
+          <span class="ledger-row-amount">$10,799.92</span>
+        </li>
+      </ul>
+      <p class="page-note">
+        Not yet paid &mdash; $4,214.08 outstanding (Jazz Museum, Claude Annual, Workshop leader payout). Latoya still TBA.
+      </p>
+    </div>
+  </section>
+
+  <div class="net-result">
+    <p class="net-result-num">&ndash;$2,917.32</p>
+    <p class="net-result-label">Net (revenue &minus; expenses)</p>
+  </div>
+
+  <div class="page-cta-row">
+    <a class="btn-outline" href="/about/">About the Festival</a>
+    <a class="btn-primary" href="/">View the Schedule</a>
+  </div>
+</PageLayout>
