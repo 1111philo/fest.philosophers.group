@@ -10,9 +10,9 @@ const image = SITE_IMAGE.url;
 
 const STATS = [
   { num: '153', label: 'Attendees' },
-  { num: '$8,026', label: 'Gross Revenue' },
+  { num: '$9,126', label: 'Gross Revenue' },
   { num: '$10,800', label: 'Expenses' },
-  { num: '–$2,917', label: 'Net Result' },
+  { num: '–$1,850', label: 'Net Result' },
 ];
 
 const REVENUE = [
@@ -21,12 +21,12 @@ const REVENUE = [
   { label: 'Donations — embedded at checkout (8 gifts)', amount: '$153.11' },
   { label: 'Sponsorship — Excella, Exhibiting Sponsor', amount: '$2,222.00' },
   { label: 'Sponsorship — Madeline Kawanaka, Exhibiting Sponsor (paid outside Stripe)', amount: '$1,500.00' },
-  { label: 'Stripe processing fees', amount: '–$143.28' },
+  { label: 'New Orleans AI Education Fund — ticket price reimbursement for 20 education-promo registrants', amount: '$1,100.00' },
+  { label: 'Stripe processing fees', amount: '–$175.48' },
 ];
 
 const EXCLUDED_PENDING = [
   'James Grierson, Title Sponsor — $11,000, still unpaid',
-  'New Orleans AI Education Fund — $1,100, still unpaid',
   '2 registrations with bank-transfer payments still processing — $110',
 ];
 
@@ -140,7 +140,7 @@ const EXPENSES = [
     <p class="section-index" aria-hidden="true">02</p>
     <div class="swiss-split-body">
       <h2 class="page-section-heading" id="recap-revenue">Revenue</h2>
-      <p class="page-lede">Gross $8,025.88 &middot; Net $7,882.60 after fees.</p>
+      <p class="page-lede">Gross $9,125.88 &middot; Net $8,950.40 after fees.</p>
       <ul class="ledger-list">
         {REVENUE.map((r) => (
           <li class="ledger-row">
@@ -150,7 +150,7 @@ const EXPENSES = [
         ))}
         <li class="ledger-total">
           <span class="ledger-row-label">Net revenue</span>
-          <span class="ledger-row-amount">$7,882.60</span>
+          <span class="ledger-row-amount">$8,950.40</span>
         </li>
       </ul>
       <p class="page-note">
@@ -237,7 +237,7 @@ const EXPENSES = [
   </section>
 
   <div class="net-result">
-    <p class="net-result-num">&ndash;$2,917.32</p>
+    <p class="net-result-num">&ndash;$1,849.52</p>
     <p class="net-result-label">Net (revenue &minus; expenses)</p>
   </div>
 
