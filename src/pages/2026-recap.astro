@@ -11,8 +11,8 @@ const image = SITE_IMAGE.url;
 const STATS = [
   { num: '153', label: 'Attendees' },
   { num: '$9,126', label: 'Gross Revenue' },
-  { num: '$10,800', label: 'Expenses' },
-  { num: '–$1,850', label: 'Net Result' },
+  { num: '$8,952', label: 'Expenses' },
+  { num: '–$2', label: 'Net Result' },
 ];
 
 const REVENUE = [
@@ -45,14 +45,19 @@ const WORKSHOPS = [
   { label: 'The Most Valuable AI Skill Is Saying No', count: 18 },
   { label: 'Small Language Models', count: 13 },
   { label: 'Offline Voice AI Chat Bot', count: 12 },
+  { label: 'Why Machines Cannot Crochet (incl. 3 moved from the cancelled Letterpress workshop)', count: 9 },
   { label: 'Explain It: Redesigning Assessment for the AI Classroom', count: 9 },
   { label: 'The Intentional Page / S.I.L.K.', count: 7 },
-  { label: 'Why Machines Cannot Crochet', count: 6 },
   { label: 'E-Bike Conversion Speedrun', count: 5 },
   { label: 'Tai Chi Basics', count: 5 },
   { label: 'Intro to Clown', count: 4 },
-  { label: 'Letterpress — cancelled, 3 unconverted signups', count: 3 },
   { label: 'AI in Action: Competitive Research/LinkedIn', count: 1 },
+];
+
+const DONATED_PAYOUT_LEADERS = [
+  'Legare Kerrison', 'Dustin T. Hughes', 'Sabelo Jupiter', 'Vanessa Pyne',
+  'Matt Candler', 'Blake Bertuccelli-Booth', 'Grace Bertuccelli-Booth',
+  'Tom Martin', 'Bill Dalton',
 ];
 
 const DAYS = [
@@ -94,7 +99,7 @@ const EXPENSES = [
   { label: 'Nov NOAI Newsletter', amount: '$25.20' },
   { label: 'Oct NOAI Newsletter', amount: '$42.30' },
   { label: 'Sep NOAI Newsletter', amount: '$42.30' },
-  { label: 'Workshop leader payout (109 signups × $22)', amount: '$2,398.00', unpaid: true },
+  { label: 'Workshop leader payout (25 signups × $22, 3 paid workshops — the rest donated their payout)', amount: '$550.00', unpaid: true },
 ];
 ---
 <PageLayout title={title} description={description} canonical={canonical} image={image} current="recap">
@@ -182,7 +187,7 @@ const EXPENSES = [
     <p class="section-index" aria-hidden="true">04</p>
     <div class="swiss-split-body">
       <h2 class="page-section-heading" id="recap-workshops">Workshop Signups</h2>
-      <p class="page-lede">109 total, across 12 workshops.</p>
+      <p class="page-lede">109 total, across 11 workshops.</p>
       <ul class="ledger-list">
         {WORKSHOPS.map((w) => (
           <li class="ledger-row">
@@ -190,6 +195,13 @@ const EXPENSES = [
             <span class="ledger-row-amount">{w.count}</span>
           </li>
         ))}
+      </ul>
+      <p class="page-note">
+        Huge thanks to the workshop leaders below &mdash; each donated their $22-per-signup
+        payout back to the festival instead of taking it:
+      </p>
+      <ul class="tag-pills">
+        {DONATED_PAYOUT_LEADERS.map((name) => <li class="tag-pill">{name}</li>)}
       </ul>
     </div>
   </section>
@@ -213,7 +225,7 @@ const EXPENSES = [
     <p class="section-index" aria-hidden="true">06</p>
     <div class="swiss-split-body">
       <h2 class="page-section-heading" id="recap-expenses">Expenses</h2>
-      <p class="page-lede">$10,799.92 total.</p>
+      <p class="page-lede">$8,951.92 total.</p>
       <ul class="ledger-list">
         {EXPENSES.map((e) => (
           <li class="ledger-row">
@@ -227,17 +239,17 @@ const EXPENSES = [
         ))}
         <li class="ledger-total">
           <span class="ledger-row-label">Total expenses</span>
-          <span class="ledger-row-amount">$10,799.92</span>
+          <span class="ledger-row-amount">$8,951.92</span>
         </li>
       </ul>
       <p class="page-note">
-        Not yet paid &mdash; $4,214.08 outstanding (Jazz Museum, Claude Annual, Workshop leader payout). Latoya still TBA.
+        Not yet paid &mdash; $2,366.08 outstanding (Jazz Museum, Claude Annual, Workshop leader payout). Latoya still TBA.
       </p>
     </div>
   </section>
 
   <div class="net-result">
-    <p class="net-result-num">&ndash;$1,849.52</p>
+    <p class="net-result-num">&ndash;$1.52</p>
     <p class="net-result-label">Net (revenue &minus; expenses)</p>
   </div>
 
