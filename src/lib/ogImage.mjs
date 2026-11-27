@@ -311,7 +311,7 @@ export async function renderManifestoOg() {
   );
 
   const footer = h('div', { style: { justifyContent: 'space-between', alignItems: 'center', borderTop: `4px solid ${INK}`, paddingTop: 16, fontSize: 24, fontWeight: 800, letterSpacing: -0.3 } },
-    h('div', {}, 'Arts & Ideas Festival · Nov 11–13 · New Orleans'),
+    h('div', {}, 'NOAI Festival · Nov 11–13 · New Orleans'),
     h('div', { style: { color: MUTED, fontWeight: 700 } }, 'fest.philosophers.group/manifesto'),
   );
 
